@@ -8,7 +8,6 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ComCtrls, Vcl.Clipbrd,
   //JvExMask, JvSpin,
-  Vcl.Samples.Spin,
   JD.UomUtils,
   JD.Uom.Common,
   JD.Uom.Length,
@@ -397,9 +396,9 @@ begin
   //TODO: I really need a proper spin edit control that handles big values...
 
   if FCalcBackward then begin
-    seConvertFrom.Value:= Round(ValResult.Value);
+    seConvertFrom.Value:= ValResult.Value;
   end else begin
-    seConvertTo.Value:= Round(ValResult.Value);
+    seConvertTo.Value:= ValResult.Value;
   end;
 
 end;
@@ -428,7 +427,7 @@ begin
     umaSquareMiles:       ValResult.Value:= ValFrom.ToSquareMiles;
   end;
 
-  seConvertTo.Value:= Round(ValResult.Value);
+  seConvertTo.Value:= ValResult.Value;
 
 end;
 
@@ -463,7 +462,7 @@ begin
     umvCubicYards:        ValResult.Value:= ValFrom.ToCubicYards;
   end;
 
-  seConvertTo.Value:= Round(ValResult.Value);
+  seConvertTo.Value:= ValResult.Value;
 
 end;
 
@@ -495,7 +494,7 @@ begin
     umwLongTons:      ValResult.Value:= ValFrom.ToLongTons;
   end;
 
-  seConvertTo.Value:= Round(ValResult.Value);
+  seConvertTo.Value:= ValResult.Value;
 
 end;
 
@@ -516,7 +515,7 @@ begin
     umtKelvin:    ValResult.Value:= ValFrom.ToKelvin;
   end;
 
-  seConvertTo.Value:= Round(ValResult.Value);
+  seConvertTo.Value:= ValResult.Value;
 
 end;
 
