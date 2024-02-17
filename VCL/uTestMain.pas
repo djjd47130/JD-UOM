@@ -7,7 +7,8 @@ uses
   System.SysUtils, System.Variants, System.Classes, System.Win.Registry,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ComCtrls, Vcl.Clipbrd,
-  JvExMask, JvSpin,
+  //JvExMask, JvSpin,
+  Vcl.Samples.Spin,
   JD.UomUtils,
   JD.Uom.Common,
   JD.Uom.Length,
@@ -27,17 +28,17 @@ type
     lblUOM: TLabel;
     lblConvertFrom: TLabel;
     lblConvertTo: TLabel;
-    seConvertFrom: TJvSpinEdit;
+    seConvertFrom: TSpinEdit;
     cboSystem: TComboBox;
     lblUOMSystem: TLabel;
-    Stat: TStatusBar;
     Bevel1: TBevel;
     lblUnitFrom: TLabel;
     lblUnitTo: TLabel;
     Bevel2: TBevel;
-    seConvertTo: TJvSpinEdit;
     lblSuffixFrom: TLabel;
     lblSuffixTo: TLabel;
+    seConvertTo: TSpinEdit;
+    Stat: TStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure seConvertFromChange(Sender: TObject);
     procedure cboUOMClick(Sender: TObject);
@@ -393,10 +394,12 @@ begin
     umlNauticalMiles: ValResult.Value:= ValFrom.ToNauticalMiles;
   end;
 
+  //TODO: I really need a proper spin edit control that handles big values...
+
   if FCalcBackward then begin
-    seConvertFrom.Value:= ValResult.Value;
+    seConvertFrom.Value:= Round(ValResult.Value);
   end else begin
-    seConvertTo.Value:= ValResult.Value;
+    seConvertTo.Value:= Round(ValResult.Value);
   end;
 
 end;
@@ -425,7 +428,7 @@ begin
     umaSquareMiles:       ValResult.Value:= ValFrom.ToSquareMiles;
   end;
 
-  seConvertTo.Value:= ValResult.Value;
+  seConvertTo.Value:= Round(ValResult.Value);
 
 end;
 
@@ -460,7 +463,7 @@ begin
     umvCubicYards:        ValResult.Value:= ValFrom.ToCubicYards;
   end;
 
-  seConvertTo.Value:= ValResult.Value;
+  seConvertTo.Value:= Round(ValResult.Value);
 
 end;
 
@@ -492,7 +495,7 @@ begin
     umwLongTons:      ValResult.Value:= ValFrom.ToLongTons;
   end;
 
-  seConvertTo.Value:= ValResult.Value;
+  seConvertTo.Value:= Round(ValResult.Value);
 
 end;
 
@@ -513,7 +516,7 @@ begin
     umtKelvin:    ValResult.Value:= ValFrom.ToKelvin;
   end;
 
-  seConvertTo.Value:= ValResult.Value;
+  seConvertTo.Value:= Round(ValResult.Value);
 
 end;
 

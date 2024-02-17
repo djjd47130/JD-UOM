@@ -21,6 +21,7 @@ type
     { Metric System }
 
     //TODO: Weight is technically relative to gravity - MASS is the main factor...
+    //  TODO - Use Earth gravity as default for weight, and create separate mass UOM...
 
     { US Customary System }
 

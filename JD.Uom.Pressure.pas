@@ -12,10 +12,12 @@ type
   TUOMPressureUnits = set of TUOMPressureUnit;
 
   TUOMPressureUtils = class
-  private
+  public
     class procedure UnitList(AList: TStrings); static;
     class function UnitSuffix(const AValue: TUOMPressureUnit): String; static;
     class function UnitName(const AValue: TUOMPressureUnit): String; static;
+
+    //TODO
   end;
 
   TUOMPressure = record

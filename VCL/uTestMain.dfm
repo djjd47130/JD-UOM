@@ -8,7 +8,7 @@ object frmMain: TfrmMain
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWhite
-  Font.Height = -11
+  Font.Height = -21
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
@@ -20,7 +20,7 @@ object frmMain: TfrmMain
     558
     378)
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 25
   object lblUOM: TLabel
     Left = 16
     Top = 33
@@ -168,7 +168,7 @@ object frmMain: TfrmMain
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 3
+    TabOrder = 2
     TabStop = False
     OnClick = seConvertFromChange
     OnCloseUp = cboConvertFromEnter
@@ -233,55 +233,52 @@ object frmMain: TfrmMain
     OnClick = cboUOMClick
     OnCloseUp = cboUOMEnter
   end
-  object seConvertFrom: TJvSpinEdit
-    Left = 16
+  object seConvertFrom: TSpinEdit
+    Left = 21
     Top = 176
     Width = 232
-    Height = 33
-    ButtonKind = bkStandard
-    Decimal = 3
-    ValueType = vtFloat
-    Value = 1.000000000000000000
-    Color = clBtnFace
+    Height = 35
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = -21
     Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    Anchors = [akLeft, akTop, akRight]
+    Font.Style = []
+    MaxValue = 0
+    MinValue = 0
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 3
+    Value = 0
     OnChange = seConvertFromChange
+  end
+  object seConvertTo: TSpinEdit
+    Left = 21
+    Top = 294
+    Width = 232
+    Height = 35
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    MaxValue = 0
+    MinValue = 0
+    ParentFont = False
+    TabOrder = 5
+    Value = 0
+    OnChange = seConvertToChange
+    OnEnter = cboConvertToEnter
   end
   object Stat: TStatusBar
     Left = 0
-    Top = 356
+    Top = 359
     Width = 558
-    Height = 22
-    Cursor = crHandPoint
-    Panels = <>
-    SimplePanel = True
-    SimpleText = 'Created by Jerry Dodge'
-  end
-  object seConvertTo: TJvSpinEdit
-    Left = 16
-    Top = 294
-    Width = 232
-    Height = 33
-    ButtonKind = bkStandard
-    Thousands = True
-    Decimal = 3
-    ValueType = vtFloat
-    Color = clBtnFace
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -21
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
-    Anchors = [akLeft, akTop, akRight]
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 6
-    OnChange = seConvertToChange
+    Height = 19
+    Panels = <
+      item
+        Width = 50
+      end>
+    ExplicitLeft = 192
+    ExplicitTop = 336
+    ExplicitWidth = 0
   end
 end
