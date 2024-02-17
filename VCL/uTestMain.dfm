@@ -23,7 +23,7 @@ object frmMain: TfrmMain
   TextHeight = 25
   object lblUOM: TLabel
     Left = 16
-    Top = 33
+    Top = 17
     Width = 171
     Height = 19
     Caption = 'Unit of Measurement'
@@ -36,7 +36,7 @@ object frmMain: TfrmMain
   end
   object lblConvertFrom: TLabel
     Left = 16
-    Top = 151
+    Top = 135
     Width = 110
     Height = 19
     Caption = 'Convert From'
@@ -49,7 +49,7 @@ object frmMain: TfrmMain
   end
   object lblConvertTo: TLabel
     Left = 16
-    Top = 269
+    Top = 255
     Width = 90
     Height = 19
     Caption = 'Convert To'
@@ -62,7 +62,7 @@ object frmMain: TfrmMain
   end
   object lblUOMSystem: TLabel
     Left = 326
-    Top = 32
+    Top = 16
     Width = 59
     Height = 19
     Anchors = [akTop, akRight]
@@ -74,20 +74,18 @@ object frmMain: TfrmMain
     Font.Style = [fsBold]
     ParentFont = False
     Visible = False
-    ExplicitLeft = 353
   end
   object Bevel1: TBevel
     Left = 21
-    Top = 113
+    Top = 97
     Width = 529
     Height = 9
     Anchors = [akLeft, akTop, akRight]
     Shape = bsBottomLine
-    ExplicitWidth = 556
   end
   object lblUnitFrom: TLabel
     Left = 326
-    Top = 151
+    Top = 135
     Width = 34
     Height = 19
     Anchors = [akTop, akRight]
@@ -98,11 +96,10 @@ object frmMain: TfrmMain
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    ExplicitLeft = 353
   end
   object lblUnitTo: TLabel
     Left = 326
-    Top = 269
+    Top = 253
     Width = 34
     Height = 19
     Anchors = [akTop, akRight]
@@ -113,20 +110,18 @@ object frmMain: TfrmMain
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    ExplicitLeft = 353
   end
   object Bevel2: TBevel
     Left = 16
-    Top = 233
+    Top = 217
     Width = 529
     Height = 9
     Anchors = [akLeft, akTop, akRight]
     Shape = bsBottomLine
-    ExplicitWidth = 556
   end
   object lblSuffixFrom: TLabel
     Left = 259
-    Top = 181
+    Top = 165
     Width = 61
     Height = 25
     Anchors = [akTop, akRight]
@@ -141,7 +136,7 @@ object frmMain: TfrmMain
   end
   object lblSuffixTo: TLabel
     Left = 259
-    Top = 299
+    Top = 283
     Width = 61
     Height = 25
     Anchors = [akTop, akRight]
@@ -156,7 +151,7 @@ object frmMain: TfrmMain
   end
   object cboConvertFrom: TComboBox
     Left = 326
-    Top = 176
+    Top = 160
     Width = 216
     Height = 33
     Cursor = crHandPoint
@@ -175,7 +170,7 @@ object frmMain: TfrmMain
   end
   object cboConvertTo: TComboBox
     Left = 326
-    Top = 294
+    Top = 278
     Width = 216
     Height = 33
     Cursor = crHandPoint
@@ -187,14 +182,14 @@ object frmMain: TfrmMain
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 3
     TabStop = False
     OnClick = seConvertToChange
     OnCloseUp = cboConvertToEnter
   end
   object cboSystem: TComboBox
     Left = 326
-    Top = 56
+    Top = 40
     Width = 216
     Height = 33
     Cursor = crHandPoint
@@ -215,7 +210,7 @@ object frmMain: TfrmMain
   end
   object cboUOM: TComboBox
     Left = 16
-    Top = 56
+    Top = 40
     Width = 291
     Height = 33
     Cursor = crHandPoint
@@ -233,41 +228,6 @@ object frmMain: TfrmMain
     OnClick = cboUOMClick
     OnCloseUp = cboUOMEnter
   end
-  object seConvertFrom: TSpinEdit
-    Left = 21
-    Top = 176
-    Width = 232
-    Height = 35
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -21
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    MaxValue = 0
-    MinValue = 0
-    ParentFont = False
-    TabOrder = 3
-    Value = 0
-    OnChange = seConvertFromChange
-  end
-  object seConvertTo: TSpinEdit
-    Left = 21
-    Top = 294
-    Width = 232
-    Height = 35
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWhite
-    Font.Height = -21
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    MaxValue = 0
-    MinValue = 0
-    ParentFont = False
-    TabOrder = 5
-    Value = 0
-    OnChange = seConvertToChange
-    OnEnter = cboConvertToEnter
-  end
   object Stat: TStatusBar
     Left = 0
     Top = 359
@@ -277,8 +237,27 @@ object frmMain: TfrmMain
       item
         Width = 50
       end>
-    ExplicitLeft = 192
-    ExplicitTop = 336
-    ExplicitWidth = 0
+    ExplicitLeft = -8
+  end
+  object seConvertFrom: TRzSpinEdit
+    Left = 16
+    Top = 160
+    Width = 237
+    Height = 33
+    AllowKeyEdit = True
+    Max = 2147483647.000000000000000000
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 5
+    OnChange = seConvertFromChange
+  end
+  object seConvertTo: TRzSpinEdit
+    Left = 16
+    Top = 280
+    Width = 237
+    Height = 33
+    Max = 2147483647.000000000000000000
+    Anchors = [akLeft, akTop, akRight]
+    TabOrder = 6
+    OnChange = seConvertToChange
   end
 end

@@ -15,7 +15,7 @@ uses
   JD.Uom.Area,
   JD.Uom.Volume,
   JD.Uom.Weight,
-  JD.Uom.Temperature;
+  JD.Uom.Temperature, RzEdit, RzSpnEdt;
 
 type
 
@@ -28,7 +28,6 @@ type
     lblUOM: TLabel;
     lblConvertFrom: TLabel;
     lblConvertTo: TLabel;
-    seConvertFrom: TSpinEdit;
     cboSystem: TComboBox;
     lblUOMSystem: TLabel;
     Bevel1: TBevel;
@@ -37,8 +36,9 @@ type
     Bevel2: TBevel;
     lblSuffixFrom: TLabel;
     lblSuffixTo: TLabel;
-    seConvertTo: TSpinEdit;
     Stat: TStatusBar;
+    seConvertFrom: TRzSpinEdit;
+    seConvertTo: TRzSpinEdit;
     procedure FormCreate(Sender: TObject);
     procedure seConvertFromChange(Sender: TObject);
     procedure cboUOMClick(Sender: TObject);
