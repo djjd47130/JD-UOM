@@ -7,7 +7,7 @@ uses
   JD.Uom.Common;
 
 type
-  TUOMAngleUnit = (umgDegrees, umgRadians, umgGradians);
+  TUOMAngleUnit = (umgDegrees, umgRadians, umgGradians, umgPercent);
   TUOMAngleUnits = set of TUOMAngleUnit;
 
   TUOMAngleUtils = class

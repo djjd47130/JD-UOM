@@ -20,7 +20,7 @@ type
 
     { Metric System }
 
-
+    //TODO: Weight is technically relative to gravity - MASS is the main factor...
 
     { US Customary System }
 

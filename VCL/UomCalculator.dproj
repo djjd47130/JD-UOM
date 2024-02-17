@@ -134,6 +134,7 @@
         <DCCReference Include="..\JD.UomCtrls.pas"/>
         <DCCReference Include="..\JD.UomUtils.pas"/>
         <DCCReference Include="..\JD.Uom.Resolution.pas"/>
+        <DCCReference Include="..\JD.Uom.Frequency.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

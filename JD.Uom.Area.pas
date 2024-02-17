@@ -22,26 +22,27 @@ type
 
     { Metric }
 
+    //Square Millimeters
     class function SquareCentimetersToSquareMillimeters(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToSquareMillimeters(const ASquareMeters: Double): Double; static;
     class function HectaresToSquareMillimeters(const AHectares: Double): Double; static;
     class function SquareKilometersToSquareMillimeters(const ASquareKilometers: Double): Double; static;
-
+    //Square Centimeters
     class function SquareMillimetersToSquareCentimeters(const ASquareMillimeters: Double): Double; static;
     class function SquareMetersToSquareCentimeters(const ASquareMeters: Double): Double; static;
     class function HectaresToSquareCentimeters(const AHectares: Double): Double; static;
     class function SquareKilometersToSquareCentimeters(const ASquareKilometers: Double): Double; static;
-
+    //Square Meters
     class function SquareMillimetersToSquareMeters(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareMeters(const ASquareCentimeters: Double): Double; static;
     class function HectaresToSquareMeters(const AHectares: Double): Double;
     class function SquareKilometersToSquareMeters(const ASquareKilometers: Double): Double; static;
-
+    //Hectares
     class function SquareMillimetersToHectares(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToHectares(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToHectares(const ASquareMeters: Double): Double; static;
     class function SquareKilometersToHectares(const ASquareKilometers: Double): Double; static;
-
+    //Square Kilometers
     class function SquareMillimetersToSquareKilometers(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareKilometers(const ASquareCentimeters: Double): Double; static;
     class function HectaresToSquareKilometers(const AHectares: Double): Double; static;
@@ -49,26 +50,27 @@ type
 
     { US Customary }
 
+    //Square Inches
     class function SquareFeetToSquareInches(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareInches(const ASquareYards: Double): Double; static;
     class function AcresToSquareInches(const AAcres: Double): Double; static;
     class function SquareMilesToSquareInches(const ASquareMiles: Double): Double; static;
-
+    //Square Feet
     class function SquareInchesToSquareFeet(const ASquareInches: Double): Double; static;
     class function SquareYardsToSquareFeet(const ASquareYards: Double): Double; static;
     class function AcresToSquareFeet(const AAcres: Double): Double; static;
     class function SquareMilesToSquareFeet(const ASquareMiles: Double): Double; static;
-
+    //Square Yards
     class function SquareInchesToSquareYards(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareYards(const ASquareFeet: Double): Double; static;
     class function AcresToSquareYards(const AAcres: Double): Double; static;
     class function SquareMilesToSquareYards(const ASquareMiles: Double): Double; static;
-
+    //Acres
     class function SquareInchesToAcres(const ASquareInches: Double): Double; static;
     class function SquareFeetToAcres(const ASquareFeet: Double): Double; static;
     class function SquareYardsToAcres(const ASquareYards: Double): Double; static;
     class function SquareMilesToAcres(const ASquareMiles: Double): Double; static;
-
+    //Square Miles
     class function SquareInchesToSquareMiles(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareMiles(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareMiles(const ASquareYards: Double): Double; static;
@@ -76,30 +78,31 @@ type
 
     { Metric to US Customary Conversion }
 
+    //Square Inches
     class function SquareMillimetersToSquareInches(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareInches(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToSquareInches(const ASquareMeters: Double): Double; static;
     class function HectaresToSquareInches(const AHectares: Double): Double; static;
     class function SquareKilometersToSquareInches(const ASquareKilometers: Double): Double; static;
-
+    //Square Feet
     class function SquareMillimetersToSquareFeet(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareFeet(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToSquareFeet(const ASquareMeters: Double): Double; static;
     class function HectaresToSquareFeet(const AHectares: Double): Double; static;
     class function SquareKilometersToSquareFeet(const ASquareKilometers: Double): Double; static;
-
+    //Square Yards
     class function SquareMillimetersToSquareYards(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareYards(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToSquareYards(const ASquareMeters: Double): Double; static;
     class function HectaresToSquareYards(const AHectares: Double): Double; static;
     class function SquareKilometersToSquareYards(const ASquareKilometers: Double): Double; static;
-
+    //Acres
     class function SquareMillimetersToAcres(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToAcres(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToAcres(const ASquareMeters: Double): Double; static;
     class function HectaresToAcres(const AHectares: Double): Double; static;
     class function SquareKilometersToAcres(const ASquareKilometers: Double): Double; static;
-
+    //Square Miles
     class function SquareMillimetersToSquareMiles(const ASquareMillimeters: Double): Double; static;
     class function SquareCentimetersToSquareMiles(const ASquareCentimeters: Double): Double; static;
     class function SquareMetersToSquareMiles(const ASquareMeters: Double): Double; static;
@@ -108,30 +111,31 @@ type
 
     { US Customary to Metric Conversion }
 
+    //Square Millimeters
     class function SquareInchesToSquareMillimeters(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareMillimeters(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareMillimeters(const ASquareYards: Double): Double; static;
     class function AcresToSquareMillimeters(const AAcres: Double): Double; static;
     class function SquareMilesToSquareMillimeters(const ASquareMiles: Double): Double; static;
-
+    //Square Centimeters
     class function SquareInchesToSquareCentimeters(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareCentimeters(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareCentimeters(const ASquareYards: Double): Double; static;
     class function AcresToSquareCentimeters(const AAcres: Double): Double; static;
     class function SquareMilesToSquareCentimeters(const ASquareMiles: Double): Double; static;
-
+    //Square Meters
     class function SquareInchesToSquareMeters(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareMeters(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareMeters(const ASquareYards: Double): Double; static;
     class function AcresToSquareMeters(const AAcres: Double): Double; static;
     class function SquareMilesToSquareMeters(const ASquareMiles: Double): Double; static;
-
+    //Hectares
     class function SquareInchesToHectares(const ASquareInches: Double): Double; static;
     class function SquareFeetToHectares(const ASquareFeet: Double): Double; static;
     class function SquareYardsToHectares(const ASquareYards: Double): Double; static;
     class function AcresToHectares(const AAcres: Double): Double; static;
     class function SquareMilesToHectares(const ASquareMiles: Double): Double; static;
-
+    //Square Kilometers
     class function SquareInchesToSquareKilometers(const ASquareInches: Double): Double; static;
     class function SquareFeetToSquareKilometers(const ASquareFeet: Double): Double; static;
     class function SquareYardsToSquareKilometers(const ASquareYards: Double): Double; static;

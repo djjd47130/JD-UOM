@@ -22,27 +22,28 @@ type
 
     { US Customary }
 
+    //Inches
     class function FeetToInches(const AFeet: Double): Double; overload; static;
     class function FeetToInches(const AFeet, AInches: Integer): Double; overload; static;
     class function YardsToInches(const AYards: Double): Double; static;
     class function MilesToInches(const AMiles: Double): Double; static;
     class function NauticalMilesToInches(ANauticalMiles: Double): Double; static;
-
+    //Feet
     class function InchesToFeet(const AInches: Double): Double; static;
     class function YardsToFeet(const AYards: Double): Double; static;
     class function MilesToFeet(const AMiles: Double): Double; static;
     class function NauticalMilesToFeet(const ANauticalMiles: Double): Double; static;
-
+    //Yards
     class function InchesToYards(const AInches: Double): Double; static;
     class function FeetToYards(const AFeet: Double): Double; static;
     class function MilesToYards(const AMiles: Double): Double; static;
     class function NauticalMilesToYards(const ANauticalMiles: Double): Double; static;
-
+    //Miles
     class function InchesToMiles(const AInches: Double): Double; static;
     class function FeetToMiles(const AFeet: Double): Double; static;
     class function YardsToMiles(const AYards: Double): Double; static;
     class function NauticalMilesToMiles(const ANauticalMiles: Double): Double; static;
-
+    //Nautical Miles
     class function InchesToNauticalMiles(const AInches: Double): Double; static;
     class function FeetToNauticalMiles(const AFeet: Double): Double; static;
     class function YardsToNauticalMiles(const AYards: Double): Double; static;
@@ -50,36 +51,37 @@ type
 
     { Metric }
 
+    //Nanometers
     class function MicronsToNanometers(const AMicrons: Double): Double; static;
     class function MillimetersToNanometers(const AMillimeters: Double): Double; static;
     class function CentimetersToNanometers(const ACentimeters: Double): Double; static;
     class function MetersToNanometers(const AMeters: Double): Double; static;
     class function KilometersToNanometers(const AKilometers: Double): Double; static;
-
+    //Microns
     class function NanometersToMicrons(const ANanometers: Double): Double; static;
     class function MillimetersToMicrons(const AMillimeters: Double): Double; static;
     class function CentimetersToMicrons(const ACentimeters: Double): Double; static;
     class function MetersToMicrons(const AMeters: Double): Double; static;
     class function KilometersToMicrons(const AKilometers: Double): Double; static;
-
+    //Millimeters
     class function MicronsToMillimeters(const AMicrons: Double): Double; static;
     class function NanometersToMillimeters(const ANanometers: Double): Double; static;
     class function CentimetersToMillimeters(const ACentimeters: Double): Double; static;
     class function MetersToMillimeters(const AMeters: Double): Double; static;
     class function KilometersToMillimeters(const AKilometers: Double): Double; static;
-
+    //Centimeters
     class function MicronsToCentimeters(const AMicrons: Double): Double; static;
     class function NanometersToCentimeters(const ANanometers: Double): Double; static;
     class function MillimetersToCentimeters(const AMillimeters: Double): Double; static;
     class function MetersToCentimeters(const AMeters: Double): Double; static;
     class function KilometersToCentimeters(const AKilometers: Double): Double; static;
-
+    //Meters
     class function MicronsToMeters(const AMicrons: Double): Double; static;
     class function NanometersToMeters(const ANanometers: Double): Double; static;
     class function MillimetersToMeters(const AMillimeters: Double): Double; static;
     class function CentimetersToMeters(const ACentimeters: Double): Double; static;
     class function KilometersToMeters(const AKilometers: Double): Double; static;
-
+    //Kilometers
     class function MicronsToKilometers(const AMicrons: Double): Double; static;
     class function NanometersToKilometers(const ANanometers: Double): Double; static;
     class function MillimetersToKilometers(const AMillimeters: Double): Double; static;
@@ -88,36 +90,37 @@ type
 
     { US Customary to Metric Conversion }
 
+    //Nanometers
     class function InchesToNanometers(const AInches: Double): Double; static;
     class function FeetToNanometers(const AFeet: Double): Double; static;
     class function YardsToNanometers(const AYards: Double): Double; static;
     class function MilesToNanometers(const AMiles: Double): Double; static;
     class function NauticalMilesToNanometers(const ANauticalMiles: Double): Double; static;
-
+    //Microns
     class function InchesToMicrons(const AInches: Double): Double; static;
     class function FeetToMicrons(const AFeet: Double): Double; static;
     class function YardsToMicrons(const AYards: Double): Double; static;
     class function MilesToMicrons(const AMiles: Double): Double; static;
     class function NauticalMilesToMicrons(const ANauticalMiles: Double): Double; static;
-
+    //Millimeteres
     class function InchesToMillimeters(const AInches: Double): Double; static;
     class function FeetToMillimeters(const AFeet: Double): Double; static;
     class function YardsToMillimeters(const AYards: Double): Double; static;
     class function MilesToMillimeters(const AMiles: Double): Double; static;
     class function NauticalMilesToMillimeters(const ANauticalMiles: Double): Double; static;
-
+    //Centimeters
     class function InchesToCentimeters(const AInches: Double): Double; static;
     class function FeetToCentimeters(const AFeet: Double): Double; static;
     class function YardsToCentimeters(const AYards: Double): Double; static;
     class function MilesToCentimeters(const AMiles: Double): Double; static;
     class function NauticalMilesToCentimeters(const ANauticalMiles: Double): Double; static;
-
+    //Meters
     class function InchesToMeters(const AInches: Double): Double; static;
     class function FeetToMeters(const AFeet: Double): Double; static;
     class function YardsToMeters(const AYards: Double): Double; static;
     class function MilesToMeters(const AMiles: Double): Double; static;
     class function NauticalMilesToMeters(const ANauticalMiles: Double): Double; static;
-
+    //Kilomenters
     class function InchesToKilometers(const AInches: Double): Double; static;
     class function FeetToKilometers(const AFeet: Double): Double; static;
     class function YardsToKilometers(const AYards: Double): Double; static;
@@ -126,34 +129,35 @@ type
 
     { Metric to US Customary Conversion }
 
+    //Inches
     class function NanometersToInches(const ANanometers: Double): Double; static;
     class function MicronsToInches(const AMicrons: Double): Double; static;
     class function MillimetersToInches(const AMillimeters: Double): Double; static;
     class function CentimetersToInches(const ACentimeters: Double): Double; static;
     class function MetersToInches(const AMeters: Double): Double; static;
     class function KilometersToInches(const AKilometers: Double): Double; static;
-
+    //Feet
     class function NanometersToFeet(const ANanometers: Double): Double; static;
     class function MicronsToFeet(const AMicrons: Double): Double; static;
     class function MillimetersToFeet(const AMillimeters: Double): Double; static;
     class function CentimetersToFeet(const ACentimeters: Double): Double; static;
     class function MetersToFeet(const AMeters: Double): Double; static;
     class function KilometersToFeet(const AKilometers: Double): Double; static;
-
+    //Yards
     class function NanometersToYards(const ANanometers: Double): Double; static;
     class function MicronsToYards(const AMicrons: Double): Double; static;
     class function MillimetersToYards(const AMillimeters: Double): Double; static;
     class function CentimetersToYards(const ACentimeters: Double): Double; static;
     class function MetersToYards(const AMeters: Double): Double; static;
     class function KilometersToYards(const AKilometers: Double): Double; static;
-
+    //Miles
     class function NanometersToMiles(const ANanometers: Double): Double; static;
     class function MicronsToMiles(const AMicrons: Double): Double; static;
     class function MillimetersToMiles(const AMillimeters: Double): Double; static;
     class function CentimetersToMiles(const ACentimeters: Double): Double; static;
     class function MetersToMiles(const AMeters: Double): Double; static;
     class function KilometersToMiles(const AKilometers: Double): Double; static;
-
+    //Nautical Miles
     class function NanometersToNauticalMiles(const ANanometers: Double): Double; static;
     class function MicronsToNauticalMiles(const AMicrons: Double): Double; static;
     class function MillimetersToNauticalMiles(const AMillimeters: Double): Double; static;

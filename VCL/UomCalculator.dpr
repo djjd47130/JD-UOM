@@ -27,7 +27,8 @@ uses
   JD.Uom.Weight in '..\JD.Uom.Weight.pas',
   JD.UomCtrls in '..\JD.UomCtrls.pas',
   JD.UomUtils in '..\JD.UomUtils.pas',
-  JD.Uom.Resolution in '..\JD.Uom.Resolution.pas';
+  JD.Uom.Resolution in '..\JD.Uom.Resolution.pas',
+  JD.Uom.Frequency in '..\JD.Uom.Frequency.pas';
 
 {$R *.res}
 
