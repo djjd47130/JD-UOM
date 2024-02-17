@@ -5,6 +5,8 @@
 - Unit [**JD.Uom.Common.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Common.md) - Common unit for any UOM conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
   - **TUOMSystems** - Set of **TUOMSystem** enums.
+- Unit [**JD.UomUtils.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
+- Unit **JD.UomCtrls.pas** - Custom control to control formatted text values for units of measurement.
 - Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
   - **TUOMLengthUnit** - Enum to identify different length units.
   - **TUOMLengthUnits** - Set of **TUOMLengthUnit** enums.
@@ -25,4 +27,7 @@
 
 ### Application
 
-An application is provided to not only test this collection of code, but to serve as a single central application to perform any and all possible conversions between different units of measurement.
+An application is provided to not just test this collection of code, but to serve as a single central application to perform any and all possible conversions between different units of measurement.
+
+Application requires:
+- Jedi VCL Controls
