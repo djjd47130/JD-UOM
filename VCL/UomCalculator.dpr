@@ -26,7 +26,8 @@ uses
   JD.Uom.Volume in '..\JD.Uom.Volume.pas',
   JD.Uom.Weight in '..\JD.Uom.Weight.pas',
   JD.UomCtrls in '..\JD.UomCtrls.pas',
-  JD.UomUtils in '..\JD.UomUtils.pas';
+  JD.UomUtils in '..\JD.UomUtils.pas',
+  JD.Uom.Resolution in '..\JD.Uom.Resolution.pas';
 
 {$R *.res}
 
