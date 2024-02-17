@@ -2,15 +2,15 @@
 
 ### NOTE: This library is in active development, and is not ready for use at this time.
 
-- Unit [**JD.Uom.Common.pas**](JD.Uom.Common.pas) - Common unit for any UOM conversions.
+- Unit [**JD.Uom.Common.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Common.md) - Common unit for any UOM conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
   - **TUOMSystems** - Set of **TUOMSystem** enums.
-- Unit [**JD.Uom.Length.pas**](JD.Uom.Length.pas) - Conversion between lengths.
+- Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
   - **TUOMLengthUnit** - Enum to identify different length units.
   - **TUOMLengthUnits** - Set of **TUOMLengthUnit** enums.
   - **TUOMLengthUtils** - Class object to access length conversion methods.
   - **TUOMLength** - Record to encapsulate any given length value.
-- Unit [**JD.Uom.Area.pas**](JD.Uom.Area.pas) - Conversion between areas.
+- Unit [**JD.Uom.Area.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Area.md) - Conversion between areas.
   - **TUOMAreaUnit** - Enum to identify different area units.
   - **TUOMAreaUnits** - Set of **TUOMAreaUnit** enums.
   - **TUOMAreaUtils** - Class object to access area conversion methods.
