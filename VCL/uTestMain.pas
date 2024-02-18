@@ -380,17 +380,17 @@ begin
   end;
 
   case ValResult.&Unit of
-    umlNanometers:    ValResult.Value:= ValFrom.ToNanometers;
-    umlMicrons:       ValResult.Value:= ValFrom.ToMicrons;
-    umlMillimeters:   ValResult.Value:= ValFrom.ToMillimeters;
-    umlCentimeters:   ValResult.Value:= ValFrom.ToCentimeters;
-    umlMeters:        ValResult.Value:= ValFrom.ToMeters;
-    umlKilometers:    ValResult.Value:= ValFrom.ToKilometers;
-    umlInches:        ValResult.Value:= ValFrom.ToInches;
-    umlFeet:          ValResult.Value:= ValFrom.ToFeet;
-    umlYards:         ValResult.Value:= ValFrom.ToYards;
-    umlMiles:         ValResult.Value:= ValFrom.ToMiles;
-    umlNauticalMiles: ValResult.Value:= ValFrom.ToNauticalMiles;
+    umlNanometers:    ValResult.Value:= ValFrom.GetAsNanometers;
+    umlMicrons:       ValResult.Value:= ValFrom.GetAsMicrons;
+    umlMillimeters:   ValResult.Value:= ValFrom.GetAsMillimeters;
+    umlCentimeters:   ValResult.Value:= ValFrom.GetAsCentimeters;
+    umlMeters:        ValResult.Value:= ValFrom.GetAsMeters;
+    umlKilometers:    ValResult.Value:= ValFrom.GetAsKilometers;
+    umlInches:        ValResult.Value:= ValFrom.GetAsInches;
+    umlFeet:          ValResult.Value:= ValFrom.GetAsFeet;
+    umlYards:         ValResult.Value:= ValFrom.GetAsYards;
+    umlMiles:         ValResult.Value:= ValFrom.GetAsMiles;
+    umlNauticalMiles: ValResult.Value:= ValFrom.GetAsNauticalMiles;
   end;
 
   //TODO: I really need a proper spin edit control that handles big values...

@@ -4,7 +4,8 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom.Common;
+  JD.Uom.Common,
+  JD.Uom.Length;
 
 type
   TUOMVolumeUnit = (umvMilliliters, umvCubicCentimeters, umvLiters, umvCubicMeters,
@@ -128,6 +129,16 @@ type
     function ToCubicInches: Double;
     function ToCubicFeet: Double;
     function ToCubicYards: Double;
+  end;
+
+  //TODO: A record that allows volume to be specified using three linear dimensions
+  TUOMVolumeBox = record
+  private
+    FWidth: TUOMLength;
+    FLength: TUOMLength;
+    FHeight: TUOMLength;
+  public
+
   end;
 
 implementation

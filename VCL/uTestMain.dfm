@@ -235,9 +235,9 @@ object frmMain: TfrmMain
     Height = 19
     Panels = <
       item
+        Text = 'Created by Jerry Dodge'
         Width = 50
       end>
-    ExplicitLeft = -8
   end
   object seConvertFrom: TRzSpinEdit
     Left = 16

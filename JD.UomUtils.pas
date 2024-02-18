@@ -214,7 +214,8 @@ begin
   //TODO...
 end;
 
-class procedure TUOMUtils.ListUOMUnits(const AUOM: TUOM; AList: TStrings; const ASystem: TUOMSystem = TUOMSystem.ustAny);
+class procedure TUOMUtils.ListUOMUnits(const AUOM: TUOM; AList: TStrings;
+  const ASystem: TUOMSystem = TUOMSystem.ustAny);
 begin
   AList.Clear;
   case AUOM of

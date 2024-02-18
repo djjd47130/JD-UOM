@@ -171,7 +171,7 @@ type
   end;
 
   //TODO: A record that allows area to be specified using two linear dimensions
-  TUOMTwoDimensions = record
+  TUOMAreaRect = record
   private
     FWidth: TUOMLength;
     FLength: TUOMLength;
@@ -182,10 +182,10 @@ type
     property Width: TUOMLength read FWidth write SetWidth;
     property Length: TUOMLength read FLength write SetLength;
     property Area: Double read GetArea;
-    class operator implicit(const AValue: Double): TUOMTwoDimensions;
-    class operator implicit(const AValue: TUOMTwoDimensions): Double;
-    class operator implicit(const AValue: String): TUOMTwoDimensions;
-    class operator implicit(const AValue: TUOMTwoDimensions): String;
+    class operator implicit(const AValue: Double): TUOMAreaRect;
+    class operator implicit(const AValue: TUOMAreaRect): Double;
+    class operator implicit(const AValue: String): TUOMAreaRect;
+    class operator implicit(const AValue: TUOMAreaRect): String;
   end;
 
 implementation
@@ -1021,47 +1021,48 @@ begin
   end;
 end;
 
-{ TUOMTwoDimensions }
+{ TUOMAreaRect }
 
-procedure TUOMTwoDimensions.SetLength(const Value: TUOMLength);
+procedure TUOMAreaRect.SetLength(const Value: TUOMLength);
 begin
   FLength := Value;
 end;
 
-procedure TUOMTwoDimensions.SetWidth(const Value: TUOMLength);
+procedure TUOMAreaRect.SetWidth(const Value: TUOMLength);
 begin
   FWidth := Value;
 end;
 
-function TUOMTwoDimensions.GetArea: Double;
+function TUOMAreaRect.GetArea: Double;
 begin
   //TODO: Convert combined UOMs...
   Result:= FWidth.Value * FLength.Value;
 
 end;
 
-class operator TUOMTwoDimensions.implicit(
-  const AValue: TUOMTwoDimensions): Double;
+class operator TUOMAreaRect.implicit(
+  const AValue: TUOMAreaRect): Double;
 begin
   Result:= 0; //TODO
 end;
 
-class operator TUOMTwoDimensions.implicit(
-  const AValue: Double): TUOMTwoDimensions;
+class operator TUOMAreaRect.implicit(
+  const AValue: Double): TUOMAreaRect;
 begin
   //TODO: Kinda hard to convert from area to width/length dimensions...
   //  Perhaps just get the square root?
 end;
 
-class operator TUOMTwoDimensions.implicit(
-  const AValue: TUOMTwoDimensions): String;
+class operator TUOMAreaRect.implicit(
+  const AValue: TUOMAreaRect): String;
 begin
   Result:= AValue.Width + ' x ' + AValue.Length;
 end;
 
-class operator TUOMTwoDimensions.implicit(
-  const AValue: String): TUOMTwoDimensions;
+class operator TUOMAreaRect.implicit(
+  const AValue: String): TUOMAreaRect;
 begin
+  //TODO: Parse string...
 
 end;
 
