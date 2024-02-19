@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom.Common,
+  JD.Uom,
   JD.Uom.Mass,
   JD.Uom.Gravity;
 

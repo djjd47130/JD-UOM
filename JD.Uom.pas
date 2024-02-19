@@ -1,4 +1,4 @@
-﻿unit JD.UomUtils;
+﻿unit JD.Uom;
 
 interface
 
@@ -70,31 +70,7 @@ interface
 {$ENDREGION}
 
 uses
-  System.Classes, System.SysUtils, System.Generics.Collections,
-
-  JD.Uom.Common,
-  JD.Uom.Angle,
-  JD.Uom.Area,
-  JD.Uom.Capacitance,
-  JD.Uom.Current,
-  JD.Uom.Data,
-  JD.Uom.Density,
-  JD.Uom.Energy,
-  JD.Uom.Frequency,
-  JD.Uom.Gravity,
-  JD.Uom.Length,
-  JD.Uom.Mass,
-  JD.Uom.Power,
-  JD.Uom.Pressure,
-  JD.Uom.Radiation,
-  JD.Uom.Resistance,
-  JD.Uom.Resolution,
-  JD.Uom.Speed,
-  JD.Uom.Temperature,
-  JD.Uom.Time,
-  JD.Uom.Voltage,
-  JD.Uom.Volume,
-  JD.Uom.Weight
+  System.Classes, System.SysUtils, System.Generics.Collections
   ;
 
 
@@ -125,9 +101,10 @@ type
   public
     class procedure ListUOMSystems(AList: TStrings); static;
     class procedure ListUOMs(AList: TStrings); static;
-    class procedure ListUOMUnits(const AUOM: TUOM; AList: TStrings; const ASystem: TUOMSystem = TUOMSystem.ustAny);
-    class function UOMName(const AUOM: TUOM): String;
-    class procedure ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
+    class procedure ListUOMUnits(const AUOM: TUOM; AList: TStrings;
+      const ASystem: TUOMSystem = TUOMSystem.ustAny); static;
+    class function UOMName(const AUOM: TUOM): String; static;
+    class procedure ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String); static;
   end;
 
 { TUnitOfMeasurement }
@@ -218,6 +195,30 @@ var
 ////////////////////////////////////////////////////////////////////////////////
 implementation
 ////////////////////////////////////////////////////////////////////////////////
+
+uses
+  JD.Uom.Angle,
+  JD.Uom.Area,
+  JD.Uom.Capacitance,
+  JD.Uom.Current,
+  JD.Uom.Data,
+  JD.Uom.Density,
+  JD.Uom.Energy,
+  JD.Uom.Frequency,
+  JD.Uom.Gravity,
+  JD.Uom.Length,
+  JD.Uom.Mass,
+  JD.Uom.Power,
+  JD.Uom.Pressure,
+  JD.Uom.Radiation,
+  JD.Uom.Resistance,
+  JD.Uom.Resolution,
+  JD.Uom.Speed,
+  JD.Uom.Temperature,
+  JD.Uom.Time,
+  JD.Uom.Voltage,
+  JD.Uom.Volume,
+  JD.Uom.Weight;
 
 
 { TUOMUtils }

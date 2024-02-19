@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, System.SysUtils, System.Types,
-  JD.Uom.Common;
+  JD.Uom;
 
 type
   TUOMLengthUnit = (umlNanometers, umlMicrons, umlMillimeters, umlCentimeters,
@@ -1412,6 +1412,14 @@ begin
     umlMiles:         FValue:= TUOMLengthUtils.YardsToMiles(Value);
     umlNauticalMiles: FValue:= TUOMLengthUtils.YardsToNauticalMiles(Value);
   end;
+end;
+
+{ TUOMLengthMatrix }
+
+class function TUOMLengthMatrix.Convert(const A, B: TUOMLengthUnit;
+  const Val: Double): Double;
+begin
+
 end;
 
 initialization

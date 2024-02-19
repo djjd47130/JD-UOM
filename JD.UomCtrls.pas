@@ -8,8 +8,7 @@ uses
   Vcl.Forms, Vcl.Controls, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
   Vcl.Graphics,
 
-  JD.UomUtils,
-  JD.Uom.Common,
+  JD.Uom,
   JD.Uom.Length,
   JD.Uom.Area,
   JD.Uom.Volume,

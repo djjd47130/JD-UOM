@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes, System.SysUtils, System.Types,
-  JD.Uom.Common;
+  JD.Uom;
 
 type
   //TODO

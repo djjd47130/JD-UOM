@@ -114,7 +114,6 @@
         <DCCReference Include="..\JD.Uom.Angle.pas"/>
         <DCCReference Include="..\JD.Uom.Area.pas"/>
         <DCCReference Include="..\JD.Uom.Capacitance.pas"/>
-        <DCCReference Include="..\JD.Uom.Common.pas"/>
         <DCCReference Include="..\JD.Uom.Current.pas"/>
         <DCCReference Include="..\JD.Uom.Data.pas"/>
         <DCCReference Include="..\JD.Uom.Density.pas"/>
@@ -132,7 +131,7 @@
         <DCCReference Include="..\JD.Uom.Volume.pas"/>
         <DCCReference Include="..\JD.Uom.Weight.pas"/>
         <DCCReference Include="..\JD.UomCtrls.pas"/>
-        <DCCReference Include="..\JD.UomUtils.pas"/>
+        <DCCReference Include="..\JD.Uom.pas"/>
         <DCCReference Include="..\JD.Uom.Resolution.pas"/>
         <DCCReference Include="..\JD.Uom.Frequency.pas"/>
         <DCCReference Include="..\JD.Uom.Mass.pas"/>
