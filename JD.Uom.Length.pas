@@ -204,6 +204,7 @@ type
     class operator Multiply(const A, B: TUOMLength): TUOMLength;
     class operator Divide(const A, B: TUOMLength): TUOMLength;
   public
+    //TODO: Shouldn't I change these to TUOMLength instead of Double?!
     function GetAsNanometers: Double;
     function GetAsMicrons: Double;
     function GetAsMillimeters: Double;
