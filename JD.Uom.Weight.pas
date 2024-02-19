@@ -4,7 +4,9 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom.Common;
+  JD.Uom.Common,
+  JD.Uom.Mass,
+  JD.Uom.Gravity;
 
 type
   TUOMWeightUnit = (umwCarats, umwMilliGrams, umwCentiGrams, umwDeciGrams, umwGrams,

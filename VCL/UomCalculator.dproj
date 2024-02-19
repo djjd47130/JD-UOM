@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <MainSource>UomCalculator.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -135,6 +135,7 @@
         <DCCReference Include="..\JD.UomUtils.pas"/>
         <DCCReference Include="..\JD.Uom.Resolution.pas"/>
         <DCCReference Include="..\JD.Uom.Frequency.pas"/>
+        <DCCReference Include="..\JD.Uom.Mass.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

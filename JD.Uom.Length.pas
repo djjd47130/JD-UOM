@@ -11,6 +11,22 @@ type
     umlMeters, umlKilometers, umlInches, umlFeet, umlYards, umlMiles, umlNauticalMiles);
   TUOMLengthUnits = set of TUOMLengthUnit;
 
+
+
+  //TODO: Implement new concept of conversion matrix to replace
+  //current boilerplate conversion code...
+  TUOMLengthMatrixProc = procedure(const A, B: TUOMLengthUnit; var Value: Double);
+  TUOMLengthUnitMatrix = array[TUOMLengthUnit,TUOMLengthUnit] of TUOMLengthMatrixProc;
+
+  TUOMLengthMatrix = class
+  private
+    class var FMatrix: TUOMLengthUnitMatrix;
+  public
+    class function Convert(const A, B: TUOMLengthUnit; const Val: Double): Double;
+  end;
+
+
+
   TUOMLengthUtils = class
   public
     class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); static;
@@ -180,7 +196,6 @@ type
     class operator implicit(const AValue: TUOMLength): Double;
     class operator implicit(const AValue: String): TUOMLength;
     class operator implicit(const AValue: TUOMLength): String;
-    //TODO: Class operators for math...
     class operator Equal(const A, B: TUOMLength): Boolean;
     class operator GreaterThan(const A, B: TUOMLength): Boolean;
     class operator LessThan(const A, B: TUOMLength): Boolean;
@@ -1014,193 +1029,6 @@ begin
   FUnit:= Value;
 end;
 
-procedure TUOMLength.SetAsCentimeters(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.CentimetersToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.CentimetersToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.CentimetersToMillimeters(Value);
-    umlCentimeters:   FValue:= Value;
-    umlMeters:        FValue:= TUOMLengthUtils.CentimetersToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.CentimetersToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.CentimetersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.CentimetersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.CentimetersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.CentimetersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.CentimetersToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsFeet(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.FeetToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.FeetToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.FeetToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.FeetToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.FeetToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.FeetToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.FeetToInches(Value);
-    umlFeet:          FValue:= Value;
-    umlYards:         FValue:= TUOMLengthUtils.FeetToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.FeetToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.FeetToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsInches(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.InchesToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.InchesToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.InchesToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.InchesToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.InchesToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.InchesToKilometers(Value);
-    umlInches:        FValue:= Value;
-    umlFeet:          FValue:= TUOMLengthUtils.InchesToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.InchesToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.InchesToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.InchesToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsKilometers(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.KilometersToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.KilometersToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.KilometersToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.KilometersToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.KilometersToMeters(Value);
-    umlKilometers:    FValue:= Value;
-    umlInches:        FValue:= TUOMLengthUtils.KilometersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.KilometersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.KilometersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.KilometersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.KilometersToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsMeters(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.MetersToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.MetersToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.MetersToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.MetersToCentimeters(Value);
-    umlMeters:        FValue:= Value;
-    umlKilometers:    FValue:= TUOMLengthUtils.MetersToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.KilometersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.KilometersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.KilometersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.KilometersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.KilometersToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsMicrons(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.MicronsToNanometers(Value);
-    umlMicrons:       FValue:= Value;
-    umlMillimeters:   FValue:= TUOMLengthUtils.MicronsToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.MicronsToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.MicronsToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.MicronsToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.MicronsToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.MicronsToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.MicronsToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.MicronsToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.MicronsToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsMiles(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.MilesToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.MilesToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.MilesToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.MilesToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.MilesToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.MilesToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.MilesToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.MilesToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.MilesToYards(Value);
-    umlMiles:         FValue:= Value;
-    umlNauticalMiles: FValue:= TUOMLengthUtils.MilesToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsMillimeters(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.MillimetersToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.MillimetersToMicrons(Value);
-    umlMillimeters:   FValue:= Value;
-    umlCentimeters:   FValue:= TUOMLengthUtils.MillimetersToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.MillimetersToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.MillimetersToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.MillimetersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.MillimetersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.MillimetersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.MillimetersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.MillimetersToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsNanometers(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= Value;
-    umlMicrons:       FValue:= TUOMLengthUtils.NanometersToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.NanometersToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.NanometersToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.NanometersToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.NanometersToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.NanometersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.NanometersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.NanometersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.NanometersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.NanometersToNauticalMiles(Value);
-  end;
-end;
-
-procedure TUOMLength.SetAsNauticalMiles(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.NauticalMilesToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.NauticalMilesToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.NauticalMilesToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.NauticalMilesToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.NauticalMilesToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.NauticalMilesToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.NauticalMilesToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.NauticalMilesToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.NauticalMilesToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.NauticalMilesToMiles(Value);
-    umlNauticalMiles: FValue:= Value;
-  end;
-end;
-
-procedure TUOMLength.SetAsYards(const Value: Double);
-begin
-  case FUnit of
-    umlNanometers:    FValue:= TUOMLengthUtils.YardsToNanometers(Value);
-    umlMicrons:       FValue:= TUOMLengthUtils.YardsToMicrons(Value);
-    umlMillimeters:   FValue:= TUOMLengthUtils.YardsToMillimeters(Value);
-    umlCentimeters:   FValue:= TUOMLengthUtils.YardsToCentimeters(Value);
-    umlMeters:        FValue:= TUOMLengthUtils.YardsToMeters(Value);
-    umlKilometers:    FValue:= TUOMLengthUtils.YardsToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.YardsToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.YardsToFeet(Value);
-    umlYards:         FValue:= Value;
-    umlMiles:         FValue:= TUOMLengthUtils.YardsToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.YardsToNauticalMiles(Value);
-  end;
-end;
-
 function TUOMLength.GetAsNanometers: Double;
 begin
   Result:= 0;
@@ -1396,6 +1224,193 @@ begin
     umlYards:         Result:= TUOMLengthUtils.YardsToNauticalMiles(FValue);
     umlMiles:         Result:= TUOMLengthUtils.MilesToNauticalMiles(FValue);
     umlNauticalMiles: Result:= FValue; //Same
+  end;
+end;
+
+procedure TUOMLength.SetAsCentimeters(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.CentimetersToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.CentimetersToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.CentimetersToMillimeters(Value);
+    umlCentimeters:   FValue:= Value;
+    umlMeters:        FValue:= TUOMLengthUtils.CentimetersToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.CentimetersToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.CentimetersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.CentimetersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.CentimetersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.CentimetersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.CentimetersToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsFeet(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.FeetToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.FeetToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.FeetToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.FeetToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.FeetToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.FeetToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.FeetToInches(Value);
+    umlFeet:          FValue:= Value;
+    umlYards:         FValue:= TUOMLengthUtils.FeetToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.FeetToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.FeetToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsInches(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.InchesToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.InchesToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.InchesToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.InchesToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.InchesToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.InchesToKilometers(Value);
+    umlInches:        FValue:= Value;
+    umlFeet:          FValue:= TUOMLengthUtils.InchesToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.InchesToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.InchesToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.InchesToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsKilometers(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.KilometersToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.KilometersToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.KilometersToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.KilometersToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.KilometersToMeters(Value);
+    umlKilometers:    FValue:= Value;
+    umlInches:        FValue:= TUOMLengthUtils.KilometersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.KilometersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.KilometersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.KilometersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.KilometersToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsMeters(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.MetersToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.MetersToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.MetersToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.MetersToCentimeters(Value);
+    umlMeters:        FValue:= Value;
+    umlKilometers:    FValue:= TUOMLengthUtils.MetersToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.KilometersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.KilometersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.KilometersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.KilometersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.KilometersToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsMicrons(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.MicronsToNanometers(Value);
+    umlMicrons:       FValue:= Value;
+    umlMillimeters:   FValue:= TUOMLengthUtils.MicronsToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.MicronsToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.MicronsToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.MicronsToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.MicronsToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.MicronsToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.MicronsToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.MicronsToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.MicronsToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsMiles(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.MilesToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.MilesToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.MilesToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.MilesToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.MilesToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.MilesToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.MilesToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.MilesToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.MilesToYards(Value);
+    umlMiles:         FValue:= Value;
+    umlNauticalMiles: FValue:= TUOMLengthUtils.MilesToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsMillimeters(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.MillimetersToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.MillimetersToMicrons(Value);
+    umlMillimeters:   FValue:= Value;
+    umlCentimeters:   FValue:= TUOMLengthUtils.MillimetersToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.MillimetersToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.MillimetersToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.MillimetersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.MillimetersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.MillimetersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.MillimetersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.MillimetersToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsNanometers(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= Value;
+    umlMicrons:       FValue:= TUOMLengthUtils.NanometersToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.NanometersToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.NanometersToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.NanometersToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.NanometersToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.NanometersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.NanometersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.NanometersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.NanometersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.NanometersToNauticalMiles(Value);
+  end;
+end;
+
+procedure TUOMLength.SetAsNauticalMiles(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.NauticalMilesToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.NauticalMilesToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.NauticalMilesToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.NauticalMilesToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.NauticalMilesToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.NauticalMilesToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.NauticalMilesToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.NauticalMilesToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.NauticalMilesToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.NauticalMilesToMiles(Value);
+    umlNauticalMiles: FValue:= Value;
+  end;
+end;
+
+procedure TUOMLength.SetAsYards(const Value: Double);
+begin
+  case FUnit of
+    umlNanometers:    FValue:= TUOMLengthUtils.YardsToNanometers(Value);
+    umlMicrons:       FValue:= TUOMLengthUtils.YardsToMicrons(Value);
+    umlMillimeters:   FValue:= TUOMLengthUtils.YardsToMillimeters(Value);
+    umlCentimeters:   FValue:= TUOMLengthUtils.YardsToCentimeters(Value);
+    umlMeters:        FValue:= TUOMLengthUtils.YardsToMeters(Value);
+    umlKilometers:    FValue:= TUOMLengthUtils.YardsToKilometers(Value);
+    umlInches:        FValue:= TUOMLengthUtils.YardsToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.YardsToFeet(Value);
+    umlYards:         FValue:= Value;
+    umlMiles:         FValue:= TUOMLengthUtils.YardsToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.YardsToNauticalMiles(Value);
   end;
 end;
 

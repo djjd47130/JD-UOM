@@ -6,7 +6,8 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom.Common;
+  JD.Uom.Common,
+  JD.Uom.Time;
 
 type
   TUOMRadiationUnit = (umgRadiation);

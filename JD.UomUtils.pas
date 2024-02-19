@@ -11,9 +11,11 @@ interface
   Encapsulates all possible units of measurement with conversion
   and other useful utilities to implement in Delphi.
 
-  What's In This Library:
+  NOTE: The following details are out of date, as things are getting
+  documented directly on GitHub, and this documentation was forotten...
+  https://github.com/djjd47130/JD-UOM
 
-  - MAJOR REVISION AND REFRACTORING
+  What's In This Library:
 
   - Enumeration types for all possible metrics
     - Divided among different units for different UOMs
@@ -60,35 +62,51 @@ interface
   - [TODO] Gravity
   - [TODO] Radiation
 
+
+  https://www.metric-conversions.org/
+
 *)
 
 {$ENDREGION}
 
 uses
   System.Classes, System.SysUtils, System.Generics.Collections,
+
   JD.Uom.Common,
-  JD.Uom.Length,
-  JD.Uom.Area,
-  JD.Uom.Volume,
-  JD.Uom.Weight,
-  JD.Uom.Temperature,
-  JD.Uom.Energy,
-  JD.Uom.Speed,
-  JD.Uom.Time,
-  JD.Uom.Power,
-  JD.Uom.Data,
-  JD.Uom.Pressure,
   JD.Uom.Angle,
-  JD.Uom.Resistance,
+  JD.Uom.Area,
   JD.Uom.Capacitance,
-  JD.Uom.Voltage,
   JD.Uom.Current,
+  JD.Uom.Data,
   JD.Uom.Density,
+  JD.Uom.Energy,
+  JD.Uom.Frequency,
   JD.Uom.Gravity,
-  JD.Uom.Radiation;
+  JD.Uom.Length,
+  JD.Uom.Mass,
+  JD.Uom.Power,
+  JD.Uom.Pressure,
+  JD.Uom.Radiation,
+  JD.Uom.Resistance,
+  JD.Uom.Resolution,
+  JD.Uom.Speed,
+  JD.Uom.Temperature,
+  JD.Uom.Time,
+  JD.Uom.Voltage,
+  JD.Uom.Volume,
+  JD.Uom.Weight
+  ;
 
 
 { General }
+
+const
+  PartOfNumber = ['0'..'9', '.', ','];
+  NumFormat = '#,###,###,###,##0.#############';
+
+type
+  TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial);
+  TUOMSystems = set of TUOMSystem;
 
 type
   /// <summary>

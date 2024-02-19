@@ -28,7 +28,8 @@ uses
   JD.UomCtrls in '..\JD.UomCtrls.pas',
   JD.UomUtils in '..\JD.UomUtils.pas',
   JD.Uom.Resolution in '..\JD.Uom.Resolution.pas',
-  JD.Uom.Frequency in '..\JD.Uom.Frequency.pas';
+  JD.Uom.Frequency in '..\JD.Uom.Frequency.pas',
+  JD.Uom.Mass in '..\JD.Uom.Mass.pas';
 
 {$R *.res}
 

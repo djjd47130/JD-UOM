@@ -6,9 +6,16 @@ uses
   System.Classes, System.SysUtils,
   JD.Uom.Common;
 
+const
+  DaysPerYear = 365.25;
+  DaysPerMonth = DaysPerYear / 12;
+  DaysPerWeek = 7;
+  WeeksPerYear = DaysPerYear / 7;
+
 type
   TUOMTimeUnit = (ummMicroSeconds, ummMilliSeconds, ummSeconds, ummMinutes, ummHours,
     ummDays, ummWeeks, ummMonths, ummYears, ummDecades);
+  //TODO: Nanoseconds?
   TUOMTimeUnits = set of TUOMTimeUnit;
 
   TUOMTimeUtils = class
@@ -146,6 +153,9 @@ type
   end;
 
 implementation
+
+uses
+  DateUtils, Math;
 
 var
   DefaultTimeUnit: TUOMTimeUnit;

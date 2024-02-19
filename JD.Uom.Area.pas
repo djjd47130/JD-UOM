@@ -157,6 +157,7 @@ type
     class operator implicit(const AValue: TUOMArea): Double;
     class operator implicit(const AValue: String): TUOMArea;
     class operator implicit(const AValue: TUOMArea): String;
+    //TODO: Implement class operators for math...
   public
     function ToSquareMillimeters: Double;
     function ToSquareCentimeters: Double;
@@ -796,7 +797,7 @@ end;
 
 procedure TUOMArea.SetUnit(const Value: TUOMAreaUnit);
 begin
-  case FUnit of
+  case Value of
     umaSquareMillimeters: FValue:= Self.ToSquareMillimeters;
     umaSquareCentimeters: FValue:= Self.ToSquareCentimeters;
     umaSquareMeters:      FValue:= Self.ToSquareMeters;
