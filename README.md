@@ -5,7 +5,8 @@
 - Unit [**JD.UomUtils.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
   - **TUOMSystems** - Set of **TUOMSystem** enums.
-- Unit [**JD.UomCtrls.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMCtrls.md) - Custom control to control formatted text values for units of measurement.
+- Unit [**JD.UomCtrls.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMCtrls.md) - VCL controls related to UOM conversion.
+  - **TUOMEdit** - Custom control to control formatted text values for units of measurement.
 - Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
   - **TUOMLengthUnit** - Enum to identify different length units.
   - **TUOMLengthUnits** - Set of **TUOMLengthUnit** enums.
