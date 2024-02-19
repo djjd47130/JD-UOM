@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{57501C4E-E988-40C7-AD1B-C1F3DF9C9F4D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="VCL\UomCalculator.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FMX\UomCalc.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="UomCalculator">
+        <MSBuild Projects="VCL\UomCalculator.dproj"/>
+    </Target>
+    <Target Name="UomCalculator:Clean">
+        <MSBuild Projects="VCL\UomCalculator.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="UomCalculator:Make">
+        <MSBuild Projects="VCL\UomCalculator.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="UomCalc">
+        <MSBuild Projects="FMX\UomCalc.dproj"/>
+    </Target>
+    <Target Name="UomCalc:Clean">
+        <MSBuild Projects="FMX\UomCalc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="UomCalc:Make">
+        <MSBuild Projects="FMX\UomCalc.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="UomCalculator;UomCalc"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="UomCalculator:Clean;UomCalc:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="UomCalculator:Make;UomCalc:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

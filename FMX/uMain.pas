@@ -7,8 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListBox, FMX.Edit, FMX.EditBox,
   FMX.SpinBox, FMX.NumberBox,
-  JD.UomUtils,
-  JD.Uom.Common,
+  JD.Uom,
   JD.Uom.Length,
   JD.Uom.Area,
   JD.Uom.Volume,
@@ -351,17 +350,17 @@ begin
   end;
 
   case ValResult.&Unit of
-    umlNanometers:    ValResult.Value:= ValFrom.ToNanometers;
-    umlMicrons:       ValResult.Value:= ValFrom.ToMicrons;
-    umlMillimeters:   ValResult.Value:= ValFrom.ToMillimeters;
-    umlCentimeters:   ValResult.Value:= ValFrom.ToCentimeters;
-    umlMeters:        ValResult.Value:= ValFrom.ToMeters;
-    umlKilometers:    ValResult.Value:= ValFrom.ToKilometers;
-    umlInches:        ValResult.Value:= ValFrom.ToInches;
-    umlFeet:          ValResult.Value:= ValFrom.ToFeet;
-    umlYards:         ValResult.Value:= ValFrom.ToYards;
-    umlMiles:         ValResult.Value:= ValFrom.ToMiles;
-    umlNauticalMiles: ValResult.Value:= ValFrom.ToNauticalMiles;
+    umlNanometers:    ValResult.Value:= ValFrom.AsNanometers;
+    umlMicrons:       ValResult.Value:= ValFrom.AsMicrons;
+    umlMillimeters:   ValResult.Value:= ValFrom.AsMillimeters;
+    umlCentimeters:   ValResult.Value:= ValFrom.AsCentimeters;
+    umlMeters:        ValResult.Value:= ValFrom.AsMeters;
+    umlKilometers:    ValResult.Value:= ValFrom.AsKilometers;
+    umlInches:        ValResult.Value:= ValFrom.AsInches;
+    umlFeet:          ValResult.Value:= ValFrom.AsFeet;
+    umlYards:         ValResult.Value:= ValFrom.AsYards;
+    umlMiles:         ValResult.Value:= ValFrom.AsMiles;
+    umlNauticalMiles: ValResult.Value:= ValFrom.AsNauticalMiles;
   end;
 
   if FCalcBackward then begin
