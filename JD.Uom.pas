@@ -87,15 +87,16 @@ type
 type
   /// <summary>
   /// Represents a unit of measurement type.
+  /// TODO: Get rid of the need of this, so units register themselves...
   /// </summary>
   TUOM = (umLength, umArea, umVolume, umWeight, umTemperature,
     umEnergy, umSpeed, umTime, umPower, umData, umPressure, umAngle,
     umResistance, umCapacitance, umVoltage, umCurrent, umDensity, umGravity,
-    umRadiation);
+    umRadiation, umFrequency, umMass, umResolution);
   TUOMs = set of TUOM;
 
   /// <summary>
-  /// Provides utilities for unit of measurements.
+  /// Provides utilities for all units of measurements.
   /// </summary>
   TUOMUtils = class
   public
@@ -145,7 +146,7 @@ type
 
 
 
-
+{$REGION 'TMultiStringList'}
 
 type
   TMultiStringList = class;
@@ -182,7 +183,7 @@ type
     property Strings: TStrings read FStrings write SetStrings;
   end;
 
-
+{$ENDREGION}
 
 
 
@@ -256,6 +257,9 @@ begin
     umCurrent:      ;
     umDensity:      ;
     umGravity:      ;
+    umFrequency:    ;
+    umMass:         ;
+    umResolution:   ;
   end;
 end;
 

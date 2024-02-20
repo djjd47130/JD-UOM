@@ -4,7 +4,10 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom;
+  JD.Uom,
+  JD.Uom.Frequency,
+  JD.Uom.Time,
+  JD.Uom.Length;
 
 type
   TUOMSpeedUnit = (umsCentimetersPerSecond, umsMetersPerSecond, umsKilometersPerHour,

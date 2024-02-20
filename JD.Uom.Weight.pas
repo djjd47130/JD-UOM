@@ -9,7 +9,8 @@ uses
   JD.Uom.Gravity;
 
 type
-  TUOMWeightUnit = (umwCarats, umwMilliGrams, umwCentiGrams, umwDeciGrams, umwGrams,
+  TUOMWeightUnit = (
+    umwCarats, umwMilliGrams, umwCentiGrams, umwDeciGrams, umwGrams,
     umwDekaGrams, umwHectoGrams, umwKiloGrams, umwMetricTonnes, umwOunces,
     umwPounds, umwStone, umwShortTons, umwLongTons);
   TUOMWeightUnits = set of TUOMWeightUnit;
