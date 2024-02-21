@@ -25,5 +25,6 @@ Central unit to access all possible unit of measure conversions.
 - `UOMName(const AUOM: TUOM): String;`
 - `ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);`
 
-## `TUnitOfMe3asurement`
+## `TUnitOfMeasurement`
+
 
