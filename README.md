@@ -9,7 +9,7 @@
 - Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
   - **TUOMSystems** - Set of **TUOMSystem** enums.
-  - TUOMUtils - Main class to access all possible unit conversions and information.
+  - **TUOMUtils** - Main class to access all possible unit conversions and information.
 
 - Unit [**JD.UomCtrls.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMCtrls.md) - VCL controls related to UOM conversion.
   - **TUOMEdit** - Custom control to control formatted text values for units of measurement.

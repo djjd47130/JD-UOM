@@ -87,7 +87,7 @@ type
 type
   /// <summary>
   /// Represents a unit of measurement type.
-  /// TODO: Get rid of the need of this, so units register themselves...
+  /// TODO: Get rid of the need for this, so units register themselves...
   /// </summary>
   TUOM = (umLength, umArea, umVolume, umWeight, umTemperature,
     umEnergy, umSpeed, umTime, umPower, umData, umPressure, umAngle,
@@ -117,6 +117,7 @@ type
   /// Encapsulates full conversion process with easy to use properties.
   /// Can be used to quickly access all different possible units of measurement.
   /// Can be integrated into a component since it's a TPersistent
+  /// TODO: Property editors in a design-time package...
   /// </summary>
   TUnitOfMeasurement = class(TPersistent)
   private
@@ -231,7 +232,7 @@ begin
   AList.Append('Metric');
   AList.Append('US Customary');
   AList.Append('Imperial');
-  //TODO...
+  //TODO: US Customary and Imperial are different when it comes to weight...
 end;
 
 class procedure TUOMUtils.ListUOMUnits(const AUOM: TUOM; AList: TStrings;
