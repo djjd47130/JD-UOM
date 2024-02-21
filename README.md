@@ -3,8 +3,9 @@
 ### NOTE: This library is in active development, and is not ready for use at this time.
 
 ### Features
-- `TUOM
-
+- `TUOM` - Enum of all possible categories of measurement. 
+- `TUOMUtils` - Class encapsulating all possible unit conversions.
+- `TUnitOfMeasurement` - Persistent encapsulating access to specific data types and conversions.
 
 - Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
