@@ -1,0 +1,63 @@
+package JDUOMLib;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  vcl;
+
+contains
+  JD.Uom.Angle in '..\Source\JD.Uom.Angle.pas',
+  JD.Uom.Area in '..\Source\JD.Uom.Area.pas',
+  JD.Uom.Capacitance in '..\Source\JD.Uom.Capacitance.pas',
+  JD.Uom.Current in '..\Source\JD.Uom.Current.pas',
+  JD.Uom.Data in '..\Source\JD.Uom.Data.pas',
+  JD.Uom.Density in '..\Source\JD.Uom.Density.pas',
+  JD.Uom.Energy in '..\Source\JD.Uom.Energy.pas',
+  JD.Uom.Frequency in '..\Source\JD.Uom.Frequency.pas',
+  JD.Uom.Gravity in '..\Source\JD.Uom.Gravity.pas',
+  JD.Uom.Length in '..\Source\JD.Uom.Length.pas',
+  JD.Uom.Mass in '..\Source\JD.Uom.Mass.pas',
+  JD.Uom in '..\Source\JD.Uom.pas',
+  JD.Uom.Power in '..\Source\JD.Uom.Power.pas',
+  JD.Uom.Pressure in '..\Source\JD.Uom.Pressure.pas',
+  JD.Uom.Radiation in '..\Source\JD.Uom.Radiation.pas',
+  JD.Uom.Resistance in '..\Source\JD.Uom.Resistance.pas',
+  JD.Uom.Resolution in '..\Source\JD.Uom.Resolution.pas',
+  JD.Uom.Speed in '..\Source\JD.Uom.Speed.pas',
+  JD.Uom.Temperature in '..\Source\JD.Uom.Temperature.pas',
+  JD.Uom.Time in '..\Source\JD.Uom.Time.pas',
+  JD.Uom.Voltage in '..\Source\JD.Uom.Voltage.pas',
+  JD.Uom.Volume in '..\Source\JD.Uom.Volume.pas',
+  JD.Uom.Weight in '..\Source\JD.Uom.Weight.pas',
+  JD.UomCtrls in '..\Source\JD.UomCtrls.pas',
+  JD.Uom.Acceleration in '..\Source\JD.Uom.Acceleration.pas',
+  JD.Uom.Torque in '..\Source\JD.Uom.Torque.pas';
+
+end.

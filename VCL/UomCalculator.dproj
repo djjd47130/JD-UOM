@@ -76,7 +76,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
-        <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <DCC_Optimize>false</DCC_Optimize>
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
@@ -111,30 +110,6 @@
             <Form>frmMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\JD.Uom.Angle.pas"/>
-        <DCCReference Include="..\JD.Uom.Area.pas"/>
-        <DCCReference Include="..\JD.Uom.Capacitance.pas"/>
-        <DCCReference Include="..\JD.Uom.Current.pas"/>
-        <DCCReference Include="..\JD.Uom.Data.pas"/>
-        <DCCReference Include="..\JD.Uom.Density.pas"/>
-        <DCCReference Include="..\JD.Uom.Energy.pas"/>
-        <DCCReference Include="..\JD.Uom.Gravity.pas"/>
-        <DCCReference Include="..\JD.Uom.Length.pas"/>
-        <DCCReference Include="..\JD.Uom.Power.pas"/>
-        <DCCReference Include="..\JD.Uom.Pressure.pas"/>
-        <DCCReference Include="..\JD.Uom.Radiation.pas"/>
-        <DCCReference Include="..\JD.Uom.Resistance.pas"/>
-        <DCCReference Include="..\JD.Uom.Speed.pas"/>
-        <DCCReference Include="..\JD.Uom.Temperature.pas"/>
-        <DCCReference Include="..\JD.Uom.Time.pas"/>
-        <DCCReference Include="..\JD.Uom.Voltage.pas"/>
-        <DCCReference Include="..\JD.Uom.Volume.pas"/>
-        <DCCReference Include="..\JD.Uom.Weight.pas"/>
-        <DCCReference Include="..\JD.UomCtrls.pas"/>
-        <DCCReference Include="..\JD.Uom.pas"/>
-        <DCCReference Include="..\JD.Uom.Resolution.pas"/>
-        <DCCReference Include="..\JD.Uom.Frequency.pas"/>
-        <DCCReference Include="..\JD.Uom.Mass.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -156,8 +131,10 @@
                     <Source Name="MainSource">UomCalculator.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp240.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\WINDOWS\system32\FMX_MediaLabBasicDsn270.bpl">Mitov - FireMonkey MediaLab Basic Design Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\WINDOWS\system32\FMX_SignalLabScopeDsn270.bpl">Mitov - FireMonkey SignalLab Scope Design Package</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">

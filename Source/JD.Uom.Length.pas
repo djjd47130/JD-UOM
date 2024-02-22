@@ -12,29 +12,18 @@ type
   TUOMLengthUnits = set of TUOMLengthUnit;
 
 
-
-  //TODO: Implement new concept of conversion matrix to replace
-  //current boilerplate conversion code...
-  TUOMLengthMatrixProc = procedure(const A, B: TUOMLengthUnit; var Value: Double);
-  TUOMLengthUnitMatrix = array[TUOMLengthUnit,TUOMLengthUnit] of TUOMLengthMatrixProc;
-
-  TUOMLengthMatrix = class
-  private
-    class var FMatrix: TUOMLengthUnitMatrix;
+  TUOMLengthUtils = class(TUOMUtilsBase)
   public
-    class function Convert(const A, B: TUOMLengthUnit; const Val: Double): Double;
-  end;
-
-
-
-  TUOMLengthUtils = class
-  public
-    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); static;
-    class function UnitSuffix(const AValue: TUOMLengthUnit): String; static;
-    class function UnitSystem(const AValue: TUOMLengthUnit): TUOMSystem; static;
-    class function UnitsOfSystem(const ASystem: TUOMSystem): TUOMLengthUnits;
-    class function UnitName(const AValue: TUOMLengthUnit): String; static;
-    class function StrToUnit(const AValue: String): TUOMLengthUnit;
+    class constructor Create;
+    class destructor Destroy;
+    class function UOMName: String; override;
+    class function UOMID: String; override;
+    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); override;
+    class function UnitSuffix(const AValue: Integer): String; override;
+    class function UnitSystem(const AValue: Integer): TUOMSystem; override;
+    class function UnitsOfSystem(const ASystem: TUOMSystem): TUOMLengthUnits; override;
+    class function UnitName(const AValue: Integer): String; override;
+    class function StrToUnit(const AValue: String): Integer; override;
 
     { US Customary }
 
@@ -247,8 +236,83 @@ uses
 
 var
   DefaultLengthUnit: TUOMLengthUnit;
+  _: TUOMLengthUtils;
 
 { TUOMLengthUtils }
+
+class constructor TUOMLengthUtils.Create;
+begin
+  TUOMList.RegisterUOM(TUOMLengthUtils);
+end;
+
+class destructor TUOMLengthUtils.Destroy;
+begin
+
+end;
+
+class function TUOMLengthUtils.StrToUnit(const AValue: String): Integer;
+begin
+
+end;
+
+class procedure TUOMLengthUtils.UnitList(AList: TStrings; ASystem: TUOMSystem);
+var
+  Units: TUOMLengthUnits;
+  procedure A(const U: TUOMLengthUnit; const S: String);
+  begin
+    if U in Units then
+      AList.AddObject(S, Pointer(Integer(U)));
+  end;
+begin
+  AList.Clear;
+  Units:= TUOMLengthUtils.UnitsOfSystem(ASystem);
+  A(TUOMLengthUnit.umlNanometers,     'Nanometers');
+  A(TUOMLengthUnit.umlMicrons,        'Microns');
+  A(TUOMLengthUnit.umlMillimeters,    'Millimeters');
+  A(TUOMLengthUnit.umlCentimeters,    'Centimeters');
+  A(TUOMLengthUnit.umlMeters,         'Meters');
+  A(TUOMLengthUnit.umlKilometers,     'Kilometers');
+  A(TUOMLengthUnit.umlInches,         'Inches');
+  A(TUOMLengthUnit.umlFeet,           'Feet');
+  A(TUOMLengthUnit.umlYards,          'Yards');
+  A(TUOMLengthUnit.umlMiles,          'Miles');
+  A(TUOMLengthUnit.umlNauticalMiles,  'Nautical Miles');
+end;
+
+class function TUOMLengthUtils.UnitName(const AValue: Integer): String;
+begin
+
+end;
+
+class function TUOMLengthUtils.UnitsOfSystem(
+  const ASystem: TUOMSystem): TUOMLengthUnits;
+begin
+
+end;
+
+class function TUOMLengthUtils.UnitSuffix(const AValue: Integer): String;
+begin
+
+end;
+
+class function TUOMLengthUtils.UnitSystem(const AValue: Integer): TUOMSystem;
+begin
+
+end;
+
+class function TUOMLengthUtils.UOMID: String;
+begin
+  Result:= '{B58003EA-5EDD-494F-87D5-94870AB31D49}';
+end;
+
+class function TUOMLengthUtils.UOMName: String;
+begin
+  Result:= 'Length';
+end;
+
+{ TUOMLengthUtils }
+
+{
 
 class function TUOMLengthUtils.UnitSuffix(const AValue: TUOMLengthUnit): String;
 begin
@@ -359,6 +423,8 @@ begin
     umlNauticalMiles: Result:= TUOMSystem.ustAny;
   end;
 end;
+
+}
 
 class function TUOMLengthUtils.FeetToInches(const AFeet: Double): Double;
 begin
@@ -927,24 +993,24 @@ class operator TUOMLength.implicit(const AValue: TUOMLength): Double;
 begin
   Result:= 0;
   case DefaultLengthUnit of
-    umlNanometers:    Result:= AValue.GetAsNanometers;
-    umlMicrons:       Result:= AValue.GetAsMicrons;
-    umlMillimeters:   Result:= AValue.GetAsMillimeters;
-    umlCentimeters:   Result:= AValue.GetAsCentimeters;
-    umlMeters:        Result:= AValue.GetAsMeters;
-    umlKilometers:    Result:= AValue.GetAsKilometers;
-    umlInches:        Result:= AValue.GetAsInches;
-    umlFeet:          Result:= AValue.GetAsFeet;
-    umlYards:         Result:= AValue.GetAsYards;
-    umlMiles:         Result:= AValue.GetAsMiles;
-    umlNauticalMiles: Result:= AValue.GetAsNauticalMiles;
+    umlNanometers:    Result:= AValue.GetAsNanometers.Value;
+    umlMicrons:       Result:= AValue.GetAsMicrons.Value;
+    umlMillimeters:   Result:= AValue.GetAsMillimeters.Value;
+    umlCentimeters:   Result:= AValue.GetAsCentimeters.Value;
+    umlMeters:        Result:= AValue.GetAsMeters.Value;
+    umlKilometers:    Result:= AValue.GetAsKilometers.Value;
+    umlInches:        Result:= AValue.GetAsInches.Value;
+    umlFeet:          Result:= AValue.GetAsFeet.Value;
+    umlYards:         Result:= AValue.GetAsYards.Value;
+    umlMiles:         Result:= AValue.GetAsMiles.Value;
+    umlNauticalMiles: Result:= AValue.GetAsNauticalMiles.Value;
   end;
 end;
 
 class operator TUOMLength.implicit(const AValue: TUOMLength): String;
 begin
   Result:= FormatFloat(NumFormat, AValue.FValue);
-  Result:= Result + TUOMLengthUtils.UnitSuffix(AValue.&Unit);
+  Result:= Result + TUOMLengthUtils.UnitSuffix(Integer(AValue.&Unit));
 end;
 
 class operator TUOMLength.implicit(const AValue: String): TUOMLength;
@@ -1436,14 +1502,8 @@ begin
   end;
 end;
 
-{ TUOMLengthMatrix }
-
-class function TUOMLengthMatrix.Convert(const A, B: TUOMLengthUnit;
-  const Val: Double): Double;
-begin
-
-end;
 
 initialization
+  _:= nil;
   DefaultLengthUnit:= TUOMLengthUnit.umlFeet;
 end.

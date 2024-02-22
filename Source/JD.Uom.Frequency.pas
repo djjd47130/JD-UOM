@@ -33,8 +33,8 @@ type
 
   TUOMFrequency = record
   private
-    FValue: Double;
-    FUOM: TUOM;
+    //FValue: Double;
+    //FUOM: TUOM;
   public
     //TODO: Need a way to filter to ONLY UOMs which are compatible...
   end;

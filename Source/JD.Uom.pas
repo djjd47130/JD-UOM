@@ -8,6 +8,8 @@ interface
   JD Unit of Measurement Utilities
   by Jerry Dodge
 
+  ****************************** UOM_V2 BRANCH ******************************
+
   Encapsulates all possible units of measurement with conversion
   and other useful utilities to implement in Delphi.
 
@@ -20,7 +22,7 @@ interface
   - Enumeration types for all possible metrics
     - Divided among different units for different UOMs
     - TUOMSystem: Different measurement systems (Metric, US Customary...)
-    - TUOM: Different types of measurement (Length, Area, Volume, Weight...)
+    [OLD] - TUOM: Different types of measurement (Length, Area, Volume, Weight...)
     - TUOMLengthUnit, TUOMAreaUnit, TUOMVolumeUnit...: Different UOMs within a certain type
     - Every enum has a corresponding set type with a plural "s" at the end of the type
   - Classes with class methods for all UOM types
@@ -30,42 +32,23 @@ interface
   - Basic information about different units of measurement
     - Enums defining which units are used by each measurement system for any given UOM
     - Descriptive names accessible via UnitName functions
-  - Conversion of metrics within a Double system
   - Conversion of metrics across different systems
   - Implicit record types to consume measurement data
-  - Foldable Code Regions
-  - Default Unit of Each UOM for Internal Storage
 
   Measurement Systems (TUOMSystem / TUOMSystems):
   - Any (Not specific, applicable to any)
   - Metric (Meters, Liters, Kilograms...)
   - US Customary (Feet, Gallons, Pounds...)
+  - Imperial (Similar to US Customary except for Weight)
 
-  Units of Measurement (TUOM):
-  - [COMPLETE] Length (Feet, Inches, Miles...)
-  - [COMPLETE] Area (Square Feet, Square Inches, Square Miles...)
-  - [IN PROGRESS] Volume (Cubic Feet, Cubic Inches, Fuid Ounces...)
-  - [IN PROGRESS] Weight (Pounds, Ounces, Kilograms...)
-  - [COMPLETE] Temperature (Celcius, Farenheit, Kelvin...)
-  - [TODO] Energy (Joules, Food Calories...)
-  - [TODO] Speed (Miles per Hour, Kilometers per Hour, Mach...)
-  - [TODO] Time (Seconds, Hours, Years...)
-  - [TODO] Power (Watts, Horse Power...)
-  - [TODO] Data (Bytes, Gigabits...)
-  - [TODO] Pressure (Bars, Pascals...)
-  - [TODO] Angle (Degrees, Radians...)
-  - [TODO] Resistance (Ohms, Megaohms...)
-  - [TODO] Capacitance (Farad, Microfarad...)
-  - [TODO] Voltage (Volts, Microvolts...)
-  - [TODO] Current (Amps, Milliamps...)
-  - [TODO] Density
-  - [TODO] Gravity
-  - [TODO] Radiation
-
-
-  https://www.metric-conversions.org/
+  References:
+  - https://www.metric-conversions.org/
+    - Original reference
+  - https://convertlive.com/
+    - Newly discovered reference with many more units
 
 *)
+
 
 {$ENDREGION}
 
@@ -85,9 +68,47 @@ type
   TUOMSystems = set of TUOMSystem;
 
 type
+  TUOMUtilsBase = class;
+
+  TUOMUtilsBaseClass = class of TUOMUtilsBase;
+
+  /// <summary>
+  /// NEW Base abstract class for all unit utils classes.
+  /// </summary>
+  TUOMUtilsBase = class
+  public
+    class constructor Create;
+    class destructor Destroy;
+    class function UOMID: String; virtual; abstract;
+    class function UOMName: String; virtual; abstract;
+    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual; abstract;
+    class function UnitSuffix(const AValue: Integer): String; virtual; abstract;
+    class function UnitSystem(const AValue: Integer): TUOMSystem; virtual; abstract;
+    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; virtual; abstract;
+    class function UnitName(const AValue: Integer): String; virtual; abstract;
+    class function StrToUnit(const AValue: String): Integer; virtual; abstract;
+  end;
+
+  /// <summary>
+  /// NEW Base list of all possible unit utils classes.
+  /// </summary>
+  TUOMList = class
+  private
+    class var FItems: TList<TUOMUtilsBaseClass>;
+  public
+    class constructor Create;
+    class destructor Destroy;
+    class procedure RegisterUOM(AClass: TUOMUtilsBaseClass);
+    class function Count: Integer;
+    class function UOM(const Index: Integer): TUOMUtilsBaseClass;
+    class function IndexOf(AClass: TUOMUtilsBaseClass): Integer; overload;
+    class function IndexOf(AClass: String): Integer; overload;
+  end;
+{
+type
   /// <summary>
   /// Represents a unit of measurement type.
-  /// TODO: Get rid of the need for this, so units register themselves...
+  /// TODO: Get rid of the need for this, so units register themselves (TUOMUtilsBase above).
   /// </summary>
   TUOM = (umLength, umArea, umVolume, umWeight, umTemperature,
     umEnergy, umSpeed, umTime, umPower, umData, umPressure, umAngle,
@@ -107,6 +128,8 @@ type
     class function UOMName(const AUOM: TUOM): String; static;
     class procedure ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String); static;
   end;
+  }
+
 
 { TUnitOfMeasurement }
 
@@ -121,13 +144,13 @@ type
   /// </summary>
   TUnitOfMeasurement = class(TPersistent)
   private
-    FUOM: TUOM;
+    FUOMIndex: Integer;
     FValue: Double;
     FUnitToIndex: Integer;
     FUnitFromUndex: Integer;
     procedure SetUnitFromUndex(const Value: Integer);
     procedure SetUnitToIndex(const Value: Integer);
-    procedure SetUOM(const Value: TUOM);
+    procedure SetUOMIndex(const Value: Integer);
     procedure SetValue(const Value: Double);
   public
     constructor Create;
@@ -137,10 +160,23 @@ type
     procedure ListUomUnits(AList: TStrings);
     procedure ListUomSystems(AList: TStrings);
   published
-    property UOM: TUOM read FUOM write SetUOM;
+    property UOMIndex: Integer read FUOMIndex write SetUOMIndex;
     property Value: Double read FValue write SetValue;
     property UnitFromUndex: Integer read FUnitFromUndex write SetUnitFromUndex;
     property UnitToIndex: Integer read FUnitToIndex write SetUnitToIndex;
+  end;
+
+
+type
+  TUOM = class(TComponent)
+  private
+    FUOM: TUnitOfMeasurement;
+    procedure SetUOM(const Value: TUnitOfMeasurement);
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  published
+    property UOM: TUnitOfMeasurement read FUOM write SetUOM;
   end;
 
 {$ENDREGION}
@@ -198,6 +234,8 @@ var
 implementation
 ////////////////////////////////////////////////////////////////////////////////
 
+
+{
 uses
   JD.Uom.Angle,
   JD.Uom.Area,
@@ -221,9 +259,78 @@ uses
   JD.Uom.Voltage,
   JD.Uom.Volume,
   JD.Uom.Weight;
+  }
 
+
+{ TUOMUtilsBase }
+
+class constructor TUOMUtilsBase.Create;
+begin
+
+end;
+
+class destructor TUOMUtilsBase.Destroy;
+begin
+
+end;
+
+{ TUOMList }
+
+class constructor TUOMList.Create;
+begin
+  FItems:= TList<TUOMUtilsBaseClass>.Create;
+end;
+
+class destructor TUOMList.Destroy;
+begin
+  FreeAndNil(FItems);
+  inherited;
+end;
+
+class function TUOMList.Count: Integer;
+begin
+  Result:= FItems.Count;
+end;
+
+class function TUOMList.IndexOf(AClass: TUOMUtilsBaseClass): Integer;
+var
+  X: Integer;
+begin
+  Result:= -1;
+  for X := 0 to FItems.Count-1 do begin
+    if AClass = FItems[X] then begin
+      Result:= X;
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMList.IndexOf(AClass: String): Integer;
+var
+  X: Integer;
+begin
+  Result:= -1;
+  for X := 0 to FItems.Count-1 do begin
+    if AClass = FItems[X].UOMName then begin
+      Result:= X;
+      Break;
+    end;
+  end;
+end;
+
+class procedure TUOMList.RegisterUOM(AClass: TUOMUtilsBaseClass);
+begin
+  FItems.Add(AClass);
+end;
+
+class function TUOMList.UOM(const Index: Integer): TUOMUtilsBaseClass;
+begin
+  Result:= FItems[Index];
+end;
 
 { TUOMUtils }
+
+{
 
 class procedure TUOMUtils.ListUOMSystems(AList: TStrings);
 begin
@@ -338,12 +445,13 @@ begin
   AList.Append('Radiation');
 end;
 
-
+}
 
 
 { TUnitOfMeasurement }
 
 {$REGION 'TUnitOfMeasurement'}
+
 
 constructor TUnitOfMeasurement.Create;
 begin
@@ -363,7 +471,7 @@ begin
   if Source is TUnitOfMeasurement then begin
     V:= TUnitOfMeasurement(Source);
     Self.FValue:= V.FValue;
-    Self.FUOM:= V.FUOM;
+    Self.FUOMIndex:= V.FUOMIndex;
     Self.FUnitFromUndex:= V.FUnitFromUndex;
     Self.FUnitToIndex:= V.FUnitToIndex;
   end else
@@ -372,17 +480,17 @@ end;
 
 procedure TUnitOfMeasurement.ListUoms(AList: TStrings);
 begin
-  TUOMUtils.ListUOMs(AList);
+  //TUOMList.ListUOMs(AList); //TODO
 end;
 
 procedure TUnitOfMeasurement.ListUomSystems(AList: TStrings);
 begin
-  TUOMUtils.ListUOMSystems(AList);
+  //TUOMList.ListUOMSystems(AList);
 end;
 
 procedure TUnitOfMeasurement.ListUomUnits(AList: TStrings);
 begin
-  TUOMUtils.ListUOMUnits(FUOM, AList);
+  //TUOMList.ListUOMUnits(FUOMIndex, AList);
 end;
 
 procedure TUnitOfMeasurement.SetUnitFromUndex(const Value: Integer);
@@ -395,9 +503,9 @@ begin
   FUnitToIndex := Value;
 end;
 
-procedure TUnitOfMeasurement.SetUOM(const Value: TUOM);
+procedure TUnitOfMeasurement.SetUOMIndex(const Value: Integer);
 begin
-  FUOM := Value;
+  FUOMIndex := Value;
 end;
 
 procedure TUnitOfMeasurement.SetValue(const Value: Double);
@@ -409,7 +517,7 @@ end;
 
 
 
-{ TMultiList }
+{ TMultiStringList }
 
 procedure TMultiStringList.Broadcast;
 var
@@ -489,6 +597,25 @@ end;
 procedure TMultiListRef.SetStrings(const Value: TStrings);
 begin
   FStrings.Assign(Value);
+end;
+
+{ TUOM }
+
+constructor TUOM.Create(AOwner: TComponent);
+begin
+  inherited;
+  FUOM:= TUnitOfMeasurement.Create;
+end;
+
+destructor TUOM.Destroy;
+begin
+  FreeAndNil(FUOM);
+  inherited;
+end;
+
+procedure TUOM.SetUOM(const Value: TUnitOfMeasurement);
+begin
+  FUOM.Assign(Value);
 end;
 
 initialization

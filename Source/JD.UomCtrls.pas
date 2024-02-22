@@ -29,12 +29,14 @@ uses
   JD.Uom.Time,
   JD.Uom.Voltage;
 
+  {
 type
   TUOMEdit = class(TCustomComboBox)
   private
     FUOM: TUOM;
     FValue: Double;
     FUnits: TStringList;
+    FUnitIndex: Integer;
     procedure SetUOM(const Value: TUOM);
     procedure SetValue(const Value: Double);
     procedure SetUnitIndex(const Value: Integer);
@@ -65,6 +67,7 @@ type
     property Left;
     property Top;
   end;
+  }
 
 
 implementation
@@ -74,6 +77,7 @@ uses
 
 { TUOMEdit }
 
+{
 procedure TUOMEdit.CloseUp;
 begin
   inherited;
@@ -107,25 +111,26 @@ end;
 
 function TUOMEdit.GetUnitIndex: Integer;
 begin
-  Result:= ItemIndex;
+  Result:= FUnitIndex; // ItemIndex;
 end;
 
 procedure TUOMEdit.RefreshList;
 begin
   if Self.WindowHandle <> 0 then begin
     TUomUtils.ListUOMUnits(FUOM, Items);
-    UnitIndex:= 0;
+    FUnitIndex:= 0;
   end;
 end;
 
 procedure TUOMEdit.SetUnitIndex(const Value: Integer);
 begin
+  //TODO: Fix stack overflow...
   if (Value >= 0) and (Value < FUnits.Count) then
     ItemIndex := Value
   else
     ItemIndex:= -1;
-  SetItemIndex(Value);
-  Text:= GetText;
+  //SetItemIndex(Value);
+  inherited Text:= GetText;
 end;
 
 procedure TUOMEdit.SetUOM(const Value: TUOM);
@@ -169,7 +174,7 @@ end;
 procedure TUOMEdit.SetItemIndex(const Value: Integer);
 begin
   inherited;
-  Text:= GetText;
+  inherited Text:= GetText;
 end;
 
 procedure TUOMEdit.SetText(const Value: TCaption);
@@ -199,5 +204,6 @@ begin
     umDensity:      ;
   end;
 end;
+}
 
 end.

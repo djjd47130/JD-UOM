@@ -13,9 +13,8 @@ const
   WeeksPerYear = DaysPerYear / 7;
 
 type
-  TUOMTimeUnit = (ummMicroSeconds, ummMilliSeconds, ummSeconds, ummMinutes, ummHours,
+  TUOMTimeUnit = (ummNanoSeconds, ummMicroSeconds, ummMilliSeconds, ummSeconds, ummMinutes, ummHours,
     ummDays, ummWeeks, ummMonths, ummYears, ummDecades);
-  //TODO: Nanoseconds?
   TUOMTimeUnits = set of TUOMTimeUnit;
 
   TUOMTimeUtils = class
@@ -24,6 +23,8 @@ type
     class function UnitSuffix(const AValue: TUOMTimeUnit): String; static;
     class function UnitName(const AValue: TUOMTimeUnit): String; static;
   public
+    //TODO: Add Nano Seconds...
+
     //Micro Seconds
     class function MilliSecondsToMicroSeconds(const AMilliSeconds: Double): Double;
     class function SecondsToMicroSeconds(const ASeconds: Double): Double;
@@ -140,6 +141,7 @@ type
     class operator implicit(const AValue: String): TUOMTime;
     class operator implicit(const AValue: TUOMTime): String;
   public
+    //TODO: Add Nano Seconds...
     function ToMicroSeconds: Double;
     function ToMilliSeconds: Double;
     function ToSeconds: Double;
@@ -162,24 +164,74 @@ var
 
 { TUOMTimeUtils }
 
+class procedure TUOMTimeUtils.UnitList(AList: TStrings);
+begin
+  AList.Clear;
+  AList.Append('Nanoseconds');
+  AList.Append('Microseconds');
+  AList.Append('Milliseconds');
+  AList.Append('Seconds');
+  AList.Append('Minutes');
+  AList.Append('Hours');
+  AList.Append('Days');
+  AList.Append('Weeks');
+  AList.Append('Months');
+  AList.Append('Years');
+  AList.Append('Decades');
+end;
+
+class function TUOMTimeUtils.UnitName(const AValue: TUOMTimeUnit): String;
+begin
+  case AValue of
+    ummNanoSeconds:   Result:= 'Nanoseconds';
+    ummMicroSeconds:  Result:= 'Microseconds';
+    ummMilliSeconds:  Result:= 'Milliseconds';
+    ummSeconds:       Result:= 'Seconds';
+    ummMinutes:       Result:= 'Minutes';
+    ummHours:         Result:= 'Hours';
+    ummDays:          Result:= 'Days';
+    ummWeeks:         Result:= 'Weeks';
+    ummMonths:        Result:= 'Months';
+    ummYears:         Result:= 'Years';
+    ummDecades:       Result:= 'Decades';
+  end;
+end;
+
+class function TUOMTimeUtils.UnitSuffix(const AValue: TUOMTimeUnit): String;
+begin
+  case AValue of
+    ummNanoSeconds:   Result:= 'ns';
+    ummMicroSeconds:  Result:= 'μs';
+    ummMilliSeconds:  Result:= 'ms';
+    ummSeconds:       Result:= 's';
+    ummMinutes:       Result:= 'm';
+    ummHours:         Result:= 'h';
+    ummDays:          Result:= 'd';
+    ummWeeks:         Result:= 'w';
+    ummMonths:        Result:= 'Mo';
+    ummYears:         Result:= 'y';
+    ummDecades:       Result:= 'Dec';
+  end;
+end;
+
 class function TUOMTimeUtils.DaysToDecades(const ADays: Double): Double;
 begin
-
+  Result:= ADays * 0.00027397;
 end;
 
 class function TUOMTimeUtils.DaysToHours(const ADays: Double): Double;
 begin
-
+  Result:= ADays * 24;
 end;
 
 class function TUOMTimeUtils.DaysToMicroSeconds(const ADays: Double): Double;
 begin
-
+  Result:= ADays * 86400000000;
 end;
 
 class function TUOMTimeUtils.DaysToMilliSeconds(const ADays: Double): Double;
 begin
-
+  Result:= ADays * 86400000;
 end;
 
 class function TUOMTimeUtils.DaysToMinutes(const ADays: Double): Double;
@@ -548,53 +600,6 @@ begin
 
 end;
 
-class procedure TUOMTimeUtils.UnitList(AList: TStrings);
-begin
-  AList.Clear;
-  AList.Append('Microseconds');
-  AList.Append('Milliseconds');
-  AList.Append('Seconds');
-  AList.Append('Minutes');
-  AList.Append('Hours');
-  AList.Append('Days');
-  AList.Append('Weeks');
-  AList.Append('Months');
-  AList.Append('Years');
-  AList.Append('Decades');
-end;
-
-class function TUOMTimeUtils.UnitName(const AValue: TUOMTimeUnit): String;
-begin
-  case AValue of
-    ummMicroSeconds:  Result:= 'Microseconds';
-    ummMilliSeconds:  Result:= 'Milliseconds';
-    ummSeconds:       Result:= 'Seconds';
-    ummMinutes:       Result:= 'Minutes';
-    ummHours:         Result:= 'Hours';
-    ummDays:          Result:= 'Days';
-    ummWeeks:         Result:= 'Weeks';
-    ummMonths:        Result:= 'Months';
-    ummYears:         Result:= 'Years';
-    ummDecades:       Result:= 'Decades';
-  end;
-end;
-
-class function TUOMTimeUtils.UnitSuffix(const AValue: TUOMTimeUnit): String;
-begin
-  case AValue of
-    ummMicroSeconds:  Result:= 'μs';
-    ummMilliSeconds:  Result:= 'ms';
-    ummSeconds:       Result:= 's';
-    ummMinutes:       Result:= 'm';
-    ummHours:         Result:= 'h';
-    ummDays:          Result:= 'd';
-    ummWeeks:         Result:= 'w';
-    ummMonths:        Result:= 'Mo';
-    ummYears:         Result:= 'y';
-    ummDecades:       Result:= 'Dec';
-  end;
-end;
-
 class function TUOMTimeUtils.WeeksToDays(const AWeeks: Double): Double;
 begin
 
@@ -735,6 +740,7 @@ end;
 function TUOMTime.ToMicroSeconds: Double;
 begin
   case FUnit of
+    ummNanoSeconds: ; //TODO
     ummMicroSeconds: Result:= FValue;
     ummMilliSeconds: Result:= TUOMTimeUtils.MilliSecondsToMicroSeconds(FValue);
     ummSeconds: Result:= TUOMTimeUtils.SecondsToMicroSeconds(FValue);
@@ -751,6 +757,7 @@ end;
 function TUOMTime.ToMilliSeconds: Double;
 begin
   case FUnit of
+    ummNanoSeconds: ; //TODO
     ummMicroSeconds: Result:= TUOMTimeUtils.MicroSecondsToMilliSeconds(FValue);
     ummMilliSeconds: Result:= FValue;
     ummSeconds: Result:= TUOMTimeUtils.SecondsToMilliSeconds(FValue);

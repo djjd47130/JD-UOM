@@ -8,6 +8,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Mask, Vcl.Buttons, Vcl.ComCtrls, Vcl.Clipbrd,
   JD.Uom,
+  JD.UomCtrls,
   JD.Uom.Length,
   JD.Uom.Area,
   JD.Uom.Volume,
@@ -36,6 +37,7 @@ type
     Stat: TStatusBar;
     seConvertFrom: TRzSpinEdit;
     seConvertTo: TRzSpinEdit;
+    UOM1: TUOM;
     procedure FormCreate(Sender: TObject);
     procedure seConvertFromChange(Sender: TObject);
     procedure cboUOMClick(Sender: TObject);
@@ -74,7 +76,7 @@ type
     procedure CalcGravity;
     procedure CalcRadiation;
   public
-    //FPicker: TUOMEdit;
+    FPicker: TUOMEdit;
     //FList: TStringList;
     function CurrentUOM: TUOM;
     function CurrentSystem: TUOMSystem;
@@ -100,7 +102,7 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  {
+
   FPicker:= TUOMEdit.Create(Self);
   FPicker.Name:= 'upTest';
   FPicker.Parent:= Self;
@@ -111,8 +113,9 @@ begin
   FPicker.ShowHint:= True;
   FPicker.Font.Assign(Self.cboUOM.Font);
   FPicker.Value:= 1;
-  FPicker.Visible:= False;
-  }
+  FPicker.Visible:= True;
+  //Self.seConvertTo.Visible:= False;
+
 
   LoadUOMSystems;
   LoadUOM;

@@ -134,9 +134,9 @@ type
   //TODO: A record that allows volume to be specified using three linear dimensions
   TUOMVolumeBox = record
   private
-    FWidth: TUOMLength;
-    FLength: TUOMLength;
-    FHeight: TUOMLength;
+    //FWidth: TUOMLength;
+    //FLength: TUOMLength;
+    //FHeight: TUOMLength;
   public
 
   end;

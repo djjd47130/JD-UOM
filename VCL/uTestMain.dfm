@@ -260,4 +260,11 @@ object frmMain: TfrmMain
     TabOrder = 6
     OnChange = seConvertToChange
   end
+  object UOM1: TUOM
+    UOM.UOMIndex = 0
+    UOM.UnitFromUndex = 0
+    UOM.UnitToIndex = 0
+    Left = 280
+    Top = 112
+  end
 end
