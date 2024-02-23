@@ -12,16 +12,25 @@ type
   TUOMLengthUnits = set of TUOMLengthUnit;
 
 
-  TUOMLengthUtils = class(TUOMUtilsBase)
+  TUOMLengthUtils = class(TUOMBase)
+  private
+    class var FUnits: TUOMUnitArray;
+    class procedure RegisterUOM;
+    class procedure RegisterUnits;
+    class procedure RegisterUnit(const AUnitInfo: TUOMUnitInfo);
   public
     class constructor Create;
     class destructor Destroy;
-    class function UOMName: String; override;
+
     class function UOMID: String; override;
+    class function UOMName: String; override;
+    class function UnitCount: Integer; override;
+    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
+
     class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); override;
     class function UnitSuffix(const AValue: Integer): String; override;
     class function UnitSystem(const AValue: Integer): TUOMSystem; override;
-    class function UnitsOfSystem(const ASystem: TUOMSystem): TUOMLengthUnits; override;
+    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; override;
     class function UnitName(const AValue: Integer): String; override;
     class function StrToUnit(const AValue: String): Integer; override;
 
@@ -242,17 +251,66 @@ var
 
 class constructor TUOMLengthUtils.Create;
 begin
-  TUOMList.RegisterUOM(TUOMLengthUtils);
+  SetLength(FUnits, 0);
+  RegisterUOM;
+  RegisterUnits;
 end;
 
 class destructor TUOMLengthUtils.Destroy;
 begin
+  SetLength(FUnits, 0);
+end;
+
+class function TUOMLengthUtils.UOMID: String;
+begin
+  Result:= '{B58003EA-5EDD-494F-87D5-94870AB31D49}';
+end;
+
+class function TUOMLengthUtils.UOMName: String;
+begin
+  Result:= 'Length';
+end;
+
+class procedure TUOMLengthUtils.RegisterUOM;
+begin
+  TUOMList.RegisterUOM(TUOMLengthUtils);
+end;
+
+class procedure TUOMLengthUtils.RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+begin
+  SetLength(FUnits, Length(FUnits)+1);
+  FUnits[Length(FUnits)-1]:= AUnitInfo;
+end;
+
+class procedure TUOMLengthUtils.RegisterUnits;
+  procedure A(const Name: String; const Systems: TUOMSystems; const Prefix, Suffix: String);
+  var
+    U: TUOMUnitInfo;
+  begin
+    U.UOM:= Self;
+    U.Name:= Name;
+    U.Systems:= Systems;
+    U.Prefix:= Prefix;
+    U.Suffix:= Suffix;
+    RegisterUnit(U);
+  end;
+begin
+  A('Nanometers',     [ustMetric],  '',   'nm');
+  A('Microns',        [ustMetric],  '',   'μm');
+
+  //TODO: Register all possible length units...
 
 end;
 
+
 class function TUOMLengthUtils.StrToUnit(const AValue: String): Integer;
 begin
+  Result:= 0; //TODO
+end;
 
+class function TUOMLengthUtils.UnitCount: Integer;
+begin
+  Result:= Length(FUnits);
 end;
 
 class procedure TUOMLengthUtils.UnitList(AList: TStrings; ASystem: TUOMSystem);
@@ -265,7 +323,7 @@ var
   end;
 begin
   AList.Clear;
-  Units:= TUOMLengthUtils.UnitsOfSystem(ASystem);
+  //TODO... Units:= TUOMLengthUtils.UnitsOfSystem(ASystem);
   A(TUOMLengthUnit.umlNanometers,     'Nanometers');
   A(TUOMLengthUnit.umlMicrons,        'Microns');
   A(TUOMLengthUnit.umlMillimeters,    'Millimeters');
@@ -285,7 +343,7 @@ begin
 end;
 
 class function TUOMLengthUtils.UnitsOfSystem(
-  const ASystem: TUOMSystem): TUOMLengthUnits;
+  const ASystem: TUOMSystem): Integer;
 begin
 
 end;
@@ -299,18 +357,6 @@ class function TUOMLengthUtils.UnitSystem(const AValue: Integer): TUOMSystem;
 begin
 
 end;
-
-class function TUOMLengthUtils.UOMID: String;
-begin
-  Result:= '{B58003EA-5EDD-494F-87D5-94870AB31D49}';
-end;
-
-class function TUOMLengthUtils.UOMName: String;
-begin
-  Result:= 'Length';
-end;
-
-{ TUOMLengthUtils }
 
 {
 
@@ -449,6 +495,11 @@ end;
 class function TUOMLengthUtils.FeetToYards(const AFeet: Double): Double;
 begin
   Result:= AFeet / 3;
+end;
+
+class function TUOMLengthUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+begin
+  Result:= FUnits[Index];
 end;
 
 class function TUOMLengthUtils.YardsToInches(const AYards: Double): Double;

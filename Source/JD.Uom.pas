@@ -41,11 +41,34 @@ interface
   - US Customary (Feet, Gallons, Pounds...)
   - Imperial (Similar to US Customary except for Weight)
 
+  UPDATED:
+  - International System of Units (SI):
+    - The SI comprises a coherent system of units of measurement, including seven base units:
+      - Second (s): The unit of time.
+      - Meter (m): The unit of length.
+      - Kilogram (kg): The unit of mass.
+      - Ampere (A): The unit of electric current.
+      - Kelvin (K): The unit of thermodynamic temperature.
+      - Mole (mol): The unit of amount of substance.
+      - Candela (cd): The unit of luminous intensity .
+  - British Imperial System:
+    - Historically used in the United Kingdom and its former colonies.
+    - Includes units like inches, feet, pounds, gallons, and more.
+  - United States Customary System:
+    - Commonly used in the United States.
+    - Includes units like inches, feet, pounds, gallons, and more.
+  - Natural Units:
+    - Derived from fundamental physical constants.
+    - Used in theoretical physics.
+  - Non-Standard Units:
+    - Various local or specialized units used for specific purposes.
+
   References:
   - https://www.metric-conversions.org/
     - Original reference
   - https://convertlive.com/
     - Newly discovered reference with many more units
+
 
 *)
 
@@ -68,25 +91,42 @@ type
   TUOMSystems = set of TUOMSystem;
 
 type
-  TUOMUtilsBase = class;
+  TUOMBase = class;
 
-  TUOMUtilsBaseClass = class of TUOMUtilsBase;
+  TUOMBaseClass = class of TUOMBase;
+
+  /// <summary>
+  /// NEW Record containing basic information about a specific UOM unit.
+  /// </summary>
+  TUOMUnitInfo = record
+    UOM: TUOMBaseClass;
+    Name: String;
+    Systems: TUOMSystems;
+    Prefix: String;
+    Suffix: String;
+    class operator Implicit(const AValue: TUOMUnitInfo): String;
+  end;
+
+  TUOMUnitArray = array of TUOMUnitInfo;
 
   /// <summary>
   /// NEW Base abstract class for all unit utils classes.
   /// </summary>
-  TUOMUtilsBase = class
+  TUOMBase = class
   public
-    class constructor Create;
-    class destructor Destroy;
     class function UOMID: String; virtual; abstract;
     class function UOMName: String; virtual; abstract;
+    class function UnitCount: Integer; virtual; abstract;
+    class function GetUnit(const Index: Integer): TUOMUnitInfo; virtual; abstract;
+
+    //TODO: Rewrite below methods...
     class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual; abstract;
     class function UnitSuffix(const AValue: Integer): String; virtual; abstract;
     class function UnitSystem(const AValue: Integer): TUOMSystem; virtual; abstract;
     class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; virtual; abstract;
     class function UnitName(const AValue: Integer): String; virtual; abstract;
     class function StrToUnit(const AValue: String): Integer; virtual; abstract;
+
   end;
 
   /// <summary>
@@ -94,14 +134,14 @@ type
   /// </summary>
   TUOMList = class
   private
-    class var FItems: TList<TUOMUtilsBaseClass>;
+    class var FItems: TList<TUOMBaseClass>;
   public
     class constructor Create;
     class destructor Destroy;
-    class procedure RegisterUOM(AClass: TUOMUtilsBaseClass);
+    class procedure RegisterUOM(AClass: TUOMBaseClass);
     class function Count: Integer;
-    class function UOM(const Index: Integer): TUOMUtilsBaseClass;
-    class function IndexOf(AClass: TUOMUtilsBaseClass): Integer; overload;
+    class function UOM(const Index: Integer): TUOMBaseClass;
+    class function IndexOf(AClass: TUOMBaseClass): Integer; overload;
     class function IndexOf(AClass: String): Integer; overload;
   end;
 {
@@ -236,6 +276,8 @@ implementation
 
 
 {
+//TODO: The goal of UOM_V2 is for each UOM to be stand-alone, and register
+//  themselves, and thus using all possible units is out of the question.
 uses
   JD.Uom.Angle,
   JD.Uom.Area,
@@ -262,23 +304,11 @@ uses
   }
 
 
-{ TUOMUtilsBase }
-
-class constructor TUOMUtilsBase.Create;
-begin
-
-end;
-
-class destructor TUOMUtilsBase.Destroy;
-begin
-
-end;
-
 { TUOMList }
 
 class constructor TUOMList.Create;
 begin
-  FItems:= TList<TUOMUtilsBaseClass>.Create;
+  FItems:= TList<TUOMBaseClass>.Create;
 end;
 
 class destructor TUOMList.Destroy;
@@ -292,7 +322,7 @@ begin
   Result:= FItems.Count;
 end;
 
-class function TUOMList.IndexOf(AClass: TUOMUtilsBaseClass): Integer;
+class function TUOMList.IndexOf(AClass: TUOMBaseClass): Integer;
 var
   X: Integer;
 begin
@@ -318,12 +348,12 @@ begin
   end;
 end;
 
-class procedure TUOMList.RegisterUOM(AClass: TUOMUtilsBaseClass);
+class procedure TUOMList.RegisterUOM(AClass: TUOMBaseClass);
 begin
   FItems.Add(AClass);
 end;
 
-class function TUOMList.UOM(const Index: Integer): TUOMUtilsBaseClass;
+class function TUOMList.UOM(const Index: Integer): TUOMBaseClass;
 begin
   Result:= FItems[Index];
 end;
@@ -616,6 +646,13 @@ end;
 procedure TUOM.SetUOM(const Value: TUnitOfMeasurement);
 begin
   FUOM.Assign(Value);
+end;
+
+{ TUOMUnitInfo }
+
+class operator TUOMUnitInfo.Implicit(const AValue: TUOMUnitInfo): String;
+begin
+  Result:= AValue.Name;
 end;
 
 initialization

@@ -13,12 +13,34 @@ type
     umaSquareYards, umaAcres, umaSquareMiles);
   TUOMAreaUnits = set of TUOMAreaUnit;
 
-  TUOMAreaUtils = class
+  TUOMAreaUtils = class(TUOMBase)
+  private
+    class var FUnits: TUOMUnitArray;
+    class procedure RegisterUOM;
+    class procedure RegisterUnits;
+    class procedure RegisterUnit(const AUnitInfo: TUOMUnitInfo);
   public
+    class constructor Create;
+    class destructor Destroy;
+
+    class function UOMID: String; override;
+    class function UOMName: String; override;
+    class function UnitCount: Integer; override;
+    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
+
+    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); override;
+    class function UnitSuffix(const AValue: Integer): String; override;
+    class function UnitSystem(const AValue: Integer): TUOMSystem; override;
+    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; override;
+    class function UnitName(const AValue: Integer): String; override;
+    class function StrToUnit(const AValue: String): Integer; override;
+
+    { OLD
     class procedure UnitList(AList: TStrings); static;
     class function UnitSuffix(const AValue: TUOMAreaUnit): String; static;
     class function UnitSystem(const AValue: TUOMAreaUnit): TUOMSystem; static;
     class function UnitName(const AValue: TUOMAreaUnit): String; static;
+    }
 
     { Metric }
 
@@ -193,9 +215,68 @@ implementation
 
 var
   DefaultAreaUnit: TUOMAreaUnit;
+  _: TUOMAreaUtils;
 
 { TUOMAreaUtils }
 
+class constructor TUOMAreaUtils.Create;
+begin
+  SetLength(FUnits, 0);
+  RegisterUOM;
+  RegisterUnits;
+end;
+
+class destructor TUOMAreaUtils.Destroy;
+begin
+  SetLength(FUnits, 0);
+end;
+
+class function TUOMAreaUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+begin
+  Result:= FUnits[Index];
+end;
+
+class function TUOMAreaUtils.UOMID: String;
+begin
+  Result:= '{6E5AC0E9-69C3-486E-A9E1-7E088C4FE1B1}';
+end;
+
+class function TUOMAreaUtils.UOMName: String;
+begin
+  Result:= 'Area';
+end;
+
+class procedure TUOMAreaUtils.RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+begin
+  SetLength(FUnits, Length(FUnits)+1);
+  FUnits[Length(FUnits)-1]:= AUnitInfo;
+end;
+
+class procedure TUOMAreaUtils.RegisterUnits;
+  procedure A(const Name: String; const Systems: TUOMSystems; const Prefix, Suffix: String);
+  var
+    U: TUOMUnitInfo;
+  begin
+    U.UOM:= Self;
+    U.Name:= Name;
+    U.Systems:= Systems;
+    U.Prefix:= Prefix;
+    U.Suffix:= Suffix;
+    RegisterUnit(U);
+  end;
+begin
+  A('Square Millimeters',     [ustMetric],  '',   'mm²');
+
+  //TODO
+
+end;
+
+class procedure TUOMAreaUtils.RegisterUOM;
+begin
+  TUOMList.RegisterUOM(TUOMAreaUtils);
+end;
+
+{
 class procedure TUOMAreaUtils.UnitList(AList: TStrings);
 begin
   AList.Clear;
@@ -258,6 +339,37 @@ begin
     umaAcres:             Result:= TUOMSystem.ustUSCustomary;
     umaSquareMiles:       Result:= TUOMSystem.ustUSCustomary;
   end;
+end;
+}
+
+class function TUOMAreaUtils.UnitCount: Integer;
+begin
+  Result:= Length(FUnits);
+end;
+
+class procedure TUOMAreaUtils.UnitList(AList: TStrings; ASystem: TUOMSystem);
+begin
+
+end;
+
+class function TUOMAreaUtils.UnitName(const AValue: Integer): String;
+begin
+
+end;
+
+class function TUOMAreaUtils.UnitsOfSystem(const ASystem: TUOMSystem): Integer;
+begin
+
+end;
+
+class function TUOMAreaUtils.UnitSuffix(const AValue: Integer): String;
+begin
+
+end;
+
+class function TUOMAreaUtils.UnitSystem(const AValue: Integer): TUOMSystem;
+begin
+
 end;
 
 class function TUOMAreaUtils.HectaresToSquareMeters(
@@ -793,6 +905,11 @@ begin
   Result:= ASquareYards * 836127;
 end;
 
+class function TUOMAreaUtils.StrToUnit(const AValue: String): Integer;
+begin
+
+end;
+
 { TUOMArea }
 
 procedure TUOMArea.SetUnit(const Value: TUOMAreaUnit);
@@ -843,7 +960,7 @@ end;
 class operator TUOMArea.implicit(const AValue: TUOMArea): String;
 begin
   Result:= FormatFloat(NumFormat, AValue.FValue);
-  Result:= Result + TUOMAreaUtils.UnitSuffix(AValue.&Unit);
+  //TODO:   Result:= Result + TUOMAreaUtils.UnitSuffix(AValue.&Unit);
 end;
 
 class operator TUOMArea.implicit(const AValue: String): TUOMArea;
@@ -1068,5 +1185,6 @@ begin
 end;
 
 initialization
+  _:= nil;
   DefaultAreaUnit:= TUOMAreaUnit.umaSquareFeet;
 end.

@@ -101,32 +101,11 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vcl.dcp"/>
-        <DCCReference Include="..\Source\JD.Uom.Angle.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Area.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Capacitance.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Current.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Data.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Density.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Energy.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Frequency.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Gravity.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Length.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Mass.pas"/>
         <DCCReference Include="..\Source\JD.Uom.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Power.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Pressure.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Radiation.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Resistance.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Resolution.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Speed.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Temperature.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Time.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Voltage.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Volume.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Weight.pas"/>
-        <DCCReference Include="..\Source\JD.UomCtrls.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Acceleration.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Torque.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

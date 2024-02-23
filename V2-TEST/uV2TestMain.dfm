@@ -1,32 +1,67 @@
-object Form1: TForm1
+object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Form1'
-  ClientHeight = 428
-  ClientWidth = 721
+  Caption = 'JD-UOM/UOM_V2 Test'
+  ClientHeight = 348
+  ClientWidth = 698
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -16
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 19
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 179
+    Height = 19
+    Caption = 'Units of Measurement'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 247
+    Top = 8
+    Width = 42
+    Height = 19
+    Caption = 'Units'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object lstUOMs: TListBox
-    Left = 80
-    Top = 80
+    Left = 8
+    Top = 32
     Width = 233
     Height = 305
-    ItemHeight = 13
+    ItemHeight = 19
     TabOrder = 0
+    OnClick = lstUOMsClick
+  end
+  object lstUnits: TListBox
+    Left = 247
+    Top = 32
+    Width = 233
+    Height = 305
+    ItemHeight = 19
+    TabOrder = 1
   end
   object UOMs: TUOM
     UOM.UOMIndex = 0
     UOM.UnitFromUndex = 0
     UOM.UnitToIndex = 0
-    Left = 216
-    Top = 24
+    Left = 56
+    Top = 152
   end
 end
