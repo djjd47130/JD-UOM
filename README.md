@@ -29,9 +29,4 @@
   - **TUOMTemperatureUtils** - Class object to access temperature conversion methods.
   - **TUOMTemperature** - Record to encapsulate any given temperature value.
 
-### Application
 
-An application is provided to not just test this collection of code, but to serve as a single central application to perform any and all possible conversions between different units of measurement.
-
-Application requires:
-- Raize Controls
