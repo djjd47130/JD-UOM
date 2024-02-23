@@ -267,7 +267,7 @@ end;
 
 class procedure TUOMLengthUtils.RegisterUOM;
 begin
-  TUOMList.RegisterUOM(TUOMLengthUtils);
+  TUOMUtils.RegisterUOM(TUOMLengthUtils);
 end;
 
 class procedure TUOMLengthUtils.RegisterUnit(const Name: String;
@@ -303,120 +303,6 @@ begin
   RegisterUnit('Miles',          [ustImperial,ustUSCustomary],  '',   'mi');
   RegisterUnit('Nautical Mies',  [ustImperial,ustUSCustomary],  '',   'nmi');
 end;
-
-{
-
-class function TUOMLengthUtils.UnitSuffix(const AValue: TUOMLengthUnit): String;
-begin
-  case AValue of
-    umlNanometers:    Result:= 'nm';
-    umlMicrons:       Result:= 'μm';
-    umlMillimeters:   Result:= 'mm';
-    umlCentimeters:   Result:= 'cm';
-    umlMeters:        Result:= 'm';
-    umlKilometers:    Result:= 'km';
-    umlInches:        Result:= '"';
-    umlFeet:          Result:= '''';
-    umlYards:         Result:= 'yd';
-    umlMiles:         Result:= 'mi';
-    umlNauticalMiles: Result:= 'nmi';
-  end;
-end;
-
-class function TUOMLengthUtils.StrToUnit(const AValue: String): TUOMLengthUnit;
-  procedure Chk(const U: TUOMLengthUnit; const S: String);
-  begin
-    if Trim(LowerCase(AValue)) = Trim(LowerCase(S)) then
-      Result:= U;
-  end;
-begin
-  Chk(TUOMLengthUnit.umlNanometers,     'nm');
-  Chk(TUOMLengthUnit.umlMicrons,        'μm');
-  Chk(TUOMLengthUnit.umlMillimeters,    'mm');
-  Chk(TUOMLengthUnit.umlCentimeters,    'cm');
-  Chk(TUOMLengthUnit.umlMeters,         'm');
-  Chk(TUOMLengthUnit.umlKilometers,     'km');
-  Chk(TUOMLengthUnit.umlInches,         '"');
-  Chk(TUOMLengthUnit.umlFeet,           '''');
-  Chk(TUOMLengthUnit.umlYards,          'yd');
-  Chk(TUOMLengthUnit.umlMiles,          'mi');
-  Chk(TUOMLengthUnit.umlNauticalMiles,  'nmi');
-end;
-
-class procedure TUOMLengthUtils.UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny);
-var
-  Units: TUOMLengthUnits;
-  procedure A(const U: TUOMLengthUnit; const S: String);
-  begin
-    if U in Units then
-      AList.AddObject(S, Pointer(Integer(U)));
-  end;
-begin
-  AList.Clear;
-  Units:= TUOMLengthUtils.UnitsOfSystem(ASystem);
-  A(TUOMLengthUnit.umlNanometers,     'Nanometers');
-  A(TUOMLengthUnit.umlMicrons,        'Microns');
-  A(TUOMLengthUnit.umlMillimeters,    'Millimeters');
-  A(TUOMLengthUnit.umlCentimeters,    'Centimeters');
-  A(TUOMLengthUnit.umlMeters,         'Meters');
-  A(TUOMLengthUnit.umlKilometers,     'Kilometers');
-  A(TUOMLengthUnit.umlInches,         'Inches');
-  A(TUOMLengthUnit.umlFeet,           'Feet');
-  A(TUOMLengthUnit.umlYards,          'Yards');
-  A(TUOMLengthUnit.umlMiles,          'Miles');
-  A(TUOMLengthUnit.umlNauticalMiles,  'Nautical Miles');
-end;
-
-class function TUOMLengthUtils.UnitName(const AValue: TUOMLengthUnit): String;
-begin
-  case AValue of
-    umlNanometers:    Result:= 'Nanometers';
-    umlMicrons:       Result:= 'Microns';
-    umlMillimeters:   Result:= 'Millimeters';
-    umlCentimeters:   Result:= 'Centimeters';
-    umlMeters:        Result:= 'Meters';
-    umlKilometers:    Result:= 'Kilometers';
-    umlInches:        Result:= 'Inches';
-    umlFeet:          Result:= 'Feet';
-    umlYards:         Result:= 'Yards';
-    umlMiles:         Result:= 'Miles';
-    umlNauticalMiles: Result:= 'Nautical Miles';
-  end;
-end;
-
-class function TUOMLengthUtils.UnitsOfSystem(
-  const ASystem: TUOMSystem): TUOMLengthUnits;
-begin
-  case ASystem of
-    ustAny:         Result:= [umlNanometers, umlMicrons, umlMillimeters, umlCentimeters,
-      umlMeters, umlKilometers, umlInches, umlFeet, umlYards, umlMiles, umlNauticalMiles];
-    ustMetric:      Result:= [umlNanometers, umlMicrons, umlMillimeters, umlCentimeters,
-      umlMeters, umlKilometers];
-    ustUSCustomary: Result:= [umlInches, umlFeet, umlYards, umlMiles, umlNauticalMiles];
-    ustImperial:    Result:= [umlNanometers, umlMicrons, umlMillimeters, umlCentimeters,
-      umlMeters, umlKilometers];
-  end;
-end;
-
-class function TUOMLengthUtils.UnitSystem(const AValue: TUOMLengthUnit): TUOMSystem;
-begin
-  Result:= TUOMSystem.ustAny;
-  case AValue of
-    umlNanometers:    Result:= TUOMSystem.ustMetric;
-    umlMicrons:       Result:= TUOMSystem.ustAny;
-    umlMillimeters:   Result:= TUOMSystem.ustMetric;
-    umlCentimeters:   Result:= TUOMSystem.ustMetric;
-    umlMeters:        Result:= TUOMSystem.ustMetric;
-    umlKilometers:    Result:= TUOMSystem.ustMetric;
-    umlInches:        Result:= TUOMSystem.ustUSCustomary;
-    umlFeet:          Result:= TUOMSystem.ustUSCustomary;
-    umlYards:         Result:= TUOMSystem.ustUSCustomary;
-    umlMiles:         Result:= TUOMSystem.ustUSCustomary;
-    umlNauticalMiles: Result:= TUOMSystem.ustAny;
-  end;
-end;
-
-}
 
 class function TUOMLengthUtils.FeetToInches(const AFeet: Double): Double;
 begin

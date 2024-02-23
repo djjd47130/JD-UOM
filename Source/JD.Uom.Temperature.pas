@@ -108,7 +108,7 @@ end;
 
 class procedure TUOMTemperatureUtils.RegisterUOM;
 begin
-  TUOMList.RegisterUOM(TUOMTemperatureUtils);
+  TUOMUtils.RegisterUOM(TUOMTemperatureUtils);
 end;
 
 class function TUOMTemperatureUtils.UnitCount: Integer;

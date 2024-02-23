@@ -259,7 +259,7 @@ end;
 
 class procedure TUOMAreaUtils.RegisterUOM;
 begin
-  TUOMList.RegisterUOM(TUOMAreaUtils);
+  TUOMUtils.RegisterUOM(TUOMAreaUtils);
 end;
 
 {

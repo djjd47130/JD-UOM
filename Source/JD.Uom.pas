@@ -92,11 +92,14 @@ type
 
 type
   TUOMBase = class;
+  TUOMUnitBase = class;
 
   TUOMBaseClass = class of TUOMBase;
 
+  TUOMUnitBaseClass = class of TUOMUnitBase;
+
   /// <summary>
-  /// NEW Record containing basic information about a specific UOM unit.
+  /// Record containing basic information about a specific UOM unit.
   /// </summary>
   TUOMUnitInfo = record
     UOM: TUOMBaseClass;
@@ -108,6 +111,20 @@ type
   end;
 
   TUOMUnitArray = array of TUOMUnitInfo;
+
+  /// <summary>
+  /// NEW Base abstract class for all UOM unit classes.
+  /// To replace TUOMUnitInfo above.
+  /// </summary>
+  TUOMUnitBase = class
+  public
+    class function UOM: TUOMBase; virtual; abstract;
+    class function UnitID: String; virtual; abstract;
+    class function UnitName: String; virtual; abstract;
+    class function Systems: TUOMSystems; virtual; abstract;
+    class function Prefix: String; virtual; abstract;
+    class function Suffix: String; virtual; abstract;
+  end;
 
   /// <summary>
   /// Base abstract class for all UOM utils classes.
@@ -125,22 +142,9 @@ type
   end;
 
   /// <summary>
-  /// Base abstract class for all UOM unit classes.
+  /// Base list of all possible unit utils classes.
   /// </summary>
-  TUOMUnitBase = class
-  public
-    class function UOM: TUOMBase; virtual; abstract;
-    class function UnitID: String; virtual; abstract;
-    class function UnitName: String; virtual; abstract;
-    class function Systems: TUOMSystems; virtual; abstract;
-    class function Prefix: String; virtual; abstract;
-    class function Suffix: String; virtual; abstract;
-  end;
-
-  /// <summary>
-  /// NEW Base list of all possible unit utils classes.
-  /// </summary>
-  TUOMList = class
+  TUOMUtils = class
   private
     class var FItems: TList<TUOMBaseClass>;
   public
@@ -152,32 +156,6 @@ type
     class function IndexOf(AClass: TUOMBaseClass): Integer; overload;
     class function IndexOf(AClass: String): Integer; overload;
   end;
-{
-type
-  /// <summary>
-  /// Represents a unit of measurement type.
-  /// TODO: Get rid of the need for this, so units register themselves (TUOMUtilsBase above).
-  /// </summary>
-  TUOM = (umLength, umArea, umVolume, umWeight, umTemperature,
-    umEnergy, umSpeed, umTime, umPower, umData, umPressure, umAngle,
-    umResistance, umCapacitance, umVoltage, umCurrent, umDensity, umGravity,
-    umRadiation, umFrequency, umMass, umResolution);
-  TUOMs = set of TUOM;
-
-  /// <summary>
-  /// Provides utilities for all units of measurements.
-  /// </summary>
-  TUOMUtils = class
-  public
-    class procedure ListUOMSystems(AList: TStrings); static;
-    class procedure ListUOMs(AList: TStrings); static;
-    class procedure ListUOMUnits(const AUOM: TUOM; AList: TStrings;
-      const ASystem: TUOMSystem = TUOMSystem.ustAny); static;
-    class function UOMName(const AUOM: TUOM): String; static;
-    class procedure ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String); static;
-  end;
-  }
-
 
 { TUnitOfMeasurement }
 
@@ -283,54 +261,25 @@ implementation
 ////////////////////////////////////////////////////////////////////////////////
 
 
-{
-//TODO: The goal of UOM_V2 is for each UOM to be stand-alone, and register
-//  themselves, and thus using all possible units is out of the question.
-uses
-  JD.Uom.Angle,
-  JD.Uom.Area,
-  JD.Uom.Capacitance,
-  JD.Uom.Current,
-  JD.Uom.Data,
-  JD.Uom.Density,
-  JD.Uom.Energy,
-  JD.Uom.Frequency,
-  JD.Uom.Gravity,
-  JD.Uom.Length,
-  JD.Uom.Mass,
-  JD.Uom.Power,
-  JD.Uom.Pressure,
-  JD.Uom.Radiation,
-  JD.Uom.Resistance,
-  JD.Uom.Resolution,
-  JD.Uom.Speed,
-  JD.Uom.Temperature,
-  JD.Uom.Time,
-  JD.Uom.Voltage,
-  JD.Uom.Volume,
-  JD.Uom.Weight;
-  }
+{ TUOMUtils }
 
-
-{ TUOMList }
-
-class constructor TUOMList.Create;
+class constructor TUOMUtils.Create;
 begin
   FItems:= TList<TUOMBaseClass>.Create;
 end;
 
-class destructor TUOMList.Destroy;
+class destructor TUOMUtils.Destroy;
 begin
   FreeAndNil(FItems);
   inherited;
 end;
 
-class function TUOMList.Count: Integer;
+class function TUOMUtils.Count: Integer;
 begin
   Result:= FItems.Count;
 end;
 
-class function TUOMList.IndexOf(AClass: TUOMBaseClass): Integer;
+class function TUOMUtils.IndexOf(AClass: TUOMBaseClass): Integer;
 var
   X: Integer;
 begin
@@ -343,7 +292,7 @@ begin
   end;
 end;
 
-class function TUOMList.IndexOf(AClass: String): Integer;
+class function TUOMUtils.IndexOf(AClass: String): Integer;
 var
   X: Integer;
 begin
@@ -356,83 +305,17 @@ begin
   end;
 end;
 
-class procedure TUOMList.RegisterUOM(AClass: TUOMBaseClass);
+class procedure TUOMUtils.RegisterUOM(AClass: TUOMBaseClass);
 begin
   FItems.Add(AClass);
 end;
 
-class function TUOMList.UOM(const Index: Integer): TUOMBaseClass;
+class function TUOMUtils.UOM(const Index: Integer): TUOMBaseClass;
 begin
   Result:= FItems[Index];
 end;
 
-{ TUOMUtils }
-
 {
-
-class procedure TUOMUtils.ListUOMSystems(AList: TStrings);
-begin
-  AList.Clear;
-  AList.Append('Any System');
-  AList.Append('Metric');
-  AList.Append('US Customary');
-  AList.Append('Imperial');
-  //TODO: US Customary and Imperial are different when it comes to weight...
-end;
-
-class procedure TUOMUtils.ListUOMUnits(const AUOM: TUOM; AList: TStrings;
-  const ASystem: TUOMSystem = TUOMSystem.ustAny);
-begin
-  AList.Clear;
-  case AUOM of
-    umLength:       TUOMLengthUtils.UnitList(AList, ASystem);
-    umArea:         TUOMAreaUtils.UnitList(AList);
-    umVolume:       TUOMVolumeUtils.UnitList(AList);
-    umWeight:       TUOMWeightUtils.UnitList(AList);
-    umTemperature:  TUOMTemperatureUtils.UnitList(AList);
-    umEnergy:       TUOMEnergyUtils.UnitList(AList);
-    umSpeed:        TUOMSpeedUtils.UnitList(AList);
-    umTime:         TUOMTimeUtils.UnitList(AList);
-    umPower:        TUOMPowerUtils.UnitList(AList);
-    umData:         TUOMDataUtils.UnitList(AList);
-    umPressure:     TUOMPressureUtils.UnitList(AList);
-    umAngle:        ;
-    umResistance:   ;
-    umCapacitance:  ;
-    umVoltage:      ;
-    umCurrent:      ;
-    umDensity:      ;
-    umGravity:      ;
-    umFrequency:    ;
-    umMass:         ;
-    umResolution:   ;
-  end;
-end;
-
-class function TUOMUtils.UOMName(const AUOM: TUOM): String;
-begin
-  case AUOM of
-    umLength:       Result:= 'Length';
-    umArea:         Result:= 'Area';
-    umVolume:       Result:= 'Volume';
-    umWeight:       Result:= 'Weight';
-    umTemperature:  Result:= 'Temperature';
-    umEnergy:       Result:= 'Energy';
-    umSpeed:        Result:= 'Speed';
-    umTime:         Result:= 'Time';
-    umPower:        Result:= 'Power';
-    umData:         Result:= 'Data';
-    umPressure:     Result:= 'Pressure';
-    umAngle:        Result:= 'Angle';
-    umResistance:   Result:= 'Resistance';
-    umCapacitance:  Result:= 'Capacitance';
-    umVoltage:      Result:= 'Voltage';
-    umCurrent:      Result:= 'Current';
-    umDensity:      Result:= 'Density';
-    umGravity:      Result:= 'Gravity';
-    umRadiation:    Result:= 'Radiation';
-  end;
-end;
 
 class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
 var
@@ -459,37 +342,11 @@ begin
   ANumber:= StrToFloatDef(NS, 0);
 end;
 
-class procedure TUOMUtils.ListUOMs(AList: TStrings);
-begin
-  AList.Clear;
-  AList.Append('Length');
-  AList.Append('Area');
-  AList.Append('Volume');
-  AList.Append('Weight');
-  AList.Append('Temperature');
-  AList.Append('Energy');
-  AList.Append('Speed');
-  AList.Append('Time');
-  AList.Append('Power');
-  AList.Append('Data');
-  AList.Append('Pressure');
-  AList.Append('Angle');
-  AList.Append('Resistance');
-  AList.Append('Capacitance');
-  AList.Append('Voltage');
-  AList.Append('Current');
-  AList.Append('Density');
-  AList.Append('Gravity');
-  AList.Append('Radiation');
-end;
-
 }
-
 
 { TUnitOfMeasurement }
 
 {$REGION 'TUnitOfMeasurement'}
-
 
 constructor TUnitOfMeasurement.Create;
 begin
@@ -552,8 +409,6 @@ begin
 end;
 
 {$ENDREGION}
-
-
 
 { TMultiStringList }
 

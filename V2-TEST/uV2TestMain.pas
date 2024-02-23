@@ -70,8 +70,8 @@ var
   U: TUOMBaseClass;
 begin
   lstUOMs.Items.Clear;
-  for X := 0 to TUOMList.Count-1 do begin
-    U:= TUOMList.UOM(X);
+  for X := 0 to TUOMUtils.Count-1 do begin
+    U:= TUOMUtils.UOM(X);
     lstUOMs.Items.Add(U.UOMName);
   end;
 end;
@@ -87,7 +87,7 @@ begin
   lstUnits.Items.Clear;
   I:= lstUOMs.ItemIndex;
   if I < 0 then Exit;
-  UOM:= TUOMList.UOM(I);
+  UOM:= TUOMUtils.UOM(I);
   for X := 0 to UOM.UnitCount-1 do begin
     U:= UOM.GetUnit(X);
     S:= TUOMSystem(cboSystem.ItemIndex);
