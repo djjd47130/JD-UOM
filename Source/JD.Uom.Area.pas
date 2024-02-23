@@ -22,25 +22,10 @@ type
   public
     class constructor Create;
     class destructor Destroy;
-
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
-
-    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); override;
-    class function UnitSuffix(const AValue: Integer): String; override;
-    class function UnitSystem(const AValue: Integer): TUOMSystem; override;
-    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; override;
-    class function UnitName(const AValue: Integer): String; override;
-    class function StrToUnit(const AValue: String): Integer; override;
-
-    { OLD
-    class procedure UnitList(AList: TStrings); static;
-    class function UnitSuffix(const AValue: TUOMAreaUnit): String; static;
-    class function UnitSystem(const AValue: TUOMAreaUnit): TUOMSystem; static;
-    class function UnitName(const AValue: TUOMAreaUnit): String; static;
-    }
 
     { Metric }
 
@@ -266,6 +251,7 @@ class procedure TUOMAreaUtils.RegisterUnits;
   end;
 begin
   A('Square Millimeters',     [ustMetric],  '',   'mm²');
+  A('Square Centimeters',     [ustMetric],  '',   'cm²');
 
   //TODO
 
@@ -345,31 +331,6 @@ end;
 class function TUOMAreaUtils.UnitCount: Integer;
 begin
   Result:= Length(FUnits);
-end;
-
-class procedure TUOMAreaUtils.UnitList(AList: TStrings; ASystem: TUOMSystem);
-begin
-
-end;
-
-class function TUOMAreaUtils.UnitName(const AValue: Integer): String;
-begin
-
-end;
-
-class function TUOMAreaUtils.UnitsOfSystem(const ASystem: TUOMSystem): Integer;
-begin
-
-end;
-
-class function TUOMAreaUtils.UnitSuffix(const AValue: Integer): String;
-begin
-
-end;
-
-class function TUOMAreaUtils.UnitSystem(const AValue: Integer): TUOMSystem;
-begin
-
 end;
 
 class function TUOMAreaUtils.HectaresToSquareMeters(
@@ -903,11 +864,6 @@ class function TUOMAreaUtils.SquareYardsToSquareMillimeters(
   const ASquareYards: Double): Double;
 begin
   Result:= ASquareYards * 836127;
-end;
-
-class function TUOMAreaUtils.StrToUnit(const AValue: String): Integer;
-begin
-
 end;
 
 { TUOMArea }

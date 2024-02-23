@@ -5,17 +5,23 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, JD.Uom, Vcl.StdCtrls,
-  JD.Uom.Length, JD.Uom.Area;
+  JD.Uom.Length,
+  JD.Uom.Area,
+  JD.Uom.Temperature, Vcl.ExtCtrls;
 
 type
   TfrmMain = class(TForm)
-    UOMs: TUOM;
     lstUOMs: TListBox;
     lstUnits: TListBox;
     Label1: TLabel;
     Label2: TLabel;
+    cboSystem: TComboBox;
+    pUnitDetail: TPanel;
+    lblUnitName: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
+    procedure cboSystemClick(Sender: TObject);
+    procedure lstUnitsClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -43,6 +49,21 @@ begin
   RefreshUnits;
 end;
 
+procedure TfrmMain.cboSystemClick(Sender: TObject);
+begin
+  RefreshUnits;
+end;
+
+procedure TfrmMain.lstUnitsClick(Sender: TObject);
+var
+  U: TUOMUnitInfo;
+begin
+  //TODO: Show unit details...
+  //U:= ???
+  //lblUnitName.Caption:= U.Name;
+
+end;
+
 procedure TfrmMain.RefreshUOMs;
 var
   X: Integer;
@@ -61,6 +82,7 @@ var
   UOM: TUOMBaseClass;
   U: TUOMUnitInfo;
   X: Integer;
+  S: TUOMSystem;
 begin
   lstUnits.Items.Clear;
   I:= lstUOMs.ItemIndex;
@@ -68,10 +90,10 @@ begin
   UOM:= TUOMList.UOM(I);
   for X := 0 to UOM.UnitCount-1 do begin
     U:= UOM.GetUnit(X);
-    lstUnits.Items.Add(U.Name);
+    S:= TUOMSystem(cboSystem.ItemIndex);
+    if (S = ustAny) or (S in U.Systems) then
+      lstUnits.Items.Add(U.Name);
   end;
 end;
-
-initialization
 
 end.

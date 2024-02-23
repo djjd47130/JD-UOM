@@ -10,20 +10,31 @@ type
   TUOMTemperatureUnit = (umtCelsius, umtFarenheit, umtKelvin);
   TUOMTemperatureUnits = set of TUOMTemperatureUnit;
 
-  TUOMTemperatureUtils = class
+  TUOMTemperatureUtils = class(TUOMBase)
+  private
+    class var FUnits: TUOMUnitArray;
+    class procedure RegisterUOM;
+    class procedure RegisterUnits;
+    class procedure RegisterUnit(const Name: String; const Systems: TUOMSystems;
+      const Prefix, Suffix: String);
   public
-    class procedure UnitList(AList: TStrings); static;
-    class function UnitSuffix(const AValue: TUOMTemperatureUnit): String; static;
-    class function UnitName(const AValue: TUOMTemperatureUnit): String; static;
+    class constructor Create;
+    class destructor Destroy;
+    class function UOMID: String; override;
+    class function UOMName: String; override;
+    class function UnitCount: Integer; override;
+    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
 
+    //Celcius
     class function FarenheitToCelcius(const AFarenheit: Double): Double; static;
     class function KelvinToCelcius(const AKelvin: Double): Double; static;
-
+    //Farenheit
     class function CelciusToFarenheit(const ACelcius: Double): Double; static;
     class function KelvinToFarenheit(const AKelvin: Double): Double; static;
-
+    //Kelvin
     class function CelciusToKelvin(const ACelcius: Double): Double; static;
     class function FarenheitToKelvin(const AFarenheit: Double): Double; static;
+
   end;
 
   TUOMTemperature = record
@@ -40,46 +51,79 @@ type
     class operator implicit(const AValue: String): TUOMTemperature;
     class operator implicit(const AValue: TUOMTemperature): String;
   public
-    function ToCelcius: Double;
-    function ToFarenheit: Double;
-    function ToKelvin: Double;
+    function GetAsCelcius: TUOMTemperature;
+    function GetAsFarenheit: TUOMTemperature;
+    function GetAsKelvin: TUOMTemperature;
+
+    property AsCelcius: TUOMTemperature read GetAsCelcius;
+    property AsFarenheit: TUOMTemperature read GetAsFarenheit;
+    property AsKelvin: TUOMTemperature read GetAsKelvin;
   end;
 
 implementation
 
 var
   DefaultTemperatureUnit: TUOMTemperatureUnit;
+  _: TUOMTemperatureUtils;
 
 { TUOMTemperatureUtils }
 
-class procedure TUOMTemperatureUtils.UnitList(AList: TStrings);
+class constructor TUOMTemperatureUtils.Create;
+begin
+  SetLength(FUnits, 0);
+  RegisterUOM;
+  RegisterUnits;
+end;
+
+class destructor TUOMTemperatureUtils.Destroy;
+begin
+  SetLength(FUnits, 0);
+end;
+
+class function TUOMTemperatureUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+begin
+  Result:= FUnits[Index];
+end;
+
+class procedure TUOMTemperatureUtils.RegisterUnit(const Name: String;
+  const Systems: TUOMSystems; const Prefix, Suffix: String);
 var
-  V: TUOMTemperatureUnit;
+  U: TUOMUnitInfo;
 begin
-  AList.Clear;
-  for V:= Low(TUOMTemperatureUnit) to High(TUOMTemperatureUnit) do begin
-    AList.Append(TUOMTemperatureUtils.UnitName(V));
-  end;
+  SetLength(FUnits, Length(FUnits)+1);
+  U.UOM:= Self;
+  U.Name:= Name;
+  U.Systems:= Systems;
+  U.Prefix:= Prefix;
+  U.Suffix:= Suffix;
+  FUnits[Length(FUnits)-1]:= U;
 end;
 
-class function TUOMTemperatureUtils.UnitName(
-  const AValue: TUOMTemperatureUnit): String;
+class procedure TUOMTemperatureUtils.RegisterUnits;
 begin
-  case AValue of
-    umtCelsius:   Result:= 'Celsius';
-    umtFarenheit: Result:= 'Farenheit';
-    umtKelvin:    Result:= 'Kelvin';
-  end;
+  RegisterUnit('Celcius',     [ustMetric],  '',   '°C');
+  RegisterUnit('Farenheit',   [ustImperial, ustUSCustomary],  '',   '°F');
+  RegisterUnit('Kelvin',      [ustMetric],  '',   '°K');
 end;
 
-class function TUOMTemperatureUtils.UnitSuffix(
-  const AValue: TUOMTemperatureUnit): String;
+class procedure TUOMTemperatureUtils.RegisterUOM;
 begin
-  case AValue of
-    umtCelsius:   Result:= '°C';
-    umtFarenheit: Result:= '°F';
-    umtKelvin:    Result:= '°K';
-  end;
+  TUOMList.RegisterUOM(TUOMTemperatureUtils);
+end;
+
+class function TUOMTemperatureUtils.UnitCount: Integer;
+begin
+  Result:= Length(FUnits);
+end;
+
+class function TUOMTemperatureUtils.UOMID: String;
+begin
+  Result:= '{910B9CA0-ABAF-4DC4-BAD5-D0ACF1040FC8}';
+end;
+
+class function TUOMTemperatureUtils.UOMName: String;
+begin
+  Result:= 'Temperature';
 end;
 
 class function TUOMTemperatureUtils.CelciusToFarenheit(const ACelcius: Double): Double;
@@ -118,9 +162,9 @@ class operator TUOMTemperature.implicit(const AValue: TUOMTemperature): Double;
 begin
   Result:= 0;
   case DefaultTemperatureUnit of
-    umtCelsius:   Result:= AValue.ToCelcius;
-    umtFarenheit: Result:= AValue.ToFarenheit;
-    umtKelvin:    Result:= AValue.ToKelvin;
+    umtCelsius:   Result:= AValue.GetAsCelcius;
+    umtFarenheit: Result:= AValue.GetAsFarenheit;
+    umtKelvin:    Result:= AValue.GetAsKelvin;
   end;
 end;
 
@@ -133,7 +177,7 @@ end;
 class operator TUOMTemperature.implicit(const AValue: TUOMTemperature): String;
 begin
   Result:= FormatFloat(NumFormat, AValue.FValue);
-  Result:= Result + TUOMTemperatureUtils.UnitSuffix(AValue.&Unit);
+  //TODO: Result:= Result + TUOMTemperatureUtils.UnitSuffix(AValue.&Unit);
 end;
 
 class operator TUOMTemperature.implicit(const AValue: String): TUOMTemperature;
@@ -145,9 +189,9 @@ end;
 procedure TUOMTemperature.SetUnit(const Value: TUOMTemperatureUnit);
 begin
   case FUnit of
-    umtCelsius:   FValue:= Self.ToCelcius;
-    umtFarenheit: FValue:= Self.ToFarenheit;
-    umtKelvin:    FValue:= Self.ToKelvin;
+    umtCelsius:   FValue:= Self.GetAsCelcius;
+    umtFarenheit: FValue:= Self.GetAsFarenheit;
+    umtKelvin:    FValue:= Self.GetAsKelvin;
   end;
   FUnit:= Value;
 end;
@@ -157,36 +201,40 @@ begin
   FValue:= Value;
 end;
 
-function TUOMTemperature.ToCelcius: Double;
+function TUOMTemperature.GetAsCelcius: TUOMTemperature;
 begin
-  Result:= 0;
+  Result.FUnit:= umtCelsius;
+  Result.FValue:= 0;
   case FUnit of
-    umtCelsius:   Result:= FValue; //Same
-    umtFarenheit: Result:= TUOMTemperatureUtils.FarenheitToCelcius(FValue);
-    umtKelvin:    Result:= TUOMTemperatureUtils.KelvinToCelcius(FValue);
+    umtCelsius:   Result.FValue:= FValue; //Same
+    umtFarenheit: Result.FValue:= TUOMTemperatureUtils.FarenheitToCelcius(FValue);
+    umtKelvin:    Result.FValue:= TUOMTemperatureUtils.KelvinToCelcius(FValue);
   end;
 end;
 
-function TUOMTemperature.ToFarenheit: Double;
+function TUOMTemperature.GetAsFarenheit: TUOMTemperature;
 begin
-  Result:= 0;
+  Result.FUnit:= umtFarenheit;
+  Result.FValue:= 0;
   case FUnit of
-    umtCelsius:   Result:= TUOMTemperatureUtils.CelciusToFarenheit(FValue);
-    umtFarenheit: Result:= FValue; //Same
-    umtKelvin:    Result:= TUOMTemperatureUtils.KelvinToFarenheit(FValue);
+    umtCelsius:   Result.FValue:= TUOMTemperatureUtils.CelciusToFarenheit(FValue);
+    umtFarenheit: Result.FValue:= FValue; //Same
+    umtKelvin:    Result.FValue:= TUOMTemperatureUtils.KelvinToFarenheit(FValue);
   end;
 end;
 
-function TUOMTemperature.ToKelvin: Double;
+function TUOMTemperature.GetAsKelvin: TUOMTemperature;
 begin
-  Result:= 0;
+  Result.FUnit:= umtKelvin;
+  Result.FValue:= 0;
   case FUnit of
-    umtCelsius:   Result:= TUOMTemperatureUtils.CelciusToKelvin(FValue);
-    umtFarenheit: Result:= TUOMTemperatureUtils.FarenheitToKelvin(FValue);
-    umtKelvin:    Result:= FValue; //Same
+    umtCelsius:   Result.FValue:= TUOMTemperatureUtils.CelciusToKelvin(FValue);
+    umtFarenheit: Result.FValue:= TUOMTemperatureUtils.FarenheitToKelvin(FValue);
+    umtKelvin:    Result.FValue:= FValue; //Same
   end;
 end;
 
 initialization
+  _:= nil;
   DefaultTemperatureUnit:= TUOMTemperatureUnit.umtFarenheit;
 end.

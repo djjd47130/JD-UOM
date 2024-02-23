@@ -110,7 +110,7 @@ type
   TUOMUnitArray = array of TUOMUnitInfo;
 
   /// <summary>
-  /// NEW Base abstract class for all unit utils classes.
+  /// Base abstract class for all UOM utils classes.
   /// </summary>
   TUOMBase = class
   public
@@ -118,15 +118,23 @@ type
     class function UOMName: String; virtual; abstract;
     class function UnitCount: Integer; virtual; abstract;
     class function GetUnit(const Index: Integer): TUOMUnitInfo; virtual; abstract;
+    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual;
+    class function UnitName(const Index: Integer): String; virtual;
+    class function UnitPrefix(const Index: Integer): String; virtual;
+    class function UnitSuffix(const Index: Integer): String; virtual;
+  end;
 
-    //TODO: Rewrite below methods...
-    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual; abstract;
-    class function UnitSuffix(const AValue: Integer): String; virtual; abstract;
-    class function UnitSystem(const AValue: Integer): TUOMSystem; virtual; abstract;
-    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; virtual; abstract;
-    class function UnitName(const AValue: Integer): String; virtual; abstract;
-    class function StrToUnit(const AValue: String): Integer; virtual; abstract;
-
+  /// <summary>
+  /// Base abstract class for all UOM unit classes.
+  /// </summary>
+  TUOMUnitBase = class
+  public
+    class function UOM: TUOMBase; virtual; abstract;
+    class function UnitID: String; virtual; abstract;
+    class function UnitName: String; virtual; abstract;
+    class function Systems: TUOMSystems; virtual; abstract;
+    class function Prefix: String; virtual; abstract;
+    class function Suffix: String; virtual; abstract;
   end;
 
   /// <summary>
@@ -653,6 +661,36 @@ end;
 class operator TUOMUnitInfo.Implicit(const AValue: TUOMUnitInfo): String;
 begin
   Result:= AValue.Name;
+end;
+
+{ TUOMBase }
+
+class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
+var
+  X: Integer;
+  U: TUOMUnitInfo;
+begin
+  AList.Clear;
+  for X := 0 to UnitCount-1 do begin
+    U:= GetUnit(X);
+    if ASystem in U.Systems then
+      AList.Add(U.Name);
+  end;
+end;
+
+class function TUOMBase.UnitName(const Index: Integer): String;
+begin
+  Result:= GetUnit(Index).Name;
+end;
+
+class function TUOMBase.UnitPrefix(const Index: Integer): String;
+begin
+  Result:= GetUnit(Index).Prefix;
+end;
+
+class function TUOMBase.UnitSuffix(const Index: Integer): String;
+begin
+  Result:= GetUnit(Index).Suffix;
 end;
 
 initialization

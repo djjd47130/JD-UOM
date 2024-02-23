@@ -17,7 +17,8 @@ type
     class var FUnits: TUOMUnitArray;
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+    class procedure RegisterUnit(const Name: String; const Systems: TUOMSystems;
+      const Prefix, Suffix: String);
   public
     class constructor Create;
     class destructor Destroy;
@@ -26,13 +27,6 @@ type
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
-
-    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); override;
-    class function UnitSuffix(const AValue: Integer): String; override;
-    class function UnitSystem(const AValue: Integer): TUOMSystem; override;
-    class function UnitsOfSystem(const ASystem: TUOMSystem): Integer; override;
-    class function UnitName(const AValue: Integer): String; override;
-    class function StrToUnit(const AValue: String): Integer; override;
 
     { US Customary }
 
@@ -276,36 +270,18 @@ begin
   TUOMList.RegisterUOM(TUOMLengthUtils);
 end;
 
-class procedure TUOMLengthUtils.RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+class procedure TUOMLengthUtils.RegisterUnit(const Name: String;
+  const Systems: TUOMSystems; const Prefix, Suffix: String);
+var
+  U: TUOMUnitInfo;
 begin
   SetLength(FUnits, Length(FUnits)+1);
-  FUnits[Length(FUnits)-1]:= AUnitInfo;
-end;
-
-class procedure TUOMLengthUtils.RegisterUnits;
-  procedure A(const Name: String; const Systems: TUOMSystems; const Prefix, Suffix: String);
-  var
-    U: TUOMUnitInfo;
-  begin
-    U.UOM:= Self;
-    U.Name:= Name;
-    U.Systems:= Systems;
-    U.Prefix:= Prefix;
-    U.Suffix:= Suffix;
-    RegisterUnit(U);
-  end;
-begin
-  A('Nanometers',     [ustMetric],  '',   'nm');
-  A('Microns',        [ustMetric],  '',   'μm');
-
-  //TODO: Register all possible length units...
-
-end;
-
-
-class function TUOMLengthUtils.StrToUnit(const AValue: String): Integer;
-begin
-  Result:= 0; //TODO
+  U.UOM:= Self;
+  U.Name:= Name;
+  U.Systems:= Systems;
+  U.Prefix:= Prefix;
+  U.Suffix:= Suffix;
+  FUnits[Length(FUnits)-1]:= U;
 end;
 
 class function TUOMLengthUtils.UnitCount: Integer;
@@ -313,49 +289,19 @@ begin
   Result:= Length(FUnits);
 end;
 
-class procedure TUOMLengthUtils.UnitList(AList: TStrings; ASystem: TUOMSystem);
-var
-  Units: TUOMLengthUnits;
-  procedure A(const U: TUOMLengthUnit; const S: String);
-  begin
-    if U in Units then
-      AList.AddObject(S, Pointer(Integer(U)));
-  end;
+class procedure TUOMLengthUtils.RegisterUnits;
 begin
-  AList.Clear;
-  //TODO... Units:= TUOMLengthUtils.UnitsOfSystem(ASystem);
-  A(TUOMLengthUnit.umlNanometers,     'Nanometers');
-  A(TUOMLengthUnit.umlMicrons,        'Microns');
-  A(TUOMLengthUnit.umlMillimeters,    'Millimeters');
-  A(TUOMLengthUnit.umlCentimeters,    'Centimeters');
-  A(TUOMLengthUnit.umlMeters,         'Meters');
-  A(TUOMLengthUnit.umlKilometers,     'Kilometers');
-  A(TUOMLengthUnit.umlInches,         'Inches');
-  A(TUOMLengthUnit.umlFeet,           'Feet');
-  A(TUOMLengthUnit.umlYards,          'Yards');
-  A(TUOMLengthUnit.umlMiles,          'Miles');
-  A(TUOMLengthUnit.umlNauticalMiles,  'Nautical Miles');
-end;
-
-class function TUOMLengthUtils.UnitName(const AValue: Integer): String;
-begin
-
-end;
-
-class function TUOMLengthUtils.UnitsOfSystem(
-  const ASystem: TUOMSystem): Integer;
-begin
-
-end;
-
-class function TUOMLengthUtils.UnitSuffix(const AValue: Integer): String;
-begin
-
-end;
-
-class function TUOMLengthUtils.UnitSystem(const AValue: Integer): TUOMSystem;
-begin
-
+  RegisterUnit('Nanometers',     [ustMetric],  '',   'nm');
+  RegisterUnit('Microns',        [ustMetric],  '',   'μm');
+  RegisterUnit('Millimeters',    [ustMetric],  '',   'mm');
+  RegisterUnit('Centimeters',    [ustMetric],  '',   'cm');
+  RegisterUnit('Meters',         [ustMetric],  '',   'm');
+  RegisterUnit('Kilometers',     [ustMetric],  '',   'km');
+  RegisterUnit('Inches',         [ustImperial,ustUSCustomary],  '',   '"');
+  RegisterUnit('Feet',           [ustImperial,ustUSCustomary],  '',   '''');
+  RegisterUnit('Yards',          [ustImperial,ustUSCustomary],  '',   'yd');
+  RegisterUnit('Miles',          [ustImperial,ustUSCustomary],  '',   'mi');
+  RegisterUnit('Nautical Mies',  [ustImperial,ustUSCustomary],  '',   'nmi');
 end;
 
 {
