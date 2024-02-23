@@ -1,21 +1,16 @@
 # JD-UOM - Delphi Library to Convert Unit of Measure
 
-### NOTE: This library is in active development, and is not ready for use at this time.
+### NOTE: This library is in active development, and is not ready for use at this time. This is specifically the `UOM_V2` branch, and introduces major structural changes to the entire backbone of this UOM system. 
 
 ### Features
-- `TUOM` - Enum of all possible categories of measurement. 
-- `TUOMUtils` - Class encapsulating all possible unit conversions.
-- `TUnitOfMeasurement` - Persistent encapsulating access to specific data types and conversions.
+- `TUOMList` - Class encapsulating all possible unit conversions.
 
 ### Units and Types
 
 - Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
   - **TUOMSystem** - Enum to identify different systems of unit measurements.
   - **TUOMSystems** - Set of **TUOMSystem** enums.
-  - **TUOMUtils** - Main class to access all possible unit conversions and information.
-
-- Unit [**JD.UomCtrls.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMCtrls.md) - VCL controls related to UOM conversion.
-  - **TUOMEdit** - Custom control to control formatted text values for units of measurement.
+  - **TUOMList** - Main class to access all possible unit conversions and information.
 - Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
   - **TUOMLengthUnit** - Enum to identify different length units.
   - **TUOMLengthUnits** - Set of **TUOMLengthUnit** enums.
