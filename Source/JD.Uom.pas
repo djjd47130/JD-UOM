@@ -87,13 +87,22 @@ const
   NumFormat = '#,###,###,###,##0.#############';
 
 type
+  TUOMBase = class;
+  TUOMUnitBase = class;
+  TUOMUtils = class;
+
+  /// <summary>
+  /// Overall categorization of specific units within any given UOM.
+  /// </summary>
   TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial, ustNatural);
+
+  /// <summary>
+  /// A set of `TUOMSystem`. Used by UOMs to identify which systems they're related to.
+  /// </summary>
   TUOMSystems = set of TUOMSystem;
 
-  TUOMBase = class;
   TUOMBaseClass = class of TUOMBase;
 
-  TUOMUnitBase = class;
   TUOMUnitBaseClass = class of TUOMUnitBase;
 
   /// <summary>

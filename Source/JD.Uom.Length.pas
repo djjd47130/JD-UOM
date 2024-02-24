@@ -1528,12 +1528,12 @@ end;
 
 class function TUOMLengthNanometers.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 1000000000;
 end;
 
 class function TUOMLengthNanometers.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 1000000000;
 end;
 
 class function TUOMLengthNanometers.Prefix: String;
@@ -1553,7 +1553,7 @@ end;
 
 class function TUOMLengthNanometers.UnitDescription: String;
 begin
-  Result:= '';
+  Result:= ''; //TODO
 end;
 
 class function TUOMLengthNanometers.UnitEnum: TUOMLengthUnit;
@@ -1580,12 +1580,12 @@ end;
 
 class function TUOMLengthMicrons.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 1000000;
 end;
 
 class function TUOMLengthMicrons.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 0.000001;
 end;
 
 class function TUOMLengthMicrons.Prefix: String;
@@ -1840,12 +1840,12 @@ end;
 
 class function TUOMLengthInches.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 39.3700787;
 end;
 
 class function TUOMLengthInches.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 39.3700787;
 end;
 
 class function TUOMLengthInches.Prefix: String;
@@ -1892,12 +1892,12 @@ end;
 
 class function TUOMLengthFeet.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 3.2808399;
 end;
 
 class function TUOMLengthFeet.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 3.2808399;
 end;
 
 class function TUOMLengthFeet.Prefix: String;
@@ -1944,12 +1944,12 @@ end;
 
 class function TUOMLengthYards.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 1.0936133;
 end;
 
 class function TUOMLengthYards.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 1.0936133;
 end;
 
 class function TUOMLengthYards.Prefix: String;
@@ -1996,12 +1996,12 @@ end;
 
 class function TUOMLengthMiles.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 1609.344;
 end;
 
 class function TUOMLengthMiles.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 1609.344;
 end;
 
 class function TUOMLengthMiles.Prefix: String;
@@ -2048,12 +2048,12 @@ end;
 
 class function TUOMLengthNauticalMiles.ConvertFromBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue / 1852;
 end;
 
 class function TUOMLengthNauticalMiles.ConvertToBase(const AValue: Double): Double;
 begin
-
+  Result:= AValue * 1852;
 end;
 
 class function TUOMLengthNauticalMiles.Prefix: String;
