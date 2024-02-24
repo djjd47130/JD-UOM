@@ -17,16 +17,31 @@ type
     Label2: TLabel;
     cboSystem: TComboBox;
     pUnitDetail: TPanel;
+    lblUnitHeader: TLabel;
+    Label3: TLabel;
     lblUnitName: TLabel;
+    Label5: TLabel;
+    lblUnitID: TLabel;
+    Label7: TLabel;
+    lblUnitSystems: TLabel;
+    Label9: TLabel;
+    lblUnitPrefix: TLabel;
+    Label11: TLabel;
+    lblUnitSuffix: TLabel;
+    Label4: TLabel;
+    lblUnitBaseFrom: TLabel;
+    Label8: TLabel;
+    lblUnitBaseTo: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
     procedure cboSystemClick(Sender: TObject);
     procedure lstUnitsClick(Sender: TObject);
   private
-    { Private declarations }
+    FUOM: TUOMBaseClass;
   public
     procedure RefreshUOMs;
     procedure RefreshUnits;
+    procedure RefreshUnitDetails;
   end;
 
 var
@@ -55,13 +70,8 @@ begin
 end;
 
 procedure TfrmMain.lstUnitsClick(Sender: TObject);
-var
-  U: TUOMUnitBase;
 begin
-  //TODO: Show unit details...
-  //U:= ???
-  //lblUnitName.Caption:= U.Name;
-
+  RefreshUnitDetails;
 end;
 
 procedure TfrmMain.RefreshUOMs;
@@ -79,7 +89,6 @@ end;
 procedure TfrmMain.RefreshUnits;
 var
   I: Integer;
-  UOM: TUOMBaseClass;
   U: TUOMUnitBaseClass;
   X: Integer;
   S: TUOMSystem;
@@ -87,13 +96,48 @@ begin
   lstUnits.Items.Clear;
   I:= lstUOMs.ItemIndex;
   if I < 0 then Exit;
-  UOM:= TUOMUtils.UOM(I);
-  for X := 0 to UOM.UnitCount-1 do begin
-    U:= UOM.GetUnit(X);
+  FUOM:= TUOMUtils.UOM(I);
+  for X := 0 to FUOM.UnitCount-1 do begin
+    U:= FUOM.GetUnit(X);
     S:= TUOMSystem(cboSystem.ItemIndex);
     if (S = ustAny) or (S in U.Systems) then
-      lstUnits.Items.Add(U.UnitName);
+      lstUnits.Items.AddObject(U.NamePlural, Pointer(X));
   end;
+end;
+
+function UOMSystemsStr(const ASystems: TUOMSystems): String;
+  procedure A(const System: TUOMSystem; const S: String);
+  begin
+    if System in ASystems then begin
+      if Result <> '' then
+        Result:= Result + ', ';
+      Result:= Result + S;
+    end;
+  end;
+begin
+  Result:= '';
+  A(ustMetric, 'Metric');
+  A(ustImperial, 'Imperial');
+  A(ustUSCustomary, 'US Customary');
+  A(ustNatural, 'Natural');
+end;
+
+procedure TfrmMain.RefreshUnitDetails;
+var
+  U: TUOMUnitBaseClass;
+  I: Integer;
+begin
+  I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
+  U:= FUOM.GetUnit(I);
+  lblUnitName.Caption:= U.NamePlural;
+  lblUnitID.Caption:= U.UnitID;
+  lblUnitSystems.Caption:= UOMSystemsStr(U.Systems);
+  lblUnitPrefix.Caption:= U.Prefix;
+  lblUnitSuffix.Caption:= U.Suffix;
+  lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(1))+U.Suffix;
+  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(1))+U.Suffix;
+  //TODO: Show unit details...
+
 end;
 
 end.

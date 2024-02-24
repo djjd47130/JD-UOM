@@ -13,10 +13,54 @@ type
     umaSquareYards, umaAcres, umaSquareMiles);
   TUOMAreaUnits = set of TUOMAreaUnit;
 
+  TUOMAreaUtils = class;
+
+  TUOMAreaUnitBase = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; virtual; abstract;
+  end;
+
+  //Specific Area Units
+
+  TUOMAreaSquareMillimeters = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
+
+
+
+  {
+  //TODO
+  A('Square Millimeters',   [ustMetric],  '',   'mm²');
+  A('Square Centimeters',   [ustMetric],  '',   'cm²');
+  A('Square Meters',        [ustMetric],  '',   'm²');
+  A('Hectares',             [ustMetric],  '',   'ha');
+  A('Square Kilometers',    [ustMetric],  '',   'km²');
+  A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
+  A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
+  A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
+  A('Acres',                [ustImperial,ustUSCustomary], '',   'ac');
+  A('Square Miles',         [ustImperial,ustUSCustomary], '',   'mi²');
+  }
+
+
+
   TUOMAreaUtils = class(TUOMBase)
   private
     class var FUnits: TList<TUOMUnitBaseClass>;
-  private
     class procedure RegisterUOM;
     class procedure RegisterUnits;
     class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
@@ -239,6 +283,7 @@ end;
 
 class procedure TUOMAreaUtils.RegisterUnits;
 begin
+  RegisterUnit(TUOMAreaSquareMillimeters);
   {
   //TODO
   A('Square Millimeters',   [ustMetric],  '',   'mm²');
@@ -1071,7 +1116,93 @@ begin
 
 end;
 
+{ TUOMAreaUnitBase }
+
+class function TUOMAreaUnitBase.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMAreaUnitBase.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMAreaUnitBase.NameSingular: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMAreaUnitBase.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMAreaUnitBase.Suffix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMAreaUnitBase.Systems: TUOMSystems;
+begin
+  Result:= [];
+end;
+
+class function TUOMAreaUnitBase.UnitDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMAreaUnitBase.UnitID: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMAreaUnitBase.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMAreaUtils;
+end;
+
+{ TUOMAreaSquareMillimeters }
+
+class function TUOMAreaSquareMillimeters.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 1000000;
+end;
+
+class function TUOMAreaSquareMillimeters.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 1000000;
+end;
+
+class function TUOMAreaSquareMillimeters.NameSingular: String;
+begin
+  Result:= 'Square Millimeter';
+end;
+
+class function TUOMAreaSquareMillimeters.Suffix: String;
+begin
+  Result:= 'mm²';
+end;
+
+class function TUOMAreaSquareMillimeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMAreaSquareMillimeters.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaSquareMillimeters;
+end;
+
+class function TUOMAreaSquareMillimeters.UnitID: String;
+begin
+  Result:= '{065A9DAA-4AA5-430A-809A-7EDC997B74AC}';
+end;
+
 initialization
   _:= nil;
-  DefaultAreaUnit:= TUOMAreaUnit.umaSquareFeet;
+  DefaultAreaUnit:= TUOMAreaUnit.umaSquareMeters;
 end.

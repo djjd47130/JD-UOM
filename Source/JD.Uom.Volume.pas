@@ -3,7 +3,7 @@ unit JD.Uom.Volume;
 interface
 
 uses
-  System.Classes, System.SysUtils,
+  System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom,
   JD.Uom.Length;
 
@@ -14,11 +14,30 @@ type
     umvGallons, umvCubicInches, umvCubicFeet, umvCubicYards);
   TUOMVolumeUnits = set of TUOMVolumeUnit;
 
-  TUOMVolumeUtils = class
+  TUOMVolumeUtils = class;
+
+
+
+
+  TUOMVolumeUtils = class(TUOMBase)
+  private
+    class var FUnits: TList<TUOMUnitBaseClass>;
+    class procedure RegisterUOM;
+    class procedure RegisterUnits;
+    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
   public
+    class constructor Create;
+    class destructor Destroy;
+    class function UOMID: String; override;
+    class function UOMName: String; override;
+    class function UnitCount: Integer; override;
+    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
+
+    {
     class procedure UnitList(AList: TStrings); static;
     class function UnitSuffix(const AValue: TUOMVolumeUnit): String; static;
     class function UnitName(const AValue: TUOMVolumeUnit): String; static;
+    }
 
     { Metric System }
 
@@ -145,9 +164,23 @@ implementation
 
 var
   DefaultVolumeUnit: TUOMVolumeUnit;
+  _: TUOMVolumeUtils;
 
 { TUOMVolumeUtils }
 
+class constructor TUOMVolumeUtils.Create;
+begin
+  FUnits:= TList<TUOMUnitBaseClass>.Create;
+  RegisterUOM;
+  RegisterUnits;
+end;
+
+class destructor TUOMVolumeUtils.Destroy;
+begin
+  FreeAndNil(FUnits);
+end;
+
+{
 class procedure TUOMVolumeUtils.UnitList(AList: TStrings);
 begin
   AList.Clear;
@@ -214,6 +247,42 @@ begin
     umvCubicFeet:         Result:= 'ft³';
     umvCubicYards:        Result:= 'yd³';
   end;
+end;
+}
+
+class function TUOMVolumeUtils.GetUnit(const Index: Integer): TUOMUnitBaseClass;
+begin
+  Result:= FUnits[Index];
+end;
+
+class function TUOMVolumeUtils.UnitCount: Integer;
+begin
+  Result:= FUnits.Count;
+end;
+
+class function TUOMVolumeUtils.UOMID: String;
+begin
+  Result:= '{8D2E997E-199D-45AB-8AE1-A8BD5128D21A}';
+end;
+
+class function TUOMVolumeUtils.UOMName: String;
+begin
+  Result:= 'Volume';
+end;
+
+class procedure TUOMVolumeUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+begin
+  FUnits.Add(AUnitClass);
+end;
+
+class procedure TUOMVolumeUtils.RegisterUnits;
+begin
+  //TODO
+end;
+
+class procedure TUOMVolumeUtils.RegisterUOM;
+begin
+  TUOMUtils.RegisterUOM(TUOMVolumeUtils);
 end;
 
 class function TUOMVolumeUtils.CubicMetersToMilliliters(
@@ -623,7 +692,7 @@ end;
 class operator TUOMVolume.implicit(const AValue: TUOMVolume): String;
 begin
   Result:= FormatFloat(NumFormat, AValue.FValue);
-  Result:= Result + TUOMVolumeUtils.UnitSuffix(AValue.FUnit);
+  //TODO: Result:= Result + TUOMVolumeUtils.UnitSuffix(AValue.FUnit);
 end;
 
 class operator TUOMVolume.implicit(const AValue: String): TUOMVolume;
@@ -1070,5 +1139,6 @@ begin
 end;
 
 initialization
+  _:= nil;
   DefaultVolumeUnit:= TUOMVolumeUnit.umvCubicFeet;
 end.
