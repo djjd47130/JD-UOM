@@ -90,12 +90,10 @@ type
   TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial, ustNatural);
   TUOMSystems = set of TUOMSystem;
 
-type
   TUOMBase = class;
-  TUOMUnitBase = class;
-
   TUOMBaseClass = class of TUOMBase;
 
+  TUOMUnitBase = class;
   TUOMUnitBaseClass = class of TUOMUnitBase;
 
   /// <summary>
