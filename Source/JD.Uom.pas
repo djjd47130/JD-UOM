@@ -87,7 +87,7 @@ const
   NumFormat = '#,###,###,###,##0.#############';
 
 type
-  TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial);
+  TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial, ustNatural);
   TUOMSystems = set of TUOMSystem;
 
 type
@@ -99,31 +99,20 @@ type
   TUOMUnitBaseClass = class of TUOMUnitBase;
 
   /// <summary>
-  /// Record containing basic information about a specific UOM unit.
-  /// </summary>
-  TUOMUnitInfo = record
-    UOM: TUOMBaseClass;
-    Name: String;
-    Systems: TUOMSystems;
-    Prefix: String;
-    Suffix: String;
-    class operator Implicit(const AValue: TUOMUnitInfo): String;
-  end;
-
-  TUOMUnitArray = array of TUOMUnitInfo;
-
-  /// <summary>
   /// NEW Base abstract class for all UOM unit classes.
   /// To replace TUOMUnitInfo above.
   /// </summary>
   TUOMUnitBase = class
   public
-    class function UOM: TUOMBase; virtual; abstract;
+    class function UOM: TUOMBaseClass; virtual; abstract;
     class function UnitID: String; virtual; abstract;
     class function UnitName: String; virtual; abstract;
+    class function UnitDescription: String; virtual; abstract;
     class function Systems: TUOMSystems; virtual; abstract;
     class function Prefix: String; virtual; abstract;
     class function Suffix: String; virtual; abstract;
+    class function ConvertToBase(const AValue: Double): Double; virtual; abstract;
+    class function ConvertFromBase(const AValue: Double): Double; virtual; abstract;
   end;
 
   /// <summary>
@@ -134,7 +123,7 @@ type
     class function UOMID: String; virtual; abstract;
     class function UOMName: String; virtual; abstract;
     class function UnitCount: Integer; virtual; abstract;
-    class function GetUnit(const Index: Integer): TUOMUnitInfo; virtual; abstract;
+    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; virtual; abstract;
     class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual;
     class function UnitName(const Index: Integer): String; virtual;
     class function UnitPrefix(const Index: Integer): String; virtual;
@@ -511,31 +500,24 @@ begin
   FUOM.Assign(Value);
 end;
 
-{ TUOMUnitInfo }
-
-class operator TUOMUnitInfo.Implicit(const AValue: TUOMUnitInfo): String;
-begin
-  Result:= AValue.Name;
-end;
-
 { TUOMBase }
 
 class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
 var
   X: Integer;
-  U: TUOMUnitInfo;
+  U: TUOMUnitBaseClass;
 begin
   AList.Clear;
   for X := 0 to UnitCount-1 do begin
     U:= GetUnit(X);
     if ASystem in U.Systems then
-      AList.Add(U.Name);
+      AList.Add(U.UnitName);
   end;
 end;
 
 class function TUOMBase.UnitName(const Index: Integer): String;
 begin
-  Result:= GetUnit(Index).Name;
+  Result:= GetUnit(Index).UnitName;
 end;
 
 class function TUOMBase.UnitPrefix(const Index: Integer): String;

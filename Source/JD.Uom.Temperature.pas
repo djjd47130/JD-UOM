@@ -3,27 +3,66 @@ unit JD.Uom.Temperature;
 interface
 
 uses
-  System.Classes, System.SysUtils,
+  System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom;
 
 type
   TUOMTemperatureUnit = (umtCelsius, umtFarenheit, umtKelvin);
   TUOMTemperatureUnits = set of TUOMTemperatureUnit;
 
+  TUOMTemperatureCelcius = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMTemperatureUnit; static;
+  end;
+
+  TUOMTemperatureFarenheit = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMTemperatureUnit; static;
+  end;
+
+  TUOMTemperatureKelvin = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMTemperatureUnit; static;
+  end;
+
   TUOMTemperatureUtils = class(TUOMBase)
   private
-    class var FUnits: TUOMUnitArray;
+    class var FUnits: TList<TUOMUnitBaseClass>;
+  private
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(const Name: String; const Systems: TUOMSystems;
-      const Prefix, Suffix: String);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
+    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
 
     //Celcius
     class function FarenheitToCelcius(const AFarenheit: Double): Double; static;
@@ -70,40 +109,33 @@ var
 
 class constructor TUOMTemperatureUtils.Create;
 begin
-  SetLength(FUnits, 0);
+  FUnits:= TList<TUOMUnitBaseClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
 
 class destructor TUOMTemperatureUtils.Destroy;
 begin
-  SetLength(FUnits, 0);
+  FreeAndNil(FUnits);
 end;
 
-class function TUOMTemperatureUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+class function TUOMTemperatureUtils.GetUnit(
+  const Index: Integer): TUOMUnitBaseClass;
 begin
   Result:= FUnits[Index];
 end;
 
-class procedure TUOMTemperatureUtils.RegisterUnit(const Name: String;
-  const Systems: TUOMSystems; const Prefix, Suffix: String);
-var
-  U: TUOMUnitInfo;
+class procedure TUOMTemperatureUtils.RegisterUnit(
+  AUnitClass: TUOMUnitBaseClass);
 begin
-  SetLength(FUnits, Length(FUnits)+1);
-  U.UOM:= Self;
-  U.Name:= Name;
-  U.Systems:= Systems;
-  U.Prefix:= Prefix;
-  U.Suffix:= Suffix;
-  FUnits[Length(FUnits)-1]:= U;
+  FUnits.Add(AUnitClass);
 end;
 
 class procedure TUOMTemperatureUtils.RegisterUnits;
 begin
-  RegisterUnit('Celcius',     [ustMetric],  '',   '°C');
-  RegisterUnit('Farenheit',   [ustImperial, ustUSCustomary],  '',   '°F');
-  RegisterUnit('Kelvin',      [ustMetric],  '',   '°K');
+  RegisterUnit(TUOMTemperatureCelcius);
+  RegisterUnit(TUOMTemperatureFarenheit);
+  RegisterUnit(TUOMTemperatureKelvin);
 end;
 
 class procedure TUOMTemperatureUtils.RegisterUOM;
@@ -113,7 +145,7 @@ end;
 
 class function TUOMTemperatureUtils.UnitCount: Integer;
 begin
-  Result:= Length(FUnits);
+  Result:= FUnits.Count;
 end;
 
 class function TUOMTemperatureUtils.UOMID: String;
@@ -232,6 +264,162 @@ begin
     umtFarenheit: Result.FValue:= TUOMTemperatureUtils.FarenheitToKelvin(FValue);
     umtKelvin:    Result.FValue:= FValue; //Same
   end;
+end;
+
+{ TUOMTemperatureCelcius }
+
+class function TUOMTemperatureCelcius.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMTemperatureCelcius.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMTemperatureCelcius.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMTemperatureCelcius.Suffix: String;
+begin
+  Result:= '°C';
+end;
+
+class function TUOMTemperatureCelcius.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMTemperatureCelcius.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMTemperatureCelcius.UnitEnum: TUOMTemperatureUnit;
+begin
+  Result:= umtCelsius;
+end;
+
+class function TUOMTemperatureCelcius.UnitID: String;
+begin
+  Result:= '{F4D3B012-EA64-4FB0-BA19-1A897C6945B5}';
+end;
+
+class function TUOMTemperatureCelcius.UnitName: String;
+begin
+  Result:= 'Celcius';
+end;
+
+class function TUOMTemperatureCelcius.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMTemperatureUtils;
+end;
+
+{ TUOMTemperatureFarenheit }
+
+class function TUOMTemperatureFarenheit.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMTemperatureFarenheit.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMTemperatureFarenheit.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMTemperatureFarenheit.Suffix: String;
+begin
+  Result:= '°F';
+end;
+
+class function TUOMTemperatureFarenheit.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMTemperatureFarenheit.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMTemperatureFarenheit.UnitEnum: TUOMTemperatureUnit;
+begin
+  Result:= umtFarenheit;
+end;
+
+class function TUOMTemperatureFarenheit.UnitID: String;
+begin
+  Result:= '{8E5F200E-D533-4BD4-8A6C-88BBB7E55E0F}';
+end;
+
+class function TUOMTemperatureFarenheit.UnitName: String;
+begin
+  Result:= 'Farenheit';
+end;
+
+class function TUOMTemperatureFarenheit.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMTemperatureUtils;
+end;
+
+{ TUOMTemperatureKelvin }
+
+class function TUOMTemperatureKelvin.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMTemperatureKelvin.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMTemperatureKelvin.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMTemperatureKelvin.Suffix: String;
+begin
+  Result:= '°K';
+end;
+
+class function TUOMTemperatureKelvin.Systems: TUOMSystems;
+begin
+  Result:= [ustNatural];
+end;
+
+class function TUOMTemperatureKelvin.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMTemperatureKelvin.UnitEnum: TUOMTemperatureUnit;
+begin
+  Result:= umtKelvin;
+end;
+
+class function TUOMTemperatureKelvin.UnitID: String;
+begin
+  Result:= '{A5A247C4-DCAC-41AF-A2F5-412E14974DE7}';
+end;
+
+class function TUOMTemperatureKelvin.UnitName: String;
+begin
+  Result:= 'Kelvin';
+end;
+
+class function TUOMTemperatureKelvin.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMTemperatureUtils;
 end;
 
 initialization

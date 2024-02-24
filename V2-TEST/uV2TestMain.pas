@@ -56,7 +56,7 @@ end;
 
 procedure TfrmMain.lstUnitsClick(Sender: TObject);
 var
-  U: TUOMUnitInfo;
+  U: TUOMUnitBase;
 begin
   //TODO: Show unit details...
   //U:= ???
@@ -80,7 +80,7 @@ procedure TfrmMain.RefreshUnits;
 var
   I: Integer;
   UOM: TUOMBaseClass;
-  U: TUOMUnitInfo;
+  U: TUOMUnitBaseClass;
   X: Integer;
   S: TUOMSystem;
 begin
@@ -92,7 +92,7 @@ begin
     U:= UOM.GetUnit(X);
     S:= TUOMSystem(cboSystem.ItemIndex);
     if (S = ustAny) or (S in U.Systems) then
-      lstUnits.Items.Add(U.Name);
+      lstUnits.Items.Add(U.UnitName);
   end;
 end;
 

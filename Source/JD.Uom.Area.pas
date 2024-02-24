@@ -3,7 +3,7 @@ unit JD.Uom.Area;
 interface
 
 uses
-  System.Classes, System.SysUtils,
+  System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom,
   JD.Uom.Length;
 
@@ -15,17 +15,18 @@ type
 
   TUOMAreaUtils = class(TUOMBase)
   private
-    class var FUnits: TUOMUnitArray;
+    class var FUnits: TList<TUOMUnitBaseClass>;
+  private
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
+    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
 
     { Metric }
 
@@ -206,17 +207,17 @@ var
 
 class constructor TUOMAreaUtils.Create;
 begin
-  SetLength(FUnits, 0);
+  FUnits:= TList<TUOMUnitBaseClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
 
 class destructor TUOMAreaUtils.Destroy;
 begin
-  SetLength(FUnits, 0);
+  FreeAndNil(FUnits);
 end;
 
-class function TUOMAreaUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+class function TUOMAreaUtils.GetUnit(const Index: Integer): TUOMUnitBaseClass;
 begin
   Result:= FUnits[Index];
 end;
@@ -231,30 +232,26 @@ begin
   Result:= 'Area';
 end;
 
-class procedure TUOMAreaUtils.RegisterUnit(const AUnitInfo: TUOMUnitInfo);
+class procedure TUOMAreaUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
 begin
-  SetLength(FUnits, Length(FUnits)+1);
-  FUnits[Length(FUnits)-1]:= AUnitInfo;
+  FUnits.Add(AUnitClass);
 end;
 
 class procedure TUOMAreaUtils.RegisterUnits;
-  procedure A(const Name: String; const Systems: TUOMSystems; const Prefix, Suffix: String);
-  var
-    U: TUOMUnitInfo;
-  begin
-    U.UOM:= Self;
-    U.Name:= Name;
-    U.Systems:= Systems;
-    U.Prefix:= Prefix;
-    U.Suffix:= Suffix;
-    RegisterUnit(U);
-  end;
 begin
-  A('Square Millimeters',     [ustMetric],  '',   'mm²');
-  A('Square Centimeters',     [ustMetric],  '',   'cm²');
-
+  {
   //TODO
-
+  A('Square Millimeters',   [ustMetric],  '',   'mm²');
+  A('Square Centimeters',   [ustMetric],  '',   'cm²');
+  A('Square Meters',        [ustMetric],  '',   'm²');
+  A('Hectares',             [ustMetric],  '',   'ha');
+  A('Square Kilometers',    [ustMetric],  '',   'km²');
+  A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
+  A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
+  A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
+  A('Acres',                [ustImperial,ustUSCustomary], '',   'ac');
+  A('Square Miles',         [ustImperial,ustUSCustomary], '',   'mi²');
+  }
 end;
 
 class procedure TUOMAreaUtils.RegisterUOM;
@@ -262,75 +259,9 @@ begin
   TUOMUtils.RegisterUOM(TUOMAreaUtils);
 end;
 
-{
-class procedure TUOMAreaUtils.UnitList(AList: TStrings);
-begin
-  AList.Clear;
-  AList.Append('Square Millimeters');
-  AList.Append('Square Centimeters');
-  AList.Append('Square Meters');
-  AList.Append('Hectares');
-  AList.Append('Square Kilometers');
-  AList.Append('Square Inches');
-  AList.Append('Square Feet');
-  AList.Append('Square Yards');
-  AList.Append('Acres');
-  AList.Append('Square Miles');
-end;
-
-class function TUOMAreaUtils.UnitName(const AValue: TUOMAreaUnit): String;
-begin
-  case AValue of
-    umaSquareMillimeters: Result:= 'Square Millimeters';
-    umaSquareCentimeters: Result:= 'Square Centimeters';
-    umaSquareMeters:      Result:= 'Square Meters';
-    umaHectares:          Result:= 'Hectares';
-    umaSquareKilometers:  Result:= 'Square Kilometers';
-    umaSquareInches:      Result:= 'Square Inches';
-    umaSquareFeet:        Result:= 'Square Feet';
-    umaSquareYards:       Result:= 'Square yards';
-    umaAcres:             Result:= 'Acres';
-    umaSquareMiles:       Result:= 'Square Miles';
-  end;
-end;
-
-class function TUOMAreaUtils.UnitSuffix(const AValue: TUOMAreaUnit): String;
-begin
-  case AValue of
-    umaSquareMillimeters: Result:= 'mm²';
-    umaSquareCentimeters: Result:= 'cm²';
-    umaSquareMeters:      Result:= 'm²';
-    umaHectares:          Result:= 'ha';
-    umaSquareKilometers:  Result:= 'km²';
-    umaSquareInches:      Result:= 'in²';
-    umaSquareFeet:        Result:= 'ft²';
-    umaSquareYards:       Result:= 'yd²';
-    umaAcres:             Result:= 'ac';
-    umaSquareMiles:       Result:= 'mi²';
-  end;
-end;
-
-class function TUOMAreaUtils.UnitSystem(const AValue: TUOMAreaUnit): TUOMSystem;
-begin
-  Result:= TUOMSystem.ustAny;
-  case AValue of
-    umaSquareMillimeters: Result:= TUOMSystem.ustMetric;
-    umaSquareCentimeters: Result:= TUOMSystem.ustMetric;
-    umaSquareMeters:      Result:= TUOMSystem.ustMetric;
-    umaHectares:          Result:= TUOMSystem.ustMetric;
-    umaSquareKilometers:  Result:= TUOMSystem.ustMetric;
-    umaSquareInches:      Result:= TUOMSystem.ustUSCustomary;
-    umaSquareFeet:        Result:= TUOMSystem.ustUSCustomary;
-    umaSquareYards:       Result:= TUOMSystem.ustUSCustomary;
-    umaAcres:             Result:= TUOMSystem.ustUSCustomary;
-    umaSquareMiles:       Result:= TUOMSystem.ustUSCustomary;
-  end;
-end;
-}
-
 class function TUOMAreaUtils.UnitCount: Integer;
 begin
-  Result:= Length(FUnits);
+  Result:= FUnits.Count;
 end;
 
 class function TUOMAreaUtils.HectaresToSquareMeters(

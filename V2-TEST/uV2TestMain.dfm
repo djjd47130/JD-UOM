@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'JD-UOM/UOM_V2 Test'
-  ClientHeight = 348
-  ClientWidth = 745
+  ClientHeight = 444
+  ClientWidth = 742
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,9 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  DesignSize = (
+    742
+    444)
   PixelsPerInch = 96
   TextHeight = 19
   object Label1: TLabel
@@ -43,9 +46,9 @@ object frmMain: TfrmMain
   object lblUnitName: TLabel
     Left = 488
     Top = 7
-    Width = 42
+    Width = 72
     Height = 19
-    Caption = 'Units'
+    Caption = 'Unit Info'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -57,7 +60,8 @@ object frmMain: TfrmMain
     Left = 8
     Top = 32
     Width = 233
-    Height = 305
+    Height = 401
+    Anchors = [akLeft, akTop, akBottom]
     ItemHeight = 19
     TabOrder = 0
     OnClick = lstUOMsClick
@@ -66,7 +70,8 @@ object frmMain: TfrmMain
     Left = 247
     Top = 32
     Width = 233
-    Height = 305
+    Height = 401
+    Anchors = [akLeft, akTop, akBottom]
     ItemHeight = 19
     TabOrder = 1
     OnClick = lstUnitsClick
@@ -85,13 +90,15 @@ object frmMain: TfrmMain
       'Any System'
       'Metric'
       'US Customary'
-      'Imperial')
+      'Imperial'
+      'Natural')
   end
   object pUnitDetail: TPanel
     Left = 488
     Top = 32
-    Width = 249
-    Height = 305
+    Width = 246
+    Height = 401
+    Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 3
   end
 end

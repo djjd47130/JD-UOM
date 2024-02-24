@@ -3,7 +3,7 @@
 interface
 
 uses
-  System.Classes, System.SysUtils, System.Types,
+  System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom;
 
 type
@@ -11,14 +11,160 @@ type
     umlMeters, umlKilometers, umlInches, umlFeet, umlYards, umlMiles, umlNauticalMiles);
   TUOMLengthUnits = set of TUOMLengthUnit;
 
+  TUOMLengthUtils = class;
+
+  TUOMLengthNanometers = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthMicrons = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthMillimeters = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthCentimeters = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthMeters = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthKilometers = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthInches = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthFeet = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthYards = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthMiles = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+  TUOMLengthNauticalMiles = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function UnitName: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; static;
+  end;
+
+
 
   TUOMLengthUtils = class(TUOMBase)
   private
-    class var FUnits: TUOMUnitArray;
+    class var FUnits: TList<TUOMUnitBaseClass>;
+  private
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(const Name: String; const Systems: TUOMSystems;
-      const Prefix, Suffix: String);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
   public
     class constructor Create;
     class destructor Destroy;
@@ -26,7 +172,7 @@ type
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitInfo; override;
+    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
 
     { US Customary }
 
@@ -245,14 +391,14 @@ var
 
 class constructor TUOMLengthUtils.Create;
 begin
-  SetLength(FUnits, 0);
+  FUnits:= TList<TUOMUnitBaseClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
 
 class destructor TUOMLengthUtils.Destroy;
 begin
-  SetLength(FUnits, 0);
+  FreeAndNil(FUnits);
 end;
 
 class function TUOMLengthUtils.UOMID: String;
@@ -270,38 +416,29 @@ begin
   TUOMUtils.RegisterUOM(TUOMLengthUtils);
 end;
 
-class procedure TUOMLengthUtils.RegisterUnit(const Name: String;
-  const Systems: TUOMSystems; const Prefix, Suffix: String);
-var
-  U: TUOMUnitInfo;
+class procedure TUOMLengthUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
 begin
-  SetLength(FUnits, Length(FUnits)+1);
-  U.UOM:= Self;
-  U.Name:= Name;
-  U.Systems:= Systems;
-  U.Prefix:= Prefix;
-  U.Suffix:= Suffix;
-  FUnits[Length(FUnits)-1]:= U;
+  FUnits.Add(AUnitClass);
 end;
 
 class function TUOMLengthUtils.UnitCount: Integer;
 begin
-  Result:= Length(FUnits);
+  Result:= FUnits.Count;
 end;
 
 class procedure TUOMLengthUtils.RegisterUnits;
 begin
-  RegisterUnit('Nanometers',     [ustMetric],  '',   'nm');
-  RegisterUnit('Microns',        [ustMetric],  '',   'μm');
-  RegisterUnit('Millimeters',    [ustMetric],  '',   'mm');
-  RegisterUnit('Centimeters',    [ustMetric],  '',   'cm');
-  RegisterUnit('Meters',         [ustMetric],  '',   'm');
-  RegisterUnit('Kilometers',     [ustMetric],  '',   'km');
-  RegisterUnit('Inches',         [ustImperial,ustUSCustomary],  '',   '"');
-  RegisterUnit('Feet',           [ustImperial,ustUSCustomary],  '',   '''');
-  RegisterUnit('Yards',          [ustImperial,ustUSCustomary],  '',   'yd');
-  RegisterUnit('Miles',          [ustImperial,ustUSCustomary],  '',   'mi');
-  RegisterUnit('Nautical Mies',  [ustImperial,ustUSCustomary],  '',   'nmi');
+  RegisterUnit(TUOMLengthNanometers);
+  RegisterUnit(TUOMLengthMicrons);
+  RegisterUnit(TUOMLengthMillimeters);
+  RegisterUnit(TUOMLengthCentimeters);
+  RegisterUnit(TUOMLengthMeters);
+  RegisterUnit(TUOMLengthKilometers);
+  RegisterUnit(TUOMLengthInches);
+  RegisterUnit(TUOMLengthFeet);
+  RegisterUnit(TUOMLengthYards);
+  RegisterUnit(TUOMLengthMiles);
+  RegisterUnit(TUOMLengthNauticalMiles);
 end;
 
 class function TUOMLengthUtils.FeetToInches(const AFeet: Double): Double;
@@ -329,7 +466,8 @@ begin
   Result:= AFeet / 3;
 end;
 
-class function TUOMLengthUtils.GetUnit(const Index: Integer): TUOMUnitInfo;
+class function TUOMLengthUtils.GetUnit(
+  const Index: Integer): TUOMUnitBaseClass;
 begin
   Result:= FUnits[Index];
 end;
@@ -1386,7 +1524,579 @@ begin
 end;
 
 
+{ TUOMLengthNanometers }
+
+class function TUOMLengthNanometers.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthNanometers.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthNanometers.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthNanometers.Suffix: String;
+begin
+  Result:= 'nm';
+end;
+
+class function TUOMLengthNanometers.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthNanometers.UnitDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthNanometers.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlNanometers;
+end;
+
+class function TUOMLengthNanometers.UnitID: String;
+begin
+  Result:= '{025691AB-9EF8-4E66-A32E-5DA722507B6C}';
+end;
+
+class function TUOMLengthNanometers.UnitName: String;
+begin
+  Result:= 'Nanometers';
+end;
+
+class function TUOMLengthNanometers.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthMicrons }
+
+class function TUOMLengthMicrons.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthMicrons.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthMicrons.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthMicrons.Suffix: String;
+begin
+  Result:= 'μm';
+end;
+
+class function TUOMLengthMicrons.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthMicrons.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthMicrons.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlMicrons;
+end;
+
+class function TUOMLengthMicrons.UnitID: String;
+begin
+  Result:= '{5D7BC6F9-8A47-4FD0-AD18-CB1DD59C1674}';
+end;
+
+class function TUOMLengthMicrons.UnitName: String;
+begin
+  Result:= 'Microns';
+end;
+
+class function TUOMLengthMicrons.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthMillimeters }
+
+class function TUOMLengthMillimeters.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 10000;
+end;
+
+class function TUOMLengthMillimeters.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 0.0001;
+end;
+
+class function TUOMLengthMillimeters.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthMillimeters.Suffix: String;
+begin
+  Result:= 'mm';
+end;
+
+class function TUOMLengthMillimeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthMillimeters.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthMillimeters.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlMillimeters;
+end;
+
+class function TUOMLengthMillimeters.UnitID: String;
+begin
+  Result:= '{EFC72F22-F2AC-4DB7-9F1B-7AF83459B704}';
+end;
+
+class function TUOMLengthMillimeters.UnitName: String;
+begin
+  Result:= 'Millimeters';
+end;
+
+class function TUOMLengthMillimeters.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthCentimeters }
+
+class function TUOMLengthCentimeters.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 1000;
+end;
+
+class function TUOMLengthCentimeters.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 0.001;
+end;
+
+class function TUOMLengthCentimeters.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthCentimeters.Suffix: String;
+begin
+  Result:= 'cm';
+end;
+
+class function TUOMLengthCentimeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthCentimeters.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthCentimeters.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlCentimeters;
+end;
+
+class function TUOMLengthCentimeters.UnitID: String;
+begin
+  Result:= '{A0CA1AE1-AC2B-4C57-9301-615A260E0CD6}';
+end;
+
+class function TUOMLengthCentimeters.UnitName: String;
+begin
+  Result:= 'Centimeters';
+end;
+
+class function TUOMLengthCentimeters.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthMeters }
+
+class function TUOMLengthMeters.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMLengthMeters.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMLengthMeters.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthMeters.Suffix: String;
+begin
+  Result:= 'm';
+end;
+
+class function TUOMLengthMeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthMeters.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthMeters.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlMeters;
+end;
+
+class function TUOMLengthMeters.UnitID: String;
+begin
+  Result:= '{D2F273A9-7165-49AC-A1B0-0B580B0CC0D4}';
+end;
+
+class function TUOMLengthMeters.UnitName: String;
+begin
+  Result:= 'Meters';
+end;
+
+class function TUOMLengthMeters.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthKilometers }
+
+class function TUOMLengthKilometers.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 1000;
+end;
+
+class function TUOMLengthKilometers.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 0.001;
+end;
+
+class function TUOMLengthKilometers.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthKilometers.Suffix: String;
+begin
+  Result:= 'km';
+end;
+
+class function TUOMLengthKilometers.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMLengthKilometers.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthKilometers.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlKilometers;
+end;
+
+class function TUOMLengthKilometers.UnitID: String;
+begin
+  Result:= '{55910CED-DD6A-4C79-ABCF-6E8113B6F030}';
+end;
+
+class function TUOMLengthKilometers.UnitName: String;
+begin
+  Result:= 'Kilometers';
+end;
+
+class function TUOMLengthKilometers.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthInches }
+
+class function TUOMLengthInches.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthInches.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthInches.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthInches.Suffix: String;
+begin
+  Result:= '"';
+end;
+
+class function TUOMLengthInches.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMLengthInches.UnitDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthInches.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlInches;
+end;
+
+class function TUOMLengthInches.UnitID: String;
+begin
+  Result:= '{C95215D0-353F-4FF1-8851-5CFAC6C0DCD5}';
+end;
+
+class function TUOMLengthInches.UnitName: String;
+begin
+  Result:= 'Inches';
+end;
+
+class function TUOMLengthInches.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthFeet }
+
+class function TUOMLengthFeet.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthFeet.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthFeet.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthFeet.Suffix: String;
+begin
+  Result:= '''';
+end;
+
+class function TUOMLengthFeet.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMLengthFeet.UnitDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthFeet.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlFeet;
+end;
+
+class function TUOMLengthFeet.UnitID: String;
+begin
+  Result:= '{17560FE5-B919-4584-8ECA-C49A15823867}';
+end;
+
+class function TUOMLengthFeet.UnitName: String;
+begin
+  Result:= 'Feet';
+end;
+
+class function TUOMLengthFeet.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthYards }
+
+class function TUOMLengthYards.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthYards.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthYards.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthYards.Suffix: String;
+begin
+  Result:= 'yd';
+end;
+
+class function TUOMLengthYards.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMLengthYards.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthYards.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlYards;
+end;
+
+class function TUOMLengthYards.UnitID: String;
+begin
+  Result:= '{A583027D-83B4-458C-BD23-10D94490B0A3}';
+end;
+
+class function TUOMLengthYards.UnitName: String;
+begin
+  Result:= 'Yards';
+end;
+
+class function TUOMLengthYards.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthMiles }
+
+class function TUOMLengthMiles.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthMiles.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthMiles.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthMiles.Suffix: String;
+begin
+  Result:= 'mi';
+end;
+
+class function TUOMLengthMiles.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMLengthMiles.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthMiles.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlMiles;
+end;
+
+class function TUOMLengthMiles.UnitID: String;
+begin
+  Result:= '{1D9CA2AD-FD62-47AB-BF25-C01F04783703}';
+end;
+
+class function TUOMLengthMiles.UnitName: String;
+begin
+  Result:= 'Miles';
+end;
+
+class function TUOMLengthMiles.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
+{ TUOMLengthNauticalMiles }
+
+class function TUOMLengthNauticalMiles.ConvertFromBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthNauticalMiles.ConvertToBase(const AValue: Double): Double;
+begin
+
+end;
+
+class function TUOMLengthNauticalMiles.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMLengthNauticalMiles.Suffix: String;
+begin
+  Result:= 'nmi';
+end;
+
+class function TUOMLengthNauticalMiles.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMLengthNauticalMiles.UnitDescription: String;
+begin
+  Result:= ''; //TODO
+end;
+
+class function TUOMLengthNauticalMiles.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlNauticalMiles;
+end;
+
+class function TUOMLengthNauticalMiles.UnitID: String;
+begin
+  Result:= '{63A4D394-87D2-4BCB-8EFD-88C8556F8E92}';
+end;
+
+class function TUOMLengthNauticalMiles.UnitName: String;
+begin
+  Result:= 'Nautical Miles';
+end;
+
+class function TUOMLengthNauticalMiles.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMLengthUtils;
+end;
+
 initialization
   _:= nil;
-  DefaultLengthUnit:= TUOMLengthUnit.umlFeet;
+  DefaultLengthUnit:= TUOMLengthUnit.umlMeters;
 end.
