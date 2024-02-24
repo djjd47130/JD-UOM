@@ -29,4 +29,5 @@
   - **TUOMTemperatureUtils** - Class object to access temperature conversion methods.
   - **TUOMTemperature** - Record to encapsulate any given temperature value.
 
+**And many more to come...**
 
