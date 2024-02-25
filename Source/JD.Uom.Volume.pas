@@ -5,7 +5,8 @@ interface
 uses
   System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom,
-  JD.Uom.Length;
+  JD.Uom.Length,
+  JD.Uom.Area;
 
 type
   TUOMVolumeUnit = (umvMilliliters, umvCubicCentimeters, umvLiters, umvCubicMeters,
@@ -16,6 +17,30 @@ type
 
   TUOMVolumeUtils = class;
 
+  TUOMVolumeUnitBase = class(TUOMUnitBase)
+    class function UOM: TUOMBaseClass; override;
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function UnitDescription: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Prefix: String; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; virtual; abstract;
+  end;
+
+  //Specific Volume Units
+
+  TUOMVolumeMilliliters = class(TUOMVolumeUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; override;
+  end;
 
 
 
@@ -32,12 +57,6 @@ type
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
-
-    {
-    class procedure UnitList(AList: TStrings); static;
-    class function UnitSuffix(const AValue: TUOMVolumeUnit): String; static;
-    class function UnitName(const AValue: TUOMVolumeUnit): String; static;
-    }
 
     { Metric System }
 
@@ -277,7 +296,8 @@ end;
 
 class procedure TUOMVolumeUtils.RegisterUnits;
 begin
-  //TODO
+  RegisterUnit(TUOMVolumeMilliliters);
+
 end;
 
 class procedure TUOMVolumeUtils.RegisterUOM;
@@ -1138,7 +1158,93 @@ begin
   end;
 end;
 
+{ TUOMVolumeUnitBase }
+
+class function TUOMVolumeUnitBase.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMVolumeUnitBase.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMVolumeUnitBase.NameSingular: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMVolumeUnitBase.Prefix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMVolumeUnitBase.Suffix: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMVolumeUnitBase.Systems: TUOMSystems;
+begin
+  Result:= [];
+end;
+
+class function TUOMVolumeUnitBase.UnitDescription: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMVolumeUnitBase.UnitID: String;
+begin
+  Result:= '';
+end;
+
+class function TUOMVolumeUnitBase.UOM: TUOMBaseClass;
+begin
+  Result:= TUOMVolumeUtils;
+end;
+
+{ TUOMVolumeMilliliters }
+
+class function TUOMVolumeMilliliters.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 1000000;
+end;
+
+class function TUOMVolumeMilliliters.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 1000000;
+end;
+
+class function TUOMVolumeMilliliters.NameSingular: String;
+begin
+  Result:= 'Milliliter';
+end;
+
+class function TUOMVolumeMilliliters.Suffix: String;
+begin
+  Result:= 'mL';
+end;
+
+class function TUOMVolumeMilliliters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMVolumeMilliliters.UnitEnum: TUOMVolumeUnit;
+begin
+  Result:= umvMilliliters;
+end;
+
+class function TUOMVolumeMilliliters.UnitID: String;
+begin
+  Result:= '{DCB45B7C-0F5C-46E5-94F3-73DE0308E8FF}';
+end;
+
 initialization
   _:= nil;
-  DefaultVolumeUnit:= TUOMVolumeUnit.umvCubicFeet;
+  DefaultVolumeUnit:= TUOMVolumeUnit.umvCubicMeters;
 end.

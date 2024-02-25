@@ -440,6 +440,7 @@ object frmMain: TfrmMain
       object Series1: TFastLineSeries
         Title = 'Comparison'
         LinePen.Color = 10708548
+        LinePen.Width = 2
         XValues.Name = 'X'
         XValues.Order = loAscending
         YValues.Name = 'Y'

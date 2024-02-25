@@ -8,7 +8,9 @@ uses
   JD.Uom,
   JD.Uom.Length,
   JD.Uom.Area,
-  JD.Uom.Temperature, Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
+  JD.Uom.Temperature,
+  JD.Uom.Volume,
+  Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
   VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart;
 
 type
@@ -85,11 +87,13 @@ end;
 procedure TfrmMain.cboSystemClick(Sender: TObject);
 begin
   RefreshUnits;
+  RefreshChart;
 end;
 
 procedure TfrmMain.lstUnitsClick(Sender: TObject);
 begin
   RefreshUnitDetails;
+  RefreshChart;
 end;
 
 procedure TfrmMain.RefreshUOMs;
@@ -124,9 +128,9 @@ begin
   I:= lstUOMs.ItemIndex;
   if I < 0 then Exit;
   FUOM:= TUOMUtils.UOM(I);
+  S:= TUOMSystem(cboSystem.ItemIndex);
   for X := 0 to FUOM.UnitCount-1 do begin
     U:= FUOM.GetUnit(X);
-    S:= TUOMSystem(cboSystem.ItemIndex);
     if (S = ustAny) or (S in U.Systems) then
       lstUnits.Items.AddObject(U.NamePlural, Pointer(X));
   end;
@@ -177,23 +181,33 @@ var
   U: TUOMUnitBaseClass;
   Y: Integer;
   V: Double;
+  Sys: TUOMSystem;
+  I: Integer;
 begin
   Chart.SeriesList.Clear;
+  Sys:= TUOMSystem(cboSystem.ItemIndex);
+  I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
   for X := 0 to FUOM.UnitCount-1 do begin
     U:= FUOM.GetUnit(X);
-    S:= TLineSeries.Create(Chart);
-    try
-      S.ParentChart:= Chart;
-      S.Title:= U.NamePlural;
-      S.LineHeight:= 3;
-      for Y := -50 to 50 do begin
-        V:= U.ConvertToBase(Y);
-        S.Add(V, IntToStr(Y));
+    if (Sys = ustAny) or (Sys in U.Systems) then begin
+      S:= TLineSeries.Create(Chart);
+      try
+        S.ParentChart:= Chart;
+        S.Title:= U.NamePlural;
+        if I = X then
+          S.LinePen.Width:= 3
+        else
+          S.LinePen.Width:= 1;
+        for Y := -50 to 50 do begin
+          V:= U.ConvertToBase(Y);
+          S.Add(V, IntToStr(Y));
+        end;
+      finally
+        Chart.AddSeries(S);
       end;
-    finally
-      Chart.AddSeries(S);
     end;
   end;
+  Chart.Invalidate;
 end;
 
 end.
