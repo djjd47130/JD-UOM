@@ -22,7 +22,6 @@ object frmMain: TfrmMain
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 962
     object Panel2: TPanel
       Left = 0
       Top = 0
@@ -31,15 +30,12 @@ object frmMain: TfrmMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitHeight = 279
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 202
-        Height = 27
+        Height = 19
         Align = alTop
         Caption = 'Units of Measurement'
         Font.Charset = DEFAULT_CHARSET
@@ -48,20 +44,18 @@ object frmMain: TfrmMain
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
+        ExplicitWidth = 179
       end
       object lstUOMs: TListBox
         AlignWithMargins = True
         Left = 3
-        Top = 36
+        Top = 28
         Width = 202
-        Height = 226
+        Height = 234
         Align = alClient
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
-        ExplicitTop = 29
-        ExplicitWidth = 200
-        ExplicitHeight = 246
       end
     end
     object Panel3: TPanel
@@ -72,26 +66,20 @@ object frmMain: TfrmMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 264
-      ExplicitTop = 24
-      ExplicitHeight = 209
       object Panel4: TPanel
         Left = 0
         Top = 0
         Width = 177
-        Height = 33
+        Height = 25
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 2
-        ExplicitTop = -5
-        ExplicitWidth = 175
         object Label2: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 3
           Width = 42
-          Height = 27
+          Height = 19
           Align = alLeft
           Caption = 'Units'
           Font.Charset = DEFAULT_CHARSET
@@ -100,9 +88,6 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          ExplicitLeft = 133
-          ExplicitTop = 7
-          ExplicitHeight = 19
         end
         object cboSystem: TComboBox
           AlignWithMargins = True
@@ -122,24 +107,20 @@ object frmMain: TfrmMain
             'US Customary'
             'Imperial'
             'Natural')
-          ExplicitLeft = 37
-          ExplicitWidth = 138
         end
       end
       object lstUnits: TListBox
         AlignWithMargins = True
         Left = 3
-        Top = 36
+        Top = 28
         Width = 171
-        Height = 226
+        Height = 234
         Align = alClient
         ItemHeight = 19
         TabOrder = 1
         OnClick = lstUnitsClick
-        ExplicitLeft = -16
-        ExplicitTop = -103
-        ExplicitWidth = 193
-        ExplicitHeight = 382
+        ExplicitTop = 36
+        ExplicitHeight = 226
       end
     end
     object Panel5: TPanel
@@ -150,27 +131,20 @@ object frmMain: TfrmMain
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 388
-      ExplicitTop = 1
-      ExplicitWidth = 390
-      ExplicitHeight = 279
       object Panel6: TPanel
         Left = 0
         Top = 0
         Width = 599
-        Height = 33
+        Height = 25
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 2
-        ExplicitTop = 1
-        ExplicitWidth = 388
         object lblUnitHeader: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 3
           Width = 72
-          Height = 27
+          Height = 19
           Align = alLeft
           Caption = 'Unit Info'
           Font.Charset = DEFAULT_CHARSET
@@ -179,16 +153,13 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          ExplicitLeft = 316
-          ExplicitTop = 8
-          ExplicitHeight = 19
         end
         object txtValue: TRzSpinEdit
           AlignWithMargins = True
           Left = 427
           Top = 3
           Width = 169
-          Height = 27
+          Height = 21
           Decimals = 1
           IntegersOnly = False
           Max = 100.000000000000000000
@@ -196,25 +167,22 @@ object frmMain: TfrmMain
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
-          ExplicitLeft = 219
-          ExplicitTop = 0
+          ExplicitHeight = 27
         end
       end
       object pUnitDetail: TPanel
         AlignWithMargins = True
         Left = 3
-        Top = 36
+        Top = 28
         Width = 593
-        Height = 226
+        Height = 234
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 9
-        ExplicitTop = -103
-        ExplicitWidth = 548
-        ExplicitHeight = 382
+        ExplicitTop = 36
+        ExplicitHeight = 226
         DesignSize = (
           593
-          226)
+          234)
         object Label3: TLabel
           Left = 8
           Top = 16
@@ -425,10 +393,6 @@ object frmMain: TfrmMain
     Height = 296
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 64
-    ExplicitTop = 280
-    ExplicitWidth = 761
-    ExplicitHeight = 233
     object Chart: TChart
       Left = 40
       Top = 16
@@ -456,6 +420,7 @@ object frmMain: TfrmMain
       BottomAxis.Title.Font.Style = [fsBold]
       LeftAxis.Axis.Color = clGray
       LeftAxis.Axis.Width = 1
+      LeftAxis.AxisValuesFormat = '#,###,###,##0.#########'
       LeftAxis.Grid.Color = 2105573504
       LeftAxis.Grid.Width = 0
       LeftAxis.LabelsFormat.Font.Color = clWhite

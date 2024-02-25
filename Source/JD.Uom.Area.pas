@@ -40,15 +40,48 @@ type
     class function UnitEnum: TUOMAreaUnit; override;
   end;
 
+  TUOMAreaSquareCentimeters = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
 
+  TUOMAreaSquareMeters = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
+
+  TUOMAreaHectares = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
+
+  TUOMAreaSquareKilometers = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
 
   {
   //TODO
-  A('Square Millimeters',   [ustMetric],  '',   'mm²');
-  A('Square Centimeters',   [ustMetric],  '',   'cm²');
-  A('Square Meters',        [ustMetric],  '',   'm²');
-  A('Hectares',             [ustMetric],  '',   'ha');
-  A('Square Kilometers',    [ustMetric],  '',   'km²');
   A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
   A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
   A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
@@ -284,13 +317,12 @@ end;
 class procedure TUOMAreaUtils.RegisterUnits;
 begin
   RegisterUnit(TUOMAreaSquareMillimeters);
+  RegisterUnit(TUOMAreaSquareCentimeters);
+  RegisterUnit(TUOMAreaSquareMeters);
+  RegisterUnit(TUOMAreaHectares);
+  RegisterUnit(TUOMAreaSquareKilometers);
   {
   //TODO
-  A('Square Millimeters',   [ustMetric],  '',   'mm²');
-  A('Square Centimeters',   [ustMetric],  '',   'cm²');
-  A('Square Meters',        [ustMetric],  '',   'm²');
-  A('Hectares',             [ustMetric],  '',   'ha');
-  A('Square Kilometers',    [ustMetric],  '',   'km²');
   A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
   A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
   A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
@@ -1200,6 +1232,159 @@ end;
 class function TUOMAreaSquareMillimeters.UnitID: String;
 begin
   Result:= '{065A9DAA-4AA5-430A-809A-7EDC997B74AC}';
+end;
+
+{ TUOMAreaSquareCentimeters }
+
+class function TUOMAreaSquareCentimeters.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 10000;
+end;
+
+class function TUOMAreaSquareCentimeters.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 10000;
+end;
+
+class function TUOMAreaSquareCentimeters.NameSingular: String;
+begin
+  Result:= 'Square Centimeter';
+end;
+
+class function TUOMAreaSquareCentimeters.Suffix: String;
+begin
+  Result:= 'cm²';
+end;
+
+class function TUOMAreaSquareCentimeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMAreaSquareCentimeters.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaSquareCentimeters;
+end;
+
+class function TUOMAreaSquareCentimeters.UnitID: String;
+begin
+  Result:= '{C95A71DD-B1E1-4538-BD31-9241493C6AB5}';
+end;
+
+{ TUOMAreaSquareMeters }
+
+class function TUOMAreaSquareMeters.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMAreaSquareMeters.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue;
+end;
+
+class function TUOMAreaSquareMeters.NameSingular: String;
+begin
+  Result:= 'Square Meter';
+end;
+
+class function TUOMAreaSquareMeters.Suffix: String;
+begin
+  Result:= 'm²';
+end;
+
+class function TUOMAreaSquareMeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMAreaSquareMeters.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaSquareMeters;
+end;
+
+class function TUOMAreaSquareMeters.UnitID: String;
+begin
+  Result:= '{2206883A-728E-46B3-B06D-EDD216C852B3}';
+end;
+
+{ TUOMAreaHectares }
+
+class function TUOMAreaHectares.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue / 10000;
+end;
+
+class function TUOMAreaHectares.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 10000;
+end;
+
+class function TUOMAreaHectares.NameSingular: String;
+begin
+  Result:= 'Hectare';
+end;
+
+class function TUOMAreaHectares.Suffix: String;
+begin
+  Result:= 'ha';
+end;
+
+class function TUOMAreaHectares.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMAreaHectares.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaHectares;
+end;
+
+class function TUOMAreaHectares.UnitID: String;
+begin
+  Result:= '{2BFD8C78-C49C-4EA4-8ECE-2D836E161197}';
+end;
+
+{ TUOMAreaSquareKilometers }
+
+class function TUOMAreaSquareKilometers.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 1000000;
+end;
+
+class function TUOMAreaSquareKilometers.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 1000000;
+end;
+
+class function TUOMAreaSquareKilometers.NameSingular: String;
+begin
+  Result:= 'Square Kilometer';
+end;
+
+class function TUOMAreaSquareKilometers.Suffix: String;
+begin
+  Result:= 'km²';
+end;
+
+class function TUOMAreaSquareKilometers.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMAreaSquareKilometers.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaSquareKilometers;
+end;
+
+class function TUOMAreaSquareKilometers.UnitID: String;
+begin
+  Result:= '{6B9C24F9-AC2F-4AC9-9F77-1D31F8858285}';
 end;
 
 initialization

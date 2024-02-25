@@ -186,7 +186,6 @@ begin
       S.ParentChart:= Chart;
       S.Title:= U.NamePlural;
       S.LineHeight:= 3;
-
       for Y := -50 to 50 do begin
         V:= U.ConvertToBase(Y);
         S.Add(V, IntToStr(Y));
