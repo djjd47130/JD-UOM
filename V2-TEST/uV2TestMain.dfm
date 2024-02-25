@@ -119,8 +119,6 @@ object frmMain: TfrmMain
         ItemHeight = 19
         TabOrder = 1
         OnClick = lstUnitsClick
-        ExplicitTop = 36
-        ExplicitHeight = 226
       end
     end
     object Panel5: TPanel
@@ -178,8 +176,6 @@ object frmMain: TfrmMain
         Height = 234
         Align = alClient
         TabOrder = 1
-        ExplicitTop = 36
-        ExplicitHeight = 226
         DesignSize = (
           593
           234)
@@ -412,6 +408,7 @@ object frmMain: TfrmMain
       BottomAxis.Axis.Width = 0
       BottomAxis.Grid.Color = clGray
       BottomAxis.Increment = 10.000000000000000000
+      BottomAxis.LabelsAngle = 90
       BottomAxis.LabelsFormat.Font.Color = clWhite
       BottomAxis.MinorTickCount = 2
       BottomAxis.Title.Caption = 'Base Unit'
@@ -421,8 +418,9 @@ object frmMain: TfrmMain
       LeftAxis.Axis.Color = clGray
       LeftAxis.Axis.Width = 1
       LeftAxis.AxisValuesFormat = '#,###,###,##0.#########'
-      LeftAxis.Grid.Color = 2105573504
+      LeftAxis.Grid.Color = 1837138048
       LeftAxis.Grid.Width = 0
+      LeftAxis.Increment = 10.000000000000000000
       LeftAxis.LabelsFormat.Font.Color = clWhite
       LeftAxis.Title.Caption = 'Conversion'
       LeftAxis.Title.Font.Color = clWhite

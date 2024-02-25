@@ -15,7 +15,7 @@ uses
 
 const
   WIDTH_SMALL = 1;
-  WIDTH_LARGE = 4;
+  WIDTH_LARGE = 5;
 
 type
   TfrmMain = class(TForm)
@@ -205,7 +205,7 @@ begin
             S.LinePen.Width:= WIDTH_LARGE
           else
             S.LinePen.Width:= WIDTH_SMALL;
-          for Y := -50 to 50 do begin
+          for Y := -100 to 100 do begin
             V:= U.ConvertToBase(Y);
             S.Add(V, IntToStr(Y));
           end;
