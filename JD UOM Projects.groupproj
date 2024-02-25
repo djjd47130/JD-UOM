@@ -3,10 +3,19 @@
         <ProjectGuid>{57501C4E-E988-40C7-AD1B-C1F3DF9C9F4D}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="Packages\JDUOMLib.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Packages\dclJDUOMLib.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="VCL\UomCalculator.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="FMX\UomCalc.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="V2-TEST\V2Test.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -17,6 +26,24 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="JDUOMLib">
+        <MSBuild Projects="Packages\JDUOMLib.dproj"/>
+    </Target>
+    <Target Name="JDUOMLib:Clean">
+        <MSBuild Projects="Packages\JDUOMLib.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JDUOMLib:Make">
+        <MSBuild Projects="Packages\JDUOMLib.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="dclJDUOMLib">
+        <MSBuild Projects="Packages\dclJDUOMLib.dproj"/>
+    </Target>
+    <Target Name="dclJDUOMLib:Clean">
+        <MSBuild Projects="Packages\dclJDUOMLib.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dclJDUOMLib:Make">
+        <MSBuild Projects="Packages\dclJDUOMLib.dproj" Targets="Make"/>
+    </Target>
     <Target Name="UomCalculator">
         <MSBuild Projects="VCL\UomCalculator.dproj"/>
     </Target>
@@ -35,14 +62,23 @@
     <Target Name="UomCalc:Make">
         <MSBuild Projects="FMX\UomCalc.dproj" Targets="Make"/>
     </Target>
+    <Target Name="V2Test">
+        <MSBuild Projects="V2-TEST\V2Test.dproj"/>
+    </Target>
+    <Target Name="V2Test:Clean">
+        <MSBuild Projects="V2-TEST\V2Test.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="V2Test:Make">
+        <MSBuild Projects="V2-TEST\V2Test.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="UomCalculator;UomCalc"/>
+        <CallTarget Targets="JDUOMLib;dclJDUOMLib;UomCalculator;UomCalc;V2Test"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="UomCalculator:Clean;UomCalc:Clean"/>
+        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;UomCalculator:Clean;UomCalc:Clean;V2Test:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="UomCalculator:Make;UomCalc:Make"/>
+        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;UomCalculator:Make;UomCalc:Make;V2Test:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

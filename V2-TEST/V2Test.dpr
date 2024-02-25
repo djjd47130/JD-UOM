@@ -1,8 +1,8 @@
-program UomCalculator;
+program V2Test;
 
 uses
   Vcl.Forms,
-  uTestMain in 'uTestMain.pas' {frmMain},
+  uV2TestMain in 'uV2TestMain.pas' {frmMain},
   Vcl.Themes,
   Vcl.Styles;
 
@@ -11,8 +11,8 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.Title := 'JD Unit of Measure Test';
   TStyleManager.TrySetStyle('Windows10 Dark');
-  Application.Title := 'UOM Calculator';
   Application.CreateForm(TfrmMain, frmMain);
   Application.Run;
 end.
