@@ -58,6 +58,7 @@
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <SanitizedProjectName>V2Test</SanitizedProjectName>
+        <Custom_Styles>&quot;Windows10 Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows10Dark.vsf&quot;</Custom_Styles>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_UsePackage>DBXSqliteDriver;RESTComponents;DBXInterBaseDriver;vclactnband;vclFireDAC;OpenWireBindingPkg;bindcompvclsmp;tethering;svnui;Mitov_VCL_BasicLab;JDLibComponents;FireDACADSDriver;OpenWireEditorPkg;OpenWireBindingFmxPkg;JDGamesComps;vcltouch;AudioLabEssentialPkg;vcldb;bindcompfmx;svn;JDUOMLib;inetdb;RaizeComponentsVcl;OpenWireEditorBasicPkg;FmxTeeUI;RaizeComponentsVclDb;EdoniaCompPackage;fmx;FireDACIBDriver;fmxdae;MSICS_RAD21_Rtl;vcledge;Mitov_VCL_AudioLab;dbexpress;IndyCore;TextLabBasicPkg;vclx;JDWordGridComps;dsnap;Mitov_VCL_AudioLab_Essential;FireDACCommon;TimingLabBasicPkg;RESTBackendComponents;JDVisualsComponentsDX10_1;QR506RunDXE10;VCLRESTComponents;soapserver;JclDeveloperTools;vclie;bindengine;DBXMySQLDriver;CloudService;FireDACMySQLDriver;FireDACCommonODBC;FireDACCommonDriver;Mitov_BasicLab;SignalLabScopePkg;LockBoxDR;inet;IndyIPCommon;bindcompdbx;OpenWirePkg;vcl;IndyIPServer;MediaLabBasicPkg;IndySystem;OpenWireStudioAudioHostPkg;dsnapcon;FireDACMSAccDriver;fmxFireDAC;JDCardComponents;vclimg;TeeDB;FireDAC;Jcl;Mitov_Runtime;OpenWireStudioHostPkg;MiTeC_Common_RAD21;FireDACSqliteDriver;FireDACPgDriver;FMXTee;soaprtl;DbxCommonDriver;OpenWireBindingDatabasePkg;Tee;Mitov_VCL_AudioLab_Basic;xmlrtl;soapmidas;fmxobj;vclwinx;rtl;DbxClientDriver;CustomIPTransport;vcldsnap;SignalLabBasicPkg;AudioLabBasicPkg;MediaLabPkg;WMI_PKG;SignalLabAdditionalPkg;bindcomp;appanalytics;Mitov_VCL_Runtime;AudioLabPkg;IndyIPClient;bindcompvcl;TeeUI;dbxcds;VclSmp;OpenWireBindingVclPkg;adortl;AudioLabGenericBasicPkg;SignalLabGenericBasicPkg;JclVcl;dsnapxml;dbrtl;IndyProtocols;inetdbxpress;JclContainers;fmxase;$(DCC_UsePackage)</DCC_UsePackage>
@@ -85,7 +86,6 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -126,7 +126,6 @@
                     <Source Name="MainSource">V2Test.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\21.0\Bpl\dclJDUOMLib.bpl">(untitled)</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="C:\WINDOWS\system32\FMX_MediaLabBasicDsn270.bpl">Mitov - FireMonkey MediaLab Basic Design Package</Excluded_Packages>

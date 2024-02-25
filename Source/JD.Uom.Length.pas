@@ -1697,12 +1697,12 @@ end;
 
 class function TUOMLengthMillimeters.ConvertFromBase(const AValue: Double): Double;
 begin
-  Result:= AValue * 10000;
+  Result:= AValue * 1000;
 end;
 
 class function TUOMLengthMillimeters.ConvertToBase(const AValue: Double): Double;
 begin
-  Result:= AValue / 10000;
+  Result:= AValue / 1000;
 end;
 
 class function TUOMLengthMillimeters.Suffix: String;
@@ -1734,12 +1734,12 @@ end;
 
 class function TUOMLengthCentimeters.ConvertFromBase(const AValue: Double): Double;
 begin
-  Result:= AValue * 1000;
+  Result:= AValue * 100;
 end;
 
 class function TUOMLengthCentimeters.ConvertToBase(const AValue: Double): Double;
 begin
-  Result:= AValue / 1000;
+  Result:= AValue / 100;
 end;
 
 class function TUOMLengthCentimeters.Suffix: String;
