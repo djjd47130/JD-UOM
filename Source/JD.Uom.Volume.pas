@@ -1381,7 +1381,7 @@ end;
 
 class function TUOMVolumeCubicMeters.NameSingular: String;
 begin
-  Result:= 'Cubic Meters';
+  Result:= 'Cubic Meter';
 end;
 
 class function TUOMVolumeCubicMeters.Suffix: String;
