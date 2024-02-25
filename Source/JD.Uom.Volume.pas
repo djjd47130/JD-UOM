@@ -42,7 +42,44 @@ type
     class function UnitEnum: TUOMVolumeUnit; override;
   end;
 
+  TUOMVolumeCubicCentimeters = class(TUOMVolumeUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; override;
+  end;
 
+  TUOMVolumeLiters = class(TUOMVolumeUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; override;
+  end;
+
+  //TODO
+
+  {
+  AList.Append('Cubic Meters');
+  AList.Append('Teaspoons (US)');
+  AList.Append('Tablespoons (US)');
+  AList.Append('Fluid Ounces (US)');
+  AList.Append('Teaspoons (UK)');
+  AList.Append('Tablespoons (UK)');
+  AList.Append('Fluid Ounces (UK)');
+  AList.Append('Cups');
+  AList.Append('Pints');
+  AList.Append('Quarts');
+  AList.Append('Gallons');
+  AList.Append('Cubic Inches');
+  AList.Append('Cubic Feet');
+  AList.Append('Cubic Yards');
+  }
 
   TUOMVolumeUtils = class(TUOMBase)
   private
@@ -248,7 +285,7 @@ end;
 class function TUOMVolumeUtils.UnitSuffix(const AValue: TUOMVolumeUnit): String;
 begin
   case AValue of
-    umvMilliliters:       Result:= 'ml';
+    umvMilliliters:       Result:= 'mL';
     umvCubicCentimeters:  Result:= 'cm³';
     umvLiters:            Result:= 'l';
     umvCubicMeters:       Result:= 'm³';
@@ -297,6 +334,25 @@ end;
 class procedure TUOMVolumeUtils.RegisterUnits;
 begin
   RegisterUnit(TUOMVolumeMilliliters);
+  RegisterUnit(TUOMVolumeCubicCentimeters);
+  RegisterUnit(TUOMVolumeLiters);
+
+  {
+  AList.Append('Cubic Meters');
+  AList.Append('Teaspoons (US)');
+  AList.Append('Tablespoons (US)');
+  AList.Append('Fluid Ounces (US)');
+  AList.Append('Teaspoons (UK)');
+  AList.Append('Tablespoons (UK)');
+  AList.Append('Fluid Ounces (UK)');
+  AList.Append('Cups');
+  AList.Append('Pints');
+  AList.Append('Quarts');
+  AList.Append('Gallons');
+  AList.Append('Cubic Inches');
+  AList.Append('Cubic Feet');
+  AList.Append('Cubic Yards');
+  }
 
 end;
 
@@ -1242,6 +1298,82 @@ end;
 class function TUOMVolumeMilliliters.UnitID: String;
 begin
   Result:= '{DCB45B7C-0F5C-46E5-94F3-73DE0308E8FF}';
+end;
+
+{ TUOMVolumeCubicCentimeters }
+
+class function TUOMVolumeCubicCentimeters.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 1000000;
+end;
+
+class function TUOMVolumeCubicCentimeters.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 1000000;
+end;
+
+class function TUOMVolumeCubicCentimeters.NameSingular: String;
+begin
+  Result:= 'Cubic Centimeter';
+end;
+
+class function TUOMVolumeCubicCentimeters.Suffix: String;
+begin
+  Result:= 'cm³';
+end;
+
+class function TUOMVolumeCubicCentimeters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMVolumeCubicCentimeters.UnitEnum: TUOMVolumeUnit;
+begin
+  Result:= umvCubicCentimeters;
+end;
+
+class function TUOMVolumeCubicCentimeters.UnitID: String;
+begin
+  Result:= '{133C3A39-D1F6-449E-970A-33B1ACD38058}';
+end;
+
+{ TUOMVolumeLiters }
+
+class function TUOMVolumeLiters.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 1000;
+end;
+
+class function TUOMVolumeLiters.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue / 1000;
+end;
+
+class function TUOMVolumeLiters.NameSingular: String;
+begin
+  Result:= 'Liter';
+end;
+
+class function TUOMVolumeLiters.Suffix: String;
+begin
+  Result:= 'L';
+end;
+
+class function TUOMVolumeLiters.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMVolumeLiters.UnitEnum: TUOMVolumeUnit;
+begin
+  Result:= umvLiters;
+end;
+
+class function TUOMVolumeLiters.UnitID: String;
+begin
+  Result:= '{F2DBAB17-4816-4C4D-90F5-88B85C002A6E}';
 end;
 
 initialization

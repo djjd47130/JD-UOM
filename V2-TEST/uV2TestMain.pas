@@ -13,6 +13,10 @@ uses
   Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
   VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart;
 
+const
+  WIDTH_SMALL = 1;
+  WIDTH_LARGE = 4;
+
 type
   TfrmMain = class(TForm)
     pMain: TPanel;
@@ -60,6 +64,7 @@ type
     procedure RefreshUnits;
     procedure RefreshUnitDetails;
     procedure RefreshChart;
+    procedure UpdateChart;
   end;
 
 var
@@ -93,7 +98,6 @@ end;
 procedure TfrmMain.lstUnitsClick(Sender: TObject);
 begin
   RefreshUnitDetails;
-  RefreshChart;
 end;
 
 procedure TfrmMain.RefreshUOMs;
@@ -172,6 +176,7 @@ begin
   lblUnitSuffix.Caption:= U.Suffix;
   lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+U.Suffix;
   lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+U.Suffix;
+  UpdateChart;
 end;
 
 procedure TfrmMain.RefreshChart;
@@ -186,26 +191,46 @@ var
 begin
   Chart.SeriesList.Clear;
   Sys:= TUOMSystem(cboSystem.ItemIndex);
-  I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
-  for X := 0 to FUOM.UnitCount-1 do begin
-    U:= FUOM.GetUnit(X);
-    if (Sys = ustAny) or (Sys in U.Systems) then begin
-      S:= TLineSeries.Create(Chart);
-      try
-        S.ParentChart:= Chart;
-        S.Title:= U.NamePlural;
-        if I = X then
-          S.LinePen.Width:= 3
-        else
-          S.LinePen.Width:= 1;
-        for Y := -50 to 50 do begin
-          V:= U.ConvertToBase(Y);
-          S.Add(V, IntToStr(Y));
+  if lstUnits.Items.Count > 0 then begin
+    I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
+    for X := 0 to FUOM.UnitCount-1 do begin
+      U:= FUOM.GetUnit(X);
+      if (Sys = ustAny) or (Sys in U.Systems) then begin
+        S:= TLineSeries.Create(Chart);
+        try
+          S.Tag:= X;
+          S.ParentChart:= Chart;
+          S.Title:= U.NamePlural;
+          if I = X then
+            S.LinePen.Width:= WIDTH_LARGE
+          else
+            S.LinePen.Width:= WIDTH_SMALL;
+          for Y := -50 to 50 do begin
+            V:= U.ConvertToBase(Y);
+            S.Add(V, IntToStr(Y));
+          end;
+        finally
+          Chart.AddSeries(S);
         end;
-      finally
-        Chart.AddSeries(S);
       end;
     end;
+  end;
+  Chart.Invalidate;
+end;
+
+procedure TfrmMain.UpdateChart;
+var
+  S: TLineSeries;
+  X: Integer;
+  I: Integer;
+begin
+  I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
+  for X := 0 to Chart.SeriesCount-1 do begin
+    S:= TLineSeries(Chart.Series[X]);
+    if I = S.Tag then
+      S.LinePen.Width:= WIDTH_LARGE
+    else
+      S.LinePen.Width:= WIDTH_SMALL;
   end;
   Chart.Invalidate;
 end;
