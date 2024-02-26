@@ -1,6 +1,8 @@
 # JD-UOM - Delphi Library to Convert Unit of Measure
 
-### NOTE: This library is in active development, and is not ready for use at this time. This is specifically the `UOM_V2` branch, and introduces major structural changes to the entire backbone of this UOM system. 
+### NOTE: This library is in active development, and is not ready for use at this time. 
+
+### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit".
 
 ### Features
 - `TUOMList` - Class encapsulating all possible unit conversions.
