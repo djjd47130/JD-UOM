@@ -2,7 +2,7 @@
 
 ### NOTE: This library is in active development, and is not ready for use at this time. 
 
-### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit".
+### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit". Except for in documentation, such as below.
 
 ### Features
 - `TUOMList` - Class encapsulating all possible unit conversions.
