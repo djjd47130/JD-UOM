@@ -136,6 +136,8 @@ type
     class function UnitName(const Index: Integer): String; virtual;
     class function UnitPrefix(const Index: Integer): String; virtual;
     class function UnitSuffix(const Index: Integer): String; virtual;
+    class function Convert(const AValue: Double;
+      const AFromUnit, AToUnit: TUOMUnitBaseClass): Double; virtual;
   end;
 
   /// <summary>
@@ -266,6 +268,13 @@ begin
 end;
 
 { TUOMBase }
+
+class function TUOMBase.Convert(const AValue: Double; const AFromUnit,
+  AToUnit: TUOMUnitBaseClass): Double;
+begin
+  Result:= AFromUnit.ConvertToBase(AValue);
+  Result:= AToUnit.ConvertFromBase(Result);
+end;
 
 class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
 var

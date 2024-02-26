@@ -60,7 +60,7 @@ type
     class function UnitEnum: TUOMVolumeUnit; override;
   end;
 
-  TUOMVolumeCubicMeters = class(TUOMVolumeMilliliters)
+  TUOMVolumeCubicMeters = class(TUOMVolumeUnitBase)
     class function UnitID: String; override;
     class function NameSingular: String; override;
     class function Systems: TUOMSystems; override;
@@ -70,11 +70,28 @@ type
     class function UnitEnum: TUOMVolumeUnit; override;
   end;
 
+  TUOMVolumeTeaspoonsUS = class(TUOMVolumeUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; override;
+  end;
+
+  TUOMVolumeTablespoonsUS = class(TUOMVolumeUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMVolumeUnit; override;
+  end;
 
   //TODO
   {
-  AList.Append('Teaspoons (US)');
-  AList.Append('Tablespoons (US)');
   AList.Append('Fluid Ounces (US)');
   AList.Append('Teaspoons (UK)');
   AList.Append('Tablespoons (UK)');
@@ -344,9 +361,9 @@ begin
   RegisterUnit(TUOMVolumeCubicCentimeters);
   RegisterUnit(TUOMVolumeLiters);
   RegisterUnit(TUOMVolumeCubicMeters);
+  RegisterUnit(TUOMVolumeTeaspoonsUS);
+  RegisterUnit(TUOMVolumeTablespoonsUS);
   {
-  AList.Append('Teaspoons (US)');
-  AList.Append('Tablespoons (US)');
   AList.Append('Fluid Ounces (US)');
   AList.Append('Teaspoons (UK)');
   AList.Append('Tablespoons (UK)');
@@ -1402,6 +1419,84 @@ end;
 class function TUOMVolumeCubicMeters.UnitID: String;
 begin
   Result:= '{3354888F-B36A-4316-95DB-731D71795B25}';
+end;
+
+{ TUOMVolumeTeaspoonsUS }
+
+class function TUOMVolumeTeaspoonsUS.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 202900;
+end;
+
+class function TUOMVolumeTeaspoonsUS.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 202900;
+end;
+
+class function TUOMVolumeTeaspoonsUS.NameSingular: String;
+begin
+  Result:= 'US Teaspoon';
+end;
+
+class function TUOMVolumeTeaspoonsUS.Suffix: String;
+begin
+  Result:= 'tsp';
+end;
+
+class function TUOMVolumeTeaspoonsUS.Systems: TUOMSystems;
+begin
+  Result:= [ustUSCustomary];
+end;
+
+class function TUOMVolumeTeaspoonsUS.UnitEnum: TUOMVolumeUnit;
+begin
+  Result:= TUOMVolumeUnit.umvTeaSpoonsUS;
+end;
+
+class function TUOMVolumeTeaspoonsUS.UnitID: String;
+begin
+  Result:= '{130702BA-CA20-4F4C-A56C-0A7E778BB0F7}';
+end;
+
+{ TUOMVolumeTablespoonsUS }
+
+class function TUOMVolumeTablespoonsUS.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 67630;
+end;
+
+class function TUOMVolumeTablespoonsUS.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 67630;
+end;
+
+class function TUOMVolumeTablespoonsUS.NameSingular: String;
+begin
+  Result:= 'US Tablespoon';
+end;
+
+class function TUOMVolumeTablespoonsUS.Suffix: String;
+begin
+  Result:= 'Tbs';
+end;
+
+class function TUOMVolumeTablespoonsUS.Systems: TUOMSystems;
+begin
+  Result:= [ustUSCustomary];
+end;
+
+class function TUOMVolumeTablespoonsUS.UnitEnum: TUOMVolumeUnit;
+begin
+  Result:= umvTablespoonsUS;
+end;
+
+class function TUOMVolumeTablespoonsUS.UnitID: String;
+begin
+  Result:= '{C86875FC-D6A6-43AB-B466-78A2D87CBDA1}';
 end;
 
 initialization

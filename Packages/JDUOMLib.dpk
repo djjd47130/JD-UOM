@@ -37,6 +37,7 @@ contains
   JD.Uom.Length in '..\Source\JD.Uom.Length.pas',
   JD.Uom in '..\Source\JD.Uom.pas',
   JD.Uom.Temperature in '..\Source\JD.Uom.Temperature.pas',
-  JD.Uom.Volume in '..\Source\JD.Uom.Volume.pas';
+  JD.Uom.Volume in '..\Source\JD.Uom.Volume.pas',
+  JD.Uom.Intf in '..\Source\JD.Uom.Intf.pas';
 
 end.
