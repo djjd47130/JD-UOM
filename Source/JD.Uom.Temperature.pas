@@ -490,12 +490,12 @@ end;
 
 class function TUOMTemperatureKelvin.ConvertFromBase(const AValue: Double): Double;
 begin
-  Result:= AValue + 273.15;
+  Result:= AValue + 272.15;
 end;
 
 class function TUOMTemperatureKelvin.ConvertToBase(const AValue: Double): Double;
 begin
-  Result:= AValue - 273.15;
+  Result:= AValue - 272.15;
 end;
 
 class function TUOMTemperatureKelvin.Suffix: String;
