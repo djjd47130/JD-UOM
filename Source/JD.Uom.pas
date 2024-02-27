@@ -101,13 +101,18 @@ type
   /// </summary>
   TUOMSystems = set of TUOMSystem;
 
+  /// <summary>
+  /// Abstract refrence to a particular UOM.
+  /// </summary>
   TUOMBaseClass = class of TUOMBase;
 
-  TUOMUnitBaseClass = class of TUOMUnitBase;
+  /// <summary>
+  /// Abstract refrence to a particular unit within a UOM.
+  /// </summary>
+  TUOMUnitClass = class of TUOMUnitBase;
 
   /// <summary>
-  /// NEW Base abstract class for all UOM unit classes.
-  /// To replace TUOMUnitInfo above.
+  /// Base abstract class for all specific UOM measurement unit classes.
   /// </summary>
   TUOMUnitBase = class
   public
@@ -131,13 +136,14 @@ type
     class function UOMID: String; virtual; abstract;
     class function UOMName: String; virtual; abstract;
     class function UnitCount: Integer; virtual; abstract;
-    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; virtual; abstract;
+    class function GetUnit(const Index: Integer): TUOMUnitClass; virtual; abstract;
     class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual;
     class function UnitName(const Index: Integer): String; virtual;
     class function UnitPrefix(const Index: Integer): String; virtual;
     class function UnitSuffix(const Index: Integer): String; virtual;
     class function Convert(const AValue: Double;
-      const AFromUnit, AToUnit: TUOMUnitBaseClass): Double; virtual;
+      const AFromUnit, AToUnit: TUOMUnitClass): Double; virtual;
+    class function BaseUnit: TUOMUnitClass; virtual; abstract;
   end;
 
   /// <summary>
@@ -156,12 +162,14 @@ type
     class function IndexOf(AClass: String): Integer; overload;
   end;
 
-{ TUnitOfMeasurement }
 
 {$REGION 'TUnitOfMeasurement'}
 
+{ TUnitOfMeasurement }
+
 type
   /// <summary>
+  /// --- NOT READY ---
   /// Encapsulates full conversion process with easy to use properties.
   /// Can be used to quickly access all different possible units of measurement.
   /// Can be integrated into a component since it's a TPersistent
@@ -191,7 +199,16 @@ type
     property UnitToIndex: Integer read FUnitToIndex write SetUnitToIndex;
   end;
 
+{$ENDREGION}
 
+
+{$REGION 'TUOM'}
+
+  /// <summary>
+  /// --- NOT READY ---
+  /// Component to encapsulate entire UOM infrastructure and allow access
+  /// to UOM details and conversion methods.
+  /// </summary>
   TUOM = class(TComponent)
   private
     FUOM: TUnitOfMeasurement;
@@ -206,14 +223,16 @@ type
 {$ENDREGION}
 
 
-
 {$REGION 'TMultiStringList'}
 
 type
   TMultiStringList = class;
   TMultiListRef = class;
 
+  //TODO: WHY DID I MAKE THESE? WHERE WERE THEY FOR?
+
   ///  <summary>
+  /// --- NOT READY ---
   ///  Manages contents of multiple TStrings references from one central place
   ///  </summary>
   TMultiStringList = class(TPersistent)
@@ -233,6 +252,7 @@ type
     property Strings: TStrings read GetStrings write SetStrings;
   end;
 
+  /// --- NOT READY ---
   TMultiListRef = class(TObject)
   private
     FOwner: TMultiStringList;
@@ -245,7 +265,6 @@ type
   end;
 
 {$ENDREGION}
-
 
 
 { Defaults }
@@ -270,7 +289,7 @@ end;
 { TUOMBase }
 
 class function TUOMBase.Convert(const AValue: Double; const AFromUnit,
-  AToUnit: TUOMUnitBaseClass): Double;
+  AToUnit: TUOMUnitClass): Double;
 begin
   Result:= AFromUnit.ConvertToBase(AValue);
   Result:= AToUnit.ConvertFromBase(Result);
@@ -279,7 +298,7 @@ end;
 class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
 var
   X: Integer;
-  U: TUOMUnitBaseClass;
+  U: TUOMUnitClass;
 begin
   AList.Clear;
   for X := 0 to UnitCount-1 do begin

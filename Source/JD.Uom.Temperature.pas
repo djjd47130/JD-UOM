@@ -60,19 +60,21 @@ type
     class function UnitEnum: TUOMTemperatureUnit; override;
   end;
 
+
   TUOMTemperatureUtils = class(TUOMBase)
   private
-    class var FUnits: TList<TUOMUnitBaseClass>;
+    class var FUnits: TList<TUOMUnitClass>;
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
+    class function GetUnit(const Index: Integer): TUOMUnitClass; override;
+    class function BaseUnit: TUOMUnitClass; override;
 
     //Celcius
     class function FarenheitToCelcius(const AFarenheit: Double): Double; static;
@@ -119,7 +121,7 @@ var
 
 class constructor TUOMTemperatureUtils.Create;
 begin
-  FUnits:= TList<TUOMUnitBaseClass>.Create;
+  FUnits:= TList<TUOMUnitClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
@@ -130,13 +132,13 @@ begin
 end;
 
 class function TUOMTemperatureUtils.GetUnit(
-  const Index: Integer): TUOMUnitBaseClass;
+  const Index: Integer): TUOMUnitClass;
 begin
   Result:= FUnits[Index];
 end;
 
 class procedure TUOMTemperatureUtils.RegisterUnit(
-  AUnitClass: TUOMUnitBaseClass);
+  AUnitClass: TUOMUnitClass);
 begin
   FUnits.Add(AUnitClass);
 end;
@@ -166,6 +168,11 @@ end;
 class function TUOMTemperatureUtils.UOMName: String;
 begin
   Result:= 'Temperature';
+end;
+
+class function TUOMTemperatureUtils.BaseUnit: TUOMUnitClass;
+begin
+  Result:= TUOMTemperatureCelcius;
 end;
 
 class function TUOMTemperatureUtils.CelciusToFarenheit(const ACelcius: Double): Double;

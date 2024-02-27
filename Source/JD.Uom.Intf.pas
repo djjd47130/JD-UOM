@@ -12,7 +12,7 @@ type
     function UOMID: String;
     function UOMName: String;
     function UnitCount: Integer;
-    function GetUnit(const Index: Integer): TUOMUnitBaseClass;
+    function GetUnit(const Index: Integer): TUOMUnitClass;
     procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny);
     function UnitName(const Index: Integer): String;
     function UnitPrefix(const Index: Integer): String;

@@ -124,7 +124,7 @@ end;
 procedure TfrmMain.RefreshUnits;
 var
   I: Integer;
-  U: TUOMUnitBaseClass;
+  U: TUOMUnitClass;
   X: Integer;
   S: TUOMSystem;
 begin
@@ -163,7 +163,7 @@ end;
 
 procedure TfrmMain.RefreshUnitDetails;
 var
-  U: TUOMUnitBaseClass;
+  U: TUOMUnitClass;
   I: Integer;
 begin
   I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
@@ -175,7 +175,7 @@ begin
   lblUnitPrefix.Caption:= U.Prefix;
   lblUnitSuffix.Caption:= U.Suffix;
   lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+U.Suffix;
-  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+U.Suffix;
+  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+U.UOM.BaseUnit.Suffix;
   UpdateChart;
 end;
 
@@ -183,7 +183,7 @@ procedure TfrmMain.RefreshChart;
 var
   X: Integer;
   S: TLineSeries;
-  U: TUOMUnitBaseClass;
+  U: TUOMUnitClass;
   Y: Integer;
   V: Double;
   Sys: TUOMSystem;
@@ -193,6 +193,7 @@ begin
   Sys:= TUOMSystem(cboSystem.ItemIndex);
   if lstUnits.Items.Count > 0 then begin
     I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
+    Chart.BottomAxis.Title.Text:= 'Base Unit - '+FUOM.BaseUnit.NameSingular;
     for X := 0 to FUOM.UnitCount-1 do begin
       U:= FUOM.GetUnit(X);
       if (Sys = ustAny) or (Sys in U.Systems) then begin

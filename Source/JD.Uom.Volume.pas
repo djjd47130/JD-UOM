@@ -105,19 +105,46 @@ type
   AList.Append('Cubic Yards');
   }
 
+{
+OLD
+class function TUOMVolumeUtils.UnitSuffix(const AValue: TUOMVolumeUnit): String;
+begin
+  case AValue of
+    umvMilliliters:       Result:= 'mL';
+    umvCubicCentimeters:  Result:= 'cm³';
+    umvLiters:            Result:= 'l';
+    umvCubicMeters:       Result:= 'm³';
+    umvTeaSpoonsUS:       Result:= 'US tsp';
+    umvTableSpoonsUS:     Result:= 'US Tsp';
+    umvFluidOuncesUS:     Result:= 'US fl. oz';
+    umvTeaSpoonsUK:       Result:= 'UK tsp';
+    umvTableSpoonsUK:     Result:= 'UK Tsp';
+    umvFluidOuncesUK:     Result:= 'UK fl. oz';
+    umvCups:              Result:= 'cup';
+    umvPints:             Result:= 'pt';
+    umvQuarts:            Result:= 'oz';
+    umvGallons:           Result:= 'gal';
+    umvCubicInches:       Result:= 'in³';
+    umvCubicFeet:         Result:= 'ft³';
+    umvCubicYards:        Result:= 'yd³';
+  end;
+end;
+}
+
   TUOMVolumeUtils = class(TUOMBase)
   private
-    class var FUnits: TList<TUOMUnitBaseClass>;
+    class var FUnits: TList<TUOMUnitClass>;
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
+    class function GetUnit(const Index: Integer): TUOMUnitClass; override;
+    class function BaseUnit: TUOMUnitClass; override;
 
     { Metric System }
 
@@ -248,9 +275,14 @@ var
 
 { TUOMVolumeUtils }
 
+class function TUOMVolumeUtils.BaseUnit: TUOMUnitClass;
+begin
+  Result:= TUOMVolumeCubicMeters;
+end;
+
 class constructor TUOMVolumeUtils.Create;
 begin
-  FUnits:= TList<TUOMUnitBaseClass>.Create;
+  FUnits:= TList<TUOMUnitClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
@@ -260,77 +292,7 @@ begin
   FreeAndNil(FUnits);
 end;
 
-{
-class procedure TUOMVolumeUtils.UnitList(AList: TStrings);
-begin
-  AList.Clear;
-  AList.Append('Milliliters');
-  AList.Append('Cubic Centimeters');
-  AList.Append('Liters');
-  AList.Append('Cubic Meters');
-  AList.Append('Teaspoons (US)');
-  AList.Append('Tablespoons (US)');
-  AList.Append('Fluid Ounces (US)');
-  AList.Append('Teaspoons (UK)');
-  AList.Append('Tablespoons (UK)');
-  AList.Append('Fluid Ounces (UK)');
-  AList.Append('Cups');
-  AList.Append('Pints');
-  AList.Append('Quarts');
-  AList.Append('Gallons');
-  AList.Append('Cubic Inches');
-  AList.Append('Cubic Feet');
-  AList.Append('Cubic Yards');
-end;
-
-class function TUOMVolumeUtils.UnitName(const AValue: TUOMVolumeUnit): String;
-begin
-  case AValue of
-    umvMilliliters:       Result:= 'Milliliters';
-    umvCubicCentimeters:  Result:= 'Cubic Centimeters';
-    umvLiters:            Result:= 'Liters';
-    umvCubicMeters:       Result:= 'Cubic Meters';
-    umvTeaSpoonsUS:       Result:= 'Teaspoons (US)';
-    umvTableSpoonsUS:     Result:= 'Tablespoons (US)';
-    umvFluidOuncesUS:     Result:= 'Fluid Ounces (US)';
-    umvTeaSpoonsUK:       Result:= 'Teaspoons (UK)';
-    umvTableSpoonsUK:     Result:= 'Tablespoons (UK)';
-    umvFluidOuncesUK:     Result:= 'Fluid Ounces (UK)';
-    umvCups:              Result:= 'Cups';
-    umvPints:             Result:= 'Pints';
-    umvQuarts:            Result:= 'Quarts';
-    umvGallons:           Result:= 'Gallons';
-    umvCubicInches:       Result:= 'Cubic Inches';
-    umvCubicFeet:         Result:= 'Cubic Feet';
-    umvCubicYards:        Result:= 'Cubic Yards';
-  end;
-end;
-
-class function TUOMVolumeUtils.UnitSuffix(const AValue: TUOMVolumeUnit): String;
-begin
-  case AValue of
-    umvMilliliters:       Result:= 'mL';
-    umvCubicCentimeters:  Result:= 'cm³';
-    umvLiters:            Result:= 'l';
-    umvCubicMeters:       Result:= 'm³';
-    umvTeaSpoonsUS:       Result:= 'US tsp';
-    umvTableSpoonsUS:     Result:= 'US Tsp';
-    umvFluidOuncesUS:     Result:= 'US fl. oz';
-    umvTeaSpoonsUK:       Result:= 'UK tsp';
-    umvTableSpoonsUK:     Result:= 'UK Tsp';
-    umvFluidOuncesUK:     Result:= 'UK fl. oz';
-    umvCups:              Result:= 'cup';
-    umvPints:             Result:= 'pt';
-    umvQuarts:            Result:= 'oz';
-    umvGallons:           Result:= 'gal';
-    umvCubicInches:       Result:= 'in³';
-    umvCubicFeet:         Result:= 'ft³';
-    umvCubicYards:        Result:= 'yd³';
-  end;
-end;
-}
-
-class function TUOMVolumeUtils.GetUnit(const Index: Integer): TUOMUnitBaseClass;
+class function TUOMVolumeUtils.GetUnit(const Index: Integer): TUOMUnitClass;
 begin
   Result:= FUnits[Index];
 end;
@@ -350,7 +312,7 @@ begin
   Result:= 'Volume';
 end;
 
-class procedure TUOMVolumeUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+class procedure TUOMVolumeUtils.RegisterUnit(AUnitClass: TUOMUnitClass);
 begin
   FUnits.Add(AUnitClass);
 end;

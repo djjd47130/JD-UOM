@@ -206,17 +206,18 @@ type
 
   TUOMLengthUtils = class(TUOMBase)
   private
-    class var FUnits: TList<TUOMUnitBaseClass>;
+    class var FUnits: TList<TUOMUnitClass>;
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
+    class function GetUnit(const Index: Integer): TUOMUnitClass; override;
+    class function BaseUnit: TUOMUnitClass; override;
 
     { US Customary }
 
@@ -435,7 +436,7 @@ var
 
 class constructor TUOMLengthUtils.Create;
 begin
-  FUnits:= TList<TUOMUnitBaseClass>.Create;
+  FUnits:= TList<TUOMUnitClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
@@ -460,7 +461,7 @@ begin
   TUOMUtils.RegisterUOM(TUOMLengthUtils);
 end;
 
-class procedure TUOMLengthUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+class procedure TUOMLengthUtils.RegisterUnit(AUnitClass: TUOMUnitClass);
 begin
   FUnits.Add(AUnitClass);
 end;
@@ -490,6 +491,11 @@ begin
   RegisterUnit(TUOMLengthNauticalMiles);
 end;
 
+class function TUOMLengthUtils.BaseUnit: TUOMUnitClass;
+begin
+  Result:= TUOMLengthMeters;
+end;
+
 class function TUOMLengthUtils.FeetToInches(const AFeet: Double): Double;
 begin
   Result:= AFeet * 12;
@@ -516,7 +522,7 @@ begin
 end;
 
 class function TUOMLengthUtils.GetUnit(
-  const Index: Integer): TUOMUnitBaseClass;
+  const Index: Integer): TUOMUnitClass;
 begin
   Result:= FUnits[Index];
 end;

@@ -93,17 +93,18 @@ type
 
   TUOMAreaUtils = class(TUOMBase)
   private
-    class var FUnits: TList<TUOMUnitBaseClass>;
+    class var FUnits: TList<TUOMUnitClass>;
     class procedure RegisterUOM;
     class procedure RegisterUnits;
-    class procedure RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+    class procedure RegisterUnit(AUnitClass: TUOMUnitClass);
   public
     class constructor Create;
     class destructor Destroy;
     class function UOMID: String; override;
     class function UOMName: String; override;
     class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitBaseClass; override;
+    class function GetUnit(const Index: Integer): TUOMUnitClass; override;
+    class function BaseUnit: TUOMUnitClass; override;
 
     { Metric }
 
@@ -284,7 +285,7 @@ var
 
 class constructor TUOMAreaUtils.Create;
 begin
-  FUnits:= TList<TUOMUnitBaseClass>.Create;
+  FUnits:= TList<TUOMUnitClass>.Create;
   RegisterUOM;
   RegisterUnits;
 end;
@@ -294,7 +295,7 @@ begin
   FreeAndNil(FUnits);
 end;
 
-class function TUOMAreaUtils.GetUnit(const Index: Integer): TUOMUnitBaseClass;
+class function TUOMAreaUtils.GetUnit(const Index: Integer): TUOMUnitClass;
 begin
   Result:= FUnits[Index];
 end;
@@ -309,7 +310,7 @@ begin
   Result:= 'Area';
 end;
 
-class procedure TUOMAreaUtils.RegisterUnit(AUnitClass: TUOMUnitBaseClass);
+class procedure TUOMAreaUtils.RegisterUnit(AUnitClass: TUOMUnitClass);
 begin
   FUnits.Add(AUnitClass);
 end;
@@ -423,6 +424,11 @@ end;
 class function TUOMAreaUtils.AcresToSquareYards(const AAcres: Double): Double;
 begin
   Result:= AAcres * 4840;
+end;
+
+class function TUOMAreaUtils.BaseUnit: TUOMUnitClass;
+begin
+  Result:= TUOMAreaSquareMeters;
 end;
 
 class function TUOMAreaUtils.SquareInchesToSquareFeet(

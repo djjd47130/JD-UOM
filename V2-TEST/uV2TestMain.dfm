@@ -56,6 +56,7 @@ object frmMain: TfrmMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
+        ExplicitTop = 25
       end
     end
     object Panel3: TPanel
