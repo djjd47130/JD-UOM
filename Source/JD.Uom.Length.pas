@@ -10,7 +10,8 @@ type
   TUOMLengthUnit = (umlNanometers, umlMicrons, umlMillimeters, umlCentimeters,
     umlDecimeters, umlMeters, umlDecameters, umlHectometers, umlKilometers,
     umlInches, umlFeet, umlYards, umlFathoms, umlRods, umlFurlongs,
-    umlMiles, umlNauticalMiles);
+    umlMiles, umlNauticalMiles,
+    umlLightYear);
   TUOMLengthUnits = set of TUOMLengthUnit;
 
   TUOMLengthUnitBase = class;
@@ -196,6 +197,16 @@ type
   end;
 
   TUOMLengthNauticalMiles = class(TUOMLengthUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; override;
+  end;
+
+  TUOMLengthLightYear = class(TUOMLengthUnitBase)
     class function UnitID: String; override;
     class function NameSingular: String; override;
     class function Systems: TUOMSystems; override;
@@ -495,6 +506,7 @@ begin
   RegisterUnit(TUOMLengthRods);
   RegisterUnit(TUOMLengthMiles);
   RegisterUnit(TUOMLengthNauticalMiles);
+  RegisterUnit(TUOMLengthLightYear);
 end;
 
 class function TUOMLengthUtils.BaseUnit: TUOMUnitClass;
@@ -2301,6 +2313,44 @@ end;
 class function TUOMLengthNauticalMiles.NameSingular: String;
 begin
   Result:= 'Nautical Mile';
+end;
+
+{ TUOMLengthLightYear }
+
+class function TUOMLengthLightYear.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 9460730472580800;
+end;
+
+class function TUOMLengthLightYear.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 9460730472580800;
+end;
+
+class function TUOMLengthLightYear.NameSingular: String;
+begin
+  Result:= 'Light Year';
+end;
+
+class function TUOMLengthLightYear.Suffix: String;
+begin
+  Result:= 'ly';
+end;
+
+class function TUOMLengthLightYear.Systems: TUOMSystems;
+begin
+  Result:= [ustNatural];
+end;
+
+class function TUOMLengthLightYear.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlLightYear;
+end;
+
+class function TUOMLengthLightYear.UnitID: String;
+begin
+  Result:= '{C8C8639C-4177-4FE1-8FFF-DAF6380B7DE9}';
 end;
 
 initialization
