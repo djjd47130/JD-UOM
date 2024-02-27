@@ -15,7 +15,10 @@ type
     umvGallons, umvCubicInches, umvCubicFeet, umvCubicYards);
   TUOMVolumeUnits = set of TUOMVolumeUnit;
 
+  TUOMVolumeUnitBase = class;
   TUOMVolumeUtils = class;
+
+  TUOMVolumeUnitBaseClass = class of TUOMVolumeUnitBase;
 
   TUOMVolumeUnitBase = class(TUOMUnitBase)
     class function UOM: TUOMBaseClass; override;
@@ -145,6 +148,10 @@ end;
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitClass; override;
     class function BaseUnit: TUOMUnitClass; override;
+
+    class function UnitByEnum(const AUnit: TUOMVolumeUnit): TUOMVolumeUnitBaseClass;
+    class function Convert(const AValue: Double; const AFromUnit,
+      AToUnit: TUOMVolumeUnit): Double;
 
     { Metric System }
 
@@ -295,6 +302,33 @@ end;
 class function TUOMVolumeUtils.GetUnit(const Index: Integer): TUOMUnitClass;
 begin
   Result:= FUnits[Index];
+end;
+
+class function TUOMVolumeUtils.UnitByEnum(
+  const AUnit: TUOMVolumeUnit): TUOMVolumeUnitBaseClass;
+var
+  X: Integer;
+  U: TUOMVolumeUnitBaseClass;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    U:= TUOMVolumeUnitBaseClass(FUnits[X]);
+    if U.UnitEnum = AUnit then begin
+      Result:= U;
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMVolumeUtils.Convert(const AValue: Double; const AFromUnit,
+  AToUnit: TUOMVolumeUnit): Double;
+var
+  F, T: TUOMVolumeUnitBaseClass;
+begin
+  F:= UnitByEnum(AFromUnit);
+  T:= UnitByEnum(AToUnit);
+  Result:= F.ConvertToBase(AValue);
+  Result:= T.ConvertFromBase(Result);
 end;
 
 class function TUOMVolumeUtils.UnitCount: Integer;

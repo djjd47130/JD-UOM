@@ -13,7 +13,10 @@ type
     umlMiles, umlNauticalMiles);
   TUOMLengthUnits = set of TUOMLengthUnit;
 
+  TUOMLengthUnitBase = class;
   TUOMLengthUtils = class;
+
+  TUOMLengthUnitBaseClass = class of TUOMLengthUnitBase;
 
   TUOMLengthUnitBase = class(TUOMUnitBase)
     class function UOM: TUOMBaseClass; override;
@@ -218,6 +221,10 @@ type
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitClass; override;
     class function BaseUnit: TUOMUnitClass; override;
+
+    class function UnitByEnum(const AUnit: TUOMLengthUnit): TUOMLengthUnitBaseClass;
+    class function Convert(const AValue: Double; const AFromUnit,
+      AToUnit: TUOMLengthUnit): Double;
 
     { US Customary }
 
@@ -494,6 +501,33 @@ end;
 class function TUOMLengthUtils.BaseUnit: TUOMUnitClass;
 begin
   Result:= TUOMLengthMeters;
+end;
+
+class function TUOMLengthUtils.UnitByEnum(
+  const AUnit: TUOMLengthUnit): TUOMLengthUnitBaseClass;
+var
+  X: Integer;
+  U: TUOMLengthUnitBaseClass;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    U:= TUOMLengthUnitBaseClass(FUnits[X]);
+    if U.UnitEnum = AUnit then begin
+      Result:= U;
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMLengthUtils.Convert(const AValue: Double; const AFromUnit,
+  AToUnit: TUOMLengthUnit): Double;
+var
+  F, T: TUOMLengthUnitBaseClass;
+begin
+  F:= UnitByEnum(AFromUnit);
+  T:= UnitByEnum(AToUnit);
+  Result:= F.ConvertToBase(AValue);
+  Result:= T.ConvertFromBase(Result);
 end;
 
 class function TUOMLengthUtils.FeetToInches(const AFeet: Double): Double;

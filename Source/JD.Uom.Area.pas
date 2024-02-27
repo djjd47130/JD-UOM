@@ -13,7 +13,10 @@ type
     umaSquareYards, umaAcres, umaSquareMiles);
   TUOMAreaUnits = set of TUOMAreaUnit;
 
+  TUOMAreaUnitBase = class;
   TUOMAreaUtils = class;
+
+  TUOMAreaUnitBaseClass = class of TUOMAreaUnitBase;
 
   TUOMAreaUnitBase = class(TUOMUnitBase)
     class function UOM: TUOMBaseClass; override;
@@ -105,6 +108,10 @@ type
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitClass; override;
     class function BaseUnit: TUOMUnitClass; override;
+
+    class function UnitByEnum(const AUnit: TUOMAreaUnit): TUOMAreaUnitBaseClass;
+    class function Convert(const AValue: Double; const AFromUnit,
+      AToUnit: TUOMAreaUnit): Double;
 
     { Metric }
 
@@ -335,6 +342,33 @@ end;
 class procedure TUOMAreaUtils.RegisterUOM;
 begin
   TUOMUtils.RegisterUOM(TUOMAreaUtils);
+end;
+
+class function TUOMAreaUtils.Convert(const AValue: Double; const AFromUnit,
+  AToUnit: TUOMAreaUnit): Double;
+var
+  F, T: TUOMAreaUnitBaseClass;
+begin
+  F:= UnitByEnum(AFromUnit);
+  T:= UnitByEnum(AToUnit);
+  Result:= F.ConvertToBase(AValue);
+  Result:= T.ConvertFromBase(Result);
+end;
+
+class function TUOMAreaUtils.UnitByEnum(
+  const AUnit: TUOMAreaUnit): TUOMAreaUnitBaseClass;
+var
+  X: Integer;
+  U: TUOMAreaUnitBaseClass;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    U:= TUOMAreaUnitBaseClass(FUnits[X]);
+    if U.UnitEnum = AUnit then begin
+      Result:= U;
+      Break;
+    end;
+  end;
 end;
 
 class function TUOMAreaUtils.UnitCount: Integer;

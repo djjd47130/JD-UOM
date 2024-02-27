@@ -10,7 +10,10 @@ type
   TUOMTemperatureUnit = (umtCelsius, umtFarenheit, umtKelvin);
   TUOMTemperatureUnits = set of TUOMTemperatureUnit;
 
+  TUOMTemperatureUnitBase = class;
   TUOMTemperatureUtils = class;
+
+  TUOMTemperatureUnitBaseClass = class of TUOMTemperatureUnitBase;
 
   TUOMTemperatureUnitBase = class(TUOMUnitBase)
     class function UOM: TUOMBaseClass; override;
@@ -75,6 +78,10 @@ type
     class function UnitCount: Integer; override;
     class function GetUnit(const Index: Integer): TUOMUnitClass; override;
     class function BaseUnit: TUOMUnitClass; override;
+
+    class function UnitByEnum(const AUnit: TUOMTemperatureUnit): TUOMTemperatureUnitBaseClass;
+    class function Convert(const AValue: Double; const AFromUnit,
+      AToUnit: TUOMTemperatureUnit): Double;
 
     //Celcius
     class function FarenheitToCelcius(const AFarenheit: Double): Double; static;
@@ -155,6 +162,33 @@ begin
   TUOMUtils.RegisterUOM(TUOMTemperatureUtils);
 end;
 
+class function TUOMTemperatureUtils.UnitByEnum(
+  const AUnit: TUOMTemperatureUnit): TUOMTemperatureUnitBaseClass;
+var
+  X: Integer;
+  U: TUOMTemperatureUnitBaseClass;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    U:= TUOMTemperatureUnitBaseClass(FUnits[X]);
+    if U.UnitEnum = AUnit then begin
+      Result:= U;
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMTemperatureUtils.Convert(const AValue: Double;
+  const AFromUnit, AToUnit: TUOMTemperatureUnit): Double;
+var
+  F, T: TUOMTemperatureUnitBaseClass;
+begin
+  F:= UnitByEnum(AFromUnit);
+  T:= UnitByEnum(AToUnit);
+  Result:= F.ConvertToBase(AValue);
+  Result:= T.ConvertFromBase(Result);
+end;
+
 class function TUOMTemperatureUtils.UnitCount: Integer;
 begin
   Result:= FUnits.Count;
@@ -177,32 +211,32 @@ end;
 
 class function TUOMTemperatureUtils.CelciusToFarenheit(const ACelcius: Double): Double;
 begin
-  Result:= (1.8 * ACelcius) + 32;
+  Result:= Convert(ACelcius, umtCelsius, umtFarenheit);
 end;
 
 class function TUOMTemperatureUtils.FarenheitToCelcius(const AFarenheit: Double): Double;
 begin
-  Result:= (AFarenheit - 32) / 1.8;
+  Result:= Convert(AFarenheit, umtFarenheit, umtCelsius);
 end;
 
 class function TUOMTemperatureUtils.CelciusToKelvin(const ACelcius: Double): Double;
 begin
-  Result:= ACelcius + 273.15;
+  Result:= Convert(ACelcius, umtCelsius, umtKelvin);
 end;
 
 class function TUOMTemperatureUtils.FarenheitToKelvin(const AFarenheit: Double): Double;
 begin
-  Result:= CelciusToKelvin(FarenheitToCelcius(AFarenheit));
+  Result:= Convert(AFarenheit, umtFarenheit, umtKelvin);
 end;
 
 class function TUOMTemperatureUtils.KelvinToCelcius(const AKelvin: Double): Double;
 begin
-  Result:= AKelvin - 273.15;
+  Result:= Convert(AKelvin, umtKelvin, umtCelsius);
 end;
 
 class function TUOMTemperatureUtils.KelvinToFarenheit(const AKelvin: Double): Double;
 begin
-  Result:= CelciusToFarenheit(KelvinToCelcius(AKelvin));
+  Result:= Convert(AKelvin, umtKelvin, umtFarenheit);
 end;
 
 { TUOMTemperature }
@@ -224,9 +258,12 @@ begin
 end;
 
 class operator TUOMTemperature.implicit(const AValue: TUOMTemperature): String;
+var
+  U: TUOMTemperatureUnitBaseClass;
 begin
+  U:= TUOMTemperatureUtils.UnitByEnum(AValue.FUnit);
   Result:= FormatFloat(NumFormat, AValue.FValue);
-  //TODO: Result:= Result + TUOMTemperatureUtils.UnitSuffix(AValue.&Unit);
+  Result:= Result + U.Suffix;
 end;
 
 class operator TUOMTemperature.implicit(const AValue: String): TUOMTemperature;

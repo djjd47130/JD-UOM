@@ -130,8 +130,6 @@ type
     class function UnitName(const Index: Integer): String; virtual;
     class function UnitPrefix(const Index: Integer): String; virtual;
     class function UnitSuffix(const Index: Integer): String; virtual;
-    class function Convert(const AValue: Double;
-      const AFromUnit, AToUnit: TUOMUnitClass): Double; virtual;
     class function BaseUnit: TUOMUnitClass; virtual; abstract;
   end;
 
@@ -149,6 +147,8 @@ type
     class function UOM(const Index: Integer): TUOMBaseClass;
     class function IndexOf(AClass: TUOMBaseClass): Integer; overload;
     class function IndexOf(AClass: String): Integer; overload;
+    class function Convert(const AValue: Double;
+      const AFromUnit, AToUnit: TUOMUnitClass): Double; overload;
   end;
 
 
@@ -277,13 +277,6 @@ end;
 
 { TUOMBase }
 
-class function TUOMBase.Convert(const AValue: Double; const AFromUnit,
-  AToUnit: TUOMUnitClass): Double;
-begin
-  Result:= AFromUnit.ConvertToBase(AValue);
-  Result:= AToUnit.ConvertFromBase(Result);
-end;
-
 class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
 var
   X: Integer;
@@ -323,6 +316,13 @@ class destructor TUOMUtils.Destroy;
 begin
   FreeAndNil(FItems);
   inherited;
+end;
+
+class function TUOMUtils.Convert(const AValue: Double; const AFromUnit,
+  AToUnit: TUOMUnitClass): Double;
+begin
+  Result:= AFromUnit.ConvertToBase(AValue);
+  Result:= AToUnit.ConvertFromBase(Result);
 end;
 
 class function TUOMUtils.Count: Integer;
