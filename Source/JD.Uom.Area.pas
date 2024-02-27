@@ -83,9 +83,19 @@ type
     class function UnitEnum: TUOMAreaUnit; override;
   end;
 
+  TUOMAreaSquareInches = class(TUOMAreaUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function NamePlural: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMAreaUnit; override;
+  end;
+
   {
   //TODO
-  A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
   A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
   A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
   A('Acres',                [ustImperial,ustUSCustomary], '',   'ac');
@@ -328,9 +338,9 @@ begin
   RegisterUnit(TUOMAreaSquareMeters);
   RegisterUnit(TUOMAreaHectares);
   RegisterUnit(TUOMAreaSquareKilometers);
+  RegisterUnit(TUOMAreaSquareInches);
   {
   //TODO
-  A('Square Inches',        [ustImperial,ustUSCustomary], '',   'in²');
   A('Square Feet',          [ustImperial,ustUSCustomary], '',   'ft²');
   A('Square Yards',         [ustImperial,ustUSCustomary], '',   'yd²');
   A('Acres',                [ustImperial,ustUSCustomary], '',   'ac');
@@ -1424,6 +1434,49 @@ end;
 class function TUOMAreaSquareKilometers.UnitID: String;
 begin
   Result:= '{6B9C24F9-AC2F-4AC9-9F77-1D31F8858285}';
+end;
+
+{ TUOMAreaSquareInches }
+
+class function TUOMAreaSquareInches.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 1550;
+end;
+
+class function TUOMAreaSquareInches.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue / 1550;
+end;
+
+class function TUOMAreaSquareInches.NamePlural: String;
+begin
+  Result:= 'Square Inches';
+end;
+
+class function TUOMAreaSquareInches.NameSingular: String;
+begin
+  Result:= 'Square Inch';
+end;
+
+class function TUOMAreaSquareInches.Suffix: String;
+begin
+  Result:= 'in²';
+end;
+
+class function TUOMAreaSquareInches.Systems: TUOMSystems;
+begin
+  Result:= [ustImperial, ustUSCustomary];
+end;
+
+class function TUOMAreaSquareInches.UnitEnum: TUOMAreaUnit;
+begin
+  Result:= umaSquareInches;
+end;
+
+class function TUOMAreaSquareInches.UnitID: String;
+begin
+  Result:= '{F60044CF-80C6-4C6D-9B16-74EEBF77140A}';
 end;
 
 initialization
