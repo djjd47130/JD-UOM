@@ -277,7 +277,6 @@ end;
 implementation
 
 var
-  DefaultVolumeUnit: TUOMVolumeUnit;
   _: TUOMVolumeUtils;
 
 { TUOMVolumeUtils }
@@ -757,13 +756,13 @@ end;
 
 class operator TUOMVolume.implicit(const AValue: Double): TUOMVolume;
 begin
-  Result.FUnit:= DefaultVolumeUnit;
+  Result.FUnit:= TUOMVolumeUnitBaseClass(TUOMVolumeUtils.BaseUnit).UnitEnum;
   Result.FValue:= AValue;
 end;
 
 class operator TUOMVolume.implicit(const AValue: TUOMVolume): Double;
 begin
-  case DefaultVolumeUnit of
+  case TUOMVolumeUnitBaseClass(TUOMVolumeUtils.BaseUnit).UnitEnum of
     umvMilliliters:       Result:= AValue.ToMilliliters;
     umvCubicCentimeters:  Result:= AValue.ToCubicCentimeters;
     umvLiters:            Result:= AValue.ToLiters;
@@ -1497,5 +1496,4 @@ end;
 
 initialization
   _:= nil;
-  DefaultVolumeUnit:= TUOMVolumeUnit.umvCubicMeters;
 end.

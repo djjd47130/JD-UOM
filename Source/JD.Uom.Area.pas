@@ -285,7 +285,6 @@ type
 implementation
 
 var
-  DefaultAreaUnit: TUOMAreaUnit;
   _: TUOMAreaUtils;
 
 { TUOMAreaUtils }
@@ -941,7 +940,7 @@ end;
 class operator TUOMArea.implicit(const AValue: TUOMArea): Double;
 begin
   Result:= 0;
-  case DefaultAreaUnit of
+  case TUOMAreaUnitBaseClass(TUOMAreaUtils.BaseUnit).UnitEnum of
     umaSquareMillimeters: Result:= AValue.ToSquareMillimeters;
     umaSquareCentimeters: Result:= AValue.ToSquareCentimeters;
     umaSquareMeters:      Result:= AValue.ToSquareMeters;
@@ -957,7 +956,7 @@ end;
 
 class operator TUOMArea.implicit(const AValue: Double): TUOMArea;
 begin
-  Result.FUnit:= DefaultAreaUnit;
+  Result.FUnit:= TUOMAreaUnitBaseClass(TUOMAreaUtils.BaseUnit).UnitEnum;
   Result.FValue:= AValue;
 end;
 
@@ -1429,5 +1428,4 @@ end;
 
 initialization
   _:= nil;
-  DefaultAreaUnit:= TUOMAreaUnit.umaSquareMeters;
 end.

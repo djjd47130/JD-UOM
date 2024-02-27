@@ -121,7 +121,6 @@ type
 implementation
 
 var
-  DefaultTemperatureUnit: TUOMTemperatureUnit;
   _: TUOMTemperatureUtils;
 
 { TUOMTemperatureUtils }
@@ -244,7 +243,7 @@ end;
 class operator TUOMTemperature.implicit(const AValue: TUOMTemperature): Double;
 begin
   Result:= 0;
-  case DefaultTemperatureUnit of
+  case TUOMTemperatureUnitBaseClass(TUOMTemperatureUtils.BaseUnit).UnitEnum of
     umtCelsius:   Result:= AValue.GetAsCelcius;
     umtFarenheit: Result:= AValue.GetAsFarenheit;
     umtKelvin:    Result:= AValue.GetAsKelvin;
@@ -253,7 +252,7 @@ end;
 
 class operator TUOMTemperature.implicit(const AValue: Double): TUOMTemperature;
 begin
-  Result.FUnit:= DefaultTemperatureUnit;
+  Result.FUnit:= TUOMTemperatureUnitBaseClass(TUOMTemperatureUtils.BaseUnit).UnitEnum;
   Result.FValue:= AValue;
 end;
 
@@ -497,5 +496,4 @@ end;
 
 initialization
   _:= nil;
-  DefaultTemperatureUnit:= TUOMTemperatureUnit.umtCelsius;
 end.

@@ -436,7 +436,6 @@ uses
   System.Math;
 
 var
-  DefaultLengthUnit: TUOMLengthUnit;
   _: TUOMLengthUtils;
 
 { TUOMLengthUtils }
@@ -1095,14 +1094,14 @@ end;
 
 class operator TUOMLength.implicit(const AValue: Double): TUOMLength;
 begin
-  Result.FUnit:= DefaultLengthUnit;
+  Result.FUnit:= TUOMLengthUnitBaseClass(TUOMLengthUtils.BaseUnit).UnitEnum;
   Result.FValue:= AValue;
 end;
 
 class operator TUOMLength.implicit(const AValue: TUOMLength): Double;
 begin
   Result:= 0;
-  case DefaultLengthUnit of
+  case TUOMLengthUnitBaseClass(TUOMLengthUtils.BaseUnit).UnitEnum of
     umlNanometers:    Result:= AValue.GetAsNanometers.Value;
     umlMicrons:       Result:= AValue.GetAsMicrons.Value;
     umlMillimeters:   Result:= AValue.GetAsMillimeters.Value;
@@ -2306,5 +2305,4 @@ end;
 
 initialization
   _:= nil;
-  DefaultLengthUnit:= TUOMLengthUnit.umlMeters;
 end.
