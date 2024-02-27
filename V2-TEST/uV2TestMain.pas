@@ -80,6 +80,7 @@ begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
   {$ENDIF}
+  WindowState:= wsMaximized;
   Chart.Align:= alClient;
   RefreshUOMs;
 end;
@@ -181,6 +182,8 @@ begin
 end;
 
 procedure TfrmMain.RefreshChart;
+const
+  XAXIS_COUNT = 500;
 var
   X: Integer;
   S: TLineSeries;
@@ -194,6 +197,7 @@ begin
   Sys:= TUOMSystem(cboSystem.ItemIndex);
   if lstUnits.Items.Count > 0 then begin
     I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
+    Chart.Title.Text.Text:= FUOM.UOMName+' Comparison';
     Chart.BottomAxis.Title.Text:= 'Base Unit - '+FUOM.BaseUnit.NameSingular;
     for X := 0 to FUOM.UnitCount-1 do begin
       U:= FUOM.GetUnit(X);
@@ -207,7 +211,7 @@ begin
             S.LinePen.Width:= WIDTH_LARGE
           else
             S.LinePen.Width:= WIDTH_SMALL;
-          for Y := -100 to 100 do begin
+          for Y := -XAXIS_COUNT to XAXIS_COUNT do begin
             V:= U.ConvertToBase(Y);
             S.Add(V, IntToStr(Y));
           end;

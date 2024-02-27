@@ -5,6 +5,7 @@ object frmMain: TfrmMain
   ClientHeight = 561
   ClientWidth = 984
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
@@ -166,7 +167,6 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          ExplicitLeft = 328
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
@@ -407,10 +407,13 @@ object frmMain: TfrmMain
     Align = alClient
     TabOrder = 1
     object Chart: TChart
+      AlignWithMargins = True
       Left = 40
       Top = 16
       Width = 905
       Height = 249
+      Margins.Left = 50
+      Margins.Right = 50
       AllowPanning = pmNone
       LeftWall.Visible = False
       Legend.CheckBoxes = True
