@@ -1495,11 +1495,11 @@ begin
     umlCentimeters:   FValue:= TUOMLengthUtils.MetersToCentimeters(Value);
     umlMeters:        FValue:= Value;
     umlKilometers:    FValue:= TUOMLengthUtils.MetersToKilometers(Value);
-    umlInches:        FValue:= TUOMLengthUtils.KilometersToInches(Value);
-    umlFeet:          FValue:= TUOMLengthUtils.KilometersToFeet(Value);
-    umlYards:         FValue:= TUOMLengthUtils.KilometersToYards(Value);
-    umlMiles:         FValue:= TUOMLengthUtils.KilometersToMiles(Value);
-    umlNauticalMiles: FValue:= TUOMLengthUtils.KilometersToNauticalMiles(Value);
+    umlInches:        FValue:= TUOMLengthUtils.MetersToInches(Value);
+    umlFeet:          FValue:= TUOMLengthUtils.MetersToFeet(Value);
+    umlYards:         FValue:= TUOMLengthUtils.MetersToYards(Value);
+    umlMiles:         FValue:= TUOMLengthUtils.MetersToMiles(Value);
+    umlNauticalMiles: FValue:= TUOMLengthUtils.MetersToNauticalMiles(Value);
   end;
 end;
 

@@ -245,6 +245,7 @@ end;
     class operator implicit(const AValue: TUOMVolume): Double;
     class operator implicit(const AValue: String): TUOMVolume;
     class operator implicit(const AValue: TUOMVolume): String;
+    //TODO: Implement class operators for math...
     function ToMilliliters: Double;
     function ToCubicCentimeters: Double;
     function ToLiters: Double;
@@ -262,6 +263,7 @@ end;
     function ToCubicInches: Double;
     function ToCubicFeet: Double;
     function ToCubicYards: Double;
+    //TODO: Change to Properties with Getters and Setters...
   end;
 
   //TODO: A record that allows volume to be specified using three linear dimensions

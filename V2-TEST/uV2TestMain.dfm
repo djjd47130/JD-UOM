@@ -56,7 +56,6 @@ object frmMain: TfrmMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
-        ExplicitTop = 25
       end
     end
     object Panel3: TPanel
@@ -152,6 +151,23 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
+        end
+        object Label10: TLabel
+          AlignWithMargins = True
+          Left = 348
+          Top = 3
+          Width = 73
+          Height = 19
+          Align = alRight
+          Caption = 'Test Value:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+          ExplicitLeft = 328
+          ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
           AlignWithMargins = True

@@ -52,6 +52,7 @@ type
     Panel1: TPanel;
     Chart: TChart;
     Series1: TFastLineSeries;
+    Label10: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
     procedure cboSystemClick(Sender: TObject);

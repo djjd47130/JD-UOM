@@ -305,6 +305,7 @@ type
     function ToSquareYards: Double;
     function ToAcres: Double;
     function ToSquareMiles: Double;
+    //TODO: Change to Properties with Getters and Setters...
   end;
 
   //TODO: A record that allows area to be specified using two linear dimensions
@@ -1523,12 +1524,12 @@ end;
 
 class function TUOMAreaSquareFeet.NamePlural: String;
 begin
-  Result:= 'Feet';
+  Result:= 'Square Feet';
 end;
 
 class function TUOMAreaSquareFeet.NameSingular: String;
 begin
-  Result:= 'Foot';
+  Result:= 'Square Foot';
 end;
 
 class function TUOMAreaSquareFeet.Suffix: String;
@@ -1566,7 +1567,7 @@ end;
 
 class function TUOMAreaSquareYards.NameSingular: String;
 begin
-  Result:= 'Yard';
+  Result:= 'Square Yard';
 end;
 
 class function TUOMAreaSquareYards.Suffix: String;
