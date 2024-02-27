@@ -8,8 +8,6 @@ interface
   JD Unit of Measurement Utilities
   by Jerry Dodge
 
-  ****************************** UOM_V2 BRANCH ******************************
-
   Encapsulates all possible units of measurement with conversion
   and other useful utilities to implement in Delphi.
 
@@ -18,7 +16,6 @@ interface
   https://github.com/djjd47130/JD-UOM
 
   What's In This Library:
-
   - Enumeration types for all possible metrics
     - Divided among different units for different UOMs
     - TUOMSystem: Different measurement systems (Metric, US Customary...)
@@ -28,10 +25,7 @@ interface
   - Classes with class methods for all UOM types
     - For exapmle, TUOMLengthUtils, or TUOMWeightUtils
     - Provides functions to convert between any given unit types
-    - For example, Feet:= TUOMLengthUtils.KilometersToFeet(1520.86);
-  - Basic information about different units of measurement
-    - Enums defining which units are used by each measurement system for any given UOM
-    - Descriptive names accessible via UnitName functions
+  - Classes to encapsulate each UOM and their units.
   - Conversion of metrics across different systems
   - Implicit record types to consume measurement data
 
@@ -39,7 +33,7 @@ interface
   - Any (Not specific, applicable to any)
   - Metric (Meters, Liters, Kilograms...)
   - US Customary (Feet, Gallons, Pounds...)
-  - Imperial (Similar to US Customary except for Weight)
+  - Imperial (Similar to US Customary but UK based)
 
   UPDATED:
   - International System of Units (SI):
@@ -69,18 +63,13 @@ interface
   - https://convertlive.com/
     - Newly discovered reference with many more units
 
-
 *)
 
 
 {$ENDREGION}
 
 uses
-  System.Classes, System.SysUtils, System.Generics.Collections
-  ;
-
-
-{ General }
+  System.Classes, System.SysUtils, System.Generics.Collections;
 
 const
   PartOfNumber = ['0'..'9', '.', ','];
