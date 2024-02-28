@@ -9,12 +9,6 @@
         <Projects Include="Packages\dclJDUOMLib.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="VCL\UomCalculator.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="FMX\UomCalc.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="V2-TEST\V2Test.dproj">
             <Dependencies/>
         </Projects>
@@ -44,24 +38,6 @@
     <Target Name="dclJDUOMLib:Make">
         <MSBuild Projects="Packages\dclJDUOMLib.dproj" Targets="Make"/>
     </Target>
-    <Target Name="UomCalculator">
-        <MSBuild Projects="VCL\UomCalculator.dproj"/>
-    </Target>
-    <Target Name="UomCalculator:Clean">
-        <MSBuild Projects="VCL\UomCalculator.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="UomCalculator:Make">
-        <MSBuild Projects="VCL\UomCalculator.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="UomCalc">
-        <MSBuild Projects="FMX\UomCalc.dproj"/>
-    </Target>
-    <Target Name="UomCalc:Clean">
-        <MSBuild Projects="FMX\UomCalc.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="UomCalc:Make">
-        <MSBuild Projects="FMX\UomCalc.dproj" Targets="Make"/>
-    </Target>
     <Target Name="V2Test">
         <MSBuild Projects="V2-TEST\V2Test.dproj"/>
     </Target>
@@ -72,13 +48,13 @@
         <MSBuild Projects="V2-TEST\V2Test.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="JDUOMLib;dclJDUOMLib;UomCalculator;UomCalc;V2Test"/>
+        <CallTarget Targets="JDUOMLib;dclJDUOMLib;V2Test"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;UomCalculator:Clean;UomCalc:Clean;V2Test:Clean"/>
+        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;V2Test:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;UomCalculator:Make;UomCalc:Make;V2Test:Make"/>
+        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;V2Test:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
