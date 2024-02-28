@@ -2317,15 +2317,18 @@ end;
 
 { TUOMLengthLightYear }
 
+const
+  METERS_PER_LIGHT_YEAR: Double = 9460730472580800;
+
 class function TUOMLengthLightYear.ConvertFromBase(
   const AValue: Double): Double;
 begin
-  Result:= AValue / 9460730472580800;
+  Result:= AValue / METERS_PER_LIGHT_YEAR; // 9460730472580800;
 end;
 
 class function TUOMLengthLightYear.ConvertToBase(const AValue: Double): Double;
 begin
-  Result:= AValue * 9460730472580800;
+  Result:= METERS_PER_LIGHT_YEAR * AValue; // * METERS_PER_LIGHT_YEAR; // 9460730472580800;
 end;
 
 class function TUOMLengthLightYear.NameSingular: String;
