@@ -52,6 +52,16 @@ type
     class function UnitEnum: TUOMMassUnit; override;
   end;
 
+  TUOMMassKilograms = class(TUOMMassUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMMassUnit; override;
+  end;
+
 
 
 
@@ -134,6 +144,7 @@ class procedure TUOMMassUtils.RegisterUnits;
 begin
   RegisterUnit(TUOMMassMilliGrams);
   RegisterUnit(TUOMMassGrams);
+  RegisterUnit(TUOMMassKilograms);
   //TODO
 end;
 
@@ -246,7 +257,7 @@ end;
 
 class function TUOMMassMilliGrams.NameSingular: String;
 begin
-  Result:= 'Milligrams';
+  Result:= 'Milligram';
 end;
 
 class function TUOMMassMilliGrams.Suffix: String;
@@ -304,6 +315,43 @@ end;
 class function TUOMMassGrams.UnitID: String;
 begin
   Result:= '{322B3585-2B37-4E76-AFB8-2406F0561C71}';
+end;
+
+{ TUOMMassKilograms }
+
+class function TUOMMassKilograms.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= AValue / 1000;
+end;
+
+class function TUOMMassKilograms.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= AValue * 1000;
+end;
+
+class function TUOMMassKilograms.NameSingular: String;
+begin
+  Result:= 'Kilogram';
+end;
+
+class function TUOMMassKilograms.Suffix: String;
+begin
+  Result:= 'kg';
+end;
+
+class function TUOMMassKilograms.Systems: TUOMSystems;
+begin
+  Result:= [ustMetric];
+end;
+
+class function TUOMMassKilograms.UnitEnum: TUOMMassUnit;
+begin
+  Result:= ummKilograms;
+end;
+
+class function TUOMMassKilograms.UnitID: String;
+begin
+  Result:= '{AC604A04-7EA0-4146-97C1-81EA8F6AB712}';
 end;
 
 initialization
