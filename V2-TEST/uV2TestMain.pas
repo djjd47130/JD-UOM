@@ -183,8 +183,8 @@ begin
   lblUnitSystems.Caption:= UOMSystemsStr(U.Systems);
   lblUnitPrefix.Caption:= U.Prefix;
   lblUnitSuffix.Caption:= U.Suffix;
-  lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+U.Suffix;
-  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+U.UOM.BaseUnit.Suffix;
+  lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;
+  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+FUOM.BaseUnit.Suffix;
   UpdateChart;
 end;
 

@@ -167,7 +167,6 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          ExplicitLeft = 348
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
@@ -186,6 +185,7 @@ object frmMain: TfrmMain
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
+          ExplicitHeight = 27
         end
       end
       object pUnitDetail: TPanel
