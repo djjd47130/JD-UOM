@@ -10,6 +10,7 @@ uses
   JD.Uom.Area,
   JD.Uom.Temperature,
   JD.Uom.Volume,
+  JD.Uom.Mass,
   Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
   VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart;
 
@@ -58,6 +59,7 @@ type
     procedure cboSystemClick(Sender: TObject);
     procedure lstUnitsClick(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
+    procedure ChartAfterDraw(Sender: TObject);
   private
     FUOM: TUOMBaseClass;
   public
@@ -74,6 +76,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmMain.ChartAfterDraw(Sender: TObject);
+begin
+  //TODO: Draw crosshairs for test value conversion with selected unit...
+end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin

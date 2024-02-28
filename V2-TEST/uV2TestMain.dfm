@@ -155,7 +155,7 @@ object frmMain: TfrmMain
         end
         object Label10: TLabel
           AlignWithMargins = True
-          Left = 348
+          Left = 313
           Top = 3
           Width = 73
           Height = 19
@@ -167,22 +167,25 @@ object frmMain: TfrmMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
+          ExplicitLeft = 348
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
           AlignWithMargins = True
-          Left = 427
+          Left = 392
           Top = 3
-          Width = 169
+          Width = 204
           Height = 21
-          Decimals = 1
+          BlankValue = 1.000000000000000000
+          AllowKeyEdit = True
+          Decimals = 4
           IntegersOnly = False
           Max = 100.000000000000000000
+          Orientation = orHorizontal
           Value = 1.000000000000000000
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
-          ExplicitHeight = 27
         end
       end
       object pUnitDetail: TPanel
@@ -450,6 +453,7 @@ object frmMain: TfrmMain
       View3D = False
       View3DWalls = False
       Zoom.Allow = False
+      OnAfterDraw = ChartAfterDraw
       BevelOuter = bvNone
       Color = clBlack
       TabOrder = 0

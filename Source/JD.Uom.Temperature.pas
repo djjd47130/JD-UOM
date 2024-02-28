@@ -63,7 +63,6 @@ type
     class function UnitEnum: TUOMTemperatureUnit; override;
   end;
 
-
   TUOMTemperatureUtils = class(TUOMBase)
   private
     class var FUnits: TList<TUOMUnitClass>;
