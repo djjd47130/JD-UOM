@@ -69,7 +69,8 @@ interface
 {$ENDREGION}
 
 uses
-  System.Classes, System.SysUtils, System.Generics.Collections;
+  System.Classes, System.SysUtils, System.Generics.Collections,
+  JclExprEval;
 
 const
   PartOfNumber = ['0'..'9', '.', ','];
@@ -79,6 +80,7 @@ type
   TUOMBase = class;
   TUOMUnitBase = class;
   TUOMUtils = class;
+
 
   /// <summary>
   /// Overall categorization of specific units within any given UOM.
@@ -149,6 +151,39 @@ type
     class function IndexOf(AClass: String): Integer; overload;
     class function Convert(const AValue: Double;
       const AFromUnit, AToUnit: TUOMUnitClass): Double; overload;
+  end;
+
+
+
+
+
+//TODO: New concept of a lookup table with mathematical expressions.
+
+var
+  //https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
+  //OR
+  //https://gobestcode.com/html/math_parser_for_delphi.html
+  P: TEvaluator;
+
+  TUOMLookupItem = class
+  private
+    class var FID: String;
+    class var FUOM: String;
+    class var FNameSingular: String;
+    class var FNamePlural: String;
+    class var FPrefix: String;
+    class var FSuffix: String;
+    class var FConvertFromBase: String;
+    class var FConvertToBase: String;
+  public
+
+  end;
+
+  TUOMLookupTable = class
+  private
+    class var FItems: TList<TUOMLookupItem>;
+  public
+
   end;
 
 
