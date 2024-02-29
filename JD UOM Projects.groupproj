@@ -9,7 +9,7 @@
         <Projects Include="Packages\dclJDUOMLib.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="V2-TEST\V2Test.dproj">
+        <Projects Include="V2-TEST\JDConvert.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -38,23 +38,23 @@
     <Target Name="dclJDUOMLib:Make">
         <MSBuild Projects="Packages\dclJDUOMLib.dproj" Targets="Make"/>
     </Target>
-    <Target Name="V2Test">
-        <MSBuild Projects="V2-TEST\V2Test.dproj"/>
+    <Target Name="JDConvert">
+        <MSBuild Projects="V2-TEST\JDConvert.dproj"/>
     </Target>
-    <Target Name="V2Test:Clean">
-        <MSBuild Projects="V2-TEST\V2Test.dproj" Targets="Clean"/>
+    <Target Name="JDConvert:Clean">
+        <MSBuild Projects="V2-TEST\JDConvert.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="V2Test:Make">
-        <MSBuild Projects="V2-TEST\V2Test.dproj" Targets="Make"/>
+    <Target Name="JDConvert:Make">
+        <MSBuild Projects="V2-TEST\JDConvert.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="JDUOMLib;dclJDUOMLib;V2Test"/>
+        <CallTarget Targets="JDUOMLib;dclJDUOMLib;JDConvert"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;V2Test:Clean"/>
+        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;JDConvert:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;V2Test:Make"/>
+        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;JDConvert:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -1,4 +1,4 @@
-unit uV2TestMain;
+unit uJDConvertMain;
 
 interface
 
@@ -20,7 +20,7 @@ const
   WIDTH_LARGE = 5;
 
 type
-  TfrmMain = class(TForm)
+  TfrmJDConvertMain = class(TForm)
     pMain: TPanel;
     Panel2: TPanel;
     Label1: TLabel;
@@ -72,18 +72,18 @@ type
   end;
 
 var
-  frmMain: TfrmMain;
+  frmJDConvertMain: TfrmJDConvertMain;
 
 implementation
 
 {$R *.dfm}
 
-procedure TfrmMain.ChartAfterDraw(Sender: TObject);
+procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);
 begin
   //TODO: Draw crosshairs for test value conversion with selected unit...
 end;
 
-procedure TfrmMain.FormCreate(Sender: TObject);
+procedure TfrmJDConvertMain.FormCreate(Sender: TObject);
 begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
@@ -93,24 +93,24 @@ begin
   RefreshUOMs;
 end;
 
-procedure TfrmMain.lstUOMsClick(Sender: TObject);
+procedure TfrmJDConvertMain.lstUOMsClick(Sender: TObject);
 begin
   RefreshUnits;
   RefreshChart;
 end;
 
-procedure TfrmMain.cboSystemClick(Sender: TObject);
+procedure TfrmJDConvertMain.cboSystemClick(Sender: TObject);
 begin
   RefreshUnits;
   RefreshChart;
 end;
 
-procedure TfrmMain.lstUnitsClick(Sender: TObject);
+procedure TfrmJDConvertMain.lstUnitsClick(Sender: TObject);
 begin
   RefreshUnitDetails;
 end;
 
-procedure TfrmMain.RefreshUOMs;
+procedure TfrmJDConvertMain.RefreshUOMs;
 var
   X: Integer;
   U: TUOMBaseClass;
@@ -126,12 +126,12 @@ begin
   end;
 end;
 
-procedure TfrmMain.txtValueChange(Sender: TObject);
+procedure TfrmJDConvertMain.txtValueChange(Sender: TObject);
 begin
   RefreshUnitDetails;
 end;
 
-procedure TfrmMain.RefreshUnits;
+procedure TfrmJDConvertMain.RefreshUnits;
 var
   I: Integer;
   U: TUOMUnitClass;
@@ -171,10 +171,11 @@ begin
   A(ustNatural, 'Natural');
 end;
 
-procedure TfrmMain.RefreshUnitDetails;
+procedure TfrmJDConvertMain.RefreshUnitDetails;
 var
   U: TUOMUnitClass;
   I: Integer;
+  BaseSuffix: String;
 begin
   I:= Integer(lstUnits.Items.Objects[lstUnits.ItemIndex]);
   U:= FUOM.GetUnit(I);
@@ -184,12 +185,15 @@ begin
   lblUnitSystems.Caption:= UOMSystemsStr(U.Systems);
   lblUnitPrefix.Caption:= U.Prefix;
   lblUnitSuffix.Caption:= U.Suffix;
-  lblUnitBaseFrom.Caption:= FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;
-  lblUnitBaseTo.Caption:= FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+FUOM.BaseUnit.Suffix;
+  BaseSuffix:= FUOM.BaseUnit.Suffix;
+  lblUnitBaseFrom.Caption:=
+    FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;
+  lblUnitBaseTo.Caption:=
+    FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+BaseSuffix;
   UpdateChart;
 end;
 
-procedure TfrmMain.RefreshChart;
+procedure TfrmJDConvertMain.RefreshChart;
 const
   XAXIS_COUNT = 500;
 var
@@ -232,7 +236,7 @@ begin
   Chart.Invalidate;
 end;
 
-procedure TfrmMain.UpdateChart;
+procedure TfrmJDConvertMain.UpdateChart;
 var
   S: TLineSeries;
   X: Integer;

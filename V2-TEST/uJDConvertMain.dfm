@@ -1,7 +1,7 @@
-object frmMain: TfrmMain
+object frmJDConvertMain: TfrmJDConvertMain
   Left = 0
   Top = 0
-  Caption = 'JD-UOM/UOM_V2 Test'
+  Caption = 'JD Unit-of-Measure Conversion Library'
   ClientHeight = 561
   ClientWidth = 984
   Color = clBtnFace

@@ -1,8 +1,8 @@
-program V2Test;
+program JDConvert;
 
 uses
   Vcl.Forms,
-  uV2TestMain in 'uV2TestMain.pas' {frmMain},
+  uJDConvertMain in 'uJDConvertMain.pas' {frmJDConvertMain},
   Vcl.Themes,
   Vcl.Styles;
 
@@ -13,6 +13,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.Title := 'JD Unit of Measure Test';
   TStyleManager.TrySetStyle('Windows10 Dark');
-  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmJDConvertMain, frmJDConvertMain);
   Application.Run;
 end.
