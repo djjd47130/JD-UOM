@@ -68,9 +68,14 @@ interface
 
 {$ENDREGION}
 
+{ $DEFINE USE_JEDI}
+
 uses
-  System.Classes, System.SysUtils, System.Generics.Collections,
-  JclExprEval;
+  System.Classes, System.SysUtils, System.Generics.Collections
+  {$IFDEF USE_JEDI}
+  , JclExprEval
+  {$ENDIF}
+  ;
 
 const
   PartOfNumber = ['0'..'9', '.', ','];
@@ -158,32 +163,76 @@ type
 
 
 //TODO: New concept of a lookup table with mathematical expressions.
+//https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
+//OR
+//https://gobestcode.com/html/math_parser_for_delphi.html
 
-var
-  //https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
-  //OR
-  //https://gobestcode.com/html/math_parser_for_delphi.html
-  P: TEvaluator;
+  TUOMLookupUnit = class;
+  TUOMLookupTable = class;
 
-  TUOMLookupItem = class
+  TConvertProc = function(const Value: Double): Double;
+
+  TUOMLookupUnit = class(TObject)
   private
-    class var FID: String;
-    class var FUOM: String;
-    class var FNameSingular: String;
-    class var FNamePlural: String;
-    class var FPrefix: String;
-    class var FSuffix: String;
-    class var FConvertFromBase: String;
-    class var FConvertToBase: String;
+    FID2: TGUID;
+    FID: String;
+    FUOM: String;
+    FSystems: TStringList;
+    FNameSingular: String;
+    FNamePlural: String;
+    FPrefix: String;
+    FSuffix: String;
+    FConvertToProc: TConvertProc;
+    FConvertFromProc: TConvertProc;
+    function GetSystems: TStrings;
+    procedure SetID(const Value: String);
+    procedure SetNamePlural(const Value: String);
+    procedure SetNameSingular(const Value: String);
+    procedure SetPrefix(const Value: String);
+    procedure SetSuffix(const Value: String);
+    procedure SetSystems(const Value: TStrings);
+    procedure SetUOM(const Value: String);
+    procedure SetConvertFromProc(const Value: TConvertProc);
+    procedure SetConvertToProc(const Value: TConvertProc);
   public
-
+    constructor Create;
+    destructor Destroy; override;
+    property ConvertFromProc: TConvertProc read FConvertFromProc write SetConvertFromProc;
+    property ConvertToProc: TConvertProc read FConvertToProc write SetConvertToProc;
+    property ID: String read FID write SetID;
+    property UOM: String read FUOM write SetUOM;
+    property Systems: TStrings read GetSystems write SetSystems;
+    property NameSingular: String read FNameSingular write SetNameSingular;
+    property NamePlural: String read FNamePlural write SetNamePlural;
+    property Prefix: String read FPrefix write SetPrefix;
+    property Suffix: String read FSuffix write SetSuffix;
   end;
 
   TUOMLookupTable = class
   private
-    class var FItems: TList<TUOMLookupItem>;
+    class var FUnits: TObjectList<TUOMLookupUnit>;
+    class var FSystems: TStringList;
+    class var FUOMs: TStringList;
+    {$IFDEF USE_JEDI}
+    class var FEval: TEvaluator;
+    {$ENDIF}
   public
+    class constructor Create;
+    class destructor Destroy;
+    class function GetUnits(const Index: Integer): TUOMLookupUnit; static;
+    class function GetUnitByName(const Name: String): TUOMLookupUnit; static;
+    class function GetUnitByPrefix(const Prefix: String): TUOMLookupUnit; static;
+    class function GetUnitBySuffix(const Suffix: String): TUOMLookupUnit; static;
+    class function GetUnitByID(const ID: String): TUOMLookupUnit; static;
+    class function UOMCount: Integer; static;
+    class function SystemCount: Integer; static;
+    class procedure ListUOMs(AList: TStrings); static;
+    class procedure ListSystems(AList: TStrings); static;
+    class function UnitCount: Integer; static;
+    class property Units[const Index: Integer]: TUOMLookupUnit read GetUnits;
 
+    class procedure RegisterUnit(const AUnit: TUOMLookupUnit);
+    class function Convert(const Value: Double; const FromUnit, ToUnit: String): Double;
   end;
 
 
@@ -593,6 +642,244 @@ end;
 procedure TUOM.SetUOM(const Value: TUnitOfMeasurement);
 begin
   FUOM.Assign(Value);
+end;
+
+{ TUOMLookupUnit }
+
+constructor TUOMLookupUnit.Create;
+begin
+  FSystems:= TStringList.Create;
+end;
+
+destructor TUOMLookupUnit.Destroy;
+begin
+  FreeAndNil(FSystems);
+end;
+
+function TUOMLookupUnit.GetSystems: TStrings;
+begin
+  Result:= TStrings(FSystems);
+end;
+
+procedure TUOMLookupUnit.SetConvertFromProc(const Value: TConvertProc);
+begin
+  FConvertFromProc := Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetConvertToProc(const Value: TConvertProc);
+begin
+  FConvertToProc := Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetID(const Value: String);
+begin
+  FID:= Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetNamePlural(const Value: String);
+begin
+  FNamePlural:= Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetNameSingular(const Value: String);
+begin
+  FNameSingular:= Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetPrefix(const Value: String);
+begin
+  FPrefix:= Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetSuffix(const Value: String);
+begin
+  FSuffix:= Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetSystems(const Value: TStrings);
+begin
+  FSystems.Assign(Value);
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetUOM(const Value: String);
+begin
+  FUOM:= Value;
+  //TODO: Validate...
+end;
+
+{ TUOMLookupTable }
+
+class constructor TUOMLookupTable.Create;
+begin
+  FUnits:= TObjectList<TUOMLookupUnit>.Create(True);
+  FSystems:= TStringList.Create;
+  FUOMs:= TStringList.Create;
+end;
+
+class destructor TUOMLookupTable.Destroy;
+begin
+  FreeAndNil(FUOMs);
+  FreeAndNil(FSystems);
+  FreeAndNil(FUnits);
+end;
+
+class function TUOMLookupTable.Convert(const Value: Double; const FromUnit,
+  ToUnit: String): Double;
+var
+  F, T: TUOMLookupUnit;
+begin
+  F:= GetUnitByName(FromUnit);
+  T:= GetUnitByName(ToUnit);
+  if Assigned(F) and Assigned(T) then begin
+    try
+      Result:= F.FConvertToProc(Value);
+      Result:= T.FConvertFromProc(Result);
+    except
+      on E: Exception do begin
+        raise Exception.Create('Conversion functions failed: '+E.Message);
+      end;
+    end;
+  end else begin
+    raise Exception.Create('Invalid unit name(s).');
+  end;
+end;
+
+class function TUOMLookupTable.GetUnitByID(const ID: String): TUOMLookupUnit;
+var
+  X: Integer;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    if SameText(Trim(ID), Trim(FUnits[X].FID)) then begin
+      Result:= FUnits[X];
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMLookupTable.GetUnits(const Index: Integer): TUOMLookupUnit;
+begin
+  Result:= FUnits[Index];
+end;
+
+class function TUOMLookupTable.GetUnitByName(const Name: String): TUOMLookupUnit;
+var
+  X: Integer;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    if SameText(Trim(Name), Trim(FUnits[X].FNameSingular)) or
+      SameText(Trim(Name), Trim(FUnits[X].FNamePlural)) then
+    begin
+      Result:= FUnits[X];
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMLookupTable.GetUnitByPrefix(const Prefix: String): TUOMLookupUnit;
+var
+  X: Integer;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    if SameText(Trim(Prefix), Trim(FUnits[X].FPrefix)) then begin
+      Result:= FUnits[X];
+      Break;
+    end;
+  end;
+end;
+
+class function TUOMLookupTable.GetUnitBySuffix(const Suffix: String): TUOMLookupUnit;
+var
+  X: Integer;
+begin
+  Result:= nil;
+  for X := 0 to FUnits.Count-1 do begin
+    if SameText(Trim(Suffix), Trim(FUnits[X].FSuffix)) then begin
+      Result:= FUnits[X];
+      Break;
+    end;
+  end;
+end;
+
+class procedure TUOMLookupTable.ListSystems(AList: TStrings);
+var
+  X, Y: Integer;
+  UN: String;
+begin
+  AList.Clear;
+  for X := 0 to FUnits.Count-1 do begin
+    for Y := 0 to FUnits[X].FSystems.Count-1 do begin
+      UN:= FUnits[X].FSystems[Y];
+      if AList.IndexOf(UN) < 0 then
+        AList.Append(UN);
+    end;
+  end;
+end;
+
+class procedure TUOMLookupTable.ListUOMs(AList: TStrings);
+var
+  X: Integer;
+  UN: String;
+begin
+  AList.Clear;
+  for X := 0 to FUnits.Count-1 do begin
+    UN:= FUnits[X].FUOM;
+    if AList.IndexOf(UN) < 0 then
+      AList.Append(UN);
+  end;
+end;
+
+class procedure TUOMLookupTable.RegisterUnit(const AUnit: TUOMLookupUnit);
+begin
+  if AUnit = nil then begin
+    raise Exception.Create('Cannot register unassigned unit object.');
+  end;
+
+  if Assigned(GetUnitByName(AUnit.FNameSingular)) or
+    Assigned(GetUnitByName(AUnit.FNamePlural)) then
+  begin
+
+    raise Exception.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
+  end;
+
+  if Assigned(GetUnitByID(AUnit.FID)) then begin
+    raise Exception.Create('Cannot register duplicate unit ID '+AUnit.FID);
+  end;
+
+  if Assigned(GetUnitBySuffix(AUnit.FSuffix)) then begin
+    raise Exception.Create('Cannot register duplicate unit suffix '+AUnit.FSuffix);
+  end;
+
+  FUnits.Add(AUnit);
+  ListUOMs(FUOMs);
+  ListSystems(FSystems);
+end;
+
+class function TUOMLookupTable.SystemCount: Integer;
+begin
+  ListSystems(FSystems);
+  Result:= FSystems.Count;
+end;
+
+class function TUOMLookupTable.UnitCount: Integer;
+begin
+  Result:= FUnits.Count;
+end;
+
+class function TUOMLookupTable.UOMCount: Integer;
+begin
+  ListUOMs(FUOMs);
+  Result:= FUOMs.Count;
 end;
 
 initialization
