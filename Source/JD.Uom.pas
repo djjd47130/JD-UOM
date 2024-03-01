@@ -172,8 +172,11 @@ type
   TUOMLookupUnit = class;
   TUOMLookupTable = class;
 
-  TConvertProc = function(const Value: Double): Double;
+  TConvertProc = Reference to function(const Value: Double): Double;
 
+  /// <summary>
+  /// NEW base object for each possible UOM unit.
+  /// </summary>
   TUOMLookupUnit = class(TObject)
   private
     FID: String;
@@ -191,6 +194,7 @@ type
     FConvertFromBaseProc: TConvertProc;
     {$ENDIF}
     function GetSystems: TStrings;
+    procedure SystemsChanged(Sender: TObject);
     procedure SetID(const Value: String);
     procedure SetNamePlural(const Value: String);
     procedure SetNameSingular(const Value: String);
@@ -207,9 +211,10 @@ type
     {$ENDIF}
   public
     constructor Create; overload;
-    constructor Create(const AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+    constructor Create(const AUOM, AID, ANameSingular, ANamePlural, APrefix, ASuffix,
       ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
+    procedure Invalidate; virtual;
     {$IFDEF USE_JEDI}
     property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
     property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
@@ -234,9 +239,11 @@ type
     {$IFDEF USE_JEDI}
     class var FEval: TEvaluator;
     {$ENDIF}
+    class procedure RegisterBaseUnits; static;
   public
     class constructor Create;
     class destructor Destroy;
+    class procedure Invalidate; virtual;
     class function GetUnits(const Index: Integer): TUOMLookupUnit; static;
     class function GetUnitByName(const Name: String): TUOMLookupUnit; static;
     class function GetUnitByPrefix(const Prefix: String): TUOMLookupUnit; static;
@@ -249,13 +256,20 @@ type
     class function UnitCount: Integer; static;
     class property Units[const Index: Integer]: TUOMLookupUnit read GetUnits;
 
-    class procedure RegisterUnit(const AUnit: TUOMLookupUnit);
-    class function Convert(const Value: Double; const FromUnit, ToUnit: String): Double;
+    class procedure RegisterUnit(const AUnit: TUOMLookupUnit); static;
+    class function Convert(const Value: Double; const FromUnit, ToUnit: String): Double; static;
   end;
 
   //TODO: New abstract record to encapsulate a single possible value attached to a specific UOM
   TUOMValue = record
-
+  private
+    FMeasureUnit: String;
+    FValue: Double;
+    procedure SetMeasureUnit(const Value: String);
+    procedure SetValue(const Value: Double);
+  public
+    property MreasureUnit: String read FMeasureUnit write SetMeasureUnit;
+    property Value: Double read FValue write SetValue;
   end;
 
 
@@ -673,18 +687,27 @@ end;
 constructor TUOMLookupUnit.Create;
 begin
   FSystems:= TStringList.Create;
+  FSystems.OnChange:= SystemsChanged;
 end;
 
-constructor TUOMLookupUnit.Create(const AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+constructor TUOMLookupUnit.Create(const AUOM, AID, ANameSingular, ANamePlural, APrefix, ASuffix,
   ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
 begin
   Create;
+  FUOM:= AUOM;
   FID:= AID;
   FNameSingular:= ANameSingular;
   FNamePlural:= ANamePlural;
   FPrefix:= APrefix;
   FSuffix:= ASuffix;
-  FSystems.Text:= ASystems; //TODO: Validate...
+  FSystems.Text:= ASystems;
+  FConvertFromBaseProc:= AFromBase;
+  FConvertToBaseProc:= AToBase;
+  //TODO: Validate...
+
+  //TODO: This doesn't belong here, implement invalidate methods...
+  TUOMLookupTable.ListUOMs(TUOMLookupTable.FUOMs);
+  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
 end;
 
 destructor TUOMLookupUnit.Destroy;
@@ -692,9 +715,9 @@ begin
   FreeAndNil(FSystems);
 end;
 
-function TUOMLookupUnit.GetSystems: TStrings;
+procedure TUOMLookupUnit.Invalidate;
 begin
-  Result:= TStrings(FSystems);
+  TUOMLookupTable.Invalidate;
 end;
 
 {$IFDEF USE_JEDI}
@@ -703,12 +726,14 @@ procedure TUOMLookupUnit.SetConvertFromBaseFormula(const Value: String);
 begin
   FConvertFromBaseFormula := Value;
   //TODO: Validate...
+  Invalidate;
 end;
 
 procedure TUOMLookupUnit.SetConvertToBaseFormula(const Value: String);
 begin
   FConvertToBaseFormula := Value;
   //TODO: Validate...
+  Invalidate;
 end;
 
 {$ELSE}
@@ -717,15 +742,22 @@ procedure TUOMLookupUnit.SetConvertFromBaseProc(const Value: TConvertProc);
 begin
   FConvertFromBaseProc := Value;
   //TODO: Validate...
+  Invalidate;
 end;
 
 procedure TUOMLookupUnit.SetConvertToBaseProc(const Value: TConvertProc);
 begin
   FConvertToBaseProc := Value;
   //TODO: Validate...
+  Invalidate;
 end;
 
 {$ENDIF}
+
+function TUOMLookupUnit.GetSystems: TStrings;
+begin
+  Result:= TStrings(FSystems);
+end;
 
 procedure TUOMLookupUnit.SetID(const Value: String);
 begin
@@ -760,13 +792,18 @@ end;
 procedure TUOMLookupUnit.SetSystems(const Value: TStrings);
 begin
   FSystems.Assign(Value);
-  //TODO: Validate...
+  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
 end;
 
 procedure TUOMLookupUnit.SetUOM(const Value: String);
 begin
   FUOM:= Value;
-  //TODO: Validate...
+  TUOMLookupTable.ListUOMs(TUOMLookupTable.FUOMs);
+end;
+
+procedure TUOMLookupUnit.SystemsChanged(Sender: TObject);
+begin
+  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
 end;
 
 { TUOMLookupTable }
@@ -824,6 +861,12 @@ begin
     end;
   end;
 
+end;
+
+class procedure TUOMLookupTable.Invalidate;
+begin
+  ListUOMs(FUOMs);
+  ListSystems(FSystems);
 end;
 
 class function TUOMLookupTable.GetUnitByID(const ID: String): TUOMLookupUnit;
@@ -913,6 +956,111 @@ begin
   end;
 end;
 
+class procedure TUOMLookupTable.RegisterBaseUnits;
+var
+  U: TUOMLookupUnit;
+begin
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{077930C4-8ED2-444E-8053-24899B197F00}',
+    'Nanometer', 'Nanometers', '', 'nm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Nanometers
+      Result:= Value * 1000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Nanometers to Meters
+      Result:= Value / 1000000;
+    end
+  ));
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{B0001BAD-960B-463A-9545-07DE3F229BBD}',
+    'Micron', 'Microns', '', 'μm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Microns
+      Result:= Value * 1000000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Microns to Meters
+      Result:= Value / 1000000000;
+    end
+  ));
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{815B7612-7FD9-4325-97A6-07A7F32A1B0B}',
+    'Millimeter', 'Millimeters', '', 'mm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Millimeters
+      Result:= Value * 1000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Millimeters to Meters
+      Result:= Value / 1000;
+    end
+  ));
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{E637DBDF-DA82-4FB1-85B3-87EA5DDB772A}',
+    'Centimeter', 'Centimeters', '', 'cm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Centimeters
+      Result:= Value * 100;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Centimeters to Meters
+      Result:= Value / 100;
+    end
+  ));
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{CDCFC5F0-4B37-4D18-B6D6-46CF71BF54BA}',
+    'Decimeter', 'Decimeters', '', 'dm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Decimeters
+      Result:= Value * 10;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Decimeters to Meters
+      Result:= Value / 10;
+    end
+  ));
+
+  RegisterUnit(TUOMLookupUnit.Create('Distance', '{CB30CEB3-C3D2-4862-A081-A27DA5E33683}',
+    'Meter', 'Meters', '', 'm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Meters
+      Result:= Value;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Meters to Meters
+      Result:= Value;
+    end
+  ));
+
+  (* //TEMPLATE
+  RegisterUnit(TUOMLookupUnit.Create('', '',
+    '', '', '', '', '',
+    function(const Value: Double): Double
+    begin
+
+    end,
+    function(const Value: Double): Double
+    begin
+
+    end
+  ));
+  *)
+
+end;
+
 class procedure TUOMLookupTable.RegisterUnit(const AUnit: TUOMLookupUnit);
 begin
   if AUnit = nil then begin
@@ -950,13 +1098,12 @@ begin
   end;
 
   FUnits.Add(AUnit);
-  ListUOMs(FUOMs);
-  ListSystems(FSystems);
+  Invalidate;
 end;
 
 class function TUOMLookupTable.SystemCount: Integer;
 begin
-  ListSystems(FSystems);
+  Invalidate;
   Result:= FSystems.Count;
 end;
 
@@ -967,8 +1114,20 @@ end;
 
 class function TUOMLookupTable.UOMCount: Integer;
 begin
-  ListUOMs(FUOMs);
+  Invalidate;
   Result:= FUOMs.Count;
+end;
+
+{ TUOMValue }
+
+procedure TUOMValue.SetMeasureUnit(const Value: String);
+begin
+  FMeasureUnit := Value;
+end;
+
+procedure TUOMValue.SetValue(const Value: Double);
+begin
+  FValue := Value;
 end;
 
 initialization
