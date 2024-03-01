@@ -166,7 +166,9 @@ type
 //https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
 //OR
 //https://gobestcode.com/html/math_parser_for_delphi.html
+//Meanwhile, this supports calling a common function reference to convert.
 
+type
   TUOMLookupUnit = class;
   TUOMLookupTable = class;
 
@@ -174,7 +176,6 @@ type
 
   TUOMLookupUnit = class(TObject)
   private
-    FID2: TGUID;
     FID: String;
     FUOM: String;
     FSystems: TStringList;
@@ -182,8 +183,13 @@ type
     FNamePlural: String;
     FPrefix: String;
     FSuffix: String;
-    FConvertToProc: TConvertProc;
-    FConvertFromProc: TConvertProc;
+    {$IFDEF USE_JEDI}
+    FConvertToBaseFormula: String;
+    FConvertFromBaseFormula: String;
+    {$ELSE}
+    FConvertToBaseProc: TConvertProc;
+    FConvertFromBaseProc: TConvertProc;
+    {$ENDIF}
     function GetSystems: TStrings;
     procedure SetID(const Value: String);
     procedure SetNamePlural(const Value: String);
@@ -192,13 +198,25 @@ type
     procedure SetSuffix(const Value: String);
     procedure SetSystems(const Value: TStrings);
     procedure SetUOM(const Value: String);
-    procedure SetConvertFromProc(const Value: TConvertProc);
-    procedure SetConvertToProc(const Value: TConvertProc);
+    {$IFDEF USE_JEDI}
+    procedure SetConvertFromBaseFormula(const Value: TConvertProc);
+    procedure SetConvertToBaseFormula(const Value: TConvertProc);
+    {$ELSE}
+    procedure SetConvertFromBaseProc(const Value: TConvertProc);
+    procedure SetConvertToBaseProc(const Value: TConvertProc);
+    {$ENDIF}
   public
-    constructor Create;
+    constructor Create; overload;
+    constructor Create(const AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+      ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
-    property ConvertFromProc: TConvertProc read FConvertFromProc write SetConvertFromProc;
-    property ConvertToProc: TConvertProc read FConvertToProc write SetConvertToProc;
+    {$IFDEF USE_JEDI}
+    property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
+    property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
+    {$ELSE}
+    property ConvertFromBaseProc: TConvertProc read FConvertFromBaseProc write SetConvertFromBaseProc;
+    property ConvertToBaseProc: TConvertProc read FConvertToBaseProc write SetConvertToBaseProc;
+    {$ENDIF}
     property ID: String read FID write SetID;
     property UOM: String read FUOM write SetUOM;
     property Systems: TStrings read GetSystems write SetSystems;
@@ -234,6 +252,12 @@ type
     class procedure RegisterUnit(const AUnit: TUOMLookupUnit);
     class function Convert(const Value: Double; const FromUnit, ToUnit: String): Double;
   end;
+
+  //TODO: New abstract record to encapsulate a single possible value attached to a specific UOM
+  TUOMValue = record
+
+  end;
+
 
 
 {$REGION 'TUnitOfMeasurement'}
@@ -651,6 +675,18 @@ begin
   FSystems:= TStringList.Create;
 end;
 
+constructor TUOMLookupUnit.Create(const AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+  ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
+begin
+  Create;
+  FID:= AID;
+  FNameSingular:= ANameSingular;
+  FNamePlural:= ANamePlural;
+  FPrefix:= APrefix;
+  FSuffix:= ASuffix;
+  FSystems.Text:= ASystems; //TODO: Validate...
+end;
+
 destructor TUOMLookupUnit.Destroy;
 begin
   FreeAndNil(FSystems);
@@ -661,17 +697,35 @@ begin
   Result:= TStrings(FSystems);
 end;
 
-procedure TUOMLookupUnit.SetConvertFromProc(const Value: TConvertProc);
+{$IFDEF USE_JEDI}
+
+procedure TUOMLookupUnit.SetConvertFromBaseFormula(const Value: String);
 begin
-  FConvertFromProc := Value;
+  FConvertFromBaseFormula := Value;
   //TODO: Validate...
 end;
 
-procedure TUOMLookupUnit.SetConvertToProc(const Value: TConvertProc);
+procedure TUOMLookupUnit.SetConvertToBaseFormula(const Value: String);
 begin
-  FConvertToProc := Value;
+  FConvertToBaseFormula := Value;
   //TODO: Validate...
 end;
+
+{$ELSE}
+
+procedure TUOMLookupUnit.SetConvertFromBaseProc(const Value: TConvertProc);
+begin
+  FConvertFromBaseProc := Value;
+  //TODO: Validate...
+end;
+
+procedure TUOMLookupUnit.SetConvertToBaseProc(const Value: TConvertProc);
+begin
+  FConvertToBaseProc := Value;
+  //TODO: Validate...
+end;
+
+{$ENDIF}
 
 procedure TUOMLookupUnit.SetID(const Value: String);
 begin
@@ -736,20 +790,40 @@ class function TUOMLookupTable.Convert(const Value: Double; const FromUnit,
 var
   F, T: TUOMLookupUnit;
 begin
+  //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion procs.
+
   F:= GetUnitByName(FromUnit);
-  T:= GetUnitByName(ToUnit);
-  if Assigned(F) and Assigned(T) then begin
-    try
-      Result:= F.FConvertToProc(Value);
-      Result:= T.FConvertFromProc(Result);
-    except
-      on E: Exception do begin
-        raise Exception.Create('Conversion functions failed: '+E.Message);
-      end;
-    end;
-  end else begin
-    raise Exception.Create('Invalid unit name(s).');
+  if not Assigned(F) then begin
+    raise Exception.Create('Conversion from unit "'+F.NameSingular+'" not found.');
   end;
+
+  T:= GetUnitByName(ToUnit);
+  if not Assigned(T) then begin
+    raise Exception.Create('Conversion to unit "'+F.NameSingular+'" not found.');
+  end;
+
+  if not Assigned(F.ConvertFromBaseProc) then begin
+    raise Exception.Create('Conversion from proc is not assigned.');
+  end;
+
+  if not Assigned(T.ConvertToBaseProc) then begin
+    raise Exception.Create('Conversion to proc is not assigned.');
+  end;
+
+  try
+    {$IFDEF USE_JEDI}
+    //TODO: Perform conversion using mathematical expressions...
+
+    {$ELSE}
+    Result:= F.FConvertToBaseProc(Value);
+    Result:= T.FConvertFromBaseProc(Result);
+    {$ENDIF}
+  except
+    on E: Exception do begin
+      raise Exception.Create('Conversion functions failed: '+E.Message);
+    end;
+  end;
+
 end;
 
 class function TUOMLookupTable.GetUnitByID(const ID: String): TUOMLookupUnit;
@@ -845,10 +919,25 @@ begin
     raise Exception.Create('Cannot register unassigned unit object.');
   end;
 
+  if Trim(AUnit.FNameSingular) = '' then begin
+    raise Exception.Create('Cannot register blank unit name.');
+  end;
+
+  if Trim(AUnit.FNamePlural) = '' then begin
+    raise Exception.Create('Cannot register blank unit name.');
+  end;
+
+  if Trim(AUnit.FSuffix) = '' then begin
+    raise Exception.Create('Cannot register blank unit suffix.');
+  end;
+
+  if Trim(AUnit.FID) = '' then begin
+    raise Exception.Create('Cannot register blank unit ID.');
+  end;
+
   if Assigned(GetUnitByName(AUnit.FNameSingular)) or
     Assigned(GetUnitByName(AUnit.FNamePlural)) then
   begin
-
     raise Exception.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
   end;
 
@@ -883,6 +972,6 @@ begin
 end;
 
 initialization
-  DefaultUOMSystem:= TUOMSystem.ustUSCustomary;
+  DefaultUOMSystem:= TUOMSystem.ustMetric;
 
 end.
