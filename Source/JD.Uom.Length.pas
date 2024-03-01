@@ -446,6 +446,111 @@ implementation
 uses
   System.Math;
 
+
+procedure RegisterUOM;
+begin
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{077930C4-8ED2-444E-8053-24899B197F00}',
+    'Nanometer', 'Nanometers', '', 'nm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Nanometers
+      Result:= Value * 1000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Nanometers to Meters
+      Result:= Value / 1000000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{B0001BAD-960B-463A-9545-07DE3F229BBD}',
+    'Micron', 'Microns', '', 'μm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Microns
+      Result:= Value * 1000000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Microns to Meters
+      Result:= Value / 1000000000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{815B7612-7FD9-4325-97A6-07A7F32A1B0B}',
+    'Millimeter', 'Millimeters', '', 'mm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Millimeters
+      Result:= Value * 1000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Millimeters to Meters
+      Result:= Value / 1000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{E637DBDF-DA82-4FB1-85B3-87EA5DDB772A}',
+    'Centimeter', 'Centimeters', '', 'cm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Centimeters
+      Result:= Value * 100;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Centimeters to Meters
+      Result:= Value / 100;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{CDCFC5F0-4B37-4D18-B6D6-46CF71BF54BA}',
+    'Decimeter', 'Decimeters', '', 'dm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Decimeters
+      Result:= Value * 10;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Decimeters to Meters
+      Result:= Value / 10;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{CB30CEB3-C3D2-4862-A081-A27DA5E33683}',
+    'Meter', 'Meters', '', 'm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Meters
+      Result:= Value;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Meters to Meters
+      Result:= Value;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{2CD91B24-C767-4784-85BD-653E294399F4}',
+    'Decameter', 'Decameters', '', 'dam', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Decameters
+      Result:= Value / 10;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Decameters to Meters
+      Result:= Value * 10;
+    end
+  ));
+
+end;
+
+
 var
   _: TUOMLengthUtils;
 
@@ -2358,4 +2463,5 @@ end;
 
 initialization
   _:= nil;
+  RegisterUOM;
 end.
