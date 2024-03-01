@@ -9,7 +9,7 @@
         <Projects Include="Packages\dclJDUOMLib.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="V2-TEST\JDConvert.dproj">
+        <Projects Include="JDConvert\JDConvert.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -39,13 +39,13 @@
         <MSBuild Projects="Packages\dclJDUOMLib.dproj" Targets="Make"/>
     </Target>
     <Target Name="JDConvert">
-        <MSBuild Projects="V2-TEST\JDConvert.dproj"/>
+        <MSBuild Projects="JDConvert\JDConvert.dproj"/>
     </Target>
     <Target Name="JDConvert:Clean">
-        <MSBuild Projects="V2-TEST\JDConvert.dproj" Targets="Clean"/>
+        <MSBuild Projects="JDConvert\JDConvert.dproj" Targets="Clean"/>
     </Target>
     <Target Name="JDConvert:Make">
-        <MSBuild Projects="V2-TEST\JDConvert.dproj" Targets="Make"/>
+        <MSBuild Projects="JDConvert\JDConvert.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
         <CallTarget Targets="JDUOMLib;dclJDUOMLib;JDConvert"/>

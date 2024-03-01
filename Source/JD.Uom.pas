@@ -252,6 +252,7 @@ type
     class function SystemCount: Integer; static;
     class procedure ListUOMs(AList: TStrings); static;
     class procedure ListSystems(AList: TStrings); static;
+    class procedure ListUnits(AList: TStrings); static;
     class function UnitCount: Integer; static;
     class property Units[const Index: Integer]: TUOMLookupUnit read GetUnits;
 
@@ -699,7 +700,9 @@ begin
   FNamePlural:= ANamePlural;
   FPrefix:= APrefix;
   FSuffix:= ASuffix;
-  FSystems.Text:= ASystems;
+  FSystems.Delimiter:= ',';
+  FSystems.StrictDelimiter:= True;
+  FSystems.DelimitedText:= ASystems;
   FConvertFromBaseProc:= AFromBase;
   FConvertToBaseProc:= AToBase;
   //TODO: Validate...
@@ -940,6 +943,11 @@ begin
         AList.Append(UN);
     end;
   end;
+end;
+
+class procedure TUOMLookupTable.ListUnits(AList: TStrings);
+begin
+  //TODO
 end;
 
 class procedure TUOMLookupTable.ListUOMs(AList: TStrings);

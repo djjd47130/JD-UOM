@@ -2,6 +2,8 @@ unit uJDConvertMain;
 
 interface
 
+{$DEFINE TABLE_BASED}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
@@ -13,7 +15,7 @@ uses
   JD.Uom.Volume,
   JD.Uom.Mass,
   Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
-  VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart;
+  VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart, Vcl.CheckLst;
 
 const
   WIDTH_SMALL = 1;
@@ -55,6 +57,9 @@ type
     Chart: TChart;
     Series1: TFastLineSeries;
     Label10: TLabel;
+    pSystems: TPanel;
+    Label12: TLabel;
+    lstSystems: TCheckListBox;
     procedure FormCreate(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
     procedure cboSystemClick(Sender: TObject);
@@ -79,8 +84,20 @@ implementation
 {$R *.dfm}
 
 procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);
+var
+  P1, P2: TPoint;
 begin
-  //TODO: Draw crosshairs for test value conversion with selected unit...
+  //TODO: Draw crosshair for test value conversion with selected unit...
+  P1.X:= Chart.ChartRect.Left;
+  P2.X:= Chart.ChartRect.Right;
+  P1.Y:= Chart.LeftAxis.CalcPosValue(txtValue.Value);
+  P2.Y:= P1.Y;
+  Chart.Canvas.Brush.Style:= bsClear;
+  Chart.Canvas.Pen.Style:= psSolid;
+  Chart.Canvas.Pen.Width:= 2;
+  Chart.Canvas.Pen.Color:= clYellow;
+  Chart.Canvas.Pen.Style:= TPenStyle.psDash;
+  Chart.Canvas.Line(P1, P2);
 end;
 
 procedure TfrmJDConvertMain.FormCreate(Sender: TObject);
@@ -90,6 +107,14 @@ begin
   {$ENDIF}
   WindowState:= wsMaximized;
   Chart.Align:= alClient;
+
+  {$IFDEF TABLE_BASED}
+  TUOMLookupTable.ListSystems(lstSystems.Items);
+  lstSystems.CheckAll(TCheckBoxState.cbChecked);
+  cboSystem.Visible:= False;
+  {$ELSE}
+  pSystems.Visible:= False;
+  {$ENDIF}
   RefreshUOMs;
 end;
 
@@ -116,10 +141,16 @@ var
   U: TUOMBaseClass;
 begin
   lstUOMs.Items.Clear;
+
+  {$IFDEF TABLE_BASED}
+  TUOMLookupTable.ListUOMs(lstUOMs.Items);
+  {$ELSE}
   for X := 0 to TUOMUtils.Count-1 do begin
     U:= TUOMUtils.UOM(X);
     lstUOMs.Items.Add(U.UOMName);
   end;
+  {$ENDIF}
+
   if lstUOMs.Items.Count > 0 then begin
     lstUOMs.ItemIndex:= 0;
     lstUOMsClick(nil);
@@ -139,6 +170,11 @@ var
   S: TUOMSystem;
 begin
   lstUnits.Items.Clear;
+
+  {$IFDEF TABLE_BASED}
+
+
+  {$ELSE}
   I:= lstUOMs.ItemIndex;
   if I < 0 then Exit;
   FUOM:= TUOMUtils.UOM(I);
@@ -152,6 +188,7 @@ begin
     lstUnits.ItemIndex:= 0;
     lstUnitsClick(nil);
   end;
+  {$ENDIF}
 end;
 
 function UOMSystemsStr(const ASystems: TUOMSystems): String;
