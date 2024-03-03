@@ -311,14 +311,14 @@ type
   //TODO: A record that allows area to be specified using two linear dimensions
   TUOMAreaRect = record
   private
-    FWidth: TUOMLength;
-    FLength: TUOMLength;
-    procedure SetLength(const Value: TUOMLength);
-    procedure SetWidth(const Value: TUOMLength);
+    FWidth: Double;
+    FLength: Double;
+    procedure SetLength(const Value: Double);
+    procedure SetWidth(const Value: Double);
     function GetArea: Double;
   public
-    property Width: TUOMLength read FWidth write SetWidth;
-    property Length: TUOMLength read FLength write SetLength;
+    property Width: Double read FWidth write SetWidth;
+    property Length: Double read FLength write SetLength;
     property Area: Double read GetArea;
     class operator implicit(const AValue: Double): TUOMAreaRect;
     class operator implicit(const AValue: TUOMAreaRect): Double;
@@ -1185,12 +1185,12 @@ end;
 
 { TUOMAreaRect }
 
-procedure TUOMAreaRect.SetLength(const Value: TUOMLength);
+procedure TUOMAreaRect.SetLength(const Value: Double);
 begin
   FLength := Value;
 end;
 
-procedure TUOMAreaRect.SetWidth(const Value: TUOMLength);
+procedure TUOMAreaRect.SetWidth(const Value: Double);
 begin
   FWidth := Value;
 end;
@@ -1198,7 +1198,7 @@ end;
 function TUOMAreaRect.GetArea: Double;
 begin
   //TODO: Convert combined UOMs...
-  Result:= FWidth.Value * FLength.Value;
+  //Result:= FWidth.Value * FLength.Value;
 
 end;
 
@@ -1218,7 +1218,7 @@ end;
 class operator TUOMAreaRect.implicit(
   const AValue: TUOMAreaRect): String;
 begin
-  Result:= AValue.Width + ' x ' + AValue.Length;
+  //Result:= AValue.Width + ' x ' + AValue.Length;
 end;
 
 class operator TUOMAreaRect.implicit(

@@ -696,16 +696,6 @@ begin
   FSystems.OnChange:= SystemsChanged;
 end;
 
-function TUOMLookupUnit.ConvertFromBase(const AValue: Double): Double;
-begin
-  Result:= Self.FConvertFromBaseProc(AValue);
-end;
-
-function TUOMLookupUnit.ConvertToBase(const AValue: Double): Double;
-begin
-  Result:= Self.FConvertToBaseProc(AValue);
-end;
-
 constructor TUOMLookupUnit.Create(const AUOM, AID, ANameSingular, ANamePlural, APrefix, ASuffix,
   ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
 begin
@@ -736,6 +726,16 @@ end;
 procedure TUOMLookupUnit.Invalidate;
 begin
   TUOMLookupTable.Invalidate;
+end;
+
+function TUOMLookupUnit.ConvertFromBase(const AValue: Double): Double;
+begin
+  Result:= Self.FConvertFromBaseProc(AValue);
+end;
+
+function TUOMLookupUnit.ConvertToBase(const AValue: Double): Double;
+begin
+  Result:= Self.FConvertToBaseProc(AValue);
 end;
 
 {$IFDEF USE_JEDI}

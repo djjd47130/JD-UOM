@@ -155,10 +155,6 @@ end;
 
 procedure TfrmJDConvertMain.RefreshUnits;
 var
-  I: Integer;
-  U: TUOMUnitClass;
-  X: Integer;
-  S: TUOMSystem;
   FU: String;
   FS: String;
 begin
@@ -222,7 +218,6 @@ var
   BU: TUOMLookupUnit;
   Y: Integer;
   V: Double;
-  I: Integer;
   Amt: Integer;
 begin
   Chart.SeriesList.Clear;
@@ -241,7 +236,7 @@ begin
       S.Tag:= X;
       S.ParentChart:= Chart;
       S.Title:= U.NameSingular;
-      if I = X then
+      if U.NameSingular = FSelUnit then
         S.LinePen.Width:= WIDTH_LARGE
       else
         S.LinePen.Width:= WIDTH_SMALL;
