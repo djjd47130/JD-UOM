@@ -90,6 +90,7 @@ const
   METRIC_DECA  = 10;
   METRIC_HECTO = 100;
   METRIC_KILO  = 1000;
+  //TODO
 
 type
   TUOM = class;

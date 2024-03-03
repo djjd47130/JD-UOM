@@ -70,6 +70,7 @@ type
     FSelSystems: String;
     FSelCategory: String;
     FSelUOM: String;
+    procedure RefreshSystems;
   public
     procedure RefreshCategories;
     procedure RefreshUOMs;
@@ -94,9 +95,23 @@ begin
   {$ENDIF}
   WindowState:= wsMaximized;
   Chart.Align:= alClient;
+  RefreshSystems;
+  RefreshCategories;
+end;
+
+procedure TfrmJDConvertMain.RefreshSystems;
+var
+  X: Integer;
+  S: String;
+begin
   TUOMUtils.ListSystems(lstSystems.Items);
   lstSystems.CheckAll(TCheckBoxState.cbChecked);
-  RefreshCategories;
+  for X := 0 to lstSystems.Items.Count-1 do begin
+    S:= lstSystems.Items[X];
+    if S = 'Natural' then
+      lstSystems.Checked[X]:= False;
+  end;
+  lstSystemsClickCheck(nil);
 end;
 
 procedure TfrmJDConvertMain.lstCategoriesClick(Sender: TObject);
@@ -151,6 +166,8 @@ procedure TfrmJDConvertMain.RefreshUOMs;
 var
   FS: String;
 begin
+  if lstCategories.ItemIndex < 0 then Exit;
+
   FSelCategory:= lstCategories.Items[lstCategories.ItemIndex];
   FS:= FSelSystems;
   TUOMUtils.ListUOMs(lstUOMs.Items, FSelCategory, FS);
