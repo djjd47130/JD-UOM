@@ -66,9 +66,14 @@ interface
 //  https://gobestcode.com/html/math_parser_for_delphi.html
 { $DEFINE USE_MATH_EXPR}
 
+{$IFDEF USE_MATH_EXPR}
+  { $DEFINE USE_JEDI}
+  {$DEFINE USE_DWS}
+{$ENDIF}
+
 uses
   System.Classes, System.SysUtils, System.Generics.Collections
-  {$IFDEF USE_MATH_EXPR}
+  {$IFDEF USE_JEDI}
   , JclExprEval
   {$ENDIF}
   ;
@@ -76,6 +81,15 @@ uses
 const
   PartOfNumber = ['0'..'9', '.', ','];
   NumFormat = '#,###,###,###,##0.#############';
+
+  METRIC_NANO  = 0.000000001;
+  METRIC_MICRO = 0.000001;
+  METRIC_MILLI = 0.001;
+  METRIC_CENTI = 0.01;
+  METRIC_DECI  = 0.1;
+  METRIC_DECA  = 10;
+  METRIC_HECTO = 100;
+  METRIC_KILO  = 1000;
 
 type
   TUOM = class;

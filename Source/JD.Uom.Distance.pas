@@ -19,12 +19,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Nanometers
-      Result:= Value * 1000000;
+      Result:= Value / METRIC_NANO;
     end,
     function(const Value: Double): Double
     begin
       //Nanometers to Meters
-      Result:= Value / 1000000;
+      Result:= Value * METRIC_NANO;
     end
   );
 
@@ -33,12 +33,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Microns
-      Result:= Value * 1000000000;
+      Result:= Value / METRIC_MICRO;
     end,
     function(const Value: Double): Double
     begin
       //Microns to Meters
-      Result:= Value / 1000000000;
+      Result:= Value * METRIC_MICRO;
     end
   );
 
@@ -47,12 +47,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Millimeters
-      Result:= Value * 1000;
+      Result:= Value / METRIC_MILLI;
     end,
     function(const Value: Double): Double
     begin
       //Millimeters to Meters
-      Result:= Value / 1000;
+      Result:= Value * METRIC_MILLI;
     end
   );
 
@@ -61,12 +61,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Centimeters
-      Result:= Value * 100;
+      Result:= Value / METRIC_CENTI;
     end,
     function(const Value: Double): Double
     begin
       //Centimeters to Meters
-      Result:= Value / 100;
+      Result:= Value * METRIC_CENTI;
     end
   );
 
@@ -75,12 +75,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Decimeters
-      Result:= Value * 10;
+      Result:= Value / METRIC_DECI;
     end,
     function(const Value: Double): Double
     begin
       //Decimeters to Meters
-      Result:= Value / 10;
+      Result:= Value * METRIC_DECI;
     end
   );
 
@@ -103,12 +103,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Decameters
-      Result:= Value / 10;
+      Result:= Value / METRIC_DECA;
     end,
     function(const Value: Double): Double
     begin
       //Decameters to Meters
-      Result:= Value * 10;
+      Result:= Value * METRIC_DECA;
     end
   );
 
@@ -117,12 +117,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Hectometers
-      Result:= Value / 100;
+      Result:= Value / METRIC_HECTO;
     end,
     function(const Value: Double): Double
     begin
       //Hectometers to Meters
-      Result:= Value * 100;
+      Result:= Value * METRIC_HECTO;
     end
   );
 
@@ -131,12 +131,12 @@ begin
     function(const Value: Double): Double
     begin
       //Meters to Kilometers
-      Result:= Value / 1000;
+      Result:= Value / METRIC_KILO;
     end,
     function(const Value: Double): Double
     begin
       //Kilometers to Meters
-      Result:= Value * 1000;
+      Result:= Value * METRIC_KILO;
     end
   );
 
