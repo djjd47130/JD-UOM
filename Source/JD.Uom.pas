@@ -172,7 +172,10 @@ type
     class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
 
-  //TODO: Abstract record to encapsulate a single possible value attached to a specific UOM category
+  /// <summary>
+  /// (NOT READY)
+  /// Abstract record to encapsulate a single possible value attached to a specific UOM category
+  /// </summary>
   TUOMValue = record
   private
     FUOM: String;
@@ -180,6 +183,10 @@ type
     procedure SetUOM(const Value: String);
     procedure SetValue(const Value: Double);
   public
+    class operator Implicit(const Value: TUOMValue): Double;
+    class operator Implicit(const Value: Double): TUOMValue;
+    class operator Implicit(const Value: TUOMValue): String;
+    class operator Implicit(const Value: String): TUOMValue;
     property UOM: String read FUOM write SetUOM;
     property Value: Double read FValue write SetValue;
   end;
@@ -592,6 +599,44 @@ begin
 end;
 
 { TUOMValue }
+
+class operator TUOMValue.Implicit(const Value: TUOMValue): Double;
+var
+  U: TUOM;
+begin
+  //Implicitly return the CONVERTED value...
+  U:= TUOMUtils.GetUOMByName(Value.FUOM);
+  if U = nil then
+    raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
+  Result:= U.ConvertToBase(Value.FValue);
+end;
+
+class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
+//var
+  //U: TUOM;
+begin
+  //Implicitly return the BASE value...
+  //TODO???
+  Result.FValue:= Value;
+end;
+
+class operator TUOMValue.Implicit(const Value: TUOMValue): String;
+var
+  U: TUOM;
+  V: Double;
+begin
+  //Implicitly return the CONVERTED value formatted as string...
+  U:= TUOMUtils.GetUOMByName(Value.FUOM);
+  if U = nil then
+    raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
+  V:= U.ConvertToBase(Value.FValue);
+  Result:= FormatFloat(NumFormat, V)+' '+U.FSuffix;
+end;
+
+class operator TUOMValue.Implicit(const Value: String): TUOMValue;
+begin
+  //TODO?
+end;
 
 procedure TUOMValue.SetUOM(const Value: String);
 begin
