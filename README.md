@@ -2,6 +2,9 @@
 
 ### NOTE: This library is in active development, and is not ready for use at this time. 
 
+### Help Wanted
+Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) to see what I need help with.
+
 ### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit". Except for in documentation, such as below.
 
 ## Features

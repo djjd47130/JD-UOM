@@ -167,7 +167,6 @@ var
   FS: String;
 begin
   if lstCategories.ItemIndex < 0 then Exit;
-
   FSelCategory:= lstCategories.Items[lstCategories.ItemIndex];
   FS:= FSelSystems;
   TUOMUtils.ListUOMs(lstUOMs.Items, FSelCategory, FS);
