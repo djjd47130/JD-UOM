@@ -3,7 +3,13 @@
 ### Base UOM: Grams
 
 ### All UOMs:
+- Microgram
 - Milligram
 - Gram
 - Kilogram
-- *MORE TO COME*
+- Metric Ton
+- Ton (UK)
+- Ton (US)
+- Stone
+- Pound
+- Ounce
