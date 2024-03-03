@@ -11,7 +11,7 @@ type
     umlDecimeters, umlMeters, umlDecameters, umlHectometers, umlKilometers,
     umlInches, umlFeet, umlYards, umlFathoms, umlRods, umlFurlongs,
     umlMiles, umlNauticalMiles,
-    umlLightYear);
+    umlLightYear, umlBananas, umlIPhone14ProMax);
   TUOMLengthUnits = set of TUOMLengthUnit;
 
   TUOMLengthUnitBase = class;
@@ -209,6 +209,27 @@ type
   TUOMLengthLightYear = class(TUOMLengthUnitBase)
     class function UnitID: String; override;
     class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; override;
+  end;
+
+  TUOMLengthBananas = class(TUOMLengthUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function Systems: TUOMSystems; override;
+    class function Suffix: String; override;
+    class function ConvertToBase(const AValue: Double): Double; override;
+    class function ConvertFromBase(const AValue: Double): Double; override;
+    class function UnitEnum: TUOMLengthUnit; override;
+  end;
+
+  TUOMLengthIPhone14ProMax = class(TUOMLengthUnitBase)
+    class function UnitID: String; override;
+    class function NameSingular: String; override;
+    class function NamePlural: String; override;
     class function Systems: TUOMSystems; override;
     class function Suffix: String; override;
     class function ConvertToBase(const AValue: Double): Double; override;
@@ -448,9 +469,12 @@ uses
 
 
 procedure RegisterUOM;
+var
+  Base: TUOMLookupUnit;
 begin
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{077930C4-8ED2-444E-8053-24899B197F00}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{077930C4-8ED2-444E-8053-24899B197F00}',
     'Nanometer', 'Nanometers', '', 'nm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -464,7 +488,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{B0001BAD-960B-463A-9545-07DE3F229BBD}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{B0001BAD-960B-463A-9545-07DE3F229BBD}',
     'Micron', 'Microns', '', 'μm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -478,7 +503,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{815B7612-7FD9-4325-97A6-07A7F32A1B0B}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{815B7612-7FD9-4325-97A6-07A7F32A1B0B}',
     'Millimeter', 'Millimeters', '', 'mm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -492,7 +518,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{E637DBDF-DA82-4FB1-85B3-87EA5DDB772A}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{E637DBDF-DA82-4FB1-85B3-87EA5DDB772A}',
     'Centimeter', 'Centimeters', '', 'cm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -506,7 +533,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{CDCFC5F0-4B37-4D18-B6D6-46CF71BF54BA}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{CDCFC5F0-4B37-4D18-B6D6-46CF71BF54BA}',
     'Decimeter', 'Decimeters', '', 'dm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -520,7 +548,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{CB30CEB3-C3D2-4862-A081-A27DA5E33683}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{CB30CEB3-C3D2-4862-A081-A27DA5E33683}',
     'Meter', 'Meters', '', 'm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -534,7 +563,8 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance', '{2CD91B24-C767-4784-85BD-653E294399F4}',
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{2CD91B24-C767-4784-85BD-653E294399F4}',
     'Decameter', 'Decameters', '', 'dam', 'Metric',
     function(const Value: Double): Double
     begin
@@ -547,6 +577,90 @@ begin
       Result:= Value * 10;
     end
   ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{B4D3A305-EEFC-4E92-9407-493D29973DEA}',
+    'Hectometer', 'Hectometers', '', 'hm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Hectometers
+      Result:= Value / 100;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Hectometers to Meters
+      Result:= Value * 100;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{8927581C-B9DF-4DD4-B52B-4E32F99DE9C2}',
+    'Kilometer', 'Kilometers', '', 'km', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Kilometers
+      Result:= Value / 1000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Kilometers to Meters
+      Result:= Value * 1000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{E2A5BAAE-915B-40B6-B15A-355E84992288}',
+    'Inch', 'Inches', '', '"', 'Imperial,US Customary',
+    function(const Value: Double): Double
+    begin
+      //Meters to Inches
+      Result:= Value * 39.3701;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Inches to Meters
+      Result:= Value / 39.3701;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '{8D8C41D7-5222-4915-B364-E4419D08FFAB}',
+    'Foot', 'Feet', '', '''', 'Imperial,US Customary',
+    function(const Value: Double): Double
+    begin
+      //Meters to Feet
+      Result:= Value * 3.28084;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Feet to Meters
+      Result:= Value / 3.28084;
+    end
+  ));
+
+  {
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+    '',
+    '', '', '', '', 'Imperial,US Customary',
+    function(const Value: Double): Double
+    begin
+      //Meters to
+      Result:= Value / 1000;
+    end,
+    function(const Value: Double): Double
+    begin
+      // to Meters
+      Result:= Value * 1000;
+    end
+  ));
+  }
+
+  //TODO: Finish adding all distance units...
+
+
+
+  Base:= TUOMLookupTable.GetUnitByName('Meter');
+  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
 
 end;
 
@@ -612,6 +726,8 @@ begin
   RegisterUnit(TUOMLengthMiles);
   RegisterUnit(TUOMLengthNauticalMiles);
   RegisterUnit(TUOMLengthLightYear);
+  RegisterUnit(TUOMLengthBananas);
+  RegisterUnit(TUOMLengthIPhone14ProMax);
 end;
 
 class function TUOMLengthUtils.BaseUnit: TUOMUnitClass;
@@ -2459,6 +2575,89 @@ end;
 class function TUOMLengthLightYear.UnitID: String;
 begin
   Result:= '{C8C8639C-4177-4FE1-8FFF-DAF6380B7DE9}';
+end;
+
+{ TUOMLengthBananas }
+
+class function TUOMLengthBananas.ConvertFromBase(const AValue: Double): Double;
+begin
+  //1 Banana = 8 Inches
+  Result:= AValue / 0.254;
+end;
+
+class function TUOMLengthBananas.ConvertToBase(const AValue: Double): Double;
+begin
+  //1 Banana = 8 Inches
+  Result:= AValue * 0.254;
+end;
+
+class function TUOMLengthBananas.NameSingular: String;
+begin
+  Result:= 'Banana';
+end;
+
+class function TUOMLengthBananas.Suffix: String;
+begin
+  Result:= 'Ban';
+end;
+
+class function TUOMLengthBananas.Systems: TUOMSystems;
+begin
+  Result:= [ustNatural];
+end;
+
+class function TUOMLengthBananas.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlBananas;
+end;
+
+class function TUOMLengthBananas.UnitID: String;
+begin
+  Result:= '{EBF3D1BE-99C0-4C31-8541-0148A9930DDA}';
+end;
+
+{ TUOMLengthIPhone14ProMax }
+
+class function TUOMLengthIPhone14ProMax.ConvertFromBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue / 0.1607;
+end;
+
+class function TUOMLengthIPhone14ProMax.ConvertToBase(
+  const AValue: Double): Double;
+begin
+  Result:= AValue * 0.1607;
+end;
+
+class function TUOMLengthIPhone14ProMax.NamePlural: String;
+begin
+  Result:= 'iPhone 14 Pro Maxes';
+end;
+
+class function TUOMLengthIPhone14ProMax.NameSingular: String;
+begin
+  Result:= 'iPhone 14 Pro Max';
+end;
+
+class function TUOMLengthIPhone14ProMax.Suffix: String;
+begin
+  Result:= 'iP14PM';
+end;
+
+class function TUOMLengthIPhone14ProMax.Systems: TUOMSystems;
+begin
+  Result:= [ustNatural];
+end;
+
+class function TUOMLengthIPhone14ProMax.UnitEnum: TUOMLengthUnit;
+begin
+  Result:= umlIPhone14ProMax;
+end;
+
+class function TUOMLengthIPhone14ProMax.UnitID: String;
+begin
+  Result:= '{0A783973-508A-4A4A-807D-E320AC3024E9}';
 end;
 
 initialization

@@ -31,8 +31,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 232
-      ExplicitTop = 10
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -69,8 +67,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 448
-      ExplicitTop = 10
       object Panel4: TPanel
         Left = 0
         Top = 0
@@ -94,25 +90,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
         end
-        object cboSystem: TComboBox
-          AlignWithMargins = True
-          Left = 51
-          Top = 3
-          Width = 123
-          Height = 27
-          Align = alClient
-          Style = csDropDownList
-          ItemIndex = 0
-          TabOrder = 0
-          Text = 'Any System'
-          OnClick = cboSystemClick
-          Items.Strings = (
-            'Any System'
-            'Metric'
-            'US Customary'
-            'Imperial'
-            'Natural')
-        end
       end
       object lstUnits: TListBox
         AlignWithMargins = True
@@ -134,8 +111,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 385
-      ExplicitWidth = 599
       object Panel6: TPanel
         Left = 0
         Top = 0
@@ -144,7 +119,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 599
         object lblUnitHeader: TLabel
           AlignWithMargins = True
           Left = 3
@@ -175,7 +149,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
           StyleElements = [seClient, seBorder]
-          ExplicitLeft = 313
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
@@ -194,7 +167,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
-          ExplicitLeft = 392
           ExplicitHeight = 27
         end
       end
@@ -206,7 +178,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 234
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 593
         DesignSize = (
           385
           234)
@@ -420,7 +391,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitLeft = 8
       object Label12: TLabel
         AlignWithMargins = True
         Left = 3
@@ -443,13 +413,10 @@ object frmJDConvertMain: TfrmJDConvertMain
         Top = 28
         Width = 202
         Height = 234
+        OnClickCheck = lstSystemsClickCheck
         Align = alClient
         ItemHeight = 19
         TabOrder = 0
-        ExplicitLeft = 24
-        ExplicitTop = 56
-        ExplicitWidth = 121
-        ExplicitHeight = 97
       end
     end
   end
@@ -508,8 +475,26 @@ object frmJDConvertMain: TfrmJDConvertMain
       BevelOuter = bvNone
       Color = clBlack
       TabOrder = 0
+      DesignSize = (
+        905
+        249)
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 13
+      object txtChartScale: TRzSpinEdit
+        AlignWithMargins = True
+        Left = 768
+        Top = 3
+        Width = 132
+        Height = 27
+        BlankValue = 1.000000000000000000
+        AllowKeyEdit = True
+        Max = 1E50
+        Orientation = orHorizontal
+        Value = 500.000000000000000000
+        Anchors = [akTop, akRight]
+        TabOrder = 0
+        OnChange = txtChartScaleChange
+      end
       object Series1: TFastLineSeries
         Title = 'Comparison'
         LinePen.Color = 10708548

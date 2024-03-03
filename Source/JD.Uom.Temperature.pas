@@ -127,6 +127,8 @@ var
   _: TUOMTemperatureUtils;
 
 procedure RegisterUOM;
+var
+  Base: TUOMLookupUnit;
 begin
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Temperature', '{7409AC05-EEFC-4748-957D-17EB0CF5A278}',
@@ -170,6 +172,9 @@ begin
       Result:= Value - 272.15;
     end
   ));
+
+  Base:= TUOMLookupTable.GetUnitByName('Celsius');
+  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
 
 end;
 
