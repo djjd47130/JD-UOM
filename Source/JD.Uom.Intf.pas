@@ -12,8 +12,8 @@ type
     function UOMID: String;
     function UOMName: String;
     function UnitCount: Integer;
-    function GetUnit(const Index: Integer): TUOMUnitClass;
-    procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny);
+    //function GetUnit(const Index: Integer): TUOMUnitClass;
+    //procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny);
     function UnitName(const Index: Integer): String;
     function UnitPrefix(const Index: Integer): String;
     function UnitSuffix(const Index: Integer): String;
@@ -26,11 +26,11 @@ type
 
   IUOMUtils = interface
     ['{C3C58143-6F3B-4978-848D-51CB5230465C}']
-    procedure RegisterUOM(AClass: TUOMBaseClass);
+    //procedure RegisterUOM(AClass: TUOMBaseClass);
     function Count: Integer;
-    function UOM(const Index: Integer): TUOMBaseClass;
-    function IndexOf(AClass: TUOMBaseClass): Integer; overload;
-    function IndexOf(AClass: String): Integer; overload;
+    //function UOM(const Index: Integer): TUOMBaseClass;
+    //function IndexOf(AClass: TUOMBaseClass): Integer; overload;
+    //function IndexOf(AClass: String): Integer; overload;
   end;
 
 implementation

@@ -34,7 +34,7 @@ requires
 
 contains
   JD.Uom.Area in '..\Source\JD.Uom.Area.pas',
-  JD.Uom.Length in '..\Source\JD.Uom.Length.pas',
+  JD.Uom.Distance in '..\Source\JD.Uom.Distance.pas',
   JD.Uom in '..\Source\JD.Uom.pas',
   JD.Uom.Temperature in '..\Source\JD.Uom.Temperature.pas',
   JD.Uom.Volume in '..\Source\JD.Uom.Volume.pas',

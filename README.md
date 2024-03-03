@@ -6,15 +6,18 @@
 
 ## Features
 - `TUOMUtils` - Class encapsulating all possible unit conversions.
+- `TUOM` - Object representing a single possible unit of measure, registered into `TUOMUtils`.
 
 ## Units
 
-- Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
-  - **TUOMUtils** - Main class to access all possible unit conversions and information.
-- Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
-- Unit [**JD.Uom.Area.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Area.md) - Conversion between areas.
-- Unit [**JD.Uom.Volume.pas**](JD.Uom.Volume.pas) - Conversion between volumes.
-- Unit [**JD.Uom.Temperature.pas**](JD.Uom.Temperature.pas) - Conversion between temperatures.
-- Unit **JD.Uom.Mass.pas** - Conversion between masses.
+- [**JD.Uom.pas**](Docs/JD.Uom.md) - Central access to all possible units of measurement and conversions.
+  - **TUOMUtils** - Main class to encapsulate entire conversion library and UOM details.
+  - **TUOM** - Base object referencing a specific unit of measurement and all its details.
+  - **TUOMValue** **(NOT READY)** - Implicit record type to contain a single value of any given UOM.
+- [**JD.Uom.Distance.pas**](/Docs/JD.Uom.Distance.md) - Registration of Distance related UOMs.
+- [**JD.Uom.Area.pas**](/Docs/JD.Uom.Area.md) - Registration of all Area related UOMs.
+- [**JD.Uom.Volume.pas**](/Docs/JD.Uom.Volume.md) - Registration of all Volume related UOMs.
+- [**JD.Uom.Temperature.pas**](/Docs/JD.Uom.Temperature.md) - Registration of all Temperature related UOMs.
+- [**JD.Uom.Mass.pas**](/Docs/JD.Uom.Mass.md) - Registration of all Mass related UOMs.
 
 **And much more to come...**
