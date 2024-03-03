@@ -16,12 +16,12 @@ begin
     function(const Value: Double): Double
     begin
       //Grams to Micrograms
-      Result:= Value * 1000000;
+      Result:= Value / METRIC_MICRO;
     end,
     function(const Value: Double): Double
     begin
       //Micrograms to Grams
-      Result:= Value / 1000000;
+      Result:= Value * METRIC_MICRO;
     end
   );
 
@@ -30,12 +30,12 @@ begin
     function(const Value: Double): Double
     begin
       //Grams to Milligrams
-      Result:= Value * 1000;
+      Result:= Value / METRIC_MILLI;
     end,
     function(const Value: Double): Double
     begin
       //Milligrams to Grams
-      Result:= Value / 1000;
+      Result:= Value * METRIC_MILLI;
     end
   );
 
@@ -44,26 +44,54 @@ begin
     function(const Value: Double): Double
     begin
       //Grams to Grams
-      Result:= Value * 1;
+      Result:= Value / 1;
     end,
     function(const Value: Double): Double
     begin
       //Grams to Grams
-      Result:= Value / 1;
+      Result:= Value * 1;
     end
   ).SetAsBase;
+
+  TUOMUtils.RegisterUOM('Mass',
+    'Decagram', 'Decagrams', '', 'dag', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Grams to Decagrams
+      Result:= Value / METRIC_DECA;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Decagrams to Grams
+      Result:= Value * METRIC_DECA;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Mass',
+    'Hectogram', 'Hectograms', '', 'hg', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Grams to Hectograms
+      Result:= Value / METRIC_HECTO;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Hectograms to Grams
+      Result:= Value * METRIC_HECTO;
+    end
+  );
 
   TUOMUtils.RegisterUOM('Mass',
     'Kilogram', 'Kilograms', '', 'kg', 'Metric',
     function(const Value: Double): Double
     begin
       //Grams to Kilograms
-      Result:= Value / 1000;
+      Result:= Value / METRIC_KILO;
     end,
     function(const Value: Double): Double
     begin
       //Kilograms to Grams
-      Result:= Value * 1000;
+      Result:= Value * METRIC_KILO;
     end
   );
 

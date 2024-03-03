@@ -6,6 +6,8 @@
 - Microgram
 - Milligram
 - Gram
+- Decagram
+- Hectogram
 - Kilogram
 - Metric Ton
 - Ton (UK)
