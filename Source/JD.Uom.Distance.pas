@@ -1,4 +1,4 @@
-﻿unit JD.Uom.Length;
+﻿unit JD.Uom.Distance;
 
 interface
 
@@ -316,7 +316,6 @@ begin
       Result:= Value * 0.1607;
     end
   ));
-
 
   Base:= TUOMLookupTable.GetUnitByName('Meter');
   TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);

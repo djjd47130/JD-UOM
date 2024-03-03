@@ -102,7 +102,7 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="..\Source\JD.Uom.Area.pas"/>
-        <DCCReference Include="..\Source\JD.Uom.Length.pas"/>
+        <DCCReference Include="..\Source\JD.Uom.Distance.pas"/>
         <DCCReference Include="..\Source\JD.Uom.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Temperature.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Volume.pas"/>

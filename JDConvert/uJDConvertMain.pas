@@ -9,7 +9,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
   System.StdConvs,
   JD.Uom,
-  JD.Uom.Length,
+  JD.Uom.Distance,
   JD.Uom.Area,
   JD.Uom.Temperature,
   JD.Uom.Volume,

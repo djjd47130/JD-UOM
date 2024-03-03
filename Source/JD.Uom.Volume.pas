@@ -5,7 +5,7 @@ interface
 uses
   System.Classes, System.SysUtils, System.Types, System.Generics.Collections,
   JD.Uom,
-  JD.Uom.Length,
+  JD.Uom.Distance,
   JD.Uom.Area;
 
 type
