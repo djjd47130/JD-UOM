@@ -8,8 +8,13 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 ### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit". Except for in documentation, such as below.
 
 ## Features
-- `TUOMUtils` - Class encapsulating all possible unit conversions.
-- `TUOM` - Object representing a single possible unit of measure, registered into `TUOMUtils`.
+- Generic central class `TUOMUtils` to encapsulate entire UOM conversion capabilities.
+- Base object `TUOM` to encapsulate all possible details of a specific unit of measurement.
+  - Registered within `TUOMUtils` class.
+- Endless common units-of-measurement pre-registered, including `Distance`, `Area`, `Volume`, `Mass`, `Temperature`, etc.
+- Ability to manually add your own units of measurement.
+- Statistic capabilities for any given unit of measurement.
+- Application `JDConvert.exe` to demonstrate all possible UOM capabilities.
 
 ## Units
 
