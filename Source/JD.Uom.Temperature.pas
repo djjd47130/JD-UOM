@@ -9,8 +9,6 @@ uses
 implementation
 
 procedure RegisterUOM;
-var
-  Base: TUOM;
 begin
 
   TUOMUtils.RegisterUOM(TUOM.Create('Temperature',
@@ -39,7 +37,7 @@ begin
       //Farenheit to Celsius
       Result:= (Value - 32) / 1.8;
     end
-  ));
+  )).SetAsBase;
 
   TUOMUtils.RegisterUOM(TUOM.Create('Temperature',
     'Kelvin', 'Kelvin', '', '°K', 'Natural',
@@ -54,9 +52,6 @@ begin
       Result:= Value - 272.15;
     end
   ));
-
-  Base:= TUOMUtils.GetUOMByName('Celsius');
-  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

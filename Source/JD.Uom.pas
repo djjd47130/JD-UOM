@@ -119,6 +119,7 @@ type
       ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
     procedure Invalidate; virtual;
+    procedure SetAsBase;
     {$IFDEF USE_MATH_EXPR}
     property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
     property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
@@ -164,7 +165,7 @@ type
     class procedure ListUOMs(AList: TStrings; const ACategory: String = '';
       const ASystems: String = ''); static;
     class function UOMCount: Integer; static;
-    class procedure RegisterUOM(const AUnit: TUOM); static;
+    class function RegisterUOM(const AUnit: TUOM): TUOM; static;
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
 
@@ -252,6 +253,11 @@ end;
 procedure TUOM.Invalidate;
 begin
   TUOMUtils.Invalidate;
+end;
+
+procedure TUOM.SetAsBase;
+begin
+  TUOMUtils.RegisterBaseUOM(FCategory, Self);
 end;
 
 function TUOM.ConvertFromBase(const AValue: Double): Double;
@@ -534,8 +540,10 @@ begin
   FBaseUOMs.Add(ACategory, AUnit);
 end;
 
-class procedure TUOMUtils.RegisterUOM(const AUnit: TUOM);
+class function TUOMUtils.RegisterUOM(const AUnit: TUOM): TUOM;
 begin
+  Result:= AUnit;
+
   if AUnit = nil then begin
     raise Exception.Create('Cannot register unassigned unit object.');
   end;
