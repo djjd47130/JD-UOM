@@ -39,8 +39,6 @@ type
 implementation
 
 procedure RegisterUOM;
-var
-  Base: TUOM;
 begin
   TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Milliliter', 'Milliliters', '', 'mL', 'Metric',
@@ -98,7 +96,7 @@ begin
       //Cubic Meters to Cubic Meters
       Result:= Value / 1;
     end
-  ));
+  )).SetAsBase;
 
   TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Teaspoon (US)', 'Teaspoons (US)', '', 'US tsp', 'US Customary',
@@ -337,9 +335,6 @@ begin
       Result:= Value / 1.30795;
     end
   ));
-
-  Base:= TUOMUtils.GetUOMByName('Cubic Meter');
-  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

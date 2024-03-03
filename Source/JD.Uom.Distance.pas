@@ -12,8 +12,6 @@ uses
   System.Math;
 
 procedure RegisterUOM;
-var
-  Base: TUOM;
 begin
 
   TUOMUtils.RegisterUOM(TUOM.Create('Distance',
@@ -98,7 +96,7 @@ begin
       //Meters to Meters
       Result:= Value;
     end
-  ));
+  )).SetAsBase;
 
   TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Decameter', 'Decameters', '', 'dam', 'Metric',
@@ -296,9 +294,6 @@ begin
       Result:= Value * 0.1607;
     end
   ));
-
-  Base:= TUOMUtils.GetUOMByName('Meter');
-  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

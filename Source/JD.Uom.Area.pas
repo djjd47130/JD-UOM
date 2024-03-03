@@ -30,8 +30,6 @@ type
 implementation
 
 procedure RegisterUOM;
-var
-  Base: TUOM;
 begin
 
   TUOMUtils.RegisterUOM(TUOM.Create('Area',
@@ -74,7 +72,7 @@ begin
       //Square Meters to Square Meters
       Result:= Value / 1;
     end
-  ));
+  )).SetAsBase;
 
   TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Hectare', 'Hectares', '', 'ha', 'Metric',
@@ -173,9 +171,6 @@ begin
       Result:= Value * 2589988.110336;
     end
   ));
-
-  Base:= TUOMUtils.GetUOMByName('Square Meter');
-  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 
