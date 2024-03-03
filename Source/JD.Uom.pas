@@ -179,7 +179,6 @@ type
   /// </summary>
   TUOMLookupUnit = class(TObject)
   private
-    FUnitID: String;
     FUOM: String;
     FSystems: TStringList;
     FNameSingular: String;
@@ -195,7 +194,6 @@ type
     {$ENDIF}
     function GetSystems: TStrings;
     procedure SystemsChanged(Sender: TObject);
-    procedure SetUnitID(const Value: String);
     procedure SetNamePlural(const Value: String);
     procedure SetNameSingular(const Value: String);
     procedure SetPrefix(const Value: String);
@@ -211,7 +209,7 @@ type
     {$ENDIF}
   public
     constructor Create; overload;
-    constructor Create(const AUOM, AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+    constructor Create(const AUOM, ANameSingular, ANamePlural, APrefix, ASuffix,
       ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
     procedure Invalidate; virtual;
@@ -222,7 +220,6 @@ type
     property ConvertFromBaseProc: TConvertProc read FConvertFromBaseProc write SetConvertFromBaseProc;
     property ConvertToBaseProc: TConvertProc read FConvertToBaseProc write SetConvertToBaseProc;
     {$ENDIF}
-    property UnitID: String read FUnitID write SetUnitID;
     property UOM: String read FUOM write SetUOM;
     property Systems: TStrings read GetSystems write SetSystems;
     property NameSingular: String read FNameSingular write SetNameSingular;
@@ -250,7 +247,6 @@ type
     class function GetUnitByName(const Name: String): TUOMLookupUnit; static;
     class function GetUnitByPrefix(const Prefix: String): TUOMLookupUnit; static;
     class function GetUnitBySuffix(const Suffix: String): TUOMLookupUnit; static;
-    class function GetUnitByID(const ID: String): TUOMLookupUnit; static;
     class function GetBaseUnit(const UOM: String): TUOMLookupUnit; static;
     class function UOMCount: Integer; static;
     class function SystemCount: Integer; static;
@@ -696,12 +692,12 @@ begin
   FSystems.OnChange:= SystemsChanged;
 end;
 
-constructor TUOMLookupUnit.Create(const AUOM, AID, ANameSingular, ANamePlural, APrefix, ASuffix,
+constructor TUOMLookupUnit.Create(const AUOM, ANameSingular, ANamePlural, APrefix, ASuffix,
   ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
 begin
   Create;
   FUOM:= AUOM;
-  FUnitID:= AID;
+  //FUnitID:= AID;
   FNameSingular:= ANameSingular;
   FNamePlural:= ANamePlural;
   FPrefix:= APrefix;
@@ -777,11 +773,13 @@ begin
   Result:= TStrings(FSystems);
 end;
 
+{
 procedure TUOMLookupUnit.SetUnitID(const Value: String);
 begin
   FUnitID:= Value;
   //TODO: Validate...
 end;
+}
 
 procedure TUOMLookupUnit.SetNamePlural(const Value: String);
 begin
@@ -894,19 +892,6 @@ begin
   Result:= FBaseUnits[UOM];
 end;
 
-class function TUOMLookupTable.GetUnitByID(const ID: String): TUOMLookupUnit;
-var
-  X: Integer;
-begin
-  Result:= nil;
-  for X := 0 to FUnits.Count-1 do begin
-    if SameText(Trim(ID), Trim(FUnits[X].FUnitID)) then begin
-      Result:= FUnits[X];
-      Break;
-    end;
-  end;
-end;
-
 class function TUOMLookupTable.GetUnits(const Index: Integer): TUOMLookupUnit;
 begin
   Result:= FUnits[Index];
@@ -918,9 +903,7 @@ var
 begin
   Result:= nil;
   for X := 0 to FUnits.Count-1 do begin
-    if SameText(Trim(Name), Trim(FUnits[X].FNameSingular)) or
-      SameText(Trim(Name), Trim(FUnits[X].FNamePlural)) then
-    begin
+    if Trim(Name) = Trim(FUnits[X].FNameSingular) then begin
       Result:= FUnits[X];
       Break;
     end;
@@ -933,7 +916,7 @@ var
 begin
   Result:= nil;
   for X := 0 to FUnits.Count-1 do begin
-    if SameText(Trim(Prefix), Trim(FUnits[X].FPrefix)) then begin
+    if Trim(Prefix) = Trim(FUnits[X].FPrefix) then begin
       Result:= FUnits[X];
       Break;
     end;
@@ -946,7 +929,7 @@ var
 begin
   Result:= nil;
   for X := 0 to FUnits.Count-1 do begin
-    if SameText(Trim(Suffix), Trim(FUnits[X].FSuffix)) then begin
+    if Trim(Suffix) = Trim(FUnits[X].FSuffix) then begin
       Result:= FUnits[X];
       Break;
     end;
@@ -1047,18 +1030,10 @@ begin
     raise Exception.Create('Cannot register blank unit suffix.');
   end;
 
-  if Trim(AUnit.FUnitID) = '' then begin
-    raise Exception.Create('Cannot register blank unit ID.');
-  end;
-
   if Assigned(GetUnitByName(AUnit.FNameSingular)) or
     Assigned(GetUnitByName(AUnit.FNamePlural)) then
   begin
     raise Exception.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
-  end;
-
-  if Assigned(GetUnitByID(AUnit.FUnitID)) then begin
-    raise Exception.Create('Cannot register duplicate unit ID '+AUnit.FUnitID);
   end;
 
   if Assigned(GetUnitBySuffix(AUnit.FSuffix)) then begin

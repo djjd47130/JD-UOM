@@ -38,8 +38,6 @@ type
     pUnitDetail: TPanel;
     Label3: TLabel;
     lblUnitName: TLabel;
-    Label5: TLabel;
-    lblUnitID: TLabel;
     Label7: TLabel;
     lblUnitSystems: TLabel;
     Label9: TLabel;
@@ -196,7 +194,6 @@ begin
   BU:= TUOMLookupTable.GetBaseUnit(lstUOMs.Items[lstUOMs.ItemIndex]);
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
-  lblUnitID.Caption:= U.UnitID;
   U.Systems.Delimiter:= ',';
   U.Systems.StrictDelimiter:= True;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;

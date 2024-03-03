@@ -9,261 +9,21 @@ uses
   JD.Uom.Area;
 
 type
-  TUOMVolumeUnit = (umvMilliliters, umvCubicCentimeters, umvLiters, umvCubicMeters,
-    umvTeaSpoonsUS, umvTableSpoonsUS, umvFluidOuncesUS, umvTeaSpoonsUK,
-    umvTableSpoonsUK, umvFluidOuncesUK, umvCups, umvPints, umvQuarts,
-    umvGallons, umvCubicInches, umvCubicFeet, umvCubicYards);
-  TUOMVolumeUnits = set of TUOMVolumeUnit;
-
-  TUOMVolumeUnitBase = class;
-  TUOMVolumeUtils = class;
-
-  TUOMVolumeUnitBaseClass = class of TUOMVolumeUnitBase;
-
-  TUOMVolumeUnitBase = class(TUOMUnitBase)
-    class function UOM: TUOMBaseClass; override;
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function UnitDescription: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Prefix: String; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; virtual; abstract;
-  end;
-
-  //Specific Volume Units
-
-  TUOMVolumeMilliliters = class(TUOMVolumeUnitBase)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  //Identical to Milliliters
-  TUOMVolumeCubicCentimeters = class(TUOMVolumeMilliliters)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Suffix: String; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  TUOMVolumeLiters = class(TUOMVolumeUnitBase)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  TUOMVolumeCubicMeters = class(TUOMVolumeUnitBase)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  TUOMVolumeTeaspoonsUS = class(TUOMVolumeUnitBase)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  TUOMVolumeTablespoonsUS = class(TUOMVolumeUnitBase)
-    class function UnitID: String; override;
-    class function NameSingular: String; override;
-    class function Systems: TUOMSystems; override;
-    class function Suffix: String; override;
-    class function ConvertToBase(const AValue: Double): Double; override;
-    class function ConvertFromBase(const AValue: Double): Double; override;
-    class function UnitEnum: TUOMVolumeUnit; override;
-  end;
-
-  //TODO
-  {
-  AList.Append('Fluid Ounces (US)');
-  AList.Append('Teaspoons (UK)');
-  AList.Append('Tablespoons (UK)');
-  AList.Append('Fluid Ounces (UK)');
-  AList.Append('Cups');
-  AList.Append('Pints');
-  AList.Append('Quarts');
-  AList.Append('Gallons');
-  AList.Append('Cubic Inches');
-  AList.Append('Cubic Feet');
-  AList.Append('Cubic Yards');
-  }
-
-{
-OLD
-class function TUOMVolumeUtils.UnitSuffix(const AValue: TUOMVolumeUnit): String;
-begin
-  case AValue of
-    umvMilliliters:       Result:= 'mL';
-    umvCubicCentimeters:  Result:= 'cm³';
-    umvLiters:            Result:= 'l';
-    umvCubicMeters:       Result:= 'm³';
-    umvTeaSpoonsUS:       Result:= 'US tsp';
-    umvTableSpoonsUS:     Result:= 'US Tsp';
-    umvFluidOuncesUS:     Result:= 'US fl. oz';
-    umvTeaSpoonsUK:       Result:= 'UK tsp';
-    umvTableSpoonsUK:     Result:= 'UK Tsp';
-    umvFluidOuncesUK:     Result:= 'UK fl. oz';
-    umvCups:              Result:= 'cup';
-    umvPints:             Result:= 'pt';
-    umvQuarts:            Result:= 'oz';
-    umvGallons:           Result:= 'gal';
-    umvCubicInches:       Result:= 'in³';
-    umvCubicFeet:         Result:= 'ft³';
-    umvCubicYards:        Result:= 'yd³';
-  end;
-end;
-}
-
-  TUOMVolumeUtils = class(TUOMBase)
-  private
-    class var FUnits: TList<TUOMUnitClass>;
-    class procedure RegisterUOM;
-    class procedure RegisterUnits;
-    class procedure RegisterUnit(AUnitClass: TUOMUnitClass);
-  public
-    class constructor Create;
-    class destructor Destroy;
-    class function UOMID: String; override;
-    class function UOMName: String; override;
-    class function UnitCount: Integer; override;
-    class function GetUnit(const Index: Integer): TUOMUnitClass; override;
-    class function BaseUnit: TUOMUnitClass; override;
-
-    class function UnitByEnum(const AUnit: TUOMVolumeUnit): TUOMVolumeUnitBaseClass;
-    class function Convert(const AValue: Double; const AFromUnit,
-      AToUnit: TUOMVolumeUnit): Double;
-
-    { Metric System }
-
-    //Milliliters
-    class function CubicCentimetersToMilliliters(const ACubicCentimeters: Double): Double; static;
-    class function LitersToMilliliters(const ALiters: Double): Double; static;
-    class function CubicMetersToMilliliters(const ACubicMeters: Double): Double; static;
-    class function USTeaspoonsToMilliliters(const ATeaspoons: Double): Double; static;
-    class function USTablespoonsToMilliliters(const ATablespoons: Double): Double; static;
-    class function USFluidOuncesToMilliliters(const AFluidOunces: Double): Double; static;
-    class function UKTeaspoonsToMilliliters(const ATeaspoons: Double): Double; static;
-    class function UKTablespoonsToMilliliters(const ATablespoons: Double): Double; static;
-    class function UKFluidOuncesToMilliliters(const AFluidOunces: Double): Double; static;
-    class function CupsToMilliliters(const ACups: Double): Double; static;
-    class function PintsToMilliliters(const APints: Double): Double; static;
-    class function QuartsToMilliliters(const AQuarts: Double): Double; static;
-    class function GallonsToMilliliters(const AGallons: Double): Double; static;
-    class function CubicInchesToMilliliters(const ACubicInches: Double): Double; static;
-    class function CubicFeetToMilliliters(const ACubicFeet: Double): Double; static;
-    class function CubicYardsToMilliliters(const ACubicYards: Double): Double; static;
-    //Cubic Centimeters
-    class function MillilitersToCubicCentimeters(const AMilliliters: Double): Double; static;
-    class function LitersToCubicCentimeters(const ALiters: Double): Double; static;
-    class function CubicMetersToCubicCentimeters(const ACubicMeters: Double): Double; static;
-    class function USTeaspoonsToCubicCentimeters(const ATeaspoons: Double): Double; static;
-    class function USTablespoonsToCubicCentimeters(const ATablespoons: Double): Double; static;
-    class function USFluidOuncesToCubicCentimeters(const AFluidOunces: Double): Double; static;
-    class function UKTeaspoonsToCubicCentimeters(const ATeaspoons: Double): Double; static;
-    class function UKTablespoonsToCubicCentimeters(const ATablespoons: Double): Double; static;
-    class function UKFluidOuncesToCubicCentimeters(const AFluidOunces: Double): Double; static;
-    class function CupsToCubicCentimeters(const ACups: Double): Double; static;
-    class function PintsToCubicCentimeters(const APints: Double): Double; static;
-    class function QuartsToCubicCentimeters(const AQuarts: Double): Double; static;
-    class function GallonsToCubicCentimeters(const AGallons: Double): Double; static;
-    class function CubicInchesToCubicCentimeters(const ACubicInches: Double): Double; static;
-    class function CubicFeetToCubicCentimeters(const ACubicFeet: Double): Double; static;
-    class function CubicYardsToCubicCentimeters(const ACubicYards: Double): Double; static;
-    //Liters
-    class function MillilitersToLiters(const AMilliliters: Double): Double; static;
-    class function CubicCentimetersToLiters(const ACubicCentimeters: Double): Double; static;
-    class function CubicMetersToLiters(const ACubicMeters: Double): Double; static;
-    class function USTeaspoonsToLiters(const ATeaspoons: Double): Double; static;
-    class function USTablespoonsToLiters(const ATablespoons: Double): Double; static;
-    class function USFluidOuncesToLiters(const AFluidOunces: Double): Double; static;
-    class function UKTeaspoonsToLiters(const ATeaspoons: Double): Double; static;
-    class function UKTablespoonsToLiters(const ATablespoons: Double): Double; static;
-    class function UKFluidOuncesToLiters(const AFluidOunces: Double): Double; static;
-    class function CupsToLiters(const ACups: Double): Double; static;
-    class function PintsToLiters(const APints: Double): Double; static;
-    class function QuartsToLiters(const AQuarts: Double): Double; static;
-    class function GallonsToLiters(const AGallons: Double): Double; static;
-    class function CubicInchesToLiters(const ACubicInches: Double): Double; static;
-    class function CubicFeetToLiters(const ACubicFeet: Double): Double; static;
-    class function CubicYardsToLiters(const ACubicYards: Double): Double; static;
-    //Cubic Meters
-    class function MillilitersToCubicMeters(const AMilliliters: Double): Double; static;
-    class function CubicCentimetersToCubicMeters(const ACubicCentimeters: Double): Double; static;
-    class function CubicMetersToCubicMeters(const ACubicMeters: Double): Double; static;
-    class function USTeaspoonsToCubicMeters(const ATeaspoons: Double): Double; static;
-    class function USTablespoonsToCubicMeters(const ATablespoons: Double): Double; static;
-    class function USFluidOuncesToCubicMeters(const AFluidOunces: Double): Double; static;
-    class function UKTeaspoonsToCubicMeters(const ATeaspoons: Double): Double; static;
-    class function UKTablespoonsToCubicMeters(const ATablespoons: Double): Double; static;
-    class function UKFluidOuncesToCubicMeters(const AFluidOunces: Double): Double; static;
-    class function CupsToCubicMeters(const ACups: Double): Double; static;
-    class function PintsToCubicMeters(const APints: Double): Double; static;
-    class function QuartsToCubicMeters(const AQuarts: Double): Double; static;
-    class function GallonsToCubicMeters(const AGallons: Double): Double; static;
-    class function CubicInchesToCubicMeters(const ACubicInches: Double): Double; static;
-    class function CubicFeetToCubicMeters(const ACubicFeet: Double): Double; static;
-    class function CubicYardsToCubicMeters(const ACubicYards: Double): Double; static;
-
-
-    { Imperial System }
-
-    //TODO
-
-
-  end;
-
   TUOMVolume = record
   private
-    FUnit: TUOMVolumeUnit;
+    //FUnit: TUOMVolumeUnit;
     FValue: Double;
-    procedure SetUnit(const Value: TUOMVolumeUnit);
+    //procedure SetUnit(const Value: TUOMVolumeUnit);
     procedure SetValue(const Value: Double);
   public
-    property &Unit: TUOMVolumeUnit read FUnit write SetUnit;
+    //property &Unit: TUOMVolumeUnit read FUnit write SetUnit;
     property Value: Double read FValue write SetValue;
     class operator implicit(const AValue: Double): TUOMVolume;
     class operator implicit(const AValue: TUOMVolume): Double;
     class operator implicit(const AValue: String): TUOMVolume;
     class operator implicit(const AValue: TUOMVolume): String;
     //TODO: Implement class operators for math...
-    function ToMilliliters: Double;
-    function ToCubicCentimeters: Double;
-    function ToLiters: Double;
-    function ToCubicMeters: Double;
-    function ToUSTeaspoons: Double;
-    function ToUSTablespoons: Double;
-    function ToUSFluidOunces: Double;
-    function ToUKTeaspoons: Double;
-    function ToUKTablespoons: Double;
-    function ToUKFluidOunces: Double;
-    function ToCups: Double;
-    function ToPints: Double;
-    function ToQuarts: Double;
-    function ToGallons: Double;
-    function ToCubicInches: Double;
-    function ToCubicFeet: Double;
-    function ToCubicYards: Double;
-    //TODO: Change to Properties with Getters and Setters...
+
   end;
 
   //TODO: A record that allows volume to be specified using three linear dimensions
@@ -278,479 +38,308 @@ end;
 
 implementation
 
+procedure RegisterUOM;
 var
-  _: TUOMVolumeUtils;
-
-{ TUOMVolumeUtils }
-
-class function TUOMVolumeUtils.BaseUnit: TUOMUnitClass;
-begin
-  Result:= TUOMVolumeCubicMeters;
-end;
-
-class constructor TUOMVolumeUtils.Create;
-begin
-  FUnits:= TList<TUOMUnitClass>.Create;
-  RegisterUOM;
-  RegisterUnits;
-end;
-
-class destructor TUOMVolumeUtils.Destroy;
-begin
-  FreeAndNil(FUnits);
-end;
-
-class function TUOMVolumeUtils.GetUnit(const Index: Integer): TUOMUnitClass;
-begin
-  Result:= FUnits[Index];
-end;
-
-class function TUOMVolumeUtils.UnitByEnum(
-  const AUnit: TUOMVolumeUnit): TUOMVolumeUnitBaseClass;
-var
-  X: Integer;
-  U: TUOMVolumeUnitBaseClass;
-begin
-  Result:= nil;
-  for X := 0 to FUnits.Count-1 do begin
-    U:= TUOMVolumeUnitBaseClass(FUnits[X]);
-    if U.UnitEnum = AUnit then begin
-      Result:= U;
-      Break;
-    end;
-  end;
-end;
-
-class function TUOMVolumeUtils.Convert(const AValue: Double; const AFromUnit,
-  AToUnit: TUOMVolumeUnit): Double;
-var
-  F, T: TUOMVolumeUnitBaseClass;
-begin
-  F:= UnitByEnum(AFromUnit);
-  T:= UnitByEnum(AToUnit);
-  Result:= F.ConvertToBase(AValue);
-  Result:= T.ConvertFromBase(Result);
-end;
-
-class function TUOMVolumeUtils.UnitCount: Integer;
-begin
-  Result:= FUnits.Count;
-end;
-
-class function TUOMVolumeUtils.UOMID: String;
-begin
-  Result:= '{8D2E997E-199D-45AB-8AE1-A8BD5128D21A}';
-end;
-
-class function TUOMVolumeUtils.UOMName: String;
-begin
-  Result:= 'Volume';
-end;
-
-class procedure TUOMVolumeUtils.RegisterUnit(AUnitClass: TUOMUnitClass);
-begin
-  FUnits.Add(AUnitClass);
-end;
-
-class procedure TUOMVolumeUtils.RegisterUnits;
-begin
-  RegisterUnit(TUOMVolumeMilliliters);
-  RegisterUnit(TUOMVolumeCubicCentimeters);
-  RegisterUnit(TUOMVolumeLiters);
-  RegisterUnit(TUOMVolumeCubicMeters);
-  RegisterUnit(TUOMVolumeTeaspoonsUS);
-  RegisterUnit(TUOMVolumeTablespoonsUS);
-  {
-  AList.Append('Fluid Ounces (US)');
-  AList.Append('Teaspoons (UK)');
-  AList.Append('Tablespoons (UK)');
-  AList.Append('Fluid Ounces (UK)');
-  AList.Append('Cups');
-  AList.Append('Pints');
-  AList.Append('Quarts');
-  AList.Append('Gallons');
-  AList.Append('Cubic Inches');
-  AList.Append('Cubic Feet');
-  AList.Append('Cubic Yards');
-  }
-
-end;
-
-class procedure TUOMVolumeUtils.RegisterUOM;
-begin
-  TUOMUtils.RegisterUOM(TUOMVolumeUtils);
-end;
-
-class function TUOMVolumeUtils.CubicMetersToMilliliters(
-  const ACubicMeters: Double): Double;
-begin
-  Result:= ACubicMeters * 1000000;
-end;
-
-class function TUOMVolumeUtils.CupsToMilliliters(const ACups: Double): Double;
-begin
-  Result:= ACups * 240;
-end;
-
-class function TUOMVolumeUtils.USFluidOuncesToMilliliters(
-  const AFluidOunces: Double): Double;
-begin
-  Result:= AFluidOunces * 29.5735;
-end;
-
-class function TUOMVolumeUtils.GallonsToMilliliters(
-  const AGallons: Double): Double;
-begin
-  Result:= AGallons * 3785.41;
-end;
-
-class function TUOMVolumeUtils.LitersToMilliliters(
-  const ALiters: Double): Double;
-begin
-  Result:= ALiters * 1000;
-end;
-
-class function TUOMVolumeUtils.PintsToMilliliters(const APints: Double): Double;
-begin
-  Result:= APints * 473.176;
-end;
-
-class function TUOMVolumeUtils.QuartsToMilliliters(
-  const AQuarts: Double): Double;
-begin
-  Result:= AQuarts * 946.353;
-end;
-
-class function TUOMVolumeUtils.CubicYardsToCubicCentimeters(
-  const ACubicYards: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicYardsToCubicMeters(const ACubicYards: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicYardsToLiters(const ACubicYards: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicYardsToMilliliters(const ACubicYards: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicMetersToCubicCentimeters(
-  const ACubicMeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicMetersToCubicMeters(
-  const ACubicMeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicMetersToLiters(
-  const ACubicMeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CupsToCubicCentimeters(
-  const ACups: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CupsToCubicMeters(const ACups: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CupsToLiters(const ACups: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USFluidOuncesToCubicCentimeters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USFluidOuncesToCubicMeters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USFluidOuncesToLiters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.GallonsToCubicCentimeters(
-  const AGallons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.GallonsToCubicMeters(
-  const AGallons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.GallonsToLiters(const AGallons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.LitersToCubicCentimeters(
-  const ALiters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.MillilitersToCubicCentimeters(
-  const AMilliliters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.MillilitersToCubicMeters(
-  const AMilliliters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.MillilitersToLiters(
-  const AMilliliters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.PintsToCubicCentimeters(
-  const APints: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.PintsToCubicMeters(const APints: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.PintsToLiters(const APints: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.QuartsToCubicCentimeters(
-  const AQuarts: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.QuartsToCubicMeters(
-  const AQuarts: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.QuartsToLiters(const AQuarts: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTablespoonsToCubicCentimeters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTablespoonsToCubicMeters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTablespoonsToLiters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTablespoonsToMilliliters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTeaspoonsToCubicCentimeters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTeaspoonsToCubicMeters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTeaspoonsToLiters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.USTeaspoonsToMilliliters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicCentimetersToCubicMeters(
-  const ACubicCentimeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicCentimetersToLiters(
-  const ACubicCentimeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicCentimetersToMilliliters(
-  const ACubicCentimeters: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicFeetToCubicCentimeters(
-  const ACubicFeet: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicFeetToCubicMeters(
-  const ACubicFeet: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicFeetToLiters(
-  const ACubicFeet: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicFeetToMilliliters(
-  const ACubicFeet: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicInchesToCubicCentimeters(
-  const ACubicInches: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicInchesToCubicMeters(
-  const ACubicInches: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicInchesToLiters(
-  const ACubicInches: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.CubicInchesToMilliliters(
-  const ACubicInches: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKFluidOuncesToCubicCentimeters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKFluidOuncesToCubicMeters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKFluidOuncesToLiters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKFluidOuncesToMilliliters(
-  const AFluidOunces: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTablespoonsToCubicCentimeters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTablespoonsToCubicMeters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTablespoonsToLiters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTablespoonsToMilliliters(
-  const ATablespoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTeaspoonsToCubicCentimeters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTeaspoonsToCubicMeters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTeaspoonsToLiters(
-  const ATeaspoons: Double): Double;
-begin
-
-end;
-
-class function TUOMVolumeUtils.UKTeaspoonsToMilliliters(
-  const ATeaspoons: Double): Double;
-begin
+  Base: TUOMLookupUnit;
+begin
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Milliliter', 'Milliliters', '', 'mL', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Milliliter
+      Result:= Value * 1000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Milliliter to Cubic Meters
+      Result:= Value / 1000000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cubic Centimeter', 'Cubic Centimeters', '', 'cm³', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Centimeters
+      //Identicial to Milliliters
+      Result:= Value * 1000000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cubic Centimeters to Cubic Meters
+      //Identicial to Milliliters
+      Result:= Value / 1000000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Liter', 'Liters', '', 'L', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Liters
+      Result:= Value * 1000;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Liters to Cubic Meters
+      Result:= Value / 1000;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cubic Meter', 'Cubic Meters', '', 'm³', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Meters
+      Result:= Value * 1;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Meters
+      Result:= Value / 1;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Teaspoon (US)', 'Teaspoons (US)', '', 'US tsp', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Teaspoons (US)
+      Result:= Value * 202900;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Teaspoons (US) to Cubic Meters
+      Result:= Value / 202900;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Teaspoon (UK)', 'Teaspoons (UK)', '', 'UK tsp', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Teaspoons (UK)
+      Result:= Value * 168900;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Teaspoons (UK) to Cubic Meters
+      Result:= Value / 168900;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Tablespoon (US)', 'Tablespoons (US)', '', 'US Tsp', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Tablespoon (US)
+      Result:= Value * 67630;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Tablespoon (US) to Cubic Meters
+      Result:= Value / 67630;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Tablespoon (UK)', 'Tablespoons (UK)', '', 'UK Tsp', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Tablespoon (UK)
+      Result:= Value * 56310;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Tablespoon (UK) to Cubic Meters
+      Result:= Value / 56310;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Fluid Ounce (US)', 'Fluid Ounces (US)', '', 'US fl. oz', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Fluid Ounces (US)
+      Result:= Value * 33810;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Fluid Ounces (US) to Cubic Meters
+      Result:= Value / 33810;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Fluid Ounce (UK)', 'Fluid Ounces (UK)', '', 'UK fl. oz', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Fluid Ounces (UK)
+      Result:= Value * 35200;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Fluid Ounces (UK) to Cubic Meters
+      Result:= Value / 35200;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cup (US)', 'Cups (US)', '', 'US c', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cups (US)
+      Result:= Value * 4227;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cups (US) to Cubic Meters
+      Result:= Value / 4227;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cup (UK)', 'Cups (UK)', '', 'UK c', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cups (UK)
+      Result:= Value * 3520;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cups (UK) to Cubic Meters
+      Result:= Value / 3520;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Pint (US)', 'Pints (US)', '', 'US pt', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Pints (US)
+      Result:= Value * 2113;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Pints (US) to Cubic Meters
+      Result:= Value / 2113;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Pint (UK)', 'Pints (UK)', '', 'UK pt', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Pints (UK)
+      Result:= Value * 1760;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Pints (UK) to Cubic Meters
+      Result:= Value / 1760;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Quart (US)', 'Quarts (US)', '', 'US qt', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Quarts (US)
+      Result:= Value * 1056.69;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Quarts (US) to Cubic Meters
+      Result:= Value / 1056.69;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Quart (UK)', 'Quarts (UK)', '', 'UK qt', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Quarts (UK)
+      Result:= Value * 879.87848458785;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Quarts (UK) to Cubic Meters
+      Result:= Value / 879.87848458785;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Gallon (US)', 'Gallons (US)', '', 'US gal', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Gallons (US)
+      Result:= Value * 264.172;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Gallons (US) to Cubic Meters
+      Result:= Value / 264.172;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Gallon (UK)', 'Gallons (UK)', '', 'UK gal', 'Imperial',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Gallons (UK)
+      Result:= Value * 219.969204701183;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Gallons (UK) to Cubic Meters
+      Result:= Value /219.969204701183;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cubic Inch', 'Cubic Inches', '', '"³', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Inches
+      Result:= Value * 61023.7;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cubic Inches to Cubic Meters
+      Result:= Value / 61023.7;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cubic Foot', 'Cubic Feet', '', '''³', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Feet
+      Result:= Value * 35.3147;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cubic Feet to Cubic Meters
+      Result:= Value / 35.3147;
+    end
+  ));
+
+  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+    'Cubic Yard', 'Cubic Yards', '', 'yd³', 'US Customary',
+    function(const Value: Double): Double
+    begin
+      //Cubic Meters to Cubic Yards
+      Result:= Value * 1.30795;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Cubic Yards to Cubic Meters
+      Result:= Value / 1.30795;
+    end
+  ));
+
+  Base:= TUOMLookupTable.GetUnitByName('Cubic Meter');
+  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
 
 end;
 
@@ -758,36 +347,18 @@ end;
 
 class operator TUOMVolume.implicit(const AValue: Double): TUOMVolume;
 begin
-  Result.FUnit:= TUOMVolumeUnitBaseClass(TUOMVolumeUtils.BaseUnit).UnitEnum;
-  Result.FValue:= AValue;
+  //Result.FUnit:= TUOMVolumeUnitBaseClass(TUOMVolumeUtils.BaseUnit).UnitEnum;
+  //Result.FValue:= AValue;
 end;
 
 class operator TUOMVolume.implicit(const AValue: TUOMVolume): Double;
 begin
-  case TUOMVolumeUnitBaseClass(TUOMVolumeUtils.BaseUnit).UnitEnum of
-    umvMilliliters:       Result:= AValue.ToMilliliters;
-    umvCubicCentimeters:  Result:= AValue.ToCubicCentimeters;
-    umvLiters:            Result:= AValue.ToLiters;
-    umvCubicMeters:       Result:= AValue.ToCubicMeters;
-    umvTeaSpoonsUS:       Result:= AValue.ToUSTeaspoons;
-    umvTablespoonsUS:     Result:= AValue.ToUSTablespoons;
-    umvFluidOuncesUS:     Result:= AValue.ToUSFluidOunces;
-    umvTeaSpoonsUK:       Result:= AValue.ToUKTeaspoons;
-    umvTableSpoonsUK:     Result:= AVAlue.ToUKTablespoons;
-    umvFluidOuncesUK:     Result:= AValue.ToUKFluidOunces;
-    umvCups:              Result:= AValue.ToCups;
-    umvPints:             Result:= AValue.ToPints;
-    umvQuarts:            Result:= AValue.ToQuarts;
-    umvGallons:           Result:= AValue.ToGallons;
-    umvCubicInches:       Result:= AValue.ToCubicInches;
-    umvCubicFeet:         Result:= AValue.ToCubicFeet;
-    umvCubicYards:        Result:= AValue.ToCubicYards;
-  end;
+  Result:= AValue; //TODO
 end;
 
 class operator TUOMVolume.implicit(const AValue: TUOMVolume): String;
 begin
-  Result:= FormatFloat(NumFormat, AValue.FValue);
+  //Result:= FormatFloat(NumFormat, AValue.FValue);
   //TODO: Result:= Result + TUOMVolumeUtils.UnitSuffix(AValue.FUnit);
 end;
 
@@ -797,705 +368,11 @@ begin
 
 end;
 
-procedure TUOMVolume.SetUnit(const Value: TUOMVolumeUnit);
-begin
-  case FUnit of
-    umvMilliliters:       FValue:= Self.ToMilliliters;
-    umvCubicCentimeters:  FValue:= Self.ToCubicCentimeters;
-    umvLiters:            FValue:= Self.ToLiters;
-    umvCubicMeters:       FValue:= Self.ToCubicMeters;
-    umvTeaSpoonsUS:       FValue:= Self.ToUSTeaspoons;
-    umvTableSpoonsUS:     FValue:= Self.ToUSTablespoons;
-    umvFluidOuncesUS:     FValue:= Self.ToUSFluidOunces;
-    umvTeaSpoonsUK:       FValue:= Self.ToUKTeaspoons;
-    umvTableSpoonsUK:     FValue:= Self.ToUKTablespoons;
-    umvFluidOuncesUK:     FValue:= Self.ToUKFluidOunces;
-    umvCups:              FValue:= Self.ToCups;
-    umvPints:             FValue:= Self.ToPints;
-    umvQuarts:            FValue:= Self.ToQuarts;
-    umvGallons:           FValue:= Self.ToGallons;
-    umvCubicInches:       FValue:= Self.ToCubicInches;
-    umvCubicFeet:         FValue:= Self.ToCubicFeet;
-    umvCubicYards:        FValue:= Self.ToCubicYards;
-  end;
-  FUnit:= Value;
-end;
-
 procedure TUOMVolume.SetValue(const Value: Double);
 begin
   FValue := Value;
 end;
 
-function TUOMVolume.ToMilliliters: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       Result:= FValue; //Same
-    umvCubicCentimeters:  Result:= TUOMVolumeUtils.CubicCentimetersToMilliliters(FValue);
-    umvLiters:            Result:= TUOMVolumeUtils.LitersToMilliliters(FValue);
-    umvCubicMeters:       Result:= TUOMVolumeUtils.CubicMetersToMilliliters(FValue);
-    umvTeaSpoonsUS:       Result:= TUOMVolumeUtils.USTeaspoonsToMilliliters(FValue);
-    umvTableSpoonsUS:     Result:= TUOMVolumeUtils.USTablespoonsToMilliliters(FValue);
-    umvFluidOuncesUS:     Result:= TUOMVolumeUtils.USFluidOuncesToMilliliters(FValue);
-    umvTeaSpoonsUK:       Result:= TUOMVolumeUtils.UKTeaspoonsToMilliliters(FValue);
-    umvTableSpoonsUK:     Result:= TUOMVolumeUtils.UKTablespoonsToMilliliters(FValue);
-    umvFluidOuncesUK:     Result:= TUOMVolumeUtils.UKFluidOuncesToMilliliters(FValue);
-    umvCups:              Result:= TUOMVolumeUtils.CupsToMilliliters(FValue);
-    umvPints:             Result:= TUOMVolumeUtils.PintsToMilliliters(FValue);
-    umvQuarts:            Result:= TUOMVolumeUtils.QuartsToMilliliters(FValue);
-    umvGallons:           Result:= TUOMVolumeUtils.GallonsToMilliliters(FValue);
-    umvCubicInches:       Result:= TUOMVolumeUtils.CubicInchesToMilliliters(FValue);
-    umvCubicFeet:         Result:= TUOMVolumeUtils.CubicFeetToMilliliters(FValue);
-    umvCubicYards:        Result:= TUOMVolumeUtils.CubicYardsToMilliliters(FValue);
-  end;
-end;
-
-function TUOMVolume.ToCubicCentimeters: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ; //Result:= TUOMVolumeUtils.MillilitersToCubicCentimeters(FValue);
-    umvCubicCentimeters:  Result:= FValue; //Same
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToCubicMeters: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       Result:= FValue; //Same
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToCubicFeet: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         Result:= FValue; //Same
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToCubicInches: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       Result:= FValue; //Same
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToCubicYards: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        Result:= FValue; //Same
-  end;
-end;
-
-function TUOMVolume.ToCups: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              Result:= FValue; //Same
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToGallons: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           Result:= FValue; //Same
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToLiters: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            Result:= FValue; //Same
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToPints: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             Result:= FValue; //Same
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToQuarts: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            Result:= FValue; //Same
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUSTablespoons: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     Result:= FValue; //Same
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUSTeaspoons: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       Result:= FValue; //Same
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUSFluidOunces: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     Result:= FValue; //Same
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUKTablespoons: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     Result:= FValue; //Same
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUKTeaspoons: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       Result:= FValue; //Same
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     ;
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-function TUOMVolume.ToUKFluidOunces: Double;
-begin
-  Result:= 0;
-  case FUnit of
-    umvMilliliters:       ;
-    umvCubicCentimeters:  ;
-    umvLiters:            ;
-    umvCubicMeters:       ;
-    umvTeaSpoonsUS:       ;
-    umvTableSpoonsUS:     ;
-    umvFluidOuncesUS:     ;
-    umvTeaSpoonsUK:       ;
-    umvTableSpoonsUK:     ;
-    umvFluidOuncesUK:     Result:= FValue; //Same
-    umvCups:              ;
-    umvPints:             ;
-    umvQuarts:            ;
-    umvGallons:           ;
-    umvCubicInches:       ;
-    umvCubicFeet:         ;
-    umvCubicYards:        ;
-  end;
-end;
-
-{ TUOMVolumeUnitBase }
-
-class function TUOMVolumeUnitBase.ConvertFromBase(const AValue: Double): Double;
-begin
-  Result:= AValue;
-end;
-
-class function TUOMVolumeUnitBase.ConvertToBase(const AValue: Double): Double;
-begin
-  Result:= AValue;
-end;
-
-class function TUOMVolumeUnitBase.NameSingular: String;
-begin
-  Result:= '';
-end;
-
-class function TUOMVolumeUnitBase.Prefix: String;
-begin
-  Result:= '';
-end;
-
-class function TUOMVolumeUnitBase.Suffix: String;
-begin
-  Result:= '';
-end;
-
-class function TUOMVolumeUnitBase.Systems: TUOMSystems;
-begin
-  Result:= [];
-end;
-
-class function TUOMVolumeUnitBase.UnitDescription: String;
-begin
-  Result:= '';
-end;
-
-class function TUOMVolumeUnitBase.UnitID: String;
-begin
-  Result:= '';
-end;
-
-class function TUOMVolumeUnitBase.UOM: TUOMBaseClass;
-begin
-  Result:= TUOMVolumeUtils;
-end;
-
-{ TUOMVolumeMilliliters }
-
-class function TUOMVolumeMilliliters.ConvertFromBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue * 1000000;
-end;
-
-class function TUOMVolumeMilliliters.ConvertToBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue / 1000000;
-end;
-
-class function TUOMVolumeMilliliters.NameSingular: String;
-begin
-  Result:= 'Milliliter';
-end;
-
-class function TUOMVolumeMilliliters.Suffix: String;
-begin
-  Result:= 'mL';
-end;
-
-class function TUOMVolumeMilliliters.Systems: TUOMSystems;
-begin
-  Result:= [ustMetric];
-end;
-
-class function TUOMVolumeMilliliters.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= umvMilliliters;
-end;
-
-class function TUOMVolumeMilliliters.UnitID: String;
-begin
-  Result:= '{DCB45B7C-0F5C-46E5-94F3-73DE0308E8FF}';
-end;
-
-{ TUOMVolumeCubicCentimeters }
-
-class function TUOMVolumeCubicCentimeters.NameSingular: String;
-begin
-  Result:= 'Cubic Centimeter';
-end;
-
-class function TUOMVolumeCubicCentimeters.Suffix: String;
-begin
-  Result:= 'cm³';
-end;
-
-class function TUOMVolumeCubicCentimeters.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= umvCubicCentimeters;
-end;
-
-class function TUOMVolumeCubicCentimeters.UnitID: String;
-begin
-  Result:= '{133C3A39-D1F6-449E-970A-33B1ACD38058}';
-end;
-
-{ TUOMVolumeLiters }
-
-class function TUOMVolumeLiters.ConvertFromBase(const AValue: Double): Double;
-begin
-  Result:= AValue * 1000;
-end;
-
-class function TUOMVolumeLiters.ConvertToBase(const AValue: Double): Double;
-begin
-  Result:= AValue / 1000;
-end;
-
-class function TUOMVolumeLiters.NameSingular: String;
-begin
-  Result:= 'Liter';
-end;
-
-class function TUOMVolumeLiters.Suffix: String;
-begin
-  Result:= 'L';
-end;
-
-class function TUOMVolumeLiters.Systems: TUOMSystems;
-begin
-  Result:= [ustMetric];
-end;
-
-class function TUOMVolumeLiters.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= umvLiters;
-end;
-
-class function TUOMVolumeLiters.UnitID: String;
-begin
-  Result:= '{F2DBAB17-4816-4C4D-90F5-88B85C002A6E}';
-end;
-
-{ TUOMVolumeCubicMeters }
-
-class function TUOMVolumeCubicMeters.ConvertFromBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue;
-end;
-
-class function TUOMVolumeCubicMeters.ConvertToBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue;
-end;
-
-class function TUOMVolumeCubicMeters.NameSingular: String;
-begin
-  Result:= 'Cubic Meter';
-end;
-
-class function TUOMVolumeCubicMeters.Suffix: String;
-begin
-  Result:= 'm³';
-end;
-
-class function TUOMVolumeCubicMeters.Systems: TUOMSystems;
-begin
-  Result:= [ustMetric];
-end;
-
-class function TUOMVolumeCubicMeters.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= umvCubicMeters;
-end;
-
-class function TUOMVolumeCubicMeters.UnitID: String;
-begin
-  Result:= '{3354888F-B36A-4316-95DB-731D71795B25}';
-end;
-
-{ TUOMVolumeTeaspoonsUS }
-
-class function TUOMVolumeTeaspoonsUS.ConvertFromBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue * 202900;
-end;
-
-class function TUOMVolumeTeaspoonsUS.ConvertToBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue / 202900;
-end;
-
-class function TUOMVolumeTeaspoonsUS.NameSingular: String;
-begin
-  Result:= 'US Teaspoon';
-end;
-
-class function TUOMVolumeTeaspoonsUS.Suffix: String;
-begin
-  Result:= 'tsp';
-end;
-
-class function TUOMVolumeTeaspoonsUS.Systems: TUOMSystems;
-begin
-  Result:= [ustUSCustomary];
-end;
-
-class function TUOMVolumeTeaspoonsUS.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= TUOMVolumeUnit.umvTeaSpoonsUS;
-end;
-
-class function TUOMVolumeTeaspoonsUS.UnitID: String;
-begin
-  Result:= '{130702BA-CA20-4F4C-A56C-0A7E778BB0F7}';
-end;
-
-{ TUOMVolumeTablespoonsUS }
-
-class function TUOMVolumeTablespoonsUS.ConvertFromBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue * 67630;
-end;
-
-class function TUOMVolumeTablespoonsUS.ConvertToBase(
-  const AValue: Double): Double;
-begin
-  Result:= AValue / 67630;
-end;
-
-class function TUOMVolumeTablespoonsUS.NameSingular: String;
-begin
-  Result:= 'US Tablespoon';
-end;
-
-class function TUOMVolumeTablespoonsUS.Suffix: String;
-begin
-  Result:= 'Tbs';
-end;
-
-class function TUOMVolumeTablespoonsUS.Systems: TUOMSystems;
-begin
-  Result:= [ustUSCustomary];
-end;
-
-class function TUOMVolumeTablespoonsUS.UnitEnum: TUOMVolumeUnit;
-begin
-  Result:= umvTablespoonsUS;
-end;
-
-class function TUOMVolumeTablespoonsUS.UnitID: String;
-begin
-  Result:= '{C86875FC-D6A6-43AB-B466-78A2D87CBDA1}';
-end;
-
 initialization
-  _:= nil;
+  RegisterUOM;
 end.

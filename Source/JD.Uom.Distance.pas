@@ -17,7 +17,6 @@ var
 begin
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{077930C4-8ED2-444E-8053-24899B197F00}',
     'Nanometer', 'Nanometers', '', 'nm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -32,7 +31,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{B0001BAD-960B-463A-9545-07DE3F229BBD}',
     'Micron', 'Microns', '', 'μm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -47,7 +45,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{815B7612-7FD9-4325-97A6-07A7F32A1B0B}',
     'Millimeter', 'Millimeters', '', 'mm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -62,7 +59,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{E637DBDF-DA82-4FB1-85B3-87EA5DDB772A}',
     'Centimeter', 'Centimeters', '', 'cm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -77,7 +73,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{CDCFC5F0-4B37-4D18-B6D6-46CF71BF54BA}',
     'Decimeter', 'Decimeters', '', 'dm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -92,7 +87,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{CB30CEB3-C3D2-4862-A081-A27DA5E33683}',
     'Meter', 'Meters', '', 'm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -107,7 +101,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{2CD91B24-C767-4784-85BD-653E294399F4}',
     'Decameter', 'Decameters', '', 'dam', 'Metric',
     function(const Value: Double): Double
     begin
@@ -122,7 +115,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{B4D3A305-EEFC-4E92-9407-493D29973DEA}',
     'Hectometer', 'Hectometers', '', 'hm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -137,7 +129,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{8927581C-B9DF-4DD4-B52B-4E32F99DE9C2}',
     'Kilometer', 'Kilometers', '', 'km', 'Metric',
     function(const Value: Double): Double
     begin
@@ -152,7 +143,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{E2A5BAAE-915B-40B6-B15A-355E84992288}',
     'Inch', 'Inches', '', '"', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -167,7 +157,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{8D8C41D7-5222-4915-B364-E4419D08FFAB}',
     'Foot', 'Feet', '', '''', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -182,7 +171,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{DBE21FBD-3CED-41DE-ABA8-55B32747A6A8}',
     'Yard', 'Yards', '', 'yd', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -197,7 +185,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{4CAE8CB8-1056-4EBB-B3C5-769AEF3EF2CE}',
     'Fathom', 'Fathoms', '', 'fath', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -212,7 +199,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{6CC6BEFA-232E-4F0B-9420-587DF124BF4B}',
     'Rod', 'Rods', '', 'rd', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -227,7 +213,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{96B5331C-BEDF-4F9B-83B2-5F4E4B44D6F6}',
     'Furlong', 'Furlongs', '', 'fur', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -242,7 +227,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{A7A964FE-FD9E-4799-8AA6-5AD4D5F77CF6}',
     'Mile', 'Miles', '', 'mi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -257,7 +241,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{FA09E524-E1DD-4F33-928B-4DC187DB3E92}',
     'Nautical Mile', 'Nautical Miles', '', 'nmi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -272,7 +255,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{7B1A05A8-8CDC-40EC-A4EA-2EEF3BEE8831}',
     'Light Year', 'Light Years', '', 'ly', 'Natural',
     function(const Value: Double): Double
     begin
@@ -287,7 +269,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{F01B33E8-0232-407D-AD74-95756E1715D2}',
     'Banana', 'Bananas', '', 'ban', 'Random',
     function(const Value: Double): Double
     begin
@@ -303,7 +284,6 @@ begin
   ));
 
   TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
-    '{6A59487F-0776-41DE-9B52-CA976A283DFF}',
     'iPhone 14 Pro Max', 'iPhone 14 Pro Maxes', '', 'iP14PM', 'Random',
     function(const Value: Double): Double
     begin
