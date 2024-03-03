@@ -1,4 +1,4 @@
-# JD.UomUtils.pas
+# JD.Uom.pas
 
 Central unit to access all possible unit of measure conversions.
 
