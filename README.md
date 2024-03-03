@@ -10,6 +10,6 @@
 
 ## Units
 
-- Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.md) - Central access to all possible units of measurement and conversions.
+- Unit [**JD.Uom.pas**](/Docs/JD.UOM.md) - Central access to all possible units of measurement and conversions.
 
 **And much more to come...**
