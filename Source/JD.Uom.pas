@@ -15,25 +15,12 @@ interface
   documented directly on GitHub, and this documentation was forotten...
   https://github.com/djjd47130/JD-UOM
 
-  What's In This Library:
-  - Enumeration types for all possible metrics
-    - Divided among different units for different UOMs
-    - TUOMSystem: Different measurement systems (Metric, US Customary...)
-    [OLD] - TUOM: Different types of measurement (Length, Area, Volume, Weight...)
-    - TUOMLengthUnit, TUOMAreaUnit, TUOMVolumeUnit...: Different UOMs within a certain type
-    - Every enum has a corresponding set type with a plural "s" at the end of the type
-  - Classes with class methods for all UOM types
-    - For exapmle, TUOMLengthUtils, or TUOMWeightUtils
-    - Provides functions to convert between any given unit types
-  - Classes to encapsulate each UOM and their units.
-  - Conversion of metrics across different systems
-  - Implicit record types to consume measurement data
-
-  Measurement Systems (TUOMSystem / TUOMSystems):
-  - Any (Not specific, applicable to any)
+  Measurement Systems:
   - Metric (Meters, Liters, Kilograms...)
   - US Customary (Feet, Gallons, Pounds...)
   - Imperial (Similar to US Customary but UK based)
+  - Natural
+  - Random
 
   UPDATED:
   - International System of Units (SI):
@@ -61,18 +48,21 @@ interface
   - https://www.metric-conversions.org/
     - Original reference
   - https://convertlive.com/
-    - Newly discovered reference with many more units
+    - Newly discovered reference with many more UOMs
 
 *)
 
-
 {$ENDREGION}
 
-{ $DEFINE USE_JEDI}
+//Disabled until string mathematical expressions can be implemented.
+//  https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
+//  OR
+//  https://gobestcode.com/html/math_parser_for_delphi.html
+{ $DEFINE USE_MATH_EXPR}
 
 uses
   System.Classes, System.SysUtils, System.Generics.Collections
-  {$IFDEF USE_JEDI}
+  {$IFDEF USE_MATH_EXPR}
   , JclExprEval
   {$ENDIF}
   ;
@@ -82,110 +72,26 @@ const
   NumFormat = '#,###,###,###,##0.#############';
 
 type
-  TUOMBase = class;
-  TUOMUnitBase = class;
+  TUOM = class;
   TUOMUtils = class;
 
-
   /// <summary>
-  /// Overall categorization of specific units within any given UOM.
+  /// Base conversion function for any given UOM.
   /// </summary>
-  TUOMSystem = (ustAny, ustMetric, ustUSCustomary, ustImperial, ustNatural);
-
-  /// <summary>
-  /// A set of `TUOMSystem`. Used by UOMs to identify which systems they're related to.
-  /// </summary>
-  TUOMSystems = set of TUOMSystem;
-
-  /// <summary>
-  /// Abstract refrence to a particular UOM.
-  /// </summary>
-  TUOMBaseClass = class of TUOMBase;
-
-  /// <summary>
-  /// Abstract refrence to a particular unit within a UOM.
-  /// </summary>
-  TUOMUnitClass = class of TUOMUnitBase;
-
-  /// <summary>
-  /// Base abstract class for all specific UOM measurement unit classes.
-  /// </summary>
-  TUOMUnitBase = class
-  public
-    class function UOM: TUOMBaseClass; virtual; abstract;
-    class function UnitID: String; virtual; abstract;
-    class function NamePlural: String; virtual;
-    class function NameSingular: String; virtual; abstract;
-    class function UnitDescription: String; virtual; abstract;
-    class function Systems: TUOMSystems; virtual; abstract;
-    class function Prefix: String; virtual; abstract;
-    class function Suffix: String; virtual; abstract;
-    class function ConvertToBase(const AValue: Double): Double; virtual; abstract;
-    class function ConvertFromBase(const AValue: Double): Double; virtual; abstract;
-  end;
-
-  /// <summary>
-  /// Base abstract class for all UOM utils classes.
-  /// </summary>
-  TUOMBase = class
-  public
-    class function UOMID: String; virtual; abstract;
-    class function UOMName: String; virtual; abstract;
-    class function UnitCount: Integer; virtual; abstract;
-    class function GetUnit(const Index: Integer): TUOMUnitClass; virtual; abstract;
-    class procedure UnitList(AList: TStrings; ASystem: TUOMSystem = ustAny); virtual;
-    class function UnitName(const Index: Integer): String; virtual;
-    class function UnitPrefix(const Index: Integer): String; virtual;
-    class function UnitSuffix(const Index: Integer): String; virtual;
-    class function BaseUnit: TUOMUnitClass; virtual; abstract;
-  end;
-
-  /// <summary>
-  /// Base list of all possible unit utils classes.
-  /// </summary>
-  TUOMUtils = class
-  private
-    class var FItems: TList<TUOMBaseClass>;
-  public
-    class constructor Create;
-    class destructor Destroy;
-    class procedure RegisterUOM(AClass: TUOMBaseClass);
-    class function Count: Integer;
-    class function UOM(const Index: Integer): TUOMBaseClass;
-    class function IndexOf(AClass: TUOMBaseClass): Integer; overload;
-    class function IndexOf(AClass: String): Integer; overload;
-    class function Convert(const AValue: Double;
-      const AFromUnit, AToUnit: TUOMUnitClass): Double; overload;
-  end;
-
-
-
-
-
-//TODO: New concept of a lookup table with mathematical expressions.
-//https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
-//OR
-//https://gobestcode.com/html/math_parser_for_delphi.html
-//Meanwhile, this supports calling a common function reference to convert.
-
-type
-  TUOMLookupUnit = class;
-  TUOMLookupTable = class;
-
   TConvertProc = Reference to function(const Value: Double): Double;
 
   /// <summary>
-  /// NEW base object for each possible UOM unit.
+  /// Base object for each possible UOM unit.
   /// </summary>
-  TUOMLookupUnit = class(TObject)
+  TUOM = class(TObject)
   private
-    FUOM: String;
+    FCategory: String;
     FSystems: TStringList;
     FNameSingular: String;
     FNamePlural: String;
     FPrefix: String;
     FSuffix: String;
-    {$IFDEF USE_JEDI}
+    {$IFDEF USE_MATH_EXPR}
     FConvertToBaseFormula: String;
     FConvertFromBaseFormula: String;
     {$ELSE}
@@ -199,8 +105,8 @@ type
     procedure SetPrefix(const Value: String);
     procedure SetSuffix(const Value: String);
     procedure SetSystems(const Value: TStrings);
-    procedure SetUOM(const Value: String);
-    {$IFDEF USE_JEDI}
+    procedure SetCategory(const Value: String);
+    {$IFDEF USE_MATH_EXPR}
     procedure SetConvertFromBaseFormula(const Value: TConvertProc);
     procedure SetConvertToBaseFormula(const Value: TConvertProc);
     {$ELSE}
@@ -209,18 +115,18 @@ type
     {$ENDIF}
   public
     constructor Create; overload;
-    constructor Create(const AUOM, ANameSingular, ANamePlural, APrefix, ASuffix,
+    constructor Create(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
       ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
     procedure Invalidate; virtual;
-    {$IFDEF USE_JEDI}
+    {$IFDEF USE_MATH_EXPR}
     property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
     property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
     {$ELSE}
     property ConvertFromBaseProc: TConvertProc read FConvertFromBaseProc write SetConvertFromBaseProc;
     property ConvertToBaseProc: TConvertProc read FConvertToBaseProc write SetConvertToBaseProc;
     {$ENDIF}
-    property UOM: String read FUOM write SetUOM;
+    property Category: String read FCategory write SetCategory;
     property Systems: TStrings read GetSystems write SetSystems;
     property NameSingular: String read FNameSingular write SetNameSingular;
     property NamePlural: String read FNamePlural write SetNamePlural;
@@ -230,265 +136,57 @@ type
     function ConvertToBase(const AValue: Double): Double;
   end;
 
-  TUOMLookupTable = class
+  /// <summary>
+  /// Main class encapsulating entire UOM library capabilities.
+  /// </summary>
+  TUOMUtils = class
   private
-    class var FUnits: TObjectList<TUOMLookupUnit>;
-    class var FBaseUnits: TDictionary<String, TUOMLookupUnit>;
+    class var FUOMs: TObjectList<TUOM>;
+    class var FBaseUOMs: TDictionary<String, TUOM>;
     class var FSystems: TStringList;
-    class var FUOMs: TStringList;
-    {$IFDEF USE_JEDI}
+    class var FCategories: TStringList;
+    {$IFDEF USE_MATH_EXPR}
     class var FEval: TEvaluator;
     {$ENDIF}
   public
     class constructor Create;
     class destructor Destroy;
     class procedure Invalidate; virtual;
-    class function GetUnits(const Index: Integer): TUOMLookupUnit; static;
-    class function GetUnitByName(const Name: String): TUOMLookupUnit; static;
-    class function GetUnitByPrefix(const Prefix: String): TUOMLookupUnit; static;
-    class function GetUnitBySuffix(const Suffix: String): TUOMLookupUnit; static;
-    class function GetBaseUnit(const UOM: String): TUOMLookupUnit; static;
-    class function UOMCount: Integer; static;
+    class function GetUOMByIndex(const Index: Integer): TUOM; static;
+    class function GetUOMByName(const Name: String): TUOM; static;
+    class function GetUOMByPrefix(const Prefix: String): TUOM; static;
+    class function GetUOMBySuffix(const Suffix: String): TUOM; static;
+    class function GetBaseUOM(const UOM: String): TUOM; static;
+    class function CategoryCount: Integer; static;
     class function SystemCount: Integer; static;
-    class procedure ListUOMs(AList: TStrings); static;
+    class procedure ListCategories(AList: TStrings); static;
     class procedure ListSystems(AList: TStrings); static;
-    class procedure ListUnits(AList: TStrings; const AUOM: String = '';
+    class procedure ListUOMs(AList: TStrings; const ACategory: String = '';
       const ASystems: String = ''); static;
-    class function UnitCount: Integer; static;
-    class property Units[const Index: Integer]: TUOMLookupUnit read GetUnits;
+    class function UOMCount: Integer; static;
+    class procedure RegisterUOM(const AUnit: TUOM); static;
+    class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
+    class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
 
-    class procedure RegisterUnit(const AUnit: TUOMLookupUnit); static;
-    class procedure RegisterBaseUnit(const AUOM: String; const AUnit: TUOMLookupUnit); static;
-    class function Convert(const Value: Double; const FromUnit, ToUnit: String): Double; static;
+    class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
 
-  //TODO: New abstract record to encapsulate a single possible value attached to a specific UOM
+  //TODO: Abstract record to encapsulate a single possible value attached to a specific UOM category
   TUOMValue = record
   private
-    FMeasureUnit: String;
+    FUOM: String;
     FValue: Double;
-    procedure SetMeasureUnit(const Value: String);
+    procedure SetUOM(const Value: String);
     procedure SetValue(const Value: Double);
   public
-    property MreasureUnit: String read FMeasureUnit write SetMeasureUnit;
+    property UOM: String read FUOM write SetUOM;
     property Value: Double read FValue write SetValue;
   end;
-
-
-
-{$REGION 'TUnitOfMeasurement'}
-
-{ TUnitOfMeasurement }
-
-type
-  /// <summary>
-  /// --- NOT READY ---
-  /// Encapsulates full conversion process with easy to use properties.
-  /// Can be used to quickly access all different possible units of measurement.
-  /// Can be integrated into a component since it's a TPersistent
-  /// TODO: Property editors in a design-time package...
-  /// </summary>
-  TUnitOfMeasurement = class(TPersistent)
-  private
-    FUOMIndex: Integer;
-    FValue: Double;
-    FUnitToIndex: Integer;
-    FUnitFromUndex: Integer;
-    procedure SetUnitFromUndex(const Value: Integer);
-    procedure SetUnitToIndex(const Value: Integer);
-    procedure SetUOMIndex(const Value: Integer);
-    procedure SetValue(const Value: Double);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Assign(Source: TPersistent); override;
-    procedure ListUoms(AList: TStrings);
-    procedure ListUomUnits(AList: TStrings);
-    procedure ListUomSystems(AList: TStrings);
-  published
-    property UOMIndex: Integer read FUOMIndex write SetUOMIndex;
-    property Value: Double read FValue write SetValue;
-    property UnitFromUndex: Integer read FUnitFromUndex write SetUnitFromUndex;
-    property UnitToIndex: Integer read FUnitToIndex write SetUnitToIndex;
-  end;
-
-{$ENDREGION}
-
-
-{$REGION 'TUOM'}
-
-  /// <summary>
-  /// --- NOT READY ---
-  /// Component to encapsulate entire UOM infrastructure and allow access
-  /// to UOM details and conversion methods.
-  /// </summary>
-  TUOM = class(TComponent)
-  private
-    FUOM: TUnitOfMeasurement;
-    procedure SetUOM(const Value: TUnitOfMeasurement);
-  public
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-  published
-    property UOM: TUnitOfMeasurement read FUOM write SetUOM;
-  end;
-
-{$ENDREGION}
-
-
-{$REGION 'TMultiStringList'}
-
-type
-  TMultiStringList = class;
-  TMultiListRef = class;
-
-  //TODO: WHY DID I MAKE THESE? WHERE WERE THEY FOR?
-
-  ///  <summary>
-  /// --- NOT READY ---
-  ///  Manages contents of multiple TStrings references from one central place
-  ///  </summary>
-  TMultiStringList = class(TPersistent)
-  private
-    FReferences: TObjectList<TMultiListRef>;
-    FStrings: TStringList;
-    function GetStrings: TStrings;
-    procedure SetStrings(const Value: TStrings);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    function ReferenceCount: Integer;
-    function AddReference(const AStrings: TStrings): TMultiListRef;
-    procedure DeleteReference(const Index: Integer);
-    procedure Broadcast;
-  published
-    property Strings: TStrings read GetStrings write SetStrings;
-  end;
-
-  /// --- NOT READY ---
-  TMultiListRef = class(TObject)
-  private
-    FOwner: TMultiStringList;
-    FStrings: TStrings;
-    procedure SetStrings(const Value: TStrings);
-  public
-    constructor Create(AOwner: TMultiStringList);
-    destructor Destroy; override;
-    property Strings: TStrings read FStrings write SetStrings;
-  end;
-
-{$ENDREGION}
-
-
-{ Defaults }
-
-var
-  DefaultUOMSystem: TUOMSystem;
 
 
 ////////////////////////////////////////////////////////////////////////////////
 implementation
 ////////////////////////////////////////////////////////////////////////////////
-
-
-{ TUOMUnitBase }
-
-class function TUOMUnitBase.NamePlural: String;
-begin
-  //Default, can override.
-  Result:= NameSingular + 's';
-end;
-
-{ TUOMBase }
-
-class procedure TUOMBase.UnitList(AList: TStrings; ASystem: TUOMSystem);
-var
-  X: Integer;
-  U: TUOMUnitClass;
-begin
-  AList.Clear;
-  for X := 0 to UnitCount-1 do begin
-    U:= GetUnit(X);
-    if ASystem in U.Systems then
-      AList.Add(U.UnitName);
-  end;
-end;
-
-class function TUOMBase.UnitName(const Index: Integer): String;
-begin
-  Result:= GetUnit(Index).UnitName;
-end;
-
-class function TUOMBase.UnitPrefix(const Index: Integer): String;
-begin
-  Result:= GetUnit(Index).Prefix;
-end;
-
-class function TUOMBase.UnitSuffix(const Index: Integer): String;
-begin
-  Result:= GetUnit(Index).Suffix;
-end;
-
-{ TUOMUtils }
-
-class constructor TUOMUtils.Create;
-begin
-  FItems:= TList<TUOMBaseClass>.Create;
-end;
-
-class destructor TUOMUtils.Destroy;
-begin
-  FreeAndNil(FItems);
-  inherited;
-end;
-
-class function TUOMUtils.Convert(const AValue: Double; const AFromUnit,
-  AToUnit: TUOMUnitClass): Double;
-begin
-  Result:= AFromUnit.ConvertToBase(AValue);
-  Result:= AToUnit.ConvertFromBase(Result);
-end;
-
-class function TUOMUtils.Count: Integer;
-begin
-  Result:= FItems.Count;
-end;
-
-class function TUOMUtils.IndexOf(AClass: TUOMBaseClass): Integer;
-var
-  X: Integer;
-begin
-  Result:= -1;
-  for X := 0 to FItems.Count-1 do begin
-    if AClass = FItems[X] then begin
-      Result:= X;
-      Break;
-    end;
-  end;
-end;
-
-class function TUOMUtils.IndexOf(AClass: String): Integer;
-var
-  X: Integer;
-begin
-  Result:= -1;
-  for X := 0 to FItems.Count-1 do begin
-    if AClass = FItems[X].UOMName then begin
-      Result:= X;
-      Break;
-    end;
-  end;
-end;
-
-class procedure TUOMUtils.RegisterUOM(AClass: TUOMBaseClass);
-begin
-  FItems.Add(AClass);
-end;
-
-class function TUOMUtils.UOM(const Index: Integer): TUOMBaseClass;
-begin
-  Result:= FItems[Index];
-end;
 
 {
 class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
@@ -517,187 +215,19 @@ begin
 end;
 }
 
-{ TUnitOfMeasurement }
-
-{$REGION 'TUnitOfMeasurement'}
-
-constructor TUnitOfMeasurement.Create;
-begin
-
-end;
-
-destructor TUnitOfMeasurement.Destroy;
-begin
-
-  inherited;
-end;
-
-procedure TUnitOfMeasurement.Assign(Source: TPersistent);
-var
-  V: TUnitOfMeasurement;
-begin
-  if Source is TUnitOfMeasurement then begin
-    V:= TUnitOfMeasurement(Source);
-    Self.FValue:= V.FValue;
-    Self.FUOMIndex:= V.FUOMIndex;
-    Self.FUnitFromUndex:= V.FUnitFromUndex;
-    Self.FUnitToIndex:= V.FUnitToIndex;
-  end else
-    inherited;
-end;
-
-procedure TUnitOfMeasurement.ListUoms(AList: TStrings);
-begin
-  //TUOMList.ListUOMs(AList); //TODO
-end;
-
-procedure TUnitOfMeasurement.ListUomSystems(AList: TStrings);
-begin
-  //TUOMList.ListUOMSystems(AList);
-end;
-
-procedure TUnitOfMeasurement.ListUomUnits(AList: TStrings);
-begin
-  //TUOMList.ListUOMUnits(FUOMIndex, AList);
-end;
-
-procedure TUnitOfMeasurement.SetUnitFromUndex(const Value: Integer);
-begin
-  FUnitFromUndex := Value;
-end;
-
-procedure TUnitOfMeasurement.SetUnitToIndex(const Value: Integer);
-begin
-  FUnitToIndex := Value;
-end;
-
-procedure TUnitOfMeasurement.SetUOMIndex(const Value: Integer);
-begin
-  FUOMIndex := Value;
-end;
-
-procedure TUnitOfMeasurement.SetValue(const Value: Double);
-begin
-  FValue := Value;
-end;
-
-{$ENDREGION}
-
-{ TMultiStringList }
-
-procedure TMultiStringList.Broadcast;
-var
-  X: Integer;
-  R: TMultiListRef;
-begin
-  for X := 0 to FReferences.Count-1 do begin
-    R:= FReferences[X];
-    R.Strings.BeginUpdate;
-    try
-      try
-        R.Strings:= FStrings;
-      except
-        on E: Exception do begin
-          //Typically access violation due to destroyed reference.
-          //We could remove this reference if this occurs...
-        end;
-      end;
-    finally
-      R.Strings.EndUpdate;
-    end;
-  end;
-end;
-
-constructor TMultiStringList.Create;
-begin
-  FReferences:= TObjectList<TMultiListRef>.Create(True);
-  FStrings:= TStringList.Create;
-end;
-
-destructor TMultiStringList.Destroy;
-begin
-  FreeAndNil(FStrings);
-  FreeAndNil(FReferences);
-  inherited;
-end;
-
-function TMultiStringList.AddReference(const AStrings: TStrings): TMultiListRef;
-begin
-  Result:= TMultiListRef.Create(Self);
-  Result.FStrings:= AStrings;
-end;
-
-procedure TMultiStringList.DeleteReference(const Index: Integer);
-begin
-  FReferences.Delete(Index);
-end;
-
-function TMultiStringList.GetStrings: TStrings;
-begin
-  Result:= FStrings;
-end;
-
-function TMultiStringList.ReferenceCount: Integer;
-begin
-  Result:= FReferences.Count;
-end;
-
-procedure TMultiStringList.SetStrings(const Value: TStrings);
-begin
-  FStrings.Assign(Value);
-end;
-
-{ TMultiListRef }
-
-constructor TMultiListRef.Create(AOwner: TMultiStringList);
-begin
-  FOwner:= AOwner;
-end;
-
-destructor TMultiListRef.Destroy;
-begin
-
-  inherited;
-end;
-
-procedure TMultiListRef.SetStrings(const Value: TStrings);
-begin
-  FStrings.Assign(Value);
-end;
-
 { TUOM }
 
-constructor TUOM.Create(AOwner: TComponent);
-begin
-  inherited;
-  FUOM:= TUnitOfMeasurement.Create;
-end;
-
-destructor TUOM.Destroy;
-begin
-  FreeAndNil(FUOM);
-  inherited;
-end;
-
-procedure TUOM.SetUOM(const Value: TUnitOfMeasurement);
-begin
-  FUOM.Assign(Value);
-end;
-
-{ TUOMLookupUnit }
-
-constructor TUOMLookupUnit.Create;
+constructor TUOM.Create;
 begin
   FSystems:= TStringList.Create;
   FSystems.OnChange:= SystemsChanged;
 end;
 
-constructor TUOMLookupUnit.Create(const AUOM, ANameSingular, ANamePlural, APrefix, ASuffix,
+constructor TUOM.Create(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
   ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
 begin
   Create;
-  FUOM:= AUOM;
-  //FUnitID:= AID;
+  FCategory:= ACategory;
   FNameSingular:= ANameSingular;
   FNamePlural:= ANamePlural;
   FPrefix:= APrefix;
@@ -710,31 +240,31 @@ begin
   //TODO: Validate...
 
   //TODO: This doesn't belong here, implement invalidate methods...
-  TUOMLookupTable.ListUOMs(TUOMLookupTable.FUOMs);
-  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
+  TUOMUtils.ListCategories(TUOMUtils.FCategories);
+  TUOMUtils.ListSystems(TUOMUtils.FSystems);
 end;
 
-destructor TUOMLookupUnit.Destroy;
+destructor TUOM.Destroy;
 begin
   FreeAndNil(FSystems);
 end;
 
-procedure TUOMLookupUnit.Invalidate;
+procedure TUOM.Invalidate;
 begin
-  TUOMLookupTable.Invalidate;
+  TUOMUtils.Invalidate;
 end;
 
-function TUOMLookupUnit.ConvertFromBase(const AValue: Double): Double;
+function TUOM.ConvertFromBase(const AValue: Double): Double;
 begin
   Result:= Self.FConvertFromBaseProc(AValue);
 end;
 
-function TUOMLookupUnit.ConvertToBase(const AValue: Double): Double;
+function TUOM.ConvertToBase(const AValue: Double): Double;
 begin
   Result:= Self.FConvertToBaseProc(AValue);
 end;
 
-{$IFDEF USE_JEDI}
+{$IFDEF USE_MATH_EXPR}
 
 procedure TUOMLookupUnit.SetConvertFromBaseFormula(const Value: String);
 begin
@@ -752,14 +282,14 @@ end;
 
 {$ELSE}
 
-procedure TUOMLookupUnit.SetConvertFromBaseProc(const Value: TConvertProc);
+procedure TUOM.SetConvertFromBaseProc(const Value: TConvertProc);
 begin
   FConvertFromBaseProc := Value;
   //TODO: Validate...
   Invalidate;
 end;
 
-procedure TUOMLookupUnit.SetConvertToBaseProc(const Value: TConvertProc);
+procedure TUOM.SetConvertToBaseProc(const Value: TConvertProc);
 begin
   FConvertToBaseProc := Value;
   //TODO: Validate...
@@ -768,91 +298,83 @@ end;
 
 {$ENDIF}
 
-function TUOMLookupUnit.GetSystems: TStrings;
+function TUOM.GetSystems: TStrings;
 begin
   Result:= TStrings(FSystems);
 end;
 
-{
-procedure TUOMLookupUnit.SetUnitID(const Value: String);
-begin
-  FUnitID:= Value;
-  //TODO: Validate...
-end;
-}
-
-procedure TUOMLookupUnit.SetNamePlural(const Value: String);
+procedure TUOM.SetNamePlural(const Value: String);
 begin
   FNamePlural:= Value;
   //TODO: Validate...
 end;
 
-procedure TUOMLookupUnit.SetNameSingular(const Value: String);
+procedure TUOM.SetNameSingular(const Value: String);
 begin
   FNameSingular:= Value;
   //TODO: Validate...
 end;
 
-procedure TUOMLookupUnit.SetPrefix(const Value: String);
+procedure TUOM.SetPrefix(const Value: String);
 begin
   FPrefix:= Value;
   //TODO: Validate...
 end;
 
-procedure TUOMLookupUnit.SetSuffix(const Value: String);
+procedure TUOM.SetSuffix(const Value: String);
 begin
   FSuffix:= Value;
   //TODO: Validate...
 end;
 
-procedure TUOMLookupUnit.SetSystems(const Value: TStrings);
+procedure TUOM.SetSystems(const Value: TStrings);
 begin
   FSystems.Assign(Value);
-  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
+  TUOMUtils.ListSystems(TUOMUtils.FSystems);
 end;
 
-procedure TUOMLookupUnit.SetUOM(const Value: String);
+procedure TUOM.SetCategory(const Value: String);
 begin
-  FUOM:= Value;
-  TUOMLookupTable.ListUOMs(TUOMLookupTable.FUOMs);
+  FCategory:= Value;
+  TUOMUtils.ListCategories(TUOMUtils.FCategories);
 end;
 
-procedure TUOMLookupUnit.SystemsChanged(Sender: TObject);
+procedure TUOM.SystemsChanged(Sender: TObject);
 begin
-  TUOMLookupTable.ListSystems(TUOMLookupTable.FSystems);
+  TUOMUtils.ListSystems(TUOMUtils.FSystems);
 end;
 
-{ TUOMLookupTable }
+{ TUOMUtils }
 
-class constructor TUOMLookupTable.Create;
+class constructor TUOMUtils.Create;
 begin
-  FUnits:= TObjectList<TUOMLookupUnit>.Create(True);
-  FBaseUnits:= TDictionary<String, TUOMLookupUnit>.Create;
+  FUOMs:= TObjectList<TUOM>.Create(True);
+  FBaseUOMs:= TDictionary<String, TUOM>.Create;
   FSystems:= TStringList.Create;
-  FUOMs:= TStringList.Create;
+  FCategories:= TStringList.Create;
 end;
 
-class destructor TUOMLookupTable.Destroy;
+class destructor TUOMUtils.Destroy;
 begin
-  FreeAndNil(FUOMs);
+  FreeAndNil(FCategories);
   FreeAndNil(FSystems);
-  FreeAndNil(FBaseUnits);
-  FreeAndNil(FUnits);
+  FreeAndNil(FBaseUOMs);
+  FreeAndNil(FUOMs);
 end;
 
-class function TUOMLookupTable.Convert(const Value: Double; const FromUnit,
-  ToUnit: String): Double;
+class function TUOMUtils.Convert(const Value: Double; const FromUOM,
+  ToUOM: String): Double;
 var
-  F, T: TUOMLookupUnit;
+  F, T: TUOM;
 begin
   //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion procs.
 
-  F:= GetUnitByName(FromUnit);
+  F:= GetUOMByName(FromUOM);
   if not Assigned(F) then begin
     raise Exception.Create('Conversion from unit "'+F.NameSingular+'" not found.');
   end;
 
-  T:= GetUnitByName(ToUnit);
+  T:= GetUOMByName(ToUOM);
   if not Assigned(T) then begin
     raise Exception.Create('Conversion to unit "'+F.NameSingular+'" not found.');
   end;
@@ -866,7 +388,7 @@ begin
   end;
 
   try
-    {$IFDEF USE_JEDI}
+    {$IFDEF USE_MATH_EXPR}
     //TODO: Perform conversion using mathematical expressions...
 
     {$ELSE}
@@ -881,93 +403,93 @@ begin
 
 end;
 
-class procedure TUOMLookupTable.Invalidate;
+class procedure TUOMUtils.Invalidate;
 begin
-  ListUOMs(FUOMs);
+  ListCategories(FCategories);
   ListSystems(FSystems);
 end;
 
-class function TUOMLookupTable.GetBaseUnit(const UOM: String): TUOMLookupUnit;
+class function TUOMUtils.GetBaseUOM(const UOM: String): TUOM;
 begin
-  Result:= FBaseUnits[UOM];
+  Result:= FBaseUOMs[UOM];
 end;
 
-class function TUOMLookupTable.GetUnits(const Index: Integer): TUOMLookupUnit;
+class function TUOMUtils.GetUOMByIndex(const Index: Integer): TUOM;
 begin
-  Result:= FUnits[Index];
+  Result:= FUOMs[Index];
 end;
 
-class function TUOMLookupTable.GetUnitByName(const Name: String): TUOMLookupUnit;
+class function TUOMUtils.GetUOMByName(const Name: String): TUOM;
 var
   X: Integer;
 begin
   Result:= nil;
-  for X := 0 to FUnits.Count-1 do begin
-    if Trim(Name) = Trim(FUnits[X].FNameSingular) then begin
-      Result:= FUnits[X];
+  for X := 0 to FUOMs.Count-1 do begin
+    if Trim(Name) = Trim(FUOMs[X].FNameSingular) then begin
+      Result:= FUOMs[X];
       Break;
     end;
   end;
 end;
 
-class function TUOMLookupTable.GetUnitByPrefix(const Prefix: String): TUOMLookupUnit;
+class function TUOMUtils.GetUOMByPrefix(const Prefix: String): TUOM;
 var
   X: Integer;
 begin
   Result:= nil;
-  for X := 0 to FUnits.Count-1 do begin
-    if Trim(Prefix) = Trim(FUnits[X].FPrefix) then begin
-      Result:= FUnits[X];
+  for X := 0 to FUOMs.Count-1 do begin
+    if Trim(Prefix) = Trim(FUOMs[X].FPrefix) then begin
+      Result:= FUOMs[X];
       Break;
     end;
   end;
 end;
 
-class function TUOMLookupTable.GetUnitBySuffix(const Suffix: String): TUOMLookupUnit;
+class function TUOMUtils.GetUOMBySuffix(const Suffix: String): TUOM;
 var
   X: Integer;
 begin
   Result:= nil;
-  for X := 0 to FUnits.Count-1 do begin
-    if Trim(Suffix) = Trim(FUnits[X].FSuffix) then begin
-      Result:= FUnits[X];
+  for X := 0 to FUOMs.Count-1 do begin
+    if Trim(Suffix) = Trim(FUOMs[X].FSuffix) then begin
+      Result:= FUOMs[X];
       Break;
     end;
   end;
 end;
 
-class procedure TUOMLookupTable.ListSystems(AList: TStrings);
+class procedure TUOMUtils.ListSystems(AList: TStrings);
 var
   X, Y: Integer;
   UN: String;
 begin
   AList.Clear;
-  for X := 0 to FUnits.Count-1 do begin
-    for Y := 0 to FUnits[X].FSystems.Count-1 do begin
-      UN:= FUnits[X].FSystems[Y];
+  for X := 0 to FUOMs.Count-1 do begin
+    for Y := 0 to FUOMs[X].FSystems.Count-1 do begin
+      UN:= FUOMs[X].FSystems[Y];
       if AList.IndexOf(UN) < 0 then
         AList.Append(UN);
     end;
   end;
 end;
 
-class procedure TUOMLookupTable.ListUnits(AList: TStrings; const AUOM: String = '';
+class procedure TUOMUtils.ListUOMs(AList: TStrings; const ACategory: String = '';
   const ASystems: String = '');
 var
   Inc: Boolean;
   X, Y: Integer;
-  U: TUOMLookupUnit;
+  U: TUOM;
   L: TStringList;
 begin
   AList.Clear;
   Inc:= True;
 
-  for X := 0 to FUnits.Count-1 do begin
-    U:= FUnits[X];
+  for X := 0 to FUOMs.Count-1 do begin
+    U:= FUOMs[X];
 
     //Filter by UOM...
-    if (AUOM <> '') then begin
-      Inc:= SameText(U.UOM, AUOM)
+    if (ACategory <> '') then begin
+      Inc:= SameText(U.Category, ACategory)
     end;
 
     //Filter by systems..
@@ -993,26 +515,26 @@ begin
   end;
 end;
 
-class procedure TUOMLookupTable.ListUOMs(AList: TStrings);
+class procedure TUOMUtils.ListCategories(AList: TStrings);
 var
   X: Integer;
   UN: String;
 begin
   AList.Clear;
-  for X := 0 to FUnits.Count-1 do begin
-    UN:= FUnits[X].FUOM;
+  for X := 0 to FUOMs.Count-1 do begin
+    UN:= FUOMs[X].FCategory;
     if AList.IndexOf(UN) < 0 then
       AList.Append(UN);
   end;
 end;
 
-class procedure TUOMLookupTable.RegisterBaseUnit(const AUOM: String;
-  const AUnit: TUOMLookupUnit);
+class procedure TUOMUtils.RegisterBaseUOM(const ACategory: String;
+  const AUnit: TUOM);
 begin
-  FBaseUnits.Add(AUOM, AUnit);
+  FBaseUOMs.Add(ACategory, AUnit);
 end;
 
-class procedure TUOMLookupTable.RegisterUnit(const AUnit: TUOMLookupUnit);
+class procedure TUOMUtils.RegisterUOM(const AUnit: TUOM);
 begin
   if AUnit = nil then begin
     raise Exception.Create('Cannot register unassigned unit object.');
@@ -1030,42 +552,42 @@ begin
     raise Exception.Create('Cannot register blank unit suffix.');
   end;
 
-  if Assigned(GetUnitByName(AUnit.FNameSingular)) or
-    Assigned(GetUnitByName(AUnit.FNamePlural)) then
+  if Assigned(GetUOMByName(AUnit.FNameSingular)) or
+    Assigned(GetUOMByName(AUnit.FNamePlural)) then
   begin
     raise Exception.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
   end;
 
-  if Assigned(GetUnitBySuffix(AUnit.FSuffix)) then begin
+  if Assigned(GetUOMBySuffix(AUnit.FSuffix)) then begin
     raise Exception.Create('Cannot register duplicate unit suffix '+AUnit.FSuffix);
   end;
 
-  FUnits.Add(AUnit);
+  FUOMs.Add(AUnit);
   Invalidate;
 end;
 
-class function TUOMLookupTable.SystemCount: Integer;
+class function TUOMUtils.SystemCount: Integer;
 begin
   Invalidate;
   Result:= FSystems.Count;
 end;
 
-class function TUOMLookupTable.UnitCount: Integer;
+class function TUOMUtils.UOMCount: Integer;
 begin
-  Result:= FUnits.Count;
+  Result:= FUOMs.Count;
 end;
 
-class function TUOMLookupTable.UOMCount: Integer;
+class function TUOMUtils.CategoryCount: Integer;
 begin
   Invalidate;
-  Result:= FUOMs.Count;
+  Result:= FCategories.Count;
 end;
 
 { TUOMValue }
 
-procedure TUOMValue.SetMeasureUnit(const Value: String);
+procedure TUOMValue.SetUOM(const Value: String);
 begin
-  FMeasureUnit := Value;
+  FUOM := Value;
 end;
 
 procedure TUOMValue.SetValue(const Value: Double);
@@ -1074,6 +596,5 @@ begin
 end;
 
 initialization
-  DefaultUOMSystem:= TUOMSystem.ustMetric;
 
 end.

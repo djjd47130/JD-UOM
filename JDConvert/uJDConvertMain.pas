@@ -26,15 +26,13 @@ const
 type
   TfrmJDConvertMain = class(TForm)
     pMain: TPanel;
-    Panel2: TPanel;
+    pCategories: TPanel;
     Label1: TLabel;
+    lstCategories: TListBox;
+    pUOMs: TPanel;
     lstUOMs: TListBox;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    Label2: TLabel;
-    lstUnits: TListBox;
-    Panel5: TPanel;
-    Panel6: TPanel;
+    pInfo: TPanel;
+    pTestVal: TPanel;
     lblUnitHeader: TLabel;
     txtValue: TRzSpinEdit;
     pUnitDetail: TPanel;
@@ -52,7 +50,7 @@ type
     lblUnitBaseTo: TLabel;
     Label6: TLabel;
     lblUnitNamePlural: TLabel;
-    Panel1: TPanel;
+    pChart: TPanel;
     Chart: TChart;
     Series1: TFastLineSeries;
     Label10: TLabel;
@@ -60,22 +58,22 @@ type
     Label12: TLabel;
     lstSystems: TCheckListBox;
     txtChartScale: TRzSpinEdit;
+    Label2: TLabel;
     procedure FormCreate(Sender: TObject);
+    procedure lstCategoriesClick(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
-    procedure cboSystemClick(Sender: TObject);
-    procedure lstUnitsClick(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure ChartAfterDraw(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure lstSystemsClickCheck(Sender: TObject);
   private
     FSelSystems: String;
+    FSelCategory: String;
     FSelUOM: String;
-    FSelUnit: String;
   public
+    procedure RefreshCategories;
     procedure RefreshUOMs;
-    procedure RefreshUnits;
-    procedure RefreshUnitDetails;
+    procedure RefreshUOMDetails;
     procedure RefreshChart;
     procedure UpdateChart;
   end;
@@ -87,6 +85,8 @@ implementation
 
 {$R *.dfm}
 
+{ TfrmJDConvertMain }
+
 procedure TfrmJDConvertMain.FormCreate(Sender: TObject);
 begin
   {$IFDEF DEBUG}
@@ -94,20 +94,14 @@ begin
   {$ENDIF}
   WindowState:= wsMaximized;
   Chart.Align:= alClient;
-  TUOMLookupTable.ListSystems(lstSystems.Items);
+  TUOMUtils.ListSystems(lstSystems.Items);
   lstSystems.CheckAll(TCheckBoxState.cbChecked);
+  RefreshCategories;
+end;
+
+procedure TfrmJDConvertMain.lstCategoriesClick(Sender: TObject);
+begin
   RefreshUOMs;
-end;
-
-procedure TfrmJDConvertMain.lstUOMsClick(Sender: TObject);
-begin
-  RefreshUnits;
-  RefreshChart;
-end;
-
-procedure TfrmJDConvertMain.cboSystemClick(Sender: TObject);
-begin
-  RefreshUnits;
   RefreshChart;
 end;
 
@@ -123,23 +117,23 @@ begin
       FSelSystems:= FSelSystems + lstSystems.Items[X];
     end;
   end;
-  RefreshUnits;
+  RefreshUOMs;
   RefreshChart;
 end;
 
-procedure TfrmJDConvertMain.lstUnitsClick(Sender: TObject);
+procedure TfrmJDConvertMain.lstUOMsClick(Sender: TObject);
 begin
-  FSelUnit:= lstUnits.Items[lstUnits.ItemIndex];
-  RefreshUnitDetails;
+  FSelUOM:= lstUOMs.Items[lstUOMs.ItemIndex];
+  RefreshUOMDetails;
   UpdateChart;
 end;
 
-procedure TfrmJDConvertMain.RefreshUOMs;
+procedure TfrmJDConvertMain.RefreshCategories;
 begin
-  TUOMLookupTable.ListUOMs(lstUOMs.Items);
-  if lstUOMs.Items.Count > 0 then begin
-    lstUOMs.ItemIndex:= 0;
-    lstUOMsClick(nil);
+  TUOMUtils.ListCategories(lstCategories.Items);
+  if lstCategories.Items.Count > 0 then begin
+    lstCategories.ItemIndex:= 0;
+    lstCategoriesClick(nil);
   end;
 end;
 
@@ -150,50 +144,31 @@ end;
 
 procedure TfrmJDConvertMain.txtValueChange(Sender: TObject);
 begin
-  RefreshUnitDetails;
+  RefreshUOMDetails;
 end;
 
-procedure TfrmJDConvertMain.RefreshUnits;
+procedure TfrmJDConvertMain.RefreshUOMs;
 var
-  FU: String;
   FS: String;
 begin
-  FSelUOM:= lstUOMs.Items[lstUOMs.ItemIndex];
-  FU:= FSelUOM;
+  FSelCategory:= lstCategories.Items[lstCategories.ItemIndex];
   FS:= FSelSystems;
-  TUOMLookupTable.ListUnits(lstUnits.Items, FU, FS);
-  if lstUnits.Items.Count > 0 then begin
-    lstUnits.ItemIndex:= 0;
-    lstUnitsClick(nil);
+  TUOMUtils.ListUOMs(lstUOMs.Items, FSelCategory, FS);
+  if lstUOMs.Items.Count > 0 then begin
+    lstUOMs.ItemIndex:= 0;
+    lstUOMsClick(nil);
   end;
 end;
 
-function UOMSystemsStr(const ASystems: TUOMSystems): String;
-  procedure A(const System: TUOMSystem; const S: String);
-  begin
-    if System in ASystems then begin
-      if Result <> '' then
-        Result:= Result + ', ';
-      Result:= Result + S;
-    end;
-  end;
-begin
-  Result:= '';
-  A(ustMetric, 'Metric');
-  A(ustImperial, 'Imperial');
-  A(ustUSCustomary, 'US Customary');
-  A(ustNatural, 'Natural');
-end;
-
-procedure TfrmJDConvertMain.RefreshUnitDetails;
+procedure TfrmJDConvertMain.RefreshUOMDetails;
 var
-  U: TUOMLookupUnit;
-  BU: TUOMLookupUnit;
+  U: TUOM;
+  BU: TUOM;
   BaseSuffix: String;
 begin
-  if lstUnits.ItemIndex < 0 then Exit;
-  U:= TUOMLookupTable.GetUnitByName(FSelUnit);
-  BU:= TUOMLookupTable.GetBaseUnit(lstUOMs.Items[lstUOMs.ItemIndex]);
+  if lstUOMs.ItemIndex < 0 then Exit;
+  U:= TUOMUtils.GetUOMByName(FSelUOM);
+  BU:= TUOMUtils.GetBaseUOM(lstCategories.Items[lstCategories.ItemIndex]);
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
   U.Systems.Delimiter:= ',';
@@ -213,29 +188,28 @@ procedure TfrmJDConvertMain.RefreshChart;
 var
   X: Integer;
   S: TLineSeries;
-  U: TUOMLookupUnit;
-  BU: TUOMLookupUnit;
+  U: TUOM;
+  BU: TUOM;
   Y: Integer;
   V: Double;
   Amt: Integer;
 begin
   Chart.SeriesList.Clear;
   Chart.Invalidate;
-  if lstUnits.Items.Count <= 0 then Exit;
+  if lstUOMs.Items.Count <= 0 then Exit;
   Amt:= Round(txtChartScale.Value);
 
-  BU:= TUOMLookupTable.GetBaseUnit(lstUOMs.Items[lstUOMs.ItemIndex]);
-  Chart.Title.Text.Text:= BU.UOM+' Comparison';
-  Chart.BottomAxis.Title.Text:= 'Base Unit - '+BU.NameSingular;
-  for X := 0 to lstUnits.Count-1 do begin
-    U:= TUOMLookupTable.GetUnitByName(lstUnits.Items[X]);
-
+  BU:= TUOMUtils.GetBaseUOM(FSelCategory);
+  Chart.Title.Text.Text:= BU.Category+' Comparison';
+  Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
+  for X := 0 to lstUOMs.Count-1 do begin
+    U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X]);
     S:= TLineSeries.Create(Chart);
     try
       S.Tag:= X;
       S.ParentChart:= Chart;
       S.Title:= U.NameSingular;
-      if U.NameSingular = FSelUnit then
+      if U.NameSingular = FSelUOM then
         S.LinePen.Width:= WIDTH_LARGE
       else
         S.LinePen.Width:= WIDTH_SMALL;
@@ -259,7 +233,7 @@ var
 begin
   for X := 0 to Chart.SeriesCount-1 do begin
     S:= TLineSeries(Chart.Series[X]);
-    if S.Title = FSelUnit then
+    if S.Title = FSelUOM then
       S.LinePen.Width:= WIDTH_LARGE
     else
       S.LinePen.Width:= WIDTH_SMALL;
@@ -270,14 +244,14 @@ end;
 procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);
 var
   P1, P2: TPoint;
-  U: TUOMLookupUnit;
+  U: TUOM;
 begin
+  if lstCategories.ItemIndex <= 0 then Exit;
   if lstUOMs.ItemIndex <= 0 then Exit;
-  if lstUnits.ItemIndex <= 0 then Exit;
 
-  U:= TUOMLookupTable.GetUnitByName(FSelUnit);
+  U:= TUOMUtils.GetUOMByName(FSelUOM);
 
-  //TODO: Draw crosshair for test value conversion with selected unit...
+  //TODO: Draw crosshair for test value conversion with selected UOM...
   //Custom drawing on chart: http://www.teechart.net/docs/teechart/vclfmx/tutorials/UserGuide/html/manu390n.htm
   Chart.Canvas.Brush.Style:= bsClear;
   Chart.Canvas.Pen.Style:= psSolid;

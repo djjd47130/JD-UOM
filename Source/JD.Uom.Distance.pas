@@ -13,10 +13,10 @@ uses
 
 procedure RegisterUOM;
 var
-  Base: TUOMLookupUnit;
+  Base: TUOM;
 begin
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Nanometer', 'Nanometers', '', 'nm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -30,7 +30,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Micron', 'Microns', '', 'μm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -44,7 +44,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Millimeter', 'Millimeters', '', 'mm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -58,7 +58,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Centimeter', 'Centimeters', '', 'cm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -72,7 +72,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Decimeter', 'Decimeters', '', 'dm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -86,7 +86,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Meter', 'Meters', '', 'm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -100,7 +100,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Decameter', 'Decameters', '', 'dam', 'Metric',
     function(const Value: Double): Double
     begin
@@ -114,7 +114,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Hectometer', 'Hectometers', '', 'hm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -128,7 +128,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Kilometer', 'Kilometers', '', 'km', 'Metric',
     function(const Value: Double): Double
     begin
@@ -142,7 +142,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Inch', 'Inches', '', '"', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -156,7 +156,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Foot', 'Feet', '', '''', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -170,7 +170,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Yard', 'Yards', '', 'yd', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -184,7 +184,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Fathom', 'Fathoms', '', 'fath', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -198,7 +198,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Rod', 'Rods', '', 'rd', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -212,7 +212,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Furlong', 'Furlongs', '', 'fur', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -226,7 +226,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Mile', 'Miles', '', 'mi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -240,7 +240,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Nautical Mile', 'Nautical Miles', '', 'nmi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -254,7 +254,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Light Year', 'Light Years', '', 'ly', 'Natural',
     function(const Value: Double): Double
     begin
@@ -268,7 +268,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'Banana', 'Bananas', '', 'ban', 'Random',
     function(const Value: Double): Double
     begin
@@ -283,7 +283,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Distance',
+  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
     'iPhone 14 Pro Max', 'iPhone 14 Pro Maxes', '', 'iP14PM', 'Random',
     function(const Value: Double): Double
     begin
@@ -297,8 +297,8 @@ begin
     end
   ));
 
-  Base:= TUOMLookupTable.GetUnitByName('Meter');
-  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
+  Base:= TUOMUtils.GetUOMByName('Meter');
+  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

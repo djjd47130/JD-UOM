@@ -6,15 +6,10 @@
 
 ## Features
 - `TUOMUtils` - Class encapsulating all possible unit conversions.
+- `TUOM` - Object representing a single possible unit of measure, registered into `TUOMUtils`.
 
 ## Units
 
-- Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOMUtils.md) - Central access to all possible units of measurement and conversions.
-  - **TUOMUtils** - Main class to access all possible unit conversions and information.
-- Unit [**JD.Uom.Length.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Length.md) - Conversion between lengths.
-- Unit [**JD.Uom.Area.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.Area.md) - Conversion between areas.
-- Unit [**JD.Uom.Volume.pas**](JD.Uom.Volume.pas) - Conversion between volumes.
-- Unit [**JD.Uom.Temperature.pas**](JD.Uom.Temperature.pas) - Conversion between temperatures.
-- Unit **JD.Uom.Mass.pas** - Conversion between masses.
+- Unit [**JD.Uom.pas**](https://github.com/djjd47130/JD-UOM/blob/main/Docs/JD.UOM.md) - Central access to all possible units of measurement and conversions.
 
 **And much more to come...**

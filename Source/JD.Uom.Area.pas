@@ -31,10 +31,10 @@ implementation
 
 procedure RegisterUOM;
 var
-  Base: TUOMLookupUnit;
+  Base: TUOM;
 begin
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Millimeter', 'Square Millimeters', '', 'mm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -48,7 +48,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Centimeter', 'Square Centimeters', '', 'cm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -62,7 +62,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Meter', 'Square Meters', '', 'm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -76,7 +76,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Hectare', 'Hectares', '', 'ha', 'Metric',
     function(const Value: Double): Double
     begin
@@ -90,7 +90,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Kilometer', 'Square Kilometers', '', 'km²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -104,7 +104,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Inch', 'Square Inches', '', '"²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -118,7 +118,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Foot', 'Square Feet', '', '''²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -132,7 +132,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Yard', 'Square Yards', '', 'yd²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -146,7 +146,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Acre', 'Acres', '', 'ac', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -160,7 +160,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Area',
+  TUOMUtils.RegisterUOM(TUOM.Create('Area',
     'Square Mile', 'Square Miles', '', 'mi²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -174,8 +174,8 @@ begin
     end
   ));
 
-  Base:= TUOMLookupTable.GetUnitByName('Square Meter');
-  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
+  Base:= TUOMUtils.GetUOMByName('Square Meter');
+  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

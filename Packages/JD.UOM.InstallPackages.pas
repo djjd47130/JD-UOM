@@ -12,7 +12,7 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('JD UOM', [TUOM]);
+  //RegisterComponents('JD UOM', [TUOM]);
 end;
 
 end.

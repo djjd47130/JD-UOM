@@ -10,9 +10,9 @@ implementation
 
 procedure RegisterUOM;
 var
-  Base: TUOMLookupUnit;
+  Base: TUOM;
 begin
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Mass',
+  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
     'Milligram', 'Milligrams', '', 'mg', 'Metric',
     function(const Value: Double): Double
     begin
@@ -26,7 +26,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Mass',
+  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
     'Gram', 'Grams', '', 'g', 'Metric',
     function(const Value: Double): Double
     begin
@@ -40,7 +40,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Mass',
+  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
     'Kilogram', 'Kilograms', '', 'kg', 'Metric',
     function(const Value: Double): Double
     begin
@@ -54,8 +54,8 @@ begin
     end
   ));
 
-  Base:= TUOMLookupTable.GetUnitByName('Gram');
-  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
+  Base:= TUOMUtils.GetUOMByName('Gram');
+  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 

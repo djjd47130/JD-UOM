@@ -40,9 +40,9 @@ implementation
 
 procedure RegisterUOM;
 var
-  Base: TUOMLookupUnit;
+  Base: TUOM;
 begin
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Milliliter', 'Milliliters', '', 'mL', 'Metric',
     function(const Value: Double): Double
     begin
@@ -56,7 +56,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cubic Centimeter', 'Cubic Centimeters', '', 'cm³', 'Metric',
     function(const Value: Double): Double
     begin
@@ -72,7 +72,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Liter', 'Liters', '', 'L', 'Metric',
     function(const Value: Double): Double
     begin
@@ -86,7 +86,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cubic Meter', 'Cubic Meters', '', 'm³', 'Metric',
     function(const Value: Double): Double
     begin
@@ -100,7 +100,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Teaspoon (US)', 'Teaspoons (US)', '', 'US tsp', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -114,7 +114,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Teaspoon (UK)', 'Teaspoons (UK)', '', 'UK tsp', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -128,7 +128,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Tablespoon (US)', 'Tablespoons (US)', '', 'US Tsp', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -142,7 +142,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Tablespoon (UK)', 'Tablespoons (UK)', '', 'UK Tsp', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -156,7 +156,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Fluid Ounce (US)', 'Fluid Ounces (US)', '', 'US fl. oz', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -170,7 +170,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Fluid Ounce (UK)', 'Fluid Ounces (UK)', '', 'UK fl. oz', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -184,7 +184,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cup (US)', 'Cups (US)', '', 'US c', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -198,7 +198,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cup (UK)', 'Cups (UK)', '', 'UK c', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -212,7 +212,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Pint (US)', 'Pints (US)', '', 'US pt', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -226,7 +226,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Pint (UK)', 'Pints (UK)', '', 'UK pt', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -240,7 +240,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Quart (US)', 'Quarts (US)', '', 'US qt', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -254,7 +254,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Quart (UK)', 'Quarts (UK)', '', 'UK qt', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -268,7 +268,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Gallon (US)', 'Gallons (US)', '', 'US gal', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -282,7 +282,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Gallon (UK)', 'Gallons (UK)', '', 'UK gal', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -296,7 +296,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cubic Inch', 'Cubic Inches', '', '"³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -310,7 +310,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cubic Foot', 'Cubic Feet', '', '''³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -324,7 +324,7 @@ begin
     end
   ));
 
-  TUOMLookupTable.RegisterUnit(TUOMLookupUnit.Create('Volume',
+  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
     'Cubic Yard', 'Cubic Yards', '', 'yd³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -338,8 +338,8 @@ begin
     end
   ));
 
-  Base:= TUOMLookupTable.GetUnitByName('Cubic Meter');
-  TUOMLookupTable.RegisterBaseUnit(Base.UOM, Base);
+  Base:= TUOMUtils.GetUOMByName('Cubic Meter');
+  TUOMUtils.RegisterBaseUOM(Base.Category, Base);
 
 end;
 
