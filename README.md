@@ -11,7 +11,9 @@
 ## Units
 
 - [**JD.Uom.pas**](Docs/JD.Uom.md) - Central access to all possible units of measurement and conversions.
-  - **TUOMUtils** - Class to encapsulate entire conversion library and UOM details.
+  - **TUOMUtils** - Main class to encapsulate entire conversion library and UOM details.
+  - **TUOM** - Base object referencing a specific unit of measurement and all its details.
+  - **TUOMValue** **(NOT READY)** - Implicit record type to contain a single value of any given UOM.
 - [**JD.Uom.Distance.pas**](/Docs/JD.Uom.Distance.md) - Registration of Distance related UOMs.
 - [**JD.Uom.Area.pas**](/Docs/JD.Uom.Area.md) - Registration of all Area related UOMs.
 - [**JD.Uom.Volume.pas**](/Docs/JD.Uom.Volume.md) - Registration of all Volume related UOMs.

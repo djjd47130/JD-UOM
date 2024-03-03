@@ -18,4 +18,4 @@ Central unit to access all possible unit of measure conversions.
 ## `TUOMUtils` - Main class encapsulating entire UOM library capabilities.
 
 
-## `TUOMValue` - (NOT READY) - New record type to carry a specific value of any given UOM.
+## `TUOMValue` - **(NOT READY)** - New record type to carry a specific value of any given UOM.
