@@ -5,21 +5,23 @@ interface
 {$DEFINE TABLE_BASED}
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  System.StdConvs,
+  Winapi.Windows, Winapi.Messages,
+  System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  Vcl.ExtCtrls, Vcl.CheckLst, Vcl.Mask,
+  RzEdit, RzSpnEdt,
+  VclTee.TeeGDIPlus, VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart,
   JD.Uom,
   JD.Uom.Distance,
   JD.Uom.Area,
   JD.Uom.Temperature,
   JD.Uom.Volume,
-  JD.Uom.Mass,
-  Vcl.Mask, RzEdit, RzSpnEdt, VclTee.TeeGDIPlus,
-  VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart, Vcl.CheckLst;
+  JD.Uom.Mass;
 
 const
   WIDTH_SMALL = 1;
   WIDTH_LARGE = 5;
+  WIDTH_CROSSHAIR = 2;
 
 type
   TfrmJDConvertMain = class(TForm)
@@ -279,7 +281,7 @@ begin
   //Custom drawing on chart: http://www.teechart.net/docs/teechart/vclfmx/tutorials/UserGuide/html/manu390n.htm
   Chart.Canvas.Brush.Style:= bsClear;
   Chart.Canvas.Pen.Style:= psSolid;
-  Chart.Canvas.Pen.Width:= 2;
+  Chart.Canvas.Pen.Width:= WIDTH_CROSSHAIR;
   Chart.Canvas.Pen.Color:= clYellow;
   Chart.Canvas.Pen.Style:= TPenStyle.psDash;
 
