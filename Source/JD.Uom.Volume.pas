@@ -40,7 +40,8 @@ implementation
 
 procedure RegisterUOM;
 begin
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+
+  TUOMUtils.RegisterUOM('Volume',
     'Milliliter', 'Milliliters', '', 'mL', 'Metric',
     function(const Value: Double): Double
     begin
@@ -52,9 +53,9 @@ begin
       //Milliliter to Cubic Meters
       Result:= Value / 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cubic Centimeter', 'Cubic Centimeters', '', 'cm³', 'Metric',
     function(const Value: Double): Double
     begin
@@ -68,9 +69,9 @@ begin
       //Identicial to Milliliters
       Result:= Value / 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Liter', 'Liters', '', 'L', 'Metric',
     function(const Value: Double): Double
     begin
@@ -82,9 +83,9 @@ begin
       //Liters to Cubic Meters
       Result:= Value / 1000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cubic Meter', 'Cubic Meters', '', 'm³', 'Metric',
     function(const Value: Double): Double
     begin
@@ -96,9 +97,9 @@ begin
       //Cubic Meters to Cubic Meters
       Result:= Value / 1;
     end
-  )).SetAsBase;
+  ).SetAsBase;
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Teaspoon (US)', 'Teaspoons (US)', '', 'US tsp', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -110,9 +111,9 @@ begin
       //Teaspoons (US) to Cubic Meters
       Result:= Value / 202900;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Teaspoon (UK)', 'Teaspoons (UK)', '', 'UK tsp', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -124,9 +125,9 @@ begin
       //Teaspoons (UK) to Cubic Meters
       Result:= Value / 168900;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Tablespoon (US)', 'Tablespoons (US)', '', 'US Tsp', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -138,9 +139,9 @@ begin
       //Tablespoon (US) to Cubic Meters
       Result:= Value / 67630;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Tablespoon (UK)', 'Tablespoons (UK)', '', 'UK Tsp', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -152,9 +153,9 @@ begin
       //Tablespoon (UK) to Cubic Meters
       Result:= Value / 56310;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Fluid Ounce (US)', 'Fluid Ounces (US)', '', 'US fl. oz', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -166,9 +167,9 @@ begin
       //Fluid Ounces (US) to Cubic Meters
       Result:= Value / 33810;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Fluid Ounce (UK)', 'Fluid Ounces (UK)', '', 'UK fl. oz', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -180,9 +181,9 @@ begin
       //Fluid Ounces (UK) to Cubic Meters
       Result:= Value / 35200;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cup (US)', 'Cups (US)', '', 'US c', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -194,9 +195,9 @@ begin
       //Cups (US) to Cubic Meters
       Result:= Value / 4227;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cup (UK)', 'Cups (UK)', '', 'UK c', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -208,9 +209,9 @@ begin
       //Cups (UK) to Cubic Meters
       Result:= Value / 3520;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Pint (US)', 'Pints (US)', '', 'US pt', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -222,9 +223,9 @@ begin
       //Pints (US) to Cubic Meters
       Result:= Value / 2113;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Pint (UK)', 'Pints (UK)', '', 'UK pt', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -236,9 +237,9 @@ begin
       //Pints (UK) to Cubic Meters
       Result:= Value / 1760;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Quart (US)', 'Quarts (US)', '', 'US qt', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -250,9 +251,9 @@ begin
       //Quarts (US) to Cubic Meters
       Result:= Value / 1056.69;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Quart (UK)', 'Quarts (UK)', '', 'UK qt', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -264,9 +265,9 @@ begin
       //Quarts (UK) to Cubic Meters
       Result:= Value / 879.87848458785;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Gallon (US)', 'Gallons (US)', '', 'US gal', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -278,9 +279,9 @@ begin
       //Gallons (US) to Cubic Meters
       Result:= Value / 264.172;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Gallon (UK)', 'Gallons (UK)', '', 'UK gal', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -292,9 +293,9 @@ begin
       //Gallons (UK) to Cubic Meters
       Result:= Value /219.969204701183;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cubic Inch', 'Cubic Inches', '', '"³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -306,9 +307,9 @@ begin
       //Cubic Inches to Cubic Meters
       Result:= Value / 61023.7;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cubic Foot', 'Cubic Feet', '', '''³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -320,9 +321,9 @@ begin
       //Cubic Feet to Cubic Meters
       Result:= Value / 35.3147;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Volume',
+  TUOMUtils.RegisterUOM('Volume',
     'Cubic Yard', 'Cubic Yards', '', 'yd³', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -334,7 +335,7 @@ begin
       //Cubic Yards to Cubic Meters
       Result:= Value / 1.30795;
     end
-  ));
+  );
 
 end;
 

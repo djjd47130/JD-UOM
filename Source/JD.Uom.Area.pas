@@ -32,7 +32,7 @@ implementation
 procedure RegisterUOM;
 begin
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Millimeter', 'Square Millimeters', '', 'mm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -44,9 +44,9 @@ begin
       //Square Millimeters to Square Meters
       Result:= Value / 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Centimeter', 'Square Centimeters', '', 'cm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -58,9 +58,9 @@ begin
       //Square Centimeters to Square Meters
       Result:= Value / 10000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Meter', 'Square Meters', '', 'm²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -72,9 +72,9 @@ begin
       //Square Meters to Square Meters
       Result:= Value / 1;
     end
-  )).SetAsBase;
+  ).SetAsBase;
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Hectare', 'Hectares', '', 'ha', 'Metric',
     function(const Value: Double): Double
     begin
@@ -86,9 +86,9 @@ begin
       //Hectares to Square Meters
       Result:= Value * 10000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Kilometer', 'Square Kilometers', '', 'km²', 'Metric',
     function(const Value: Double): Double
     begin
@@ -100,9 +100,9 @@ begin
       //Square Kilometers to Square Meters
       Result:= Value * 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Inch', 'Square Inches', '', '"²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -114,9 +114,9 @@ begin
       //Square Inches to Square Meters
       Result:= Value / 1550;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Foot', 'Square Feet', '', '''²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -128,9 +128,9 @@ begin
       //Square Feet to Square Meters
       Result:= Value / 10.7639;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Yard', 'Square Yards', '', 'yd²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -142,9 +142,9 @@ begin
       //Square Yards to Square Meters
       Result:= Value / 1.19599;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Acre', 'Acres', '', 'ac', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -156,9 +156,9 @@ begin
       //Acres to Square Meters
       Result:= Value * 4046.86;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Area',
+  TUOMUtils.RegisterUOM('Area',
     'Square Mile', 'Square Miles', '', 'mi²', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -170,7 +170,7 @@ begin
       //Square Miles to Square Meters
       Result:= Value * 2589988.110336;
     end
-  ));
+  );
 
 end;
 

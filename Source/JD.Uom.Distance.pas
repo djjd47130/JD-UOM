@@ -14,7 +14,7 @@ uses
 procedure RegisterUOM;
 begin
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Nanometer', 'Nanometers', '', 'nm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -26,9 +26,9 @@ begin
       //Nanometers to Meters
       Result:= Value / 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Micron', 'Microns', '', 'μm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -40,9 +40,9 @@ begin
       //Microns to Meters
       Result:= Value / 1000000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Millimeter', 'Millimeters', '', 'mm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -54,9 +54,9 @@ begin
       //Millimeters to Meters
       Result:= Value / 1000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Centimeter', 'Centimeters', '', 'cm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -68,9 +68,9 @@ begin
       //Centimeters to Meters
       Result:= Value / 100;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Decimeter', 'Decimeters', '', 'dm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -82,9 +82,9 @@ begin
       //Decimeters to Meters
       Result:= Value / 10;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Meter', 'Meters', '', 'm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -96,9 +96,9 @@ begin
       //Meters to Meters
       Result:= Value;
     end
-  )).SetAsBase;
+  ).SetAsBase;
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Decameter', 'Decameters', '', 'dam', 'Metric',
     function(const Value: Double): Double
     begin
@@ -110,9 +110,9 @@ begin
       //Decameters to Meters
       Result:= Value * 10;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Hectometer', 'Hectometers', '', 'hm', 'Metric',
     function(const Value: Double): Double
     begin
@@ -124,9 +124,9 @@ begin
       //Hectometers to Meters
       Result:= Value * 100;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Kilometer', 'Kilometers', '', 'km', 'Metric',
     function(const Value: Double): Double
     begin
@@ -138,9 +138,9 @@ begin
       //Kilometers to Meters
       Result:= Value * 1000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Inch', 'Inches', '', '"', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -152,9 +152,9 @@ begin
       //Inches to Meters
       Result:= Value / 39.3701;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Foot', 'Feet', '', '''', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -166,9 +166,9 @@ begin
       //Feet to Meters
       Result:= Value / 3.28084;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Yard', 'Yards', '', 'yd', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -180,9 +180,9 @@ begin
       //Yards to Meters
       Result:= Value / 1.0936133;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Fathom', 'Fathoms', '', 'fath', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -194,9 +194,9 @@ begin
       //Fathoms to Meters
       Result:= Value / 1.8288; //TODO: Correct?
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Rod', 'Rods', '', 'rd', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -208,9 +208,9 @@ begin
       //Rods to Meters
       Result:= Value * 5.0292; //TODO: Correct?
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Furlong', 'Furlongs', '', 'fur', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -222,9 +222,9 @@ begin
       //Furlongs to Meters
       Result:= Value * 201.168; //TODO: Correct?
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Mile', 'Miles', '', 'mi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -236,9 +236,9 @@ begin
       //Miles to Meters
       Result:= Value * 1609.344;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Nautical Mile', 'Nautical Miles', '', 'nmi', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -250,9 +250,9 @@ begin
       //Nautical Miles to Meters
       Result:= Value * 1852;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Light Year', 'Light Years', '', 'ly', 'Natural',
     function(const Value: Double): Double
     begin
@@ -264,9 +264,9 @@ begin
       //Light Years to Meters
       Result:= Value * 9460730472580800;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'Banana', 'Bananas', '', 'ban', 'Random',
     function(const Value: Double): Double
     begin
@@ -279,9 +279,9 @@ begin
       //Bananas to Meters
       Result:= Value * 0.254;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Distance',
+  TUOMUtils.RegisterUOM('Distance',
     'iPhone 14 Pro Max', 'iPhone 14 Pro Maxes', '', 'iP14PM', 'Random',
     function(const Value: Double): Double
     begin
@@ -293,7 +293,7 @@ begin
       //iPhone 14 Pro Maxes to Meters
       Result:= Value * 0.1607;
     end
-  ));
+  );
 
 end;
 

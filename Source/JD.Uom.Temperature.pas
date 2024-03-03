@@ -11,7 +11,7 @@ implementation
 procedure RegisterUOM;
 begin
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Temperature',
+  TUOMUtils.RegisterUOM('Temperature',
     'Celsius', 'Celsius', '', '°C', 'Metric',
     function(const Value: Double): Double
     begin
@@ -23,9 +23,9 @@ begin
       //Celsius to Celsius
       Result:= Value;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Temperature',
+  TUOMUtils.RegisterUOM('Temperature',
     'Farenheit', 'Farenheit', '', '°F', 'Imperial,US Customary',
     function(const Value: Double): Double
     begin
@@ -37,9 +37,9 @@ begin
       //Farenheit to Celsius
       Result:= (Value - 32) / 1.8;
     end
-  )).SetAsBase;
+  ).SetAsBase;
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Temperature',
+  TUOMUtils.RegisterUOM('Temperature',
     'Kelvin', 'Kelvin', '', '°K', 'Natural',
     function(const Value: Double): Double
     begin
@@ -51,7 +51,7 @@ begin
       //Kelvin to Celsius
       Result:= Value - 272.15;
     end
-  ));
+  );
 
 end;
 

@@ -11,18 +11,23 @@ interface
   Encapsulates all possible units of measurement with conversion
   and other useful utilities to implement in Delphi.
 
-  NOTE: The following details are out of date, as things are getting
-  documented directly on GitHub, and this documentation was forotten...
+  NOTE: This project is hosted and documented on GitHub:
   https://github.com/djjd47130/JD-UOM
 
   Measurement Systems:
   - Metric (Meters, Liters, Kilograms...)
   - US Customary (Feet, Gallons, Pounds...)
   - Imperial (Similar to US Customary but UK based)
-  - Natural
-  - Random
+  - Natural (Kelvin, Light Years...)
+  - Random (Bananas, iPhones...)
+  NOTE: A single UOM might be related to more than one system,
+    such as both Imperial and US Customary. In this case, "Systems" strings
+    must be comma-separated values, such as `Imperial,US Customary`.
+    The library will automatically parse this into individual list items.
+    Be sure to reuse the existing systems when necessary, as to not create
+    duplicate systems.
 
-  UPDATED:
+  According to references:
   - International System of Units (SI):
     - The SI comprises a coherent system of units of measurement, including seven base units:
       - Second (s): The unit of time.
@@ -54,7 +59,8 @@ interface
 
 {$ENDREGION}
 
-//Disabled until string mathematical expressions can be implemented.
+//Defines whether to use string-based mathematical expressions
+//  Disabled until implemented.
 //  https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
 //  OR
 //  https://gobestcode.com/html/math_parser_for_delphi.html
@@ -120,6 +126,9 @@ type
     destructor Destroy; override;
     procedure Invalidate; virtual;
     procedure SetAsBase;
+    function ConvertFromBase(const AValue: Double): Double;
+    function ConvertToBase(const AValue: Double): Double;
+  public
     {$IFDEF USE_MATH_EXPR}
     property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
     property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
@@ -133,8 +142,6 @@ type
     property NamePlural: String read FNamePlural write SetNamePlural;
     property Prefix: String read FPrefix write SetPrefix;
     property Suffix: String read FSuffix write SetSuffix;
-    function ConvertFromBase(const AValue: Double): Double;
-    function ConvertToBase(const AValue: Double): Double;
   end;
 
   /// <summary>
@@ -165,7 +172,9 @@ type
     class procedure ListUOMs(AList: TStrings; const ACategory: String = '';
       const ASystems: String = ''); static;
     class function UOMCount: Integer; static;
-    class function RegisterUOM(const AUnit: TUOM): TUOM; static;
+    class function RegisterUOM(const AUnit: TUOM): TUOM;  overload; static;
+    class function RegisterUOM(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
+      ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil): TUOM; overload; static;
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
 
@@ -247,9 +256,7 @@ begin
   FConvertToBaseProc:= AToBase;
   //TODO: Validate...
 
-  //TODO: This doesn't belong here, implement invalidate methods...
-  TUOMUtils.ListCategories(TUOMUtils.FCategories);
-  TUOMUtils.ListSystems(TUOMUtils.FSystems);
+  Invalidate;
 end;
 
 destructor TUOM.Destroy;
@@ -269,12 +276,16 @@ end;
 
 function TUOM.ConvertFromBase(const AValue: Double): Double;
 begin
-  Result:= Self.FConvertFromBaseProc(AValue);
+  if not Assigned(FConvertFromBaseProc) then
+    raise Exception.Create('Conversion from base function not assigned!');
+  Result:= FConvertFromBaseProc(AValue);
 end;
 
 function TUOM.ConvertToBase(const AValue: Double): Double;
 begin
-  Result:= Self.FConvertToBaseProc(AValue);
+  if not Assigned(FConvertToBaseProc) then
+    raise Exception.Create('Conversion to base function not assigned!');
+  Result:= FConvertToBaseProc(AValue);
 end;
 
 {$IFDEF USE_MATH_EXPR}
@@ -402,7 +413,7 @@ begin
 
   try
     {$IFDEF USE_MATH_EXPR}
-    //TODO: Perform conversion using mathematical expressions...
+    //TODO: Perform conversion using string-based mathematical expressions...
 
     {$ELSE}
     Result:= F.FConvertToBaseProc(Value);
@@ -545,6 +556,34 @@ class procedure TUOMUtils.RegisterBaseUOM(const ACategory: String;
   const AUnit: TUOM);
 begin
   FBaseUOMs.Add(ACategory, AUnit);
+end;
+
+class function TUOMUtils.RegisterUOM(const ACategory, ANameSingular,
+  ANamePlural, APrefix, ASuffix, ASystems: String; const AFromBase,
+  AToBase: TConvertProc): TUOM;
+begin
+  Result:= TUOM.Create;
+  try
+    Result.FCategory:= ACategory;
+    Result.FNameSingular:= ANameSingular;
+    Result.FNamePlural:= ANamePlural;
+    Result.FPrefix:= APrefix;
+    Result.FSuffix:= ASuffix;
+    Result.FSystems.Delimiter:= ',';
+    Result.FSystems.StrictDelimiter:= True;
+    Result.FSystems.DelimitedText:= ASystems;
+    Result.FConvertFromBaseProc:= AFromBase;
+    Result.FConvertToBaseProc:= AToBase;
+    //TODO: Validate...
+
+  finally
+    try
+      RegisterUOM(Result);
+    except
+      Result.Free;
+    end;
+  end;
+  Invalidate;
 end;
 
 class function TUOMUtils.RegisterUOM(const AUnit: TUOM): TUOM;

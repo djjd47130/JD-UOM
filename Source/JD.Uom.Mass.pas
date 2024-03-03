@@ -11,7 +11,7 @@ implementation
 procedure RegisterUOM;
 begin
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Microgram', 'Micrograms', '', 'mcg', 'Metric',
     function(const Value: Double): Double
     begin
@@ -23,9 +23,9 @@ begin
       //Micrograms to Grams
       Result:= Value / 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Milligram', 'Milligrams', '', 'mg', 'Metric',
     function(const Value: Double): Double
     begin
@@ -37,9 +37,9 @@ begin
       //Milligrams to Grams
       Result:= Value / 1000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Gram', 'Grams', '', 'g', 'Metric',
     function(const Value: Double): Double
     begin
@@ -51,9 +51,9 @@ begin
       //Grams to Grams
       Result:= Value / 1;
     end
-  )).SetAsBase;
+  ).SetAsBase;
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Kilogram', 'Kilograms', '', 'kg', 'Metric',
     function(const Value: Double): Double
     begin
@@ -65,9 +65,9 @@ begin
       //Kilograms to Grams
       Result:= Value * 1000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Metric Ton', 'Metric Tons', '', 't', 'Metric',
     function(const Value: Double): Double
     begin
@@ -79,9 +79,9 @@ begin
       //Metric Tons to Grams
       Result:= Value * 1000000;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Ton (UK)', 'Tons (UK)', '', 'UK t', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -93,9 +93,9 @@ begin
       //Tons (UK) to Grams
       Result:= Value * 1.016e+6;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Ton (US)', 'Tons (US)', '', 'US t', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -107,9 +107,9 @@ begin
       //Tons (US) to Grams
       Result:= Value * 907200;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Stone', 'Stones', '', 'st', 'Imperial',
     function(const Value: Double): Double
     begin
@@ -121,9 +121,9 @@ begin
       //Stones to Grams
       Result:= Value * 6350;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Pound', 'Pounds', '', 'lbs', 'US Customary',
     function(const Value: Double): Double
     begin
@@ -135,9 +135,9 @@ begin
       //Pounds to Grams
       Result:= Value * 453.592;
     end
-  ));
+  );
 
-  TUOMUtils.RegisterUOM(TUOM.Create('Mass',
+  TUOMUtils.RegisterUOM('Mass',
     'Ounce', 'Ounces', '', 'oz', 'US Customary,Imperial',
     function(const Value: Double): Double
     begin
@@ -149,7 +149,7 @@ begin
       //Ounces to Grams
       Result:= Value * 28.3495;
     end
-  ));
+  );
 
 end;
 
