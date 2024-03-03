@@ -10,6 +10,11 @@
 
 ## Units
 
-- Unit [**JD.Uom.pas**](/Docs/JD.UOM.md) - Central access to all possible units of measurement and conversions.
+- [**JD.Uom.pas**](/Docs/JD.Uom.md) - Central access to all possible units of measurement and conversions.
+- [**JD.Uom.Distance.pas**](/Docs/JD.Uom.Distance.md) - Registration of Distance related UOMs.
+- [**JD.Uom.Area.pas**](/Docs/JD.Uom.Area.md) - Registration of all Area related UOMs.
+- [**JD.Uom.Volume.pas**](/Docs/JD.Uom.Volume.md) - Registration of all Volume related UOMs.
+- [**JD.Uom.Temperature.pas**](/Docs/JD.Uom.Temperature.md) - Registration of all Temperature related UOMs.
+- [**JD.Uom.Mass.pas](/Docs/JD.Uom.Mass.md) - Registration of all Mass related UOMs.
 
 **And much more to come...**
