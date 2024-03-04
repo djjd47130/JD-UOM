@@ -409,7 +409,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     ExplicitWidth = 984
     object Chart: TChart
       AlignWithMargins = True
-      Left = 40
+      Left = 39
       Top = 16
       Width = 905
       Height = 249
@@ -436,6 +436,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       BottomAxis.Title.Font.Color = clWhite
       BottomAxis.Title.Font.Height = -13
       BottomAxis.Title.Font.Style = [fsBold]
+      Chart3DPercent = 22
       LeftAxis.Axis.Color = clGray
       LeftAxis.Axis.Width = 1
       LeftAxis.AxisValuesFormat = '#,###,###,##0.#########'
@@ -451,6 +452,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       View3D = False
       View3DWalls = False
       Zoom.Allow = False
+      ZoomWheel = pmwNormal
       OnAfterDraw = ChartAfterDraw
       BevelOuter = bvNone
       Color = clBlack
@@ -459,26 +461,52 @@ object frmJDConvertMain: TfrmJDConvertMain
         905
         249)
       DefaultCanvas = 'TGDIPlusCanvas'
-      ColorPaletteIndex = 13
+      ColorPaletteIndex = 9
       object txtChartScale: TRzSpinEdit
         AlignWithMargins = True
         Left = 768
         Top = 3
         Width = 132
         Height = 27
+        Hint = 'How many base units to show in chart'#39's X axis'
         BlankValue = 1.000000000000000000
         AllowKeyEdit = True
         Max = 1E50
         Orientation = orHorizontal
-        Value = 500.000000000000000000
+        Value = 100.000000000000000000
         Anchors = [akTop, akRight]
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 0
         OnChange = txtChartScaleChange
       end
-      object Series1: TFastLineSeries
+      object chkNegative: TCheckBox
+        Left = 651
+        Top = 7
+        Width = 97
+        Height = 19
+        Hint = 'Whether to include negative values in chart'#39's X axis'
+        Anchors = [akTop, akRight]
+        Caption = 'Negative'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        OnClick = chkNegativeClick
+      end
+      object Series1: TLineSeries
+        Selected.Hover.Visible = False
         Title = 'Comparison'
-        LinePen.Color = 10708548
+        LinePen.Color = 16685954
         LinePen.Width = 2
+        Pointer.InflateMargins = True
+        Pointer.Style = psRectangle
+        TreatNulls = tnIgnore
         XValues.Name = 'X'
         XValues.Order = loAscending
         YValues.Name = 'Y'

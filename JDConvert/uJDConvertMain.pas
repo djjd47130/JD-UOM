@@ -54,13 +54,14 @@ type
     lblUnitNamePlural: TLabel;
     pChart: TPanel;
     Chart: TChart;
-    Series1: TFastLineSeries;
     Label10: TLabel;
     pSystems: TPanel;
     Label12: TLabel;
     lstSystems: TCheckListBox;
     txtChartScale: TRzSpinEdit;
     Label2: TLabel;
+    chkNegative: TCheckBox;
+    Series1: TLineSeries;
     procedure FormCreate(Sender: TObject);
     procedure lstCategoriesClick(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
@@ -68,6 +69,7 @@ type
     procedure ChartAfterDraw(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure lstSystemsClickCheck(Sender: TObject);
+    procedure chkNegativeClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -114,6 +116,11 @@ begin
       lstSystems.Checked[X]:= False;
   end;
   lstSystemsClickCheck(nil);
+end;
+
+procedure TfrmJDConvertMain.chkNegativeClick(Sender: TObject);
+begin
+  RefreshChart;
 end;
 
 procedure TfrmJDConvertMain.lstCategoriesClick(Sender: TObject);
@@ -211,6 +218,7 @@ var
   Y: Integer;
   V: Double;
   Amt: Integer;
+  Start: Integer;
 begin
   Chart.SeriesList.Clear;
   Chart.Invalidate;
@@ -231,7 +239,11 @@ begin
         S.LinePen.Width:= WIDTH_LARGE
       else
         S.LinePen.Width:= WIDTH_SMALL;
-      for Y := -Amt to Amt do begin
+      if chkNegative.Checked then
+        Start:= -Amt
+      else
+        Start:= 0;
+      for Y := Start to Amt do begin
         V:= U.ConvertToBase(Y);
         S.Add(V, IntToStr(Y));
       end;

@@ -14,7 +14,7 @@ type
 
 implementation
 
-{$DEFINE DYNAMIC_REG}
+{ $DEFINE DYNAMIC_REG}
 
 procedure RegisterUOM;
 {$IFDEF DYNAMIC_REG}
