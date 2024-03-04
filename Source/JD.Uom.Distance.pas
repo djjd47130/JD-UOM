@@ -14,6 +14,36 @@ uses
 procedure RegisterUOM;
 begin
 
+  //Metric
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Femtometer', 'Femtometers', '', 'fm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Femtometers
+      Result:= Value / METRIC_FEMTO;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Femtometers to Meters
+      Result:= Value * METRIC_FEMTO;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Picometer', 'Picometers', '', 'pm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Picometers
+      Result:= Value / METRIC_PICO;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Picometers to Meters
+      Result:= Value * METRIC_PICO;
+    end
+  );
+
   TUOMUtils.RegisterUOM('Distance',
     'Nanometer', 'Nanometers', '', 'nm', 'Metric',
     function(const Value: Double): Double
@@ -139,6 +169,64 @@ begin
       Result:= Value * METRIC_KILO;
     end
   );
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Megameter', 'Megameters', '', 'Mm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Megameters
+      Result:= Value / METRIC_MEGA;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Megameters to Meters
+      Result:= Value * METRIC_MEGA;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Gigameter', 'Gigameters', '', 'Gm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Gigameters
+      Result:= Value / METRIC_GIGA;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Gigameters to Meters
+      Result:= Value * METRIC_GIGA;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Terameter', 'Terameters', '', 'Tm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Terameters
+      Result:= Value / METRIC_TERA;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Terameters to Meters
+      Result:= Value * METRIC_TERA;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Distance',
+    'Petameter', 'Petameters', '', 'Pm', 'Metric',
+    function(const Value: Double): Double
+    begin
+      //Meters to Petameters
+      Result:= Value / METRIC_PETA;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Petameters to Meters
+      Result:= Value * METRIC_PETA;
+    end
+  );
+
+  //Imperial / US Customary
 
   TUOMUtils.RegisterUOM('Distance',
     'Inch', 'Inches', '', '"', 'Imperial,US Customary',

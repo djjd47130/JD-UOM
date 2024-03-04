@@ -80,8 +80,10 @@ uses
 
 const
   PartOfNumber = ['0'..'9', '.', ','];
-  NumFormat = '#,###,###,###,##0.#############';
+  NumFormat = '#,###,###,###,###,##0.################';
 
+  METRIC_FEMTO = 0.000000000000001;
+  METRIC_PICO  = 0.000000000001;
   METRIC_NANO  = 0.000000001;
   METRIC_MICRO = 0.000001;
   METRIC_MILLI = 0.001;
@@ -90,6 +92,10 @@ const
   METRIC_DECA  = 10;
   METRIC_HECTO = 100;
   METRIC_KILO  = 1000;
+  METRIC_MEGA  = 1000000;
+  METRIC_GIGA  = 1000000000;
+  METRIC_TERA  = 1000000000000;
+  METRIC_PETA  = 1000000000000000;
   //TODO
 
 type
