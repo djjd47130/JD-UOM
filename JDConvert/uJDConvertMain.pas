@@ -17,7 +17,8 @@ uses
   JD.Uom.Temperature,
   JD.Uom.Volume,
   JD.Uom.Mass,
-  JD.Uom.Time;
+  JD.Uom.Time,
+  JD.Uom.Speed;
 
 const
   WIDTH_SMALL = 1;

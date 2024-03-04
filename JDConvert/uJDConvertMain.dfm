@@ -65,18 +65,16 @@ object frmJDConvertMain: TfrmJDConvertMain
     object pUOMs: TPanel
       Left = 322
       Top = 0
-      Width = 177
+      Width = 223
       Height = 233
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 366
-      ExplicitTop = -6
       object Label2: TLabel
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 171
+        Width = 217
         Height = 19
         Align = alTop
         Caption = 'Units'
@@ -92,18 +90,19 @@ object frmJDConvertMain: TfrmJDConvertMain
         AlignWithMargins = True
         Left = 3
         Top = 28
-        Width = 171
+        Width = 217
         Height = 202
         Align = alClient
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
+        ExplicitWidth = 171
       end
     end
     object pInfo: TPanel
-      Left = 499
+      Left = 545
       Top = 0
-      Width = 448
+      Width = 402
       Height = 233
       Align = alClient
       BevelOuter = bvNone
@@ -113,7 +112,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       object pTestVal: TPanel
         Left = 0
         Top = 0
-        Width = 448
+        Width = 402
         Height = 25
         Align = alTop
         BevelOuter = bvNone
@@ -136,7 +135,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
         object Label10: TLabel
           AlignWithMargins = True
-          Left = 162
+          Left = 116
           Top = 3
           Width = 73
           Height = 19
@@ -154,7 +153,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
         object txtValue: TRzSpinEdit
           AlignWithMargins = True
-          Left = 241
+          Left = 195
           Top = 3
           Width = 204
           Height = 21
@@ -176,13 +175,13 @@ object frmJDConvertMain: TfrmJDConvertMain
         AlignWithMargins = True
         Left = 3
         Top = 28
-        Width = 442
+        Width = 396
         Height = 202
         Align = alClient
         TabOrder = 1
         ExplicitWidth = 385
         DesignSize = (
-          442
+          396
           202)
         object Label3: TLabel
           Left = 8
@@ -196,7 +195,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitName: TLabel
           Left = 127
           Top = 16
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -221,7 +220,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitSystems: TLabel
           Left = 127
           Top = 66
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -246,7 +245,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitPrefix: TLabel
           Left = 127
           Top = 91
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -271,7 +270,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitSuffix: TLabel
           Left = 127
           Top = 116
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -296,7 +295,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitBaseFrom: TLabel
           Left = 127
           Top = 141
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -321,7 +320,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitBaseTo: TLabel
           Left = 127
           Top = 166
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -346,7 +345,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitNamePlural: TLabel
           Left = 127
           Top = 41
-          Width = 299
+          Width = 253
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
