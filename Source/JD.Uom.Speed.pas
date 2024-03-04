@@ -14,95 +14,54 @@ type
 
 implementation
 
-{ $DEFINE DYNAMIC_REG}
+{$DEFINE DYNAMIC_REG}
 
 procedure RegisterUOM;
 {$IFDEF DYNAMIC_REG}
+const
+  DIST_UNITS: array of String = ['Millimeter', 'Meter', 'Kilometer', 'Inch', 'Foot', 'Mile'];
+  TIME_UNITS: array of String = ['Second', 'Minute', 'Hour', 'Day'];
 var
+  DU, TU: TUOM;
   XDist, XTime: Integer;
-  sDistSingular, sDistPlural, sDistSuf: String;
-  DistFactor: Double;
-  sTime, sTimeSuf: String;
-  TimeFactor: Double;
+  NameSingular, NamePlural, Suffix: String;
+  DistFactor, TimeFactor: Double;
 {$ENDIF}
 begin
 {$IFDEF DYNAMIC_REG}
-  //TODO: Change to dynamically create in a loop...
-  //Millimeter
-  //Centimeter
-  //Meter
-  //Kilometer
 
-  //Second
-  //Minute
-  //Hour
+  //Dynamically register UOMs based on existing Distance and Time UOMs...
 
-  //Metric
-  for XDist := 1 to 4 do begin
-    //TODO: Instead, iterate values already registered "Distance" UOMs...
-    case XDist of
-      1: begin
-        sDistSingular:= 'Millimeter';
-        sDistSuf:= 'mm';
-        DistFactor:= 1000000;
-      end;
-      2: begin
-        sDistSingular:= 'Centimeter';
-        sDistSuf:= 'cm';
-        DistFactor:= 100000;
-      end;
-      3: begin
-        sDistSingular:= 'Meter';
-        sDistSuf:= 'm';
-        DistFactor:= 1000;
-      end;
-      4: begin
-        sDistSingular:= 'Kilometer';
-        sDistSuf:= 'km';
-        DistFactor:= 1;
-      end;
-    end;
-    sDistPlural:= sDistSingular + 's';
-    for XTime := 1 to 3 do begin
-      case XTime of
-        1: begin
-          sTime:= 'Second';
-          sTimeSuf:= 's';
-          TimeFactor:= 3600;
-        end;
-        2: begin
-          sTime:= 'Minute';
-          sTimeSuf:= 'm';
-          TimeFactor:= 60;
-        end;
-        3: begin
-          sTime:= 'Hour';
-          sTimeSuf:= 'h';
-          TimeFactor:= 1;
-        end;
-      end;
+  for XDist := Low(DIST_UNITS) to High(DIST_UNITS) do begin
+    DU:= TUOMUtils.GetUOMByName(DIST_UNITS[XDist]);
+    for XTime := Low(TIME_UNITS) to High(TIME_UNITS) do begin
+      TU:= TUOMUtils.GetUOMByName(TIME_UNITS[XTime]);
+      NameSingular:= DU.NameSingular+' per '+TU.NameSingular;
+      NamePlural:= DU.NamePlural+' per '+TU.NameSingular;
+      Suffix:= DU.Suffix+'/'+TU.Suffix;
+      DistFactor:= DU.ConvertToBase(1);
+      TimeFactor:= TU.ConvertToBase(1);
 
-      //ACTUAL UOM REGISTRATION
       TUOMUtils.RegisterUOM('Speed',
-        sDistSingular+' per '+sTime,
-        sDistPlural+' per '+sTime,
+        NameSingular,
+        NamePlural,
         '',
-        sDistSuf+'/'+sTimeSuf,
-        'Metric',
+        Suffix,
+        TU.Systems.DelimitedText,
         function(const Value: Double): Double
         begin
-          //Base to Unit - TODO
+          //Base to Unit - TODO: Clearly this is wrong...
           Result:= Value / (DistFactor / TimeFactor);
         end,
         function(const Value: Double): Double
         begin
-          //Unit to Base - TODO
+          //Unit to Base - TODO: Clearly this is wrong...
           Result:= Value * (DistFactor / TimeFactor);
         end
       );
-
     end;
   end;
+
 
   TUOMUtils.RegisterBaseUOM('Speed', TUOMUtils.GetUOMByName('Kilometer per Hour'));
 
@@ -224,9 +183,6 @@ begin
     end
   ).SetAsBase;
 
-{$ENDIF}
-
-
   //Imperial / US Customary
 
   TUOMUtils.RegisterUOM('Speed',
@@ -256,6 +212,8 @@ begin
       Result:= Value * 1.609344;
     end
   );
+
+{$ENDIF}
 
 //  AList.Append('Knots');
 //  AList.Append('Mach');
