@@ -39,6 +39,8 @@ contains
   JD.Uom.Temperature in '..\Source\JD.Uom.Temperature.pas',
   JD.Uom.Volume in '..\Source\JD.Uom.Volume.pas',
   JD.Uom.Intf in '..\Source\JD.Uom.Intf.pas',
-  JD.Uom.Mass in '..\Source\JD.Uom.Mass.pas';
+  JD.Uom.Mass in '..\Source\JD.Uom.Mass.pas',
+  JD.Uom.Speed in '..\Source\JD.Uom.Speed.pas',
+  JD.Uom.Time in '..\Source\JD.Uom.Time.pas';
 
 end.

@@ -16,7 +16,8 @@ uses
   JD.Uom.Area,
   JD.Uom.Temperature,
   JD.Uom.Volume,
-  JD.Uom.Mass;
+  JD.Uom.Mass,
+  JD.Uom.Time;
 
 const
   WIDTH_SMALL = 1;
@@ -108,7 +109,7 @@ begin
   lstSystems.CheckAll(TCheckBoxState.cbChecked);
   for X := 0 to lstSystems.Items.Count-1 do begin
     S:= lstSystems.Items[X];
-    if S = 'Natural' then
+    if (S = 'Natural') or (S = 'Random') then
       lstSystems.Checked[X]:= False;
   end;
   lstSystemsClickCheck(nil);

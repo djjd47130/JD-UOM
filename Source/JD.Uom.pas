@@ -589,8 +589,6 @@ begin
     Result.FSystems.DelimitedText:= ASystems;
     Result.FConvertFromBaseProc:= AFromBase;
     Result.FConvertToBaseProc:= AToBase;
-    //TODO: Validate...
-
   finally
     try
       RegisterUOM(Result);
@@ -670,7 +668,7 @@ class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
   //U: TUOM;
 begin
   //Implicitly return the BASE value...
-  //TODO???
+  //TODO: Return Value+UOM???
   Result.FValue:= Value;
 end;
 
@@ -689,7 +687,7 @@ end;
 
 class operator TUOMValue.Implicit(const Value: String): TUOMValue;
 begin
-  //TODO?
+  //TODO: Parse string and its potential prefix/suffix???
 end;
 
 procedure TUOMValue.SetUOM(const Value: String);

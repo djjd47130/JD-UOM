@@ -8,7 +8,7 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 ### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit". Except for in documentation, such as below.
 
 ## Features
-- Generic central class `TUOMUtils` to encapsulate entire UOM conversion capabilities.
+- Main central class `TUOMUtils` to encapsulate entire UOM conversion capabilities.
 - Base object `TUOM` to encapsulate all possible details of a specific unit of measurement.
   - Registered within `TUOMUtils` class.
 - Endless common units-of-measurement pre-registered, including `Distance`, `Area`, `Volume`, `Mass`, `Temperature`, etc.
@@ -27,5 +27,13 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 - [**JD.Uom.Volume.pas**](/Docs/JD.Uom.Volume.md) - Registration of all Volume related UOMs.
 - [**JD.Uom.Temperature.pas**](/Docs/JD.Uom.Temperature.md) - Registration of all Temperature related UOMs.
 - [**JD.Uom.Mass.pas**](/Docs/JD.Uom.Mass.md) - Registration of all Mass related UOMs.
+- [**JD.Uom.Time.pas**](/Docs/JD.Uom.Time.md) - Registration of all Time related UOMs.
 
 **And much more to come...**
+
+## Usage
+
+Currently, this library is in active development. Eventually, `TUOMValue` will be the grand class of everything, encapsulating any possible value of any given UOM. However, it's currently still a work-in-progress to implement an infrastructure.
+
+That being said, everything currently starts with `TUOMUtils` in [JD.Uom.pas](/Docs/JD.Uom.md). Specific units are registered via `TUOMUtils.RegisterUOM`. This registration is deliberately done from **outside** this main unit, as to be as abstract as possible. You can access information about all registered UOMs through `TUOMUtils`. For example, `GetUOMByName` or `ListCategories`. 
+

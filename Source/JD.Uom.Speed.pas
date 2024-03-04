@@ -5,9 +5,8 @@ interface
 uses
   System.Classes, System.SysUtils,
   JD.Uom,
-  JD.Uom.Frequency,
   JD.Uom.Time,
-  JD.Uom.Length;
+  JD.Uom.Distance;
 
 type
   TUOMSpeedUnit = (umsCentimetersPerSecond, umsMetersPerSecond, umsKilometersPerHour,
