@@ -393,9 +393,8 @@ object frmJDConvertMain: TfrmJDConvertMain
         OnClickCheck = lstSystemsClickCheck
         Align = alClient
         ItemHeight = 19
+        Sorted = True
         TabOrder = 0
-        ExplicitLeft = -29
-        ExplicitWidth = 202
       end
     end
   end

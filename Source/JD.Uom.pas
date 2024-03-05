@@ -726,7 +726,8 @@ class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
   //U: TUOM;
 begin
   //Implicitly return the BASE value...
-  //TODO: Unit?
+  //TODO: UOM?
+  Result.FUOM:= '';
   Result.FBaseValue:= Value;
 end;
 
@@ -766,6 +767,7 @@ end;
 
 class operator TUOMValue.Dec(const A: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= A.FBaseValue - 1;
 end;
 
@@ -776,6 +778,7 @@ end;
 
 class operator TUOMValue.Inc(const A: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= A.FBaseValue + 1;
 end;
 
@@ -791,16 +794,19 @@ end;
 
 class operator TUOMValue.Divide(const A, B: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= A.FBaseValue / B.FBaseValue;
 end;
 
 class operator TUOMValue.Multiply(const A, B: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= A.FBaseValue * B.FBaseValue;
 end;
 
 class operator TUOMValue.Negative(const A: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= -A.FBaseValue;
 end;
 
@@ -811,11 +817,13 @@ end;
 
 class operator TUOMValue.Positive(const A: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= A.FUOM;
   Result.FBaseValue:= +A.FBaseValue;
 end;
 
 class operator TUOMValue.Round(const Value: TUOMValue): TUOMValue;
 begin
+  Result.FUOM:= Value.FUOM;
   Result.FBaseValue:= Round(Value.FBaseValue);
 end;
 
