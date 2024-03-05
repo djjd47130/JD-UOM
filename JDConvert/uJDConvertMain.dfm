@@ -442,7 +442,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       LeftAxis.AxisValuesFormat = '#,###,###,##0.#########'
       LeftAxis.Grid.Color = 1837138048
       LeftAxis.Grid.Width = 0
-      LeftAxis.Increment = 10.000000000000000000
       LeftAxis.LabelsFormat.Font.Color = clWhite
       LeftAxis.Title.Caption = 'Conversion'
       LeftAxis.Title.Font.Color = clWhite

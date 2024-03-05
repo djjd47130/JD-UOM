@@ -62,7 +62,6 @@ begin
     end;
   end;
 
-
   TUOMUtils.RegisterBaseUOM('Speed', TUOMUtils.GetUOMByName('Kilometer per Hour'));
 
 {$ELSE}
@@ -112,7 +111,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Speed',
-    'Kilometer per Second', 'Kilometers per Second', '', 'km/s', 'Metric',
+    'Kilometer per Second', 'Kilometers per Second', '', 'km/s', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Base to Kilometers per Second

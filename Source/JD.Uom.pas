@@ -226,23 +226,50 @@ type
   TUOMValue = record
   private
     FUOM: String;
-    FValue: Double;
+    FBaseValue: Double;
     procedure SetUOM(const Value: String);
-    procedure SetValue(const Value: Double);
+    procedure SetBaseValue(const Value: Double);
+    function GetConvertedValue: Double;
+    procedure SetConvertedValue(const Value: Double);
+    function GetUomObj: TUOM;
   public
     class operator Implicit(const Value: TUOMValue): Double;
     class operator Implicit(const Value: Double): TUOMValue;
     class operator Implicit(const Value: TUOMValue): String;
     class operator Implicit(const Value: String): TUOMValue;
+    class operator Trunc(const Value: TUOMValue): TUOMValue;
+    class operator Round(const Value: TUOMValue): TUOMValue;
+    class operator Positive(const A: TUOMValue): TUOMValue;
+    class operator Negative(const A: TUOMValue): TUOMValue;
+    class operator Inc(const A: TUOMValue): TUOMValue;
+    class operator Dec(const A: TUOMValue): TUOMValue;
+    class operator Equal(const A, B: TUOMValue): Boolean;
+    class operator NotEqual(const A, B: TUOMValue): Boolean;
+    class operator GreaterThan(const A, B: TUOMValue): Boolean;
+    class operator GreaterThanOrEqual(const A, B: TUOMValue): Boolean;
+    class operator LessThan(const A, B: TUOMValue): Boolean;
+    class operator LessThanOrEqual(const A, B: TUOMValue): Boolean;
+    class operator Add(const A, B: TUOMValue): TUOMValue;
+    class operator Subtract(const A, B: TUOMValue): TUOMValue;
+    class operator Multiply(const A, B: TUOMValue): TUOMValue;
+    class operator Divide(const A, B: TUOMValue): TUOMValue;
+  public
     property UOM: String read FUOM write SetUOM;
-    property Value: Double read FValue write SetValue;
+    property BaseValue: Double read FBaseValue write SetBaseValue;
+    property ConvertedValue: Double read GetConvertedValue write SetConvertedValue;
   end;
 
+  /// <summary>
+  /// A record that can be reused for things like Speed or Frequency,
+  ///   where two different UOM categories are compared with each other.
+  ///   For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
+  /// Task #45
+  /// </summary>
   TUOMCombinedValue = record
-    //TODO: A record that can be reused for things like Speed or Frequency,
-    //  where two different UOM categories are compared with each other.
-    //  For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
-    //  Task #45
+  private
+
+  public
+
   end;
 
 
@@ -691,7 +718,7 @@ begin
   U:= TUOMUtils.GetUOMByName(Value.FUOM);
   if U = nil then
     raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
-  Result:= U.ConvertToBase(Value.FValue);
+  Result:= U.ConvertToBase(Value.FBaseValue);
 end;
 
 class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
@@ -699,8 +726,8 @@ class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
   //U: TUOM;
 begin
   //Implicitly return the BASE value...
-  //TODO: Return Value+UOM???
-  Result.FValue:= Value;
+  //TODO: Unit?
+  Result.FBaseValue:= Value;
 end;
 
 class operator TUOMValue.Implicit(const Value: TUOMValue): String;
@@ -712,7 +739,7 @@ begin
   U:= TUOMUtils.GetUOMByName(Value.FUOM);
   if U = nil then
     raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
-  V:= U.ConvertToBase(Value.FValue);
+  V:= U.ConvertToBase(Value.FBaseValue);
   Result:= FormatFloat(NumFormat, V)+' '+U.FSuffix;
 end;
 
@@ -721,14 +748,121 @@ begin
   //TODO: Parse string and its potential prefix/suffix???
 end;
 
+class operator TUOMValue.GreaterThan(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue > B.FBaseValue;
+end;
+
+class operator TUOMValue.GreaterThanOrEqual(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue >= B.FBaseValue;
+end;
+
+class operator TUOMValue.Add(const A, B: TUOMValue): TUOMValue;
+begin
+  Result.FUOM:= A.FUOM;
+  Result.FBaseValue:= (A.FBaseValue + B.FBaseValue);
+end;
+
+class operator TUOMValue.Dec(const A: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= A.FBaseValue - 1;
+end;
+
+class operator TUOMValue.Equal(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue = B.FBaseValue;
+end;
+
+class operator TUOMValue.Inc(const A: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= A.FBaseValue + 1;
+end;
+
+class operator TUOMValue.LessThan(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue < B.FBaseValue;
+end;
+
+class operator TUOMValue.LessThanOrEqual(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue <= B.FBaseValue;
+end;
+
+class operator TUOMValue.Divide(const A, B: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= A.FBaseValue / B.FBaseValue;
+end;
+
+class operator TUOMValue.Multiply(const A, B: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= A.FBaseValue * B.FBaseValue;
+end;
+
+class operator TUOMValue.Negative(const A: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= -A.FBaseValue;
+end;
+
+class operator TUOMValue.NotEqual(const A, B: TUOMValue): Boolean;
+begin
+  Result:= A.FBaseValue <> B.FBaseValue;
+end;
+
+class operator TUOMValue.Positive(const A: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= +A.FBaseValue;
+end;
+
+class operator TUOMValue.Round(const Value: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= Round(Value.FBaseValue);
+end;
+
+function TUOMValue.GetConvertedValue: Double;
+var
+  U: TUOM;
+begin
+  Result:= 0;
+  U:= GetUomObj;
+  if not Assigned(U) then
+    raise Exception.Create('Failed to get converted value: Unit-of-Measure "'+FUOM+'" not found.');
+  Result:= U.ConvertFromBase(FBaseValue);
+end;
+
+function TUOMValue.GetUomObj: TUOM;
+begin
+  Result:= TUOMUtils.GetUOMByName(FUOM);
+end;
+
+procedure TUOMValue.SetConvertedValue(const Value: Double);
+var
+  U: TUOM;
+begin
+  U:= GetUomObj;
+  if not Assigned(U) then
+    raise Exception.Create('Failed to set converted value: Unit-of-Measure "'+FUOM+'" not found.');
+  FBaseValue:= U.ConvertToBase(Value);
+end;
+
 procedure TUOMValue.SetUOM(const Value: String);
 begin
   FUOM := Value;
 end;
 
-procedure TUOMValue.SetValue(const Value: Double);
+class operator TUOMValue.Subtract(const A, B: TUOMValue): TUOMValue;
 begin
-  FValue := Value;
+  Result.FBaseValue:= A.FBaseValue - B.FBaseValue;
+end;
+
+class operator TUOMValue.Trunc(const Value: TUOMValue): TUOMValue;
+begin
+  Result.FBaseValue:= Trunc(Value.FBaseValue);
+end;
+
+procedure TUOMValue.SetBaseValue(const Value: Double);
+begin
+  FBaseValue := Value;
 end;
 
 initialization
