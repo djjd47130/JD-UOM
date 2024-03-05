@@ -12,7 +12,7 @@ procedure RegisterUOM;
 begin
 
   TUOMUtils.RegisterUOM('Mass',
-    'Microgram', 'Micrograms', '', 'mcg', 'Metric',
+    'Microgram', 'Micrograms', '', 'mcg', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Grams to Micrograms
@@ -96,7 +96,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Mass',
-    'Metric Ton', 'Metric Tons', '', 't', 'Metric',
+    'Metric Ton', 'Metric Tons', '', 't', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Grams to Metric Tons
@@ -110,7 +110,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Mass',
-    'Ton (UK)', 'Tons (UK)', '', 'UK t', 'Imperial',
+    'Ton (UK)', 'Tons (UK)', '', 'UK t', 'Imperial (Huge)',
     function(const Value: Double): Double
     begin
       //Grams to Tons (UK)
@@ -124,7 +124,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Mass',
-    'Ton (US)', 'Tons (US)', '', 'US t', 'US Customary',
+    'Ton (US)', 'Tons (US)', '', 'US t', 'US Customary (Huge)',
     function(const Value: Double): Double
     begin
       //Grams to Tons (US)

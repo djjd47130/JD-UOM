@@ -109,11 +109,11 @@ var
   S: String;
 begin
   TUOMUtils.ListSystems(lstSystems.Items);
-  lstSystems.CheckAll(TCheckBoxState.cbChecked);
+  lstSystems.CheckAll(TCheckBoxState.cbUnchecked);
   for X := 0 to lstSystems.Items.Count-1 do begin
     S:= lstSystems.Items[X];
-    if (S = 'Natural') or (S = 'Random') then
-      lstSystems.Checked[X]:= False;
+    if (S = 'Metric') or (S = 'US Customary') or (S = 'Random') then
+      lstSystems.Checked[X]:= True;
   end;
   lstSystemsClickCheck(nil);
 end;

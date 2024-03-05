@@ -86,7 +86,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Volume',
-    'Cubic Meter', 'Cubic Meters', '', 'm³', 'Metric',
+    'Cubic Meter', 'Cubic Meters', '', 'm³', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Cubic Meters to Cubic Meters
@@ -324,7 +324,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Volume',
-    'Cubic Yard', 'Cubic Yards', '', 'yd³', 'US Customary',
+    'Cubic Yard', 'Cubic Yards', '', 'yd³', 'US Customary (Huge)',
     function(const Value: Double): Double
     begin
       //Cubic Meters to Cubic Yards

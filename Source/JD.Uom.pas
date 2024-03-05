@@ -62,8 +62,7 @@ interface
 //Defines whether to use string-based mathematical expressions
 //  Disabled until implemented.
 //  https://wiki.delphi-jedi.org/wiki/JCL_Help:JclExprEval.pas
-//  OR
-//  https://gobestcode.com/html/math_parser_for_delphi.html
+//  TODO: Actually, let's make use of DWS (Delphi Web Script)!
 { $DEFINE USE_MATH_EXPR}
 
 {$IFDEF USE_MATH_EXPR}
@@ -76,11 +75,25 @@ uses
   {$IFDEF USE_JEDI}
   , JclExprEval
   {$ENDIF}
+  {$IFDEF USE_DWS}
+  //TODO
+  {$ENDIF}
   ;
+
+type
+  TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
+    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
+  TUOMMetricUnits = set of TUOMMetricUnit;
+
+  TUOMMetricUtils = class
+  private
+  public
+
+  end;
 
 const
   PartOfNumber = ['0'..'9', '.', ','];
-  NumFormat = '#,###,###,###,###,##0.################';
+  NumFormat = '#,###,###,###,###,##0.##################';
 
   METRIC_FEMTO = 0.000000000000001;
   METRIC_PICO  = 0.000000000001;
@@ -102,10 +115,12 @@ type
   TUOM = class;
   TUOMUtils = class;
 
+  {$IFNDEF USE_MATH_EXPR}
   /// <summary>
   /// Base conversion function for any given UOM.
   /// </summary>
   TConvertProc = Reference to function(const Value: Double): Double;
+  {$ENDIF}
 
   /// <summary>
   /// Base object for each possible UOM unit.
@@ -194,8 +209,10 @@ type
       const ASystems: String = ''); static;
     class function UOMCount: Integer; static;
     class function RegisterUOM(const AUnit: TUOM): TUOM;  overload; static;
-    class function RegisterUOM(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
-      ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil): TUOM; overload; static;
+    class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
+      APrefix, ASuffix, ASystems: String;
+      const AFromBase: TConvertProc = nil;
+      const AToBase: TConvertProc = nil): TUOM; overload; static;
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
 
@@ -219,6 +236,13 @@ type
     class operator Implicit(const Value: String): TUOMValue;
     property UOM: String read FUOM write SetUOM;
     property Value: Double read FValue write SetValue;
+  end;
+
+  TUOMCombinedValue = record
+    //TODO: A record that can be reused for things like Speed or Frequency,
+    //  where two different UOM categories are compared with each other.
+    //  For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
+    //  Task #45
   end;
 
 
@@ -577,6 +601,7 @@ class procedure TUOMUtils.RegisterBaseUOM(const ACategory: String;
   const AUnit: TUOM);
 begin
   FBaseUOMs.Add(ACategory, AUnit);
+  Invalidate;
 end;
 
 class function TUOMUtils.RegisterUOM(const ACategory, ANameSingular,

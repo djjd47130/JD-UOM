@@ -17,7 +17,7 @@ begin
   //Metric
 
   TUOMUtils.RegisterUOM('Distance',
-    'Femtometer', 'Femtometers', '', 'fm', 'Metric',
+    'Femtometer', 'Femtometers', '', 'fm', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Meters to Femtometers
@@ -31,7 +31,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Picometer', 'Picometers', '', 'pm', 'Metric',
+    'Picometer', 'Picometers', '', 'pm', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Meters to Picometers
@@ -45,7 +45,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Nanometer', 'Nanometers', '', 'nm', 'Metric',
+    'Nanometer', 'Nanometers', '', 'nm', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Meters to Nanometers
@@ -59,7 +59,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Micron', 'Microns', '', 'μm', 'Metric',
+    'Micron', 'Microns', '', 'μm', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Meters to Microns
@@ -171,7 +171,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Megameter', 'Megameters', '', 'Mm', 'Metric',
+    'Megameter', 'Megameters', '', 'Mm', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Meters to Megameters
@@ -185,7 +185,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Gigameter', 'Gigameters', '', 'Gm', 'Metric',
+    'Gigameter', 'Gigameters', '', 'Gm', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Meters to Gigameters
@@ -199,7 +199,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Terameter', 'Terameters', '', 'Tm', 'Metric',
+    'Terameter', 'Terameters', '', 'Tm', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Meters to Terameters
@@ -213,7 +213,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Distance',
-    'Petameter', 'Petameters', '', 'Pm', 'Metric',
+    'Petameter', 'Petameters', '', 'Pm', 'Metric (Huge)',
     function(const Value: Double): Double
     begin
       //Meters to Petameters

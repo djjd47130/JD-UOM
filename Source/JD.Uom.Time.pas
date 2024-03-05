@@ -28,7 +28,7 @@ procedure RegisterUOM;
 begin
 
   TUOMUtils.RegisterUOM('Time',
-    'Nanosecond', 'Nanoseconds', '', 'ns', 'Metric',
+    'Nanosecond', 'Nanoseconds', '', 'ns', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Days to Nanoseconds
@@ -42,7 +42,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Time',
-    'Microsecond', 'Microseconds', '', 'μs', 'Metric',
+    'Microsecond', 'Microseconds', '', 'μs', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Days to Microseconds
@@ -56,7 +56,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Time',
-    'Millisecond', 'Milliseconds', '', 'ms', 'Metric',
+    'Millisecond', 'Milliseconds', '', 'ms', 'Metric (Tiny)',
     function(const Value: Double): Double
     begin
       //Days to Milliseconds
@@ -182,7 +182,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Time',
-    'Century', 'Centuries', '', 'cen', 'Metric,Imperial,US Customary,Natural',
+    'Century', 'Centuries', '', 'cen', 'Metric (Huge),Imperial (Huge),US Customary (Huge),Natural',
     function(const Value: Double): Double
     begin
       //Days to Centuries
@@ -196,7 +196,7 @@ begin
   );
 
   TUOMUtils.RegisterUOM('Time',
-    'Millennium', 'Millennia', '', 'mill', 'Metric,Imperial,US Customary,Natural',
+    'Millennium', 'Millennia', '', 'mill', 'Metric (Huge),Imperial (Huge),US Customary (Huge),Natural',
     function(const Value: Double): Double
     begin
       //Days to Millennia
