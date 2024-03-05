@@ -214,13 +214,47 @@ begin
 
 {$ENDIF}
 
-//  AList.Append('Knots');
-//  AList.Append('Mach');
-//  AList.Append('Lightspeed');
+  TUOMUtils.RegisterUOM('Speed',
+    'Knot', 'Knots', '', 'kt', 'Imperial,US Customary',
+    function(const Value: Double): Double
+    begin
+      //Base to Knots
+      Result:= Value / 1.852;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Knots to Base
+      Result:= Value * 1.852;
+    end
+  );
 
-//    umsKnots:                 Result:= '';
-//    umsMach:                  Result:= '';
-//    umsLightspeed:            Result:= 'c';
+  TUOMUtils.RegisterUOM('Speed',
+    'Mach', 'Mach', '', 'M', 'Natural',
+    function(const Value: Double): Double
+    begin
+      //Base to Mach
+      Result:= Value / 1235;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Mach to Base
+      Result:= Value * 1235;
+    end
+  );
+
+  TUOMUtils.RegisterUOM('Speed',
+    'Lightspeed', 'Lightspeed', '', 'c', 'Natural',
+    function(const Value: Double): Double
+    begin
+      //Base to Lightspeed
+      Result:= Value / 1079252848.7999;
+    end,
+    function(const Value: Double): Double
+    begin
+      //Lightspeed to Base
+      Result:= Value * 1079252848.7999;
+    end
+  );
 
 end;
 
