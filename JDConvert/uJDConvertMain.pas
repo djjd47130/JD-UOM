@@ -6,6 +6,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages,
+  System.Generics.Collections, System.Generics.Defaults,
   System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.CheckLst, Vcl.Mask,
@@ -171,17 +172,48 @@ begin
   RefreshUOMDetails;
 end;
 
+function CompareUOMVal(const A, B: TUOMValue): Integer;
+var
+  UA, UB: TUOM;
+  VA, VB: Double;
+begin
+  UA:= TUOMUtils.GetUOMByName(A.UOM);
+  UB:= TUOMUtils.GetUOMByName(B.UOM);
+  VA:= UA.ConvertToBase(1);
+  VB:= UB.ConvertToBase(1);
+  if A = B then Result:= 0 else begin
+    if B > A then
+      Result:= 1
+    else
+      Result:= -1;
+  end;
+end;
+
 procedure TfrmJDConvertMain.RefreshUOMs;
 var
+  L: TStringList;
   FS: String;
+  X: Integer;
+  Comp: TComparison<TUOMValue>;
 begin
+  lstUOMs.Items.Clear;
   if lstCategories.ItemIndex < 0 then Exit;
   FSelCategory:= lstCategories.Items[lstCategories.ItemIndex];
   FS:= FSelSystems;
-  TUOMUtils.ListUOMs(lstUOMs.Items, FSelCategory, FS);
-  if lstUOMs.Items.Count > 0 then begin
-    lstUOMs.ItemIndex:= 0;
-    lstUOMsClick(nil);
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListUOMs(L, FSelCategory, FS);
+    //TODO: Sort by size...?
+    //L.CustomSort(CompareUOMVal);
+    for X := 0 to L.Count-1 do begin
+      lstUOMs.Items.AddObject(L[X], L.Objects[X]);
+    end;
+    if lstUOMs.Items.Count > 0 then begin
+      lstUOMs.ItemIndex:= 0;
+      lstUOMsClick(nil);
+    end;
+  finally
+    L.Free;
   end;
 end;
 
@@ -189,23 +221,19 @@ procedure TfrmJDConvertMain.RefreshUOMDetails;
 var
   U: TUOM;
   BU: TUOM;
-  BaseSuffix: String;
 begin
   if lstUOMs.ItemIndex < 0 then Exit;
   U:= TUOMUtils.GetUOMByName(FSelUOM);
   BU:= TUOMUtils.GetBaseUOM(lstCategories.Items[lstCategories.ItemIndex]);
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
-  U.Systems.Delimiter:= ',';
-  U.Systems.StrictDelimiter:= True;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;
   lblUnitPrefix.Caption:= U.Prefix;
   lblUnitSuffix.Caption:= U.Suffix;
-  BaseSuffix:= BU.Suffix;
   lblUnitBaseFrom.Caption:=
     FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;
   lblUnitBaseTo.Caption:=
-    FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+BaseSuffix;
+    FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+BU.Suffix;
   UpdateChart;
 end;
 

@@ -81,6 +81,16 @@ uses
   ;
 
 type
+  TUOMException = Exception;
+  TUOMInvalidUnitException = TUOMException;
+  TUOMOutOfRangeException = TUOMException;
+
+
+
+type
+  /// <summary>
+  /// Enum representing a specific Metric system size.
+  /// </summary>
   TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
     msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
   TUOMMetricUnits = set of TUOMMetricUnit;
@@ -160,23 +170,67 @@ type
     constructor Create(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
       ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
     destructor Destroy; override;
+    /// <summary>
+    /// A change has been made which requires parent TUOMUtils to refresh its cache.
+    /// </summary>
     procedure Invalidate; virtual;
+    /// <summary>
+    /// Assigns this UOM as the base UOM of its specified Category.
+    /// </summary>
     procedure SetAsBase;
+    /// <summary>
+    /// Returns a value converted FROM the base unit TO the specified unit.
+    /// </summary>
     function ConvertFromBase(const AValue: Double): Double;
+    /// <summary>
+    /// Returns a value converted FROM the specified unit TO the base unit.
+    /// </summary>
     function ConvertToBase(const AValue: Double): Double;
   public
     {$IFDEF USE_MATH_EXPR}
+    /// <summary>
+    /// A string containing a mathematical expression to convert the `Value` FROM the base UOM.
+    /// </summary>
     property ConvertFromBaseFormula: String read FConvertFromBaseFormula write SetConvertFromBaseFormula;
+    /// <summary>
+    /// A string containing a mathematical expression to convert the `Value` TO the base UOM.
+    /// </summary>
     property ConvertToBaseFormula: String read FConvertToBaseFormula write SetConvertToBaseFormula;
     {$ELSE}
+    /// <summary>
+    /// A TConvertProc reference to convert the `Value` FROM the base UOM.
+    /// </summary>
     property ConvertFromBaseProc: TConvertProc read FConvertFromBaseProc write SetConvertFromBaseProc;
+    /// <summary>
+    /// A TConvertProc reference to convert the `Value` TO the base UOM.
+    /// </summary>
     property ConvertToBaseProc: TConvertProc read FConvertToBaseProc write SetConvertToBaseProc;
     {$ENDIF}
+    /// <summary>
+    /// The major group of UOMs (Distance, Area, Volume, Mass, Temperature, etc.)
+    /// </summary>
     property Category: String read FCategory write SetCategory;
+    /// <summary>
+    /// The systematic group(s) of UOMs (Metric, Imperial, US Customary...)
+    /// </summary>
     property Systems: TStrings read GetSystems write SetSystems;
+    /// <summary>
+    /// The singular (value = 1) name of the UOM (Meter, Foot, Gram...).
+    /// Also its unique identifier - cannot create duplicates.
+    /// </summary>
     property NameSingular: String read FNameSingular write SetNameSingular;
+    /// <summary>
+    /// The plural (value <> 1) name of the TUOM (Meters, Feet, Grams...).
+    /// </summary>
     property NamePlural: String read FNamePlural write SetNamePlural;
+    /// <summary>
+    /// (NOT IMPLEMENTED) Prefix showing before a given UOM value.
+    /// </summary>
     property Prefix: String read FPrefix write SetPrefix;
+    /// <summary>
+    /// Suffix showing after a given UOM value.
+    /// Also a unique CASE-SENSITIVE identifer - cannot create duplicates.
+    /// </summary>
     property Suffix: String read FSuffix write SetSuffix;
   end;
 
@@ -196,26 +250,80 @@ type
     class constructor Create;
     class destructor Destroy;
     class procedure Invalidate; virtual;
+    /// <summary>
+    /// Returns a TUOM object based on a given list inded of the master UOM list.
+    /// </summary>
     class function GetUOMByIndex(const Index: Integer): TUOM; static;
+    /// <summary>
+    /// Returns a TUOM object based on a given UOM's unique SINGULAR name.
+    /// </summary>
     class function GetUOMByName(const Name: String): TUOM; static;
+    /// <summary>
+    /// TODO: Remove...?
+    /// </summary>
     class function GetUOMByPrefix(const Prefix: String): TUOM; static;
+    /// <summary>
+    /// Returns a TUOM object based on a given UOM's u ique suffix (case sensitive).
+    /// </summary>
     class function GetUOMBySuffix(const Suffix: String): TUOM; static;
-    class function GetBaseUOM(const UOM: String): TUOM; static;
+    /// <summary>
+    /// Returns a TUOM object of the given Category's base unit.
+    /// </summary>
+    class function GetBaseUOM(const Category: String): TUOM; static;
+    /// <summary>
+    /// Returns the number of UOM categories (Distance, Area, Temperature, Mass...)
+    /// </summary>
     class function CategoryCount: Integer; static;
+    /// <summary>
+    /// Returns the number of UOM systems (Metric, Imperial, US Customary...)
+    /// </summary>
     class function SystemCount: Integer; static;
+    /// <summary>
+    /// Populates a given TStrings object with all possible Categories.
+    /// </summary>
     class procedure ListCategories(AList: TStrings); static;
+    /// <summary>
+    /// Populates a given TStrings object with all possible Systems.
+    /// </summary>
     class procedure ListSystems(AList: TStrings); static;
+    /// <summary>
+    /// Populates a given TStrings object with all possible UOMs matching
+    /// the given filter parameters.
+    /// </summary>
     class procedure ListUOMs(AList: TStrings; const ACategory: String = '';
       const ASystems: String = ''); static;
+    /// <summary>
+    /// Returns the total number of specific UOMs registered.
+    /// </summary>
     class function UOMCount: Integer; static;
+    /// <summary>
+    /// Registers a new TUOM object into the UOM system.
+    /// NOTE: Validation will be done to ensure unique (case sensitive) UOM names,
+    /// as well as unique suffixes.
+    /// </summary>
     class function RegisterUOM(const AUnit: TUOM): TUOM;  overload; static;
+    /// <summary>
+    /// Registers a new TUOM object into the UOM system based on a variety of parameters.
+    /// NOTE: Validation will be done to ensure unique (case sensitive) UOM names,
+    /// as well as unique suffixes.
+    /// </summary>
     class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
       APrefix, ASuffix, ASystems: String;
       const AFromBase: TConvertProc = nil;
       const AToBase: TConvertProc = nil): TUOM; overload; static;
+    /// <summary>
+    /// Registers the BASE UOM for a given UOM Category. For example,
+    /// Meters for Distance, Grams for Mass, Celsius for Temperature...
+    /// </summary>
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
+    /// <summary>
+    /// Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `Double`.
+    /// Dynamically calls appropriate mechanism based on defined conditionals.
+    /// </summary>
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
-
+    /// <summary>
+    /// Accesses any registered TUOM object by its given master list index.
+    /// </summary>
     class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
 
@@ -254,8 +362,17 @@ type
     class operator Multiply(const A, B: TUOMValue): TUOMValue;
     class operator Divide(const A, B: TUOMValue): TUOMValue;
   public
+    /// <summary>
+    /// Returns the specified Unit-of-Measurement associated with the value.
+    /// </summary>
     property UOM: String read FUOM write SetUOM;
+    /// <summary>
+    /// Returns the raw base value, unconverted.
+    /// </summary>
     property BaseValue: Double read FBaseValue write SetBaseValue;
+    /// <summary>
+    /// Returns the value converted FROM the base TO the specified unit.
+    /// </summary>
     property ConvertedValue: Double read GetConvertedValue write SetConvertedValue;
   end;
 
@@ -309,6 +426,8 @@ end;
 constructor TUOM.Create;
 begin
   FSystems:= TStringList.Create;
+  FSystems.Delimiter:= ',';
+  FSystems.StrictDelimiter:= True;
   FSystems.OnChange:= SystemsChanged;
 end;
 
@@ -321,8 +440,6 @@ begin
   FNamePlural:= ANamePlural;
   FPrefix:= APrefix;
   FSuffix:= ASuffix;
-  FSystems.Delimiter:= ',';
-  FSystems.StrictDelimiter:= True;
   FSystems.DelimitedText:= ASystems;
   FConvertFromBaseProc:= AFromBase;
   FConvertToBaseProc:= AToBase;
@@ -349,14 +466,14 @@ end;
 function TUOM.ConvertFromBase(const AValue: Double): Double;
 begin
   if not Assigned(FConvertFromBaseProc) then
-    raise Exception.Create('Conversion from base function not assigned!');
+    raise TUOMException.Create('Conversion from base function not assigned!');
   Result:= FConvertFromBaseProc(AValue);
 end;
 
 function TUOM.ConvertToBase(const AValue: Double): Double;
 begin
   if not Assigned(FConvertToBaseProc) then
-    raise Exception.Create('Conversion to base function not assigned!');
+    raise TUOMException.Create('Conversion to base function not assigned!');
   Result:= FConvertToBaseProc(AValue);
 end;
 
@@ -463,24 +580,24 @@ class function TUOMUtils.Convert(const Value: Double; const FromUOM,
 var
   F, T: TUOM;
 begin
-  //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion procs.
+  //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion methods.
 
   F:= GetUOMByName(FromUOM);
   if not Assigned(F) then begin
-    raise Exception.Create('Conversion from unit "'+F.NameSingular+'" not found.');
+    raise TUOMInvalidUnitException.Create('Conversion from unit "'+F.NameSingular+'" not found.');
   end;
 
   T:= GetUOMByName(ToUOM);
   if not Assigned(T) then begin
-    raise Exception.Create('Conversion to unit "'+F.NameSingular+'" not found.');
+    raise TUOMInvalidUnitException.Create('Conversion to unit "'+F.NameSingular+'" not found.');
   end;
 
   if not Assigned(F.ConvertFromBaseProc) then begin
-    raise Exception.Create('Conversion from proc is not assigned.');
+    raise TUOMException.Create('Conversion from proc is not assigned.');
   end;
 
   if not Assigned(T.ConvertToBaseProc) then begin
-    raise Exception.Create('Conversion to proc is not assigned.');
+    raise TUOMException.Create('Conversion to proc is not assigned.');
   end;
 
   try
@@ -493,7 +610,7 @@ begin
     {$ENDIF}
   except
     on E: Exception do begin
-      raise Exception.Create('Conversion functions failed: '+E.Message);
+      raise TUOMException.Create('Conversion functions failed: '+E.Message);
     end;
   end;
 
@@ -505,9 +622,9 @@ begin
   ListSystems(FSystems);
 end;
 
-class function TUOMUtils.GetBaseUOM(const UOM: String): TUOM;
+class function TUOMUtils.GetBaseUOM(const Category: String): TUOM;
 begin
-  Result:= FBaseUOMs[UOM];
+  Result:= FBaseUOMs[Category];
 end;
 
 class function TUOMUtils.GetUOMByIndex(const Index: Integer): TUOM;
