@@ -16,6 +16,12 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 - Statistic capabilities for any given unit of measurement.
 - Application `JDConvert.exe` to demonstrate all possible UOM capabilities.
 
+## Application
+The is an application project aimed at both demonstration the capabilities of the library and actually converting
+data in the most flexible manner possible.
+
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/16918eae-241b-4f6d-a0b9-e42c91b69641)
+
 ## Units
 
 - [**JD.Uom.pas**](Docs/JD.Uom.md) - Central access to all possible units of measurement and conversions.
