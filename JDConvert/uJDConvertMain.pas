@@ -22,9 +22,9 @@ uses
   JD.Uom.Speed;
 
 const
-  WIDTH_SMALL = 1;
-  WIDTH_LARGE = 5;
-  WIDTH_CROSSHAIR = 2;
+  WIDTH_SMALL = 2;
+  WIDTH_LARGE = 6;
+  WIDTH_CROSSHAIR = 1;
 
 type
   TfrmJDConvertMain = class(TForm)

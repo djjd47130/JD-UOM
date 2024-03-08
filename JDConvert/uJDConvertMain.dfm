@@ -427,10 +427,13 @@ object frmJDConvertMain: TfrmJDConvertMain
       BottomAxis.Axis.Color = 1283489920
       BottomAxis.Axis.Width = 0
       BottomAxis.Grid.Color = clGray
+      BottomAxis.Grid.Width = 0
+      BottomAxis.Grid.DrawEvery = 5
       BottomAxis.Increment = 10.000000000000000000
       BottomAxis.LabelsAngle = 90
       BottomAxis.LabelsFormat.Font.Color = clWhite
-      BottomAxis.MinorTickCount = 2
+      BottomAxis.MinorTickLength = 3
+      BottomAxis.TickLength = 7
       BottomAxis.Title.Caption = 'Base Unit'
       BottomAxis.Title.Font.Color = clWhite
       BottomAxis.Title.Font.Height = -13

@@ -54,6 +54,8 @@ interface
     - Original reference
   - https://convertlive.com/
     - Newly discovered reference with many more UOMs
+  - https://docwiki.embarcadero.com/RADStudio/Sydney/en/Operator_Overloading_%28Delphi%29
+    - Class operator documentation
 
 *)
 
@@ -81,28 +83,31 @@ uses
   ;
 
 type
-  TUOMException = Exception;
-  TUOMInvalidUnitException = TUOMException;
-  TUOMOutOfRangeException = TUOMException;
-
-
-
-type
   /// <summary>
-  /// Enum representing a specific Metric system size.
+  /// Base exception type for all exceptions raised from UOM library.
   /// </summary>
-  TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
-    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
-  TUOMMetricUnits = set of TUOMMetricUnit;
-
-  TUOMMetricUtils = class
-  private
-  public
-
-  end;
+  EUOMException = Exception;
+  /// <summary>
+  /// Exception indicating a specified UOM is invalid.
+  /// </summary>
+  EUOMInvalidUnitException = EUOMException;
+  /// <summary>
+  /// Exception indicating a specified value is outside of its possible range.
+  /// </summary>
+  EUOMOutOfRangeException = EUOMException;
+  /// <summary>
+  /// Excep tion indicating a value cannot be duplicated.
+  /// </summary>
+  EUOMDuplicateException = EUOMException;
 
 const
+  /// <summary>
+  ///
+  /// </summary>
   PartOfNumber = ['0'..'9', '.', ','];
+  /// <summary>
+  ///
+  /// </summary>
   NumFormat = '#,###,###,###,###,##0.##################';
 
   METRIC_FEMTO = 0.000000000000001;
@@ -112,6 +117,7 @@ const
   METRIC_MILLI = 0.001;
   METRIC_CENTI = 0.01;
   METRIC_DECI  = 0.1;
+  METRIC_BASE  = 1;
   METRIC_DECA  = 10;
   METRIC_HECTO = 100;
   METRIC_KILO  = 1000;
@@ -119,7 +125,28 @@ const
   METRIC_GIGA  = 1000000000;
   METRIC_TERA  = 1000000000000;
   METRIC_PETA  = 1000000000000000;
-  //TODO
+
+type
+  /// <summary>
+  /// Enum representing a specific Metric system size.
+  /// </summary>
+  TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
+    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
+  TUOMMetricUnits = set of TUOMMetricUnit;
+
+  /// <summary>
+  /// Class providing several helpful tools to manage UOMs of the Metric system.
+  /// </summary>
+  TUOMMetricUtils = class
+  private
+
+  public
+    class function MetricName(const U: TUOMMetricUnit): String; static;
+    class function MetricSuffix(const U: TUOMMetricUnit): String; static;
+    class function MetricFactor(const U: TUOMMetricUnit): Double; static;
+    class procedure ProduceUOMs(const Category: String; const Name: String;
+      const Suffix: String; const Units: TUOMMetricUnits);
+  end;
 
 type
   TUOM = class;
@@ -131,6 +158,82 @@ type
   /// </summary>
   TConvertProc = Reference to function(const Value: Double): Double;
   {$ENDIF}
+
+  /// <summary>
+  /// (NOT READY)
+  /// Abstract record to encapsulate a single possible value attached to a specific UOM category
+  /// </summary>
+  TUOMValue = record
+  private
+    FUOM: String;
+    FBaseValue: Double;
+    procedure SetUOM(const Value: String);
+    procedure SetBaseValue(const Value: Double);
+    function GetConvertedValue: Double;
+    procedure SetConvertedValue(const Value: Double);
+    function GetUomObj: TUOM;
+  public
+    class operator Implicit(const Value: TUOMValue): Double;
+    class operator Implicit(const Value: Double): TUOMValue;
+    class operator Implicit(const Value: TUOMValue): String;
+    class operator Implicit(const Value: String): TUOMValue;
+    class operator Trunc(const Value: TUOMValue): TUOMValue;
+    class operator Round(const Value: TUOMValue): TUOMValue;
+    class operator Positive(const A: TUOMValue): TUOMValue;
+    class operator Negative(const A: TUOMValue): TUOMValue;
+    class operator Inc(const A: TUOMValue): TUOMValue;
+    class operator Dec(const A: TUOMValue): TUOMValue;
+    class operator Equal(const A, B: TUOMValue): Boolean;
+    class operator NotEqual(const A, B: TUOMValue): Boolean;
+    class operator GreaterThan(const A, B: TUOMValue): Boolean;
+    class operator GreaterThanOrEqual(const A, B: TUOMValue): Boolean;
+    class operator LessThan(const A, B: TUOMValue): Boolean;
+    class operator LessThanOrEqual(const A, B: TUOMValue): Boolean;
+    class operator Add(const A, B: TUOMValue): TUOMValue;
+    class operator Subtract(const A, B: TUOMValue): TUOMValue;
+    class operator Multiply(const A, B: TUOMValue): TUOMValue;
+    class operator Divide(const A, B: TUOMValue): TUOMValue;
+  public
+    /// <summary>
+    /// Returns the specified Unit-of-Measurement associated with the value.
+    /// </summary>
+    property UOM: String read FUOM write SetUOM;
+    /// <summary>
+    /// Returns the raw base value, unconverted.
+    /// </summary>
+    property BaseValue: Double read FBaseValue write SetBaseValue;
+    /// <summary>
+    /// Returns the value converted FROM the base TO the specified unit.
+    /// </summary>
+    property ConvertedValue: Double read GetConvertedValue write SetConvertedValue;
+  end;
+
+  /// <summary>
+  /// Specifies the number of values in use in a TUOMCombinedValue record.
+  /// </summary>
+  TUOMCombinedValueCount = (cvcTwo, cvcThree);
+
+  /// <summary>
+  /// A record that can be reused for things like Speed or Frequency,
+  ///   where two different UOM categories are compared with each other.
+  ///   For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
+  /// Task #45
+  /// </summary>
+  TUOMCombinedValue = record
+  private
+    FCount: TUOMCombinedValueCount;
+    FValue1: TUOMValue;
+    FValue2: TUOMValue;
+    FValue3: TUOMValue;
+    procedure SetValue1(const Value: TUOMValue);
+    procedure SetValue2(const Value: TUOMValue);
+    procedure SetValue3(const Value: TUOMValue);
+  public
+    procedure Invalidate;
+    property Value1: TUOMValue read FValue1 write SetValue1;
+    property Value2: TUOMValue read FValue2 write SetValue2;
+    property Value3: TUOMValue read FValue3 write SetValue3;
+  end;
 
   /// <summary>
   /// Base object for each possible UOM unit.
@@ -245,10 +348,20 @@ type
     class var FCategories: TStringList;
     {$IFDEF USE_MATH_EXPR}
     class var FEval: TEvaluator;
+    class function Evaluate(const Value: Double; const Expr: String): Double;
     {$ENDIF}
   public
     class constructor Create;
     class destructor Destroy;
+    /// <summary>
+    /// Splits a given String into respective Number (Double) and Suffix (String) values.
+    /// </summary>
+    class procedure ParseSuffix(AValue: String; var ANumber: Double;
+      var ASuffix: String); static;
+    class function StrToUOMValue(const Str: String): TUOMValue;
+    /// <summary>
+    /// A change has been made which requires cache to be refreshed.
+    /// </summary>
     class procedure Invalidate; virtual;
     /// <summary>
     /// Returns a TUOM object based on a given list inded of the master UOM list.
@@ -327,99 +440,10 @@ type
     class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
 
-  /// <summary>
-  /// (NOT READY)
-  /// Abstract record to encapsulate a single possible value attached to a specific UOM category
-  /// </summary>
-  TUOMValue = record
-  private
-    FUOM: String;
-    FBaseValue: Double;
-    procedure SetUOM(const Value: String);
-    procedure SetBaseValue(const Value: Double);
-    function GetConvertedValue: Double;
-    procedure SetConvertedValue(const Value: Double);
-    function GetUomObj: TUOM;
-  public
-    class operator Implicit(const Value: TUOMValue): Double;
-    class operator Implicit(const Value: Double): TUOMValue;
-    class operator Implicit(const Value: TUOMValue): String;
-    class operator Implicit(const Value: String): TUOMValue;
-    class operator Trunc(const Value: TUOMValue): TUOMValue;
-    class operator Round(const Value: TUOMValue): TUOMValue;
-    class operator Positive(const A: TUOMValue): TUOMValue;
-    class operator Negative(const A: TUOMValue): TUOMValue;
-    class operator Inc(const A: TUOMValue): TUOMValue;
-    class operator Dec(const A: TUOMValue): TUOMValue;
-    class operator Equal(const A, B: TUOMValue): Boolean;
-    class operator NotEqual(const A, B: TUOMValue): Boolean;
-    class operator GreaterThan(const A, B: TUOMValue): Boolean;
-    class operator GreaterThanOrEqual(const A, B: TUOMValue): Boolean;
-    class operator LessThan(const A, B: TUOMValue): Boolean;
-    class operator LessThanOrEqual(const A, B: TUOMValue): Boolean;
-    class operator Add(const A, B: TUOMValue): TUOMValue;
-    class operator Subtract(const A, B: TUOMValue): TUOMValue;
-    class operator Multiply(const A, B: TUOMValue): TUOMValue;
-    class operator Divide(const A, B: TUOMValue): TUOMValue;
-  public
-    /// <summary>
-    /// Returns the specified Unit-of-Measurement associated with the value.
-    /// </summary>
-    property UOM: String read FUOM write SetUOM;
-    /// <summary>
-    /// Returns the raw base value, unconverted.
-    /// </summary>
-    property BaseValue: Double read FBaseValue write SetBaseValue;
-    /// <summary>
-    /// Returns the value converted FROM the base TO the specified unit.
-    /// </summary>
-    property ConvertedValue: Double read GetConvertedValue write SetConvertedValue;
-  end;
-
-  /// <summary>
-  /// A record that can be reused for things like Speed or Frequency,
-  ///   where two different UOM categories are compared with each other.
-  ///   For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
-  /// Task #45
-  /// </summary>
-  TUOMCombinedValue = record
-  private
-
-  public
-
-  end;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 implementation
 ////////////////////////////////////////////////////////////////////////////////
-
-{
-class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
-var
-  X: Integer;
-  NS: String;
-begin
-  //Separates the suffix from a number in a string, and returns the value separate from the suffix.
-  AValue:= Trim(AValue);
-  ANumber:= 0;
-  ASuffix:= '';
-  NS:= '';
-  //Iterate through characters...
-  for X := 1 to Length(AValue) do begin
-    if CharInSet(AValue[X], PartOfNumber) then begin
-      //Append to value if it's not a thousands separator
-      if AValue[X] <> ',' then
-        NS:= NS + AValue[X];
-    end else begin
-      //Not a number, assume the rest is the suffix.
-      ASuffix:= Trim(Copy(AValue, X, Length(AValue)));
-      Break;
-    end;
-  end;
-  ANumber:= StrToFloatDef(NS, 0);
-end;
-}
 
 { TUOM }
 
@@ -466,14 +490,14 @@ end;
 function TUOM.ConvertFromBase(const AValue: Double): Double;
 begin
   if not Assigned(FConvertFromBaseProc) then
-    raise TUOMException.Create('Conversion from base function not assigned!');
+    raise EUOMException.Create('Conversion from base function not assigned!');
   Result:= FConvertFromBaseProc(AValue);
 end;
 
 function TUOM.ConvertToBase(const AValue: Double): Double;
 begin
   if not Assigned(FConvertToBaseProc) then
-    raise TUOMException.Create('Conversion to base function not assigned!');
+    raise EUOMException.Create('Conversion to base function not assigned!');
   Result:= FConvertToBaseProc(AValue);
 end;
 
@@ -581,45 +605,89 @@ var
   F, T: TUOM;
 begin
   //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion methods.
-
   F:= GetUOMByName(FromUOM);
   if not Assigned(F) then begin
-    raise TUOMInvalidUnitException.Create('Conversion from unit "'+F.NameSingular+'" not found.');
+    raise EUOMInvalidUnitException.Create('Conversion from unit "'+F.NameSingular+'" not found.');
   end;
-
   T:= GetUOMByName(ToUOM);
   if not Assigned(T) then begin
-    raise TUOMInvalidUnitException.Create('Conversion to unit "'+F.NameSingular+'" not found.');
+    raise EUOMInvalidUnitException.Create('Conversion to unit "'+F.NameSingular+'" not found.');
   end;
-
+  {$IFDEF USE_MATH_EXPR}
+  if Trim(F.ConvertFromBaseFormula) = '' then begin
+    raise EUOMException.Create('Conversion from formula is blank.');
+  end;
+  if Trim(F.ConvertToBaseFormula) = '' then begin
+    raise EUOMException.Create('Conversion to formula is blank.');
+  end;
+  {$ELSE}
   if not Assigned(F.ConvertFromBaseProc) then begin
-    raise TUOMException.Create('Conversion from proc is not assigned.');
+    raise EUOMException.Create('Conversion from proc is not assigned.');
   end;
-
   if not Assigned(T.ConvertToBaseProc) then begin
-    raise TUOMException.Create('Conversion to proc is not assigned.');
+    raise EUOMException.Create('Conversion to proc is not assigned.');
   end;
-
+  {$ENDIF}
   try
     {$IFDEF USE_MATH_EXPR}
-    //TODO: Perform conversion using string-based mathematical expressions...
-
+    //Perform conversion using string-based mathematical expressions...
+    Result:= Evaluate(Value, F.ConvertToBaseFormula);
+    Result:= Evaluate(Result, T.ConvertFromBaseFormula);
     {$ELSE}
+    //Perform conversion using reference to function...
     Result:= F.FConvertToBaseProc(Value);
     Result:= T.FConvertFromBaseProc(Result);
     {$ENDIF}
   except
     on E: Exception do begin
-      raise TUOMException.Create('Conversion functions failed: '+E.Message);
+      raise EUOMException.Create('Conversion functions failed: '+E.Message);
     end;
   end;
-
 end;
+
+{$IFDEF USE_MATH_EXPR}
+class function TUOMUtils.Evaluate(const Value: Double; const Expr: String): Double;
+begin
+  {$IFDEF USE_JEDI}
+  //TODO: Evaluate expression using Jedi...
+
+  {$ENDIF}
+  {$IFDEF USE_DWS}
+  //TODO: Evaluate expression using DWScript...
+
+  {$ENDIF}
+end;
+{$ENDIF}
 
 class procedure TUOMUtils.Invalidate;
 begin
   ListCategories(FCategories);
   ListSystems(FSystems);
+end;
+
+class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
+var
+  X: Integer;
+  NS: String;
+begin
+  //Separates the suffix from a number in a string, and returns the value separate from the suffix.
+  AValue:= Trim(AValue);
+  ANumber:= 0;
+  ASuffix:= '';
+  NS:= '';
+  //Iterate through characters...
+  for X := 1 to Length(AValue) do begin
+    if CharInSet(AValue[X], PartOfNumber) then begin
+      //Append to value if it's not a thousands separator
+      if AValue[X] <> ',' then
+        NS:= NS + AValue[X];
+    end else begin
+      //Not a number, assume the rest is the suffix.
+      ASuffix:= Trim(Copy(AValue, X, Length(AValue)));
+      Break;
+    end;
+  end;
+  ANumber:= StrToFloatDef(NS, 0);
 end;
 
 class function TUOMUtils.GetBaseUOM(const Category: String): TUOM;
@@ -779,33 +847,41 @@ begin
   Result:= AUnit;
 
   if AUnit = nil then begin
-    raise Exception.Create('Cannot register unassigned unit object.');
+    raise EUOMInvalidUnitException.Create('Cannot register unassigned unit object.');
   end;
 
   if Trim(AUnit.FNameSingular) = '' then begin
-    raise Exception.Create('Cannot register blank unit name.');
+    raise EUOMInvalidUnitException.Create('Cannot register blank unit singular name.');
   end;
 
   if Trim(AUnit.FNamePlural) = '' then begin
-    raise Exception.Create('Cannot register blank unit name.');
+    raise EUOMInvalidUnitException.Create('Cannot register blank unit plural name.');
   end;
 
   if Trim(AUnit.FSuffix) = '' then begin
-    raise Exception.Create('Cannot register blank unit suffix.');
+    raise EUOMInvalidUnitException.Create('Cannot register blank unit suffix.');
   end;
 
   if Assigned(GetUOMByName(AUnit.FNameSingular)) or
     Assigned(GetUOMByName(AUnit.FNamePlural)) then
   begin
-    raise Exception.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
+    raise EUOMDuplicateException.Create('Cannot register duplicate unit name '+AUnit.FNameSingular);
   end;
 
   if Assigned(GetUOMBySuffix(AUnit.FSuffix)) then begin
-    raise Exception.Create('Cannot register duplicate unit suffix '+AUnit.FSuffix);
+    raise EUOMDuplicateException.Create('Cannot register duplicate unit suffix '+AUnit.FSuffix);
   end;
 
   FUOMs.Add(AUnit);
   Invalidate;
+end;
+
+class function TUOMUtils.StrToUOMValue(const Str: String): TUOMValue;
+begin
+  //TODO: Parse Str and return a corresponding TUOMValue record...
+
+
+
 end;
 
 class function TUOMUtils.SystemCount: Integer;
@@ -988,6 +1064,142 @@ end;
 procedure TUOMValue.SetBaseValue(const Value: Double);
 begin
   FBaseValue := Value;
+end;
+
+{ TUOMMetricUtils }
+
+class function TUOMMetricUtils.MetricFactor(const U: TUOMMetricUnit): Double;
+begin
+  case U of
+    msFemto:  Result:= METRIC_FEMTO;
+    msPico:   Result:= METRIC_PICO;
+    msNano:   Result:= METRIC_NANO;
+    msMicro:  Result:= METRIC_MICRO;
+    msMilli:  Result:= METRIC_MILLI;
+    msCenti:  Result:= METRIC_CENTI;
+    msDeci:   Result:= METRIC_DECI;
+    msBase:   Result:= METRIC_BASE;
+    msDeca:   Result:= METRIC_DECA;
+    msHecto:  Result:= METRIC_HECTO;
+    msKilo:   Result:= METRIC_KILO;
+    msMega:   Result:= METRIC_MEGA;
+    msGiga:   Result:= METRIC_GIGA;
+    msTera:   Result:= METRIC_TERA;
+    msPeta:   Result:= METRIC_PETA;
+  end;
+end;
+
+class function TUOMMetricUtils.MetricName(
+  const U: TUOMMetricUnit): String;
+begin
+  case U of
+    msFemto:  Result:= 'Femto';
+    msPico:   Result:= 'Pico';
+    msNano:   Result:= 'Nano';
+    msMicro:  Result:= 'Micro';
+    msMilli:  Result:= 'Milli';
+    msCenti:  Result:= 'Centi';
+    msDeci:   Result:= 'Deci';
+    msBase:   Result:= '';
+    msDeca:   Result:= 'Deca';
+    msHecto:  Result:= 'Hecto';
+    msKilo:   Result:= 'Kilo';
+    msMega:   Result:= 'Mega';
+    msGiga:   Result:= 'Giga';
+    msTera:   Result:= 'Tera';
+    msPeta:   Result:= 'Peta';
+  end;
+end;
+
+class function TUOMMetricUtils.MetricSuffix(const U: TUOMMetricUnit): String;
+begin
+  case U of
+    msFemto:  Result:= 'f';
+    msPico:   Result:= 'p';
+    msNano:   Result:= 'n';
+    msMicro:  Result:= 'μ';
+    msMilli:  Result:= 'm';
+    msCenti:  Result:= 'c';
+    msDeci:   Result:= 'd';
+    msBase:   Result:= '';
+    msDeca:   Result:= 'da';
+    msHecto:  Result:= 'h';
+    msKilo:   Result:= 'k';
+    msMega:   Result:= 'M';
+    msGiga:   Result:= 'G';
+    msTera:   Result:= 'T';
+    msPeta:   Result:= 'P';
+  end;
+end;
+
+class procedure TUOMMetricUtils.ProduceUOMs(const Category, Name,
+  Suffix: String; const Units: TUOMMetricUnits);
+var
+  MU: TUOMMetricUnit;
+  UOM: TUOM;
+  MN, MS: String;
+  MF: Double;
+  {$IFDEF USE_MATH_EXPR}
+  MFS: String;
+  {$ENDIF}
+begin
+  //TODO: Automatically generate and register UOMs for each given metric unit.
+  for MU:= Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
+    if MU in Units then begin
+      MN:= MetricName(MU);
+      MS:= MetricSuffix(MU);
+      MF:= MetricFactor(MU);
+      UOM:= TUOM.Create;
+      try
+        UOM.Category:= Category;
+        UOM.Systems.DelimitedText:= 'Metric';
+        UOM.NameSingular:= MN + LowerCase(Name);
+        UOM.NamePlural:= UOM.NameSingular + 's';
+        UOM.Suffix:= MS + Suffix;
+        {$IFDEF USE_MATH_EXPR}
+        MFS:= FormatFloat(NumFormat, MF);
+        UOM.ConvertFromBaseFormula:= 'Value / '+MFS;
+        UOM.ConvertToBaseFormula:= 'Value * '+MFS;
+        {$ELSE}
+        UOM.ConvertFromBaseProc:= function(const Value: Double): Double
+          begin
+            Result:= Value / MF;
+          end;
+        UOM.ConvertToBaseProc:= function(const Value: Double): Double
+          begin
+            Result:= Value * MF;
+          end;
+        {$ENDIF}
+      finally
+        TUOMUtils.RegisterUOM(UOM);
+      end;
+    end;
+  end;
+end;
+
+{ TUOMCombinedValue }
+
+procedure TUOMCombinedValue.Invalidate;
+begin
+
+end;
+
+procedure TUOMCombinedValue.SetValue1(const Value: TUOMValue);
+begin
+  FValue1 := Value;
+  Invalidate;
+end;
+
+procedure TUOMCombinedValue.SetValue2(const Value: TUOMValue);
+begin
+  FValue2 := Value;
+  Invalidate;
+end;
+
+procedure TUOMCombinedValue.SetValue3(const Value: TUOMValue);
+begin
+  FValue3 := Value;
+  Invalidate;
 end;
 
 initialization
