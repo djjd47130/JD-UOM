@@ -11,9 +11,18 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 - Main central class `TUOMUtils` to encapsulate entire UOM conversion capabilities.
 - Base object `TUOM` to encapsulate all possible details of a specific unit of measurement.
   - Registered within `TUOMUtils` class.
+- Base UOM registered within `TUOMUtils` for each given Category.
+  - For example, the base of "Distance" is "Meters, and the base of "Time" is "Days".
+  - All other UOMs in the same Category calculate to and from this base.
 - Endless common units-of-measurement pre-registered, including `Distance`, `Area`, `Volume`, `Mass`, `Temperature`, etc.
 - Ability to manually add your own units of measurement.
+- String-based expressions to allow flexible and dynamic UOM registration in run-time.
+  - For example, "Temperature" is one Category which requires more than just a single factor to divide / multiply.
+  - Also allows for UI display of formulas to the user.
 - Statistic capabilities for any given unit of measurement.
+  - For example, list all UOM Categories, Get UOM Object by Name, Conversion Examples.
+- Add a given Category unit to your `uses` clause to add support to your own project.
+  - For example, `uses JD.Uom.Distance, JD.Uom.Area, JD.Uom.Time` - and all UOMs of those categories will be automatically registered.
 - Application `JDConvert.exe` to demonstrate all possible UOM capabilities.
 
 ## Application
