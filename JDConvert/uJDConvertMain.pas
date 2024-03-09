@@ -181,8 +181,8 @@ begin
   UB:= TUOMUtils.GetUOMByName(B.UOM);
   VA:= UA.ConvertToBase(1);
   VB:= UB.ConvertToBase(1);
-  if A = B then Result:= 0 else begin
-    if B > A then
+  if VA = VB then Result:= 0 else begin
+    if VB > VA then
       Result:= 1
     else
       Result:= -1;
@@ -194,7 +194,7 @@ var
   L: TStringList;
   FS: String;
   X: Integer;
-  Comp: TComparison<TUOMValue>;
+  //Comp: TComparison<TUOMValue>;
 begin
   lstUOMs.Items.Clear;
   if lstCategories.ItemIndex < 0 then Exit;
@@ -250,38 +250,45 @@ var
 begin
   Chart.SeriesList.Clear;
   Chart.Invalidate;
-  if lstUOMs.Items.Count <= 0 then Exit;
-  Amt:= Round(txtChartScale.Value);
+  Screen.Cursor:= crHourglass;
+  try
+    Application.ProcessMessages;
 
-  BU:= TUOMUtils.GetBaseUOM(FSelCategory);
-  Chart.Title.Text.Text:= BU.Category+' Comparison';
-  Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
-  for X := 0 to lstUOMs.Count-1 do begin
-    U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X]);
-    S:= TLineSeries.Create(Chart);
-    try
-      S.Tag:= X;
-      S.ParentChart:= Chart;
-      S.Title:= U.NameSingular;
-      if U.NameSingular = FSelUOM then
-        S.LinePen.Width:= WIDTH_LARGE
-      else
-        S.LinePen.Width:= WIDTH_SMALL;
-      if chkNegative.Checked then
-        Start:= -Amt
-      else
-        Start:= 0;
-      for Y := Start to Amt do begin
-        V:= U.ConvertToBase(Y);
-        S.Add(V, IntToStr(Y));
+    if lstUOMs.Items.Count <= 0 then Exit;
+    Amt:= Round(txtChartScale.Value);
+
+    BU:= TUOMUtils.GetBaseUOM(FSelCategory);
+    Chart.Title.Text.Text:= BU.Category+' Comparison';
+    Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
+    for X := 0 to lstUOMs.Count-1 do begin
+      U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X]);
+      S:= TLineSeries.Create(Chart);
+      try
+        S.Tag:= X;
+        S.ParentChart:= Chart;
+        S.Title:= U.NameSingular;
+        if U.NameSingular = FSelUOM then
+          S.LinePen.Width:= WIDTH_LARGE
+        else
+          S.LinePen.Width:= WIDTH_SMALL;
+        if chkNegative.Checked then
+          Start:= -Amt
+        else
+          Start:= 0;
+        for Y := Start to Amt do begin
+          V:= U.ConvertToBase(Y);
+          S.Add(V, IntToStr(Y));
+        end;
+      finally
+        Chart.AddSeries(S);
       end;
-    finally
-      Chart.AddSeries(S);
-    end;
 
+    end;
+    UpdateChart;
+    Chart.Invalidate;
+  finally
+    Screen.Cursor:= crDefault;
   end;
-  UpdateChart;
-  Chart.Invalidate;
 end;
 
 procedure TfrmJDConvertMain.UpdateChart;

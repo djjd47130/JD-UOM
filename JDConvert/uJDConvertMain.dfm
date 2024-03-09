@@ -23,7 +23,6 @@ object frmJDConvertMain: TfrmJDConvertMain
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 984
     object pCategories: TPanel
       Left = 223
       Top = 0
@@ -58,7 +57,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstCategoriesClick
-        ExplicitWidth = 202
       end
     end
     object pUOMs: TPanel
@@ -69,7 +67,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 343
       object Label2: TLabel
         AlignWithMargins = True
         Left = 3
@@ -96,7 +93,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
-        ExplicitWidth = 171
       end
     end
     object pInfo: TPanel
@@ -107,8 +103,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitLeft = 593
-      ExplicitWidth = 391
       object pTestVal: TPanel
         Left = 0
         Top = 0
@@ -117,7 +111,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 391
         object lblUnitHeader: TLabel
           AlignWithMargins = True
           Left = 3
@@ -148,7 +141,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
           StyleElements = [seClient, seBorder]
-          ExplicitLeft = 105
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
@@ -167,7 +159,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
-          ExplicitLeft = 184
           ExplicitHeight = 27
         end
       end
@@ -179,7 +170,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 202
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 385
         DesignSize = (
           311
           202)
@@ -405,7 +395,6 @@ object frmJDConvertMain: TfrmJDConvertMain
     Height = 328
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 984
     object Chart: TChart
       AlignWithMargins = True
       Left = 39
@@ -503,6 +492,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       object Series1: TLineSeries
         Selected.Hover.Visible = False
         Title = 'Comparison'
+        Brush.BackColor = clDefault
         LinePen.Color = 16685954
         LinePen.Width = 2
         Pointer.InflateMargins = True

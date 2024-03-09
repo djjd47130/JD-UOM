@@ -78,7 +78,7 @@ uses
   , JclExprEval
   {$ENDIF}
   {$IFDEF USE_DWS}
-  //TODO
+  , dwsCompiler, dwsExprs, dwsComp, dwsErrors
   {$ENDIF}
   ;
 
@@ -100,6 +100,8 @@ type
   /// </summary>
   EUOMDuplicateException = EUOMException;
 
+  EUOMEvalException = EUOMException;
+
 const
   /// <summary>
   ///
@@ -109,6 +111,10 @@ const
   ///
   /// </summary>
   NumFormat = '#,###,###,###,###,##0.##################';
+  /// <summary>
+  ///
+  /// </summary>
+  NumInternalFormat = '###############0.##################';
 
   METRIC_FEMTO = 0.000000000000001;
   METRIC_PICO  = 0.000000000001;
@@ -225,11 +231,13 @@ type
     FValue1: TUOMValue;
     FValue2: TUOMValue;
     FValue3: TUOMValue;
+    procedure SetCount(const Value: TUOMCombinedValueCount);
     procedure SetValue1(const Value: TUOMValue);
     procedure SetValue2(const Value: TUOMValue);
     procedure SetValue3(const Value: TUOMValue);
   public
     procedure Invalidate;
+    property Count: TUOMCombinedValueCount read FCount write SetCount;
     property Value1: TUOMValue read FValue1 write SetValue1;
     property Value2: TUOMValue read FValue2 write SetValue2;
     property Value3: TUOMValue read FValue3 write SetValue3;
@@ -262,8 +270,8 @@ type
     procedure SetSystems(const Value: TStrings);
     procedure SetCategory(const Value: String);
     {$IFDEF USE_MATH_EXPR}
-    procedure SetConvertFromBaseFormula(const Value: TConvertProc);
-    procedure SetConvertToBaseFormula(const Value: TConvertProc);
+    procedure SetConvertFromBaseFormula(const Value: String);
+    procedure SetConvertToBaseFormula(const Value: String);
     {$ELSE}
     procedure SetConvertFromBaseProc(const Value: TConvertProc);
     procedure SetConvertToBaseProc(const Value: TConvertProc);
@@ -271,7 +279,7 @@ type
   public
     constructor Create; overload;
     constructor Create(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
-      ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil); overload;
+      ASystems: String; const AFromBase: String = ''; const AToBase: String = ''); overload;
     destructor Destroy; override;
     /// <summary>
     /// A change has been made which requires parent TUOMUtils to refresh its cache.
@@ -281,14 +289,9 @@ type
     /// Assigns this UOM as the base UOM of its specified Category.
     /// </summary>
     procedure SetAsBase;
-    /// <summary>
-    /// Returns a value converted FROM the base unit TO the specified unit.
-    /// </summary>
-    function ConvertFromBase(const AValue: Double): Double;
-    /// <summary>
-    /// Returns a value converted FROM the specified unit TO the base unit.
-    /// </summary>
-    function ConvertToBase(const AValue: Double): Double;
+
+    function ConvertFromBase(const Value: Double): Double;
+    function ConvertToBase(const Value: Double): Double;
   public
     {$IFDEF USE_MATH_EXPR}
     /// <summary>
@@ -347,7 +350,12 @@ type
     class var FSystems: TStringList;
     class var FCategories: TStringList;
     {$IFDEF USE_MATH_EXPR}
+    {$IFDEF USE_JEDI}
     class var FEval: TEvaluator;
+    {$ENDIF}
+    {$IFDEF USE_DWS}
+    class var FDWS: TDelphiWebScript;
+    {$ENDIF}
     class function Evaluate(const Value: Double; const Expr: String): Double;
     {$ENDIF}
   public
@@ -422,8 +430,14 @@ type
     /// </summary>
     class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
       APrefix, ASuffix, ASystems: String;
+      {$IFDEF USE_MATH_EXPR}
+      const AFromBase: String;
+      const AToBase: String
+      {$ELSE}
       const AFromBase: TConvertProc = nil;
-      const AToBase: TConvertProc = nil): TUOM; overload; static;
+      const AToBase: TConvertProc = nil
+      {$ENDIF}
+      ): TUOM; overload; static;
     /// <summary>
     /// Registers the BASE UOM for a given UOM Category. For example,
     /// Meters for Distance, Grams for Mass, Celsius for Temperature...
@@ -455,8 +469,18 @@ begin
   FSystems.OnChange:= SystemsChanged;
 end;
 
+function TUOM.ConvertFromBase(const Value: Double): Double;
+begin
+  Result:= TUOMUtils.Convert(Value, TUOMUtils.GetBaseUOM(FCategory).FNameSingular, FNameSingular);
+end;
+
+function TUOM.ConvertToBase(const Value: Double): Double;
+begin
+  Result:= TUOMUtils.Convert(Value, FNameSingular, TUOMUtils.GetBaseUOM(FCategory).FNameSingular);
+end;
+
 constructor TUOM.Create(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix,
-  ASystems: String; const AFromBase: TConvertProc = nil; const AToBase: TConvertProc = nil);
+  ASystems: String; const AFromBase: String = ''; const AToBase: String = '');
 begin
   Create;
   FCategory:= ACategory;
@@ -465,8 +489,15 @@ begin
   FPrefix:= APrefix;
   FSuffix:= ASuffix;
   FSystems.DelimitedText:= ASystems;
+
+
+  {$IFDEF USE_MATH_EXPR}
+  FConvertFromBaseFormula:= AFromBase;
+  FConvertToBaseFormula:= AToBase;
+  {$ELSE}
   FConvertFromBaseProc:= AFromBase;
   FConvertToBaseProc:= AToBase;
+  {$ENDIF}
   //TODO: Validate...
 
   Invalidate;
@@ -487,30 +518,16 @@ begin
   TUOMUtils.RegisterBaseUOM(FCategory, Self);
 end;
 
-function TUOM.ConvertFromBase(const AValue: Double): Double;
-begin
-  if not Assigned(FConvertFromBaseProc) then
-    raise EUOMException.Create('Conversion from base function not assigned!');
-  Result:= FConvertFromBaseProc(AValue);
-end;
-
-function TUOM.ConvertToBase(const AValue: Double): Double;
-begin
-  if not Assigned(FConvertToBaseProc) then
-    raise EUOMException.Create('Conversion to base function not assigned!');
-  Result:= FConvertToBaseProc(AValue);
-end;
-
 {$IFDEF USE_MATH_EXPR}
 
-procedure TUOMLookupUnit.SetConvertFromBaseFormula(const Value: String);
+procedure TUOM.SetConvertFromBaseFormula(const Value: String);
 begin
   FConvertFromBaseFormula := Value;
   //TODO: Validate...
   Invalidate;
 end;
 
-procedure TUOMLookupUnit.SetConvertToBaseFormula(const Value: String);
+procedure TUOM.SetConvertToBaseFormula(const Value: String);
 begin
   FConvertToBaseFormula := Value;
   //TODO: Validate...
@@ -589,10 +606,28 @@ begin
   FBaseUOMs:= TDictionary<String, TUOM>.Create;
   FSystems:= TStringList.Create;
   FCategories:= TStringList.Create;
+
+  {$IFDEF USE_MATH_EXPR}
+  {$IFDEF USE_JEDI}
+
+  {$ENDIF}
+  {$IFDEF USE_DWS}
+  FDWS:= TDelphiWebScript.Create(nil);
+  {$ENDIF}
+  {$ENDIF}
 end;
 
 class destructor TUOMUtils.Destroy;
 begin
+  {$IFDEF USE_MATH_EXPR}
+  {$IFDEF USE_JEDI}
+
+  {$ENDIF}
+  {$IFDEF USE_DWS}
+  FreeAndNil(FDWS);
+  {$ENDIF}
+  {$ENDIF}
+
   FreeAndNil(FCategories);
   FreeAndNil(FSystems);
   FreeAndNil(FBaseUOMs);
@@ -617,7 +652,7 @@ begin
   if Trim(F.ConvertFromBaseFormula) = '' then begin
     raise EUOMException.Create('Conversion from formula is blank.');
   end;
-  if Trim(F.ConvertToBaseFormula) = '' then begin
+  if Trim(T.ConvertToBaseFormula) = '' then begin
     raise EUOMException.Create('Conversion to formula is blank.');
   end;
   {$ELSE}
@@ -631,30 +666,58 @@ begin
   try
     {$IFDEF USE_MATH_EXPR}
     //Perform conversion using string-based mathematical expressions...
+    //From input value to base...
     Result:= Evaluate(Value, F.ConvertToBaseFormula);
+    //From base to output value...
     Result:= Evaluate(Result, T.ConvertFromBaseFormula);
     {$ELSE}
     //Perform conversion using reference to function...
+    //From input value to base...
     Result:= F.FConvertToBaseProc(Value);
+    //From base to output value...
     Result:= T.FConvertFromBaseProc(Result);
     {$ENDIF}
   except
     on E: Exception do begin
-      raise EUOMException.Create('Conversion functions failed: '+E.Message);
+      raise EUOMException.Create('Convert function failed: '+E.Message);
     end;
   end;
 end;
 
 {$IFDEF USE_MATH_EXPR}
 class function TUOMUtils.Evaluate(const Value: Double; const Expr: String): Double;
+{$IFDEF USE_JEDI}
+
+{$ENDIF}
+{$IFDEF USE_DWS}
+var
+  E: String;
+  Prog: IdwsProgram;
+  Exec: IdwsProgramExecution;
+  Res: String;
+{$ENDIF}
 begin
   {$IFDEF USE_JEDI}
   //TODO: Evaluate expression using Jedi...
 
   {$ENDIF}
   {$IFDEF USE_DWS}
-  //TODO: Evaluate expression using DWScript...
-
+  //Evaluate expression using DWScript...
+  E:= StringReplace(Expr, 'Value', FormatFloat(NumInternalFormat, Value), []);
+  Prog:= FDWS.Compile('PrintLn('+E+');');
+  if Prog.Msgs.Count > 0 then begin
+    raise EUOMEvalException.Create(Prog.Msgs.AsInfo);
+  end else begin
+    Exec:= prog.Execute;
+    if Exec.Msgs.HasErrors then begin
+      raise EUOMEvalException.Create(Exec.Msgs.AsInfo);
+    end else begin
+      Res:= Exec.Result.ToString;
+      Res:= StringReplace(Res,#$D,'',[rfReplaceAll]);
+      Res:= StringReplace(Res,#$A,'',[rfReplaceAll]);
+      Result:= StrToFloatDef(Res, -1);
+    end;
+  end;
   {$ENDIF}
 end;
 {$ENDIF}
@@ -817,8 +880,13 @@ begin
 end;
 
 class function TUOMUtils.RegisterUOM(const ACategory, ANameSingular,
-  ANamePlural, APrefix, ASuffix, ASystems: String; const AFromBase,
-  AToBase: TConvertProc): TUOM;
+  ANamePlural, APrefix, ASuffix, ASystems: String;
+  {$IFDEF USE_MATH_EXPR}
+  const AFromBase, AToBase: String
+  {$ELSE}
+  const AFromBase, AToBase: TConvertProc
+  {$ENDIF}
+  ): TUOM;
 begin
   Result:= TUOM.Create;
   try
@@ -830,8 +898,13 @@ begin
     Result.FSystems.Delimiter:= ',';
     Result.FSystems.StrictDelimiter:= True;
     Result.FSystems.DelimitedText:= ASystems;
+    {$IFDEF USE_MATH_EXPR}
+    Result.FConvertFromBaseFormula:= AFromBase;
+    Result.FConvertToBaseFormula:= AToBase;
+    {$ELSE}
     Result.FConvertFromBaseProc:= AFromBase;
     Result.FConvertToBaseProc:= AToBase;
+    {$ENDIF}
   finally
     try
       RegisterUOM(Result);
@@ -910,8 +983,8 @@ begin
   //Implicitly return the CONVERTED value...
   U:= TUOMUtils.GetUOMByName(Value.FUOM);
   if U = nil then
-    raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
-  Result:= U.ConvertToBase(Value.FBaseValue);
+    raise EUOMInvalidUnitException.Create('UOM "'+Value.FUOM+'" not found!');
+  Result:= U.ConvertFromBase(Value.FBaseValue);
 end;
 
 class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
@@ -932,7 +1005,7 @@ begin
   //Implicitly return the CONVERTED value formatted as string...
   U:= TUOMUtils.GetUOMByName(Value.FUOM);
   if U = nil then
-    raise Exception.Create('UOM "'+Value.FUOM+'" not found!');
+    raise EUOMInvalidUnitException.Create('UOM "'+Value.FUOM+'" not found!');
   V:= U.ConvertToBase(Value.FBaseValue);
   Result:= FormatFloat(NumFormat, V)+' '+U.FSuffix;
 end;
@@ -1024,10 +1097,9 @@ function TUOMValue.GetConvertedValue: Double;
 var
   U: TUOM;
 begin
-  Result:= 0;
   U:= GetUomObj;
   if not Assigned(U) then
-    raise Exception.Create('Failed to get converted value: Unit-of-Measure "'+FUOM+'" not found.');
+    raise EUOMInvalidUnitException.Create('Failed to get converted value: Unit-of-Measure "'+FUOM+'" not found.');
   Result:= U.ConvertFromBase(FBaseValue);
 end;
 
@@ -1042,7 +1114,7 @@ var
 begin
   U:= GetUomObj;
   if not Assigned(U) then
-    raise Exception.Create('Failed to set converted value: Unit-of-Measure "'+FUOM+'" not found.');
+    raise EUOMInvalidUnitException.Create('Failed to set converted value: Unit-of-Measure "'+FUOM+'" not found.');
   FBaseValue:= U.ConvertToBase(Value);
 end;
 
@@ -1086,6 +1158,7 @@ begin
     msGiga:   Result:= METRIC_GIGA;
     msTera:   Result:= METRIC_TERA;
     msPeta:   Result:= METRIC_PETA;
+    else      Result:= METRIC_BASE;
   end;
 end;
 
@@ -1108,6 +1181,7 @@ begin
     msGiga:   Result:= 'Giga';
     msTera:   Result:= 'Tera';
     msPeta:   Result:= 'Peta';
+    else      Result:= '';
   end;
 end;
 
@@ -1129,6 +1203,7 @@ begin
     msGiga:   Result:= 'G';
     msTera:   Result:= 'T';
     msPeta:   Result:= 'P';
+    else      Result:= '';
   end;
 end;
 
@@ -1158,8 +1233,8 @@ begin
         UOM.Suffix:= MS + Suffix;
         {$IFDEF USE_MATH_EXPR}
         MFS:= FormatFloat(NumFormat, MF);
-        UOM.ConvertFromBaseFormula:= 'Value / '+MFS;
-        UOM.ConvertToBaseFormula:= 'Value * '+MFS;
+        UOM.ConvertFromBaseFormula:= '<Value> / '+MFS;
+        UOM.ConvertToBaseFormula:= '<Value> * '+MFS;
         {$ELSE}
         UOM.ConvertFromBaseProc:= function(const Value: Double): Double
           begin
@@ -1182,6 +1257,12 @@ end;
 procedure TUOMCombinedValue.Invalidate;
 begin
 
+end;
+
+procedure TUOMCombinedValue.SetCount(const Value: TUOMCombinedValueCount);
+begin
+  FCount := Value;
+  Invalidate;
 end;
 
 procedure TUOMCombinedValue.SetValue1(const Value: TUOMValue);

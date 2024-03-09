@@ -12,6 +12,9 @@
         <Projects Include="JDConvert\JDConvert.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="MathExprTest\MathExprTest.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="JDConvert:Make">
         <MSBuild Projects="JDConvert\JDConvert.dproj" Targets="Make"/>
     </Target>
+    <Target Name="MathExprTest">
+        <MSBuild Projects="MathExprTest\MathExprTest.dproj"/>
+    </Target>
+    <Target Name="MathExprTest:Clean">
+        <MSBuild Projects="MathExprTest\MathExprTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MathExprTest:Make">
+        <MSBuild Projects="MathExprTest\MathExprTest.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="JDUOMLib;dclJDUOMLib;JDConvert"/>
+        <CallTarget Targets="JDUOMLib;dclJDUOMLib;JDConvert;MathExprTest"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;JDConvert:Clean"/>
+        <CallTarget Targets="JDUOMLib:Clean;dclJDUOMLib:Clean;JDConvert:Clean;MathExprTest:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;JDConvert:Make"/>
+        <CallTarget Targets="JDUOMLib:Make;dclJDUOMLib:Make;JDConvert:Make;MathExprTest:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

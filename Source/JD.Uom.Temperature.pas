@@ -13,6 +13,9 @@ begin
 
   TUOMUtils.RegisterUOM('Temperature',
     'Celsius', 'Celsius', '', '°C', 'Metric',
+  {$IFDEF USE_MATH_EXPR}
+    'Value', 'Value'
+  {$ELSE}
     function(const Value: Double): Double
     begin
       //Celsius to Celsius
@@ -23,10 +26,14 @@ begin
       //Celsius to Celsius
       Result:= Value;
     end
+  {$ENDIF}
   );
 
   TUOMUtils.RegisterUOM('Temperature',
     'Farenheit', 'Farenheit', '', '°F', 'Imperial,US Customary',
+  {$IFDEF USE_MATH_EXPR}
+    '(Value * 1.8) + 32', '(Value - 32) / 1.8'
+  {$ELSE}
     function(const Value: Double): Double
     begin
       //Celsius to Farenheit
@@ -37,10 +44,14 @@ begin
       //Farenheit to Celsius
       Result:= (Value - 32) / 1.8;
     end
+  {$ENDIF}
   ).SetAsBase;
 
   TUOMUtils.RegisterUOM('Temperature',
     'Kelvin', 'Kelvin', '', '°K', 'Natural',
+  {$IFDEF USE_MATH_EXPR}
+    'Value + 272.15', 'Value - 272.15'
+  {$ELSE}
     function(const Value: Double): Double
     begin
       //Celsius to Kelvin
@@ -51,6 +62,7 @@ begin
       //Kelvin to Celsius
       Result:= Value - 272.15;
     end
+  {$ENDIF}
   );
 
 end;

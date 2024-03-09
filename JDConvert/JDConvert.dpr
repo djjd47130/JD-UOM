@@ -1,5 +1,7 @@
 program JDConvert;
 
+{$WARN DUPLICATE_CTOR_DTOR OFF}
+
 uses
   Vcl.Forms,
   uJDConvertMain in 'uJDConvertMain.pas' {frmJDConvertMain},
