@@ -73,6 +73,11 @@ begin
         '',
         Suffix,
         TU.Systems.DelimitedText,
+        {$IFDEF USE_MATH_EXPR}
+        //TODO: Clearly this is wrong...
+        'Value / (DistFactor / TimeFactor)',
+        'Value * (DistFactor / TimeFactor)'
+        {$ELSE}
         function(const Value: Double): Double
         begin
           //Base to Unit - TODO: Clearly this is wrong...
@@ -83,6 +88,7 @@ begin
           //Unit to Base - TODO: Clearly this is wrong...
           Result:= Value * (DistFactor / TimeFactor);
         end
+        {$ENDIF}
       );
     end;
   end;
