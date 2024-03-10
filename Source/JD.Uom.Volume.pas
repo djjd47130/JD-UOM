@@ -61,15 +61,7 @@ begin
     'Cubic Centimeter', 'Cubic Centimeters', 'cm³', 'Metric', Cube(METRIC_MILLI));
 
   TUOMUtils.RegisterSimpleUOM('Volume',
-    'Cubic Meter', 'Cubic Meters', 'm³', 'Metric (Huge)', Cube(METRIC_BASE)).SetAsBase;
-
-  {
-  TUOMUtils.RegisterSimpleUOM('Volume',
-    'Milliliter', 'Milliliters', 'mL', 'Metric', Cube(METRIC_MILLI));
-
-  TUOMUtils.RegisterSimpleUOM('Volume',
-    'Liter', 'Liters', 'L', 'Metric', Cube(METRIC_DECI));
-  }
+    'Cubic Meter', 'Cubic Meters', 'm³', 'Metric', Cube(METRIC_BASE)).SetAsBase;
 
   //Imperial / US Customary
 

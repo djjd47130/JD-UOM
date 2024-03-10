@@ -14,12 +14,12 @@ begin
   TUOMUtils.RegisterUOM('Temperature',
     'Celsius', 'Celsius', '°C', 'Metric',
     'Value', 'Value'
-  );
+  ).SetAsBase;
 
   TUOMUtils.RegisterUOM('Temperature',
     'Farenheit', 'Farenheit', '°F', 'Imperial,US Customary',
     '(Value * 1.8) + 32', '(Value - 32) / 1.8'
-  ).SetAsBase;
+  );
 
   TUOMUtils.RegisterUOM('Temperature',
     'Kelvin', 'Kelvin', '°K', 'Natural',

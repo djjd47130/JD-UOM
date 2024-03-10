@@ -2,8 +2,8 @@ object frmJDConvertMain: TfrmJDConvertMain
   Left = 0
   Top = 0
   Caption = 'JD Unit-of-Measure Conversion'
-  ClientHeight = 561
-  ClientWidth = 1009
+  ClientHeight = 761
+  ClientWidth = 1184
   Color = clBtnFace
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -18,11 +18,12 @@ object frmJDConvertMain: TfrmJDConvertMain
   object pMain: TPanel
     Left = 0
     Top = 0
-    Width = 1009
+    Width = 1184
     Height = 209
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 1009
     object pCategories: TPanel
       Left = 223
       Top = 0
@@ -31,7 +32,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitHeight = 233
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -58,7 +58,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstCategoriesClick
-        ExplicitHeight = 202
+        ExplicitTop = 30
       end
     end
     object pUOMs: TPanel
@@ -69,7 +69,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitHeight = 233
       object Label2: TLabel
         AlignWithMargins = True
         Left = 3
@@ -96,36 +95,34 @@ object frmJDConvertMain: TfrmJDConvertMain
         ItemHeight = 19
         TabOrder = 0
         OnClick = lstUOMsClick
-        ExplicitHeight = 202
       end
     end
     object pInfo: TPanel
       Left = 669
       Top = 0
-      Width = 340
+      Width = 515
       Height = 209
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 2
-      ExplicitWidth = 317
-      ExplicitHeight = 233
+      ExplicitWidth = 300
       object pTestVal: TPanel
         Left = 0
         Top = 0
-        Width = 340
+        Width = 515
         Height = 25
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 317
+        ExplicitWidth = 340
         object lblUnitHeader: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 3
-          Width = 72
+          Width = 34
           Height = 19
           Align = alLeft
-          Caption = 'Unit Info'
+          Caption = 'Unit'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -16
@@ -135,7 +132,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
         object Label10: TLabel
           AlignWithMargins = True
-          Left = 81
+          Left = 248
           Top = 3
           Width = 73
           Height = 19
@@ -148,14 +145,14 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
           StyleElements = [seClient, seBorder]
-          ExplicitLeft = 31
+          ExplicitLeft = 81
           ExplicitHeight = 16
         end
         object txtValue: TRzSpinEdit
           AlignWithMargins = True
-          Left = 160
+          Left = 327
           Top = 3
-          Width = 177
+          Width = 185
           Height = 21
           BlankValue = 1.000000000000000000
           AllowKeyEdit = True
@@ -167,20 +164,20 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alRight
           TabOrder = 0
           OnChange = txtValueChange
+          ExplicitTop = 1
         end
       end
       object pUnitDetail: TPanel
         AlignWithMargins = True
         Left = 3
         Top = 28
-        Width = 334
+        Width = 509
         Height = 178
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 311
-        ExplicitHeight = 202
+        ExplicitWidth = 334
         DesignSize = (
-          334
+          509
           178)
         object Label3: TLabel
           Left = 8
@@ -194,7 +191,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitName: TLabel
           Left = 127
           Top = 16
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -219,7 +216,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitSystems: TLabel
           Left = 127
           Top = 66
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -244,7 +241,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitSuffix: TLabel
           Left = 127
           Top = 91
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -255,6 +252,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
+          ExplicitWidth = 191
         end
         object Label4: TLabel
           Left = 8
@@ -268,7 +266,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitBaseFrom: TLabel
           Left = 127
           Top = 116
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -279,6 +277,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
+          ExplicitWidth = 191
         end
         object Label8: TLabel
           Left = 8
@@ -292,7 +291,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitBaseTo: TLabel
           Left = 127
           Top = 141
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -303,6 +302,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
+          ExplicitWidth = 191
         end
         object Label6: TLabel
           Left = 8
@@ -316,7 +316,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lblUnitNamePlural: TLabel
           Left = 127
           Top = 41
-          Width = 191
+          Width = 366
           Height = 19
           Anchors = [akLeft, akTop, akRight]
           AutoSize = False
@@ -339,7 +339,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitHeight = 233
       object Label12: TLabel
         AlignWithMargins = True
         Left = 3
@@ -367,25 +366,24 @@ object frmJDConvertMain: TfrmJDConvertMain
         ItemHeight = 19
         Sorted = True
         TabOrder = 0
-        ExplicitHeight = 202
       end
     end
   end
-  object pChart: TPanel
+  object pBottom: TPanel
     Left = 0
     Top = 209
-    Width = 1009
-    Height = 352
+    Width = 1184
+    Height = 552
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 233
-    ExplicitWidth = 986
-    ExplicitHeight = 328
+    ExplicitTop = 212
+    ExplicitWidth = 984
+    ExplicitHeight = 352
     object Chart: TChart
       AlignWithMargins = True
-      Left = 39
-      Top = 16
-      Width = 905
+      Left = 566
+      Top = 32
+      Width = 519
       Height = 249
       Margins.Left = 50
       Margins.Right = 50
@@ -434,13 +432,13 @@ object frmJDConvertMain: TfrmJDConvertMain
       Color = clBlack
       TabOrder = 0
       DesignSize = (
-        905
+        519
         249)
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 9
       object txtChartScale: TRzSpinEdit
         AlignWithMargins = True
-        Left = 768
+        Left = 382
         Top = 3
         Width = 132
         Height = 27
@@ -455,9 +453,10 @@ object frmJDConvertMain: TfrmJDConvertMain
         ShowHint = True
         TabOrder = 0
         OnChange = txtChartScaleChange
+        ExplicitLeft = 768
       end
       object chkNegative: TCheckBox
-        Left = 651
+        Left = 265
         Top = 7
         Width = 97
         Height = 19
@@ -474,6 +473,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         ShowHint = True
         TabOrder = 1
         OnClick = chkNegativeClick
+        ExplicitLeft = 651
       end
       object Series1: TLineSeries
         Selected.Hover.Visible = False
@@ -488,6 +488,155 @@ object frmJDConvertMain: TfrmJDConvertMain
         XValues.Order = loAscending
         YValues.Name = 'Y'
         YValues.Order = loNone
+      end
+    end
+    object pConvert: TPanel
+      Left = 1
+      Top = 1
+      Width = 288
+      Height = 550
+      Align = alLeft
+      TabOrder = 1
+      ExplicitLeft = 0
+      ExplicitTop = 6
+      object lblConvertTitle: TLabel
+        AlignWithMargins = True
+        Left = 4
+        Top = 4
+        Width = 280
+        Height = 19
+        Align = alTop
+        Caption = 'Convert'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitWidth = 64
+      end
+      object Label5: TLabel
+        AlignWithMargins = True
+        Left = 4
+        Top = 41
+        Width = 273
+        Height = 19
+        Margins.Top = 15
+        Margins.Right = 10
+        Align = alTop
+        Caption = 'From:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitLeft = 11
+        ExplicitTop = 36
+        ExplicitWidth = 47
+      end
+      object Label9: TLabel
+        AlignWithMargins = True
+        Left = 4
+        Top = 188
+        Width = 273
+        Height = 19
+        Margins.Top = 15
+        Margins.Right = 10
+        Align = alTop
+        Caption = 'To:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        ExplicitLeft = 59
+        ExplicitTop = 277
+        ExplicitWidth = 266
+      end
+      object txtConvertFromValue: TRzSpinEdit
+        AlignWithMargins = True
+        Left = 11
+        Top = 66
+        Width = 266
+        Height = 28
+        Margins.Left = 10
+        Margins.Right = 10
+        BlankValue = 1.000000000000000000
+        AllowKeyEdit = True
+        Decimals = 4
+        IntegersOnly = False
+        Max = 1E50
+        Min = -1E50
+        Orientation = orHorizontal
+        Value = 1.000000000000000000
+        Align = alTop
+        TabOrder = 0
+        OnChange = txtConvertFromValueChange
+        ExplicitLeft = 4
+        ExplicitTop = 61
+        ExplicitWidth = 280
+      end
+      object cboConvertFromUnit: TComboBox
+        AlignWithMargins = True
+        Left = 11
+        Top = 100
+        Width = 266
+        Height = 27
+        Margins.Left = 10
+        Margins.Right = 10
+        Align = alTop
+        Style = csDropDownList
+        TabOrder = 1
+        OnClick = cboConvertFromUnitClick
+        ExplicitTop = 95
+      end
+      object cboConvertToUnit: TComboBox
+        AlignWithMargins = True
+        Left = 11
+        Top = 246
+        Width = 266
+        Height = 27
+        Margins.Left = 10
+        Margins.Right = 10
+        Align = alTop
+        Style = csDropDownList
+        TabOrder = 2
+        OnClick = cboConvertToUnitClick
+        ExplicitTop = 286
+      end
+      object btnConvert: TButton
+        AlignWithMargins = True
+        Left = 11
+        Top = 145
+        Width = 266
+        Height = 25
+        Margins.Left = 10
+        Margins.Top = 15
+        Margins.Right = 10
+        Align = alTop
+        Caption = 'Convert'
+        TabOrder = 3
+        OnClick = btnConvertClick
+        ExplicitLeft = 80
+        ExplicitTop = 256
+        ExplicitWidth = 75
+      end
+      object txtConvertToValue: TEdit
+        AlignWithMargins = True
+        Left = 11
+        Top = 213
+        Width = 266
+        Height = 27
+        Margins.Left = 10
+        Margins.Right = 10
+        Align = alTop
+        ReadOnly = True
+        TabOrder = 4
+        ExplicitLeft = -3
+        ExplicitTop = 237
+        ExplicitWidth = 280
       end
     end
   end
