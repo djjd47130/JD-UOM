@@ -29,6 +29,13 @@ begin
 
   //Metric
 
+  {
+  TUOMMetricUtils.ProduceUOMs('Distance', 'Meter', 'm', [msFemto, msPico, msNano,
+    msMicro, msMilli, msCenti, msDeci,
+    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta]);
+  }
+
+  //{
   TUOMUtils.RegisterSimpleUOM('Distance',
     'Femtometer', 'Femtometers', 'fm', 'Metric (Tiny)', METRIC_FEMTO);
 
@@ -73,6 +80,7 @@ begin
 
   TUOMUtils.RegisterSimpleUOM('Distance',
     'Petameter', 'Petameters', 'Pm', 'Metric (Huge)', METRIC_PETA);
+  //}
 
   //Imperial / US Customary
 

@@ -27,7 +27,7 @@ interface
     Be sure to reuse the existing systems when necessary, as to not create
     duplicate systems.
 
-  According to references:
+  UOM Systems - According to references:
   - International System of Units (SI):
     - The SI comprises a coherent system of units of measurement, including seven base units:
       - Second (s): The unit of time.
@@ -48,6 +48,20 @@ interface
     - Used in theoretical physics.
   - Non-Standard Units:
     - Various local or specialized units used for specific purposes.
+
+  UOM Systems - As implemented in library:
+  - Metric (Tiny)
+  - Metric
+  - Metric (Huge)
+  - Imperial (Tiny)
+  - Imperial
+    - NOTE: "Imperial" is often referred to as "UK" in this library.
+  - Imperial (Huge)
+  - US Customary (Tiny)
+  - US Customary
+  - US Customary (Huge)
+  - Natural
+  - Random
 
   References:
   - https://www.metric-conversions.org/
@@ -122,6 +136,9 @@ type
   /// </summary>
   TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
     msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
+  /// <summary>
+  /// Set of `TMetricUnit` enum.
+  /// </summary>
   TUOMMetricUnits = set of TUOMMetricUnit;
 
   /// <summary>
@@ -266,7 +283,13 @@ type
     /// Assigns this UOM as the base UOM of its specified Category.
     /// </summary>
     function SetAsBase: TUOM;
+    /// <summary>
+    /// Returns a value converted FROM the base unit.
+    /// </summary>
     function ConvertFromBase(const Value: Double): Double;
+    /// <summary>
+    /// Returns a value converted TO the base unit.
+    /// </summary>
     function ConvertToBase(const Value: Double): Double;
   public
     /// <summary>
@@ -320,10 +343,13 @@ type
     class constructor Create;
     class destructor Destroy;
     /// <summary>
-    /// Splits a given String into respective Number (Double) and Suffix (String) values.
+    /// (NOT READY) Splits a given UOM String into respective Number (Double) and Suffix (String) values.
     /// </summary>
     class procedure ParseSuffix(AValue: String; var ANumber: Double;
       var ASuffix: String); static;
+    /// <summary>
+    /// (NOT READY) Parses a given UOM String into `TUOMValue` record type.
+    /// </summary>
     class function StrToUOMValue(const Str: String): TUOMValue;
     /// <summary>
     /// A change has been made which requires cache to be refreshed.
@@ -337,10 +363,6 @@ type
     /// Returns a TUOM object based on a given UOM's unique SINGULAR name.
     /// </summary>
     class function GetUOMByName(const Name: String): TUOM; static;
-    /// <summary>
-    /// TODO: Remove...?
-    /// </summary>
-    class function GetUOMByPrefix(const Prefix: String): TUOM; static;
     /// <summary>
     /// Returns a TUOM object based on a given UOM's u ique suffix (case sensitive).
     /// </summary>
@@ -382,9 +404,7 @@ type
     /// </summary>
     class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
       APrefix, ASuffix, ASystems: String;
-      const AFromBase: String;
-      const AToBase: String
-      ): TUOM;  static;
+      const AFromBase: String; const AToBase: String): TUOM; static;
     /// <summary>
     /// Registers a new SIMPLE TUOM object into the UOM system based on a variety of parameters.
     /// </summary>
@@ -397,7 +417,6 @@ type
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
     /// <summary>
     /// Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `Double`.
-    /// Dynamically calls appropriate mechanism based on defined conditionals.
     /// </summary>
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
     /// <summary>
@@ -405,7 +424,6 @@ type
     /// </summary>
     class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 implementation
@@ -649,19 +667,6 @@ begin
   Result:= nil;
   for X := 0 to FUOMs.Count-1 do begin
     if Trim(Name) = Trim(FUOMs[X].FNameSingular) then begin
-      Result:= FUOMs[X];
-      Break;
-    end;
-  end;
-end;
-
-class function TUOMUtils.GetUOMByPrefix(const Prefix: String): TUOM;
-var
-  X: Integer;
-begin
-  Result:= nil;
-  for X := 0 to FUOMs.Count-1 do begin
-    if Trim(Prefix) = Trim(FUOMs[X].FPrefix) then begin
       Result:= FUOMs[X];
       Break;
     end;
