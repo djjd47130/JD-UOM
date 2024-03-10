@@ -6,10 +6,10 @@ Central unit to access all possible unit of measure conversions.
 
 ## Constants
 
-- `PartOfNumber = ['0'..'9', '.', ','];` - Used when parsing siffix from strings.
-- `NumFormat = '#,###,###,###,###,##0.##################';` - Used when formatting values as strings externally.
-- `NumInternalFormat = '###############0.##################';` - Used when formatting values as strings internally.
-- `METRIC_` group - Base conversion factors for the various Metric units of measurement.
+- `PartOfNumber` - Used when parsing siffix from strings.
+- `NumFormat - Used when formatting values as strings externally.
+- `NumInternalFormat` - Used when formatting values as strings internally.
+- `METRIC_` group of constants - Base conversion factors for the various Metric units of measurement.
 
 ## Types
 
@@ -20,9 +20,17 @@ Central unit to access all possible unit of measure conversions.
 ## `TUOMMetricUtils` - Class providing several helpful tools to manage UOMs of the Metric system.
 
 - `class function MetricName(const U: TUOMMetricUnit): String; static;` - Returns the general name of a given metric unit.
+  - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
 - `class function MetricSuffix(const U: TUOMMetricUnit): String; static;` - Returns the general suffix of a given metric unit.
+  - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
 - `class function MetricFactor(const U: TUOMMetricUnit): Double; static;` - Returns the base conversion factor of a given metric unit.
-- `class procedure ProduceUOMs(const Category: String; const Name: String; const Suffix: String; const Units: TUOMMetricUnits);` - Automatically generates and registers UOMs for each specified metric unit.
+  - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
+- `class procedure ProduceUOMs(const Category: String; const Name: String; const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '');` - Automatically generates and registers UOMs for each specified metric unit.
+  - `const Category: String` - 
+  - `const Name: String` - 
+  - `const Suffix: String` - 
+  - `const Units: TUOMMetricUnits` - 
+  - `const Base: String = ''` - 
 
 ## `TUOMValue` - **(NOT READY)** - Abstract record to encapsulate a single possible value attached to a specific UOM category
 
@@ -47,7 +55,6 @@ Central unit to access all possible unit of measure conversions.
 - `property Systems: TStrings read GetSystems write SetSystems;` - The systematic group(s) of UOMs (Metric, Imperial, US Customary...)
 - `property NameSingular: String read FNameSingular write SetNameSingular;` - The singular (value = 1) name of the UOM (Meter, Foot, Gram...). Also its unique identifier - cannot create duplicates.
 - `property NamePlural: String read FNamePlural write SetNamePlural;` - The plural (value <> 1) name of the TUOM (Meters, Feet, Grams...).
-- `property Prefix: String read FPrefix write SetPrefix;` - **(NOT IMPLEMENTED)** Prefix showing before a given UOM value.
 - `property Suffix: String read FSuffix write SetSuffix;` - Suffix showing after a given UOM value. Also a unique CASE-SENSITIVE identifer - cannot create duplicates.
 
 ## `TUOMUtils` - Main class encapsulating entire UOM library capabilities.
@@ -65,7 +72,7 @@ Central unit to access all possible unit of measure conversions.
 - `class procedure ListSystems(AList: TStrings); static;` - Populates a given `TStrings` object with all possible Systems.
 - `class procedure ListUOMs(AList: TStrings; const ACategory: String = ''; const ASystems: String = ''); static;` - Populates a given TStrings object with all possible UOMs matching the given filter parameters.
 - `class function UOMCount: Integer; static;` - Returns the total number of specific UOMs registered.
-- `class function RegisterUOM(const ACategory, ANameSingular, ANamePlural, APrefix, ASuffix, ASystems: String; const AFromBase: String; const AToBase: String): TUOM; static;` - Registers a new TUOM object into the UOM system based on a variety of parameters. NOTE: Validation will be done to ensure unique (case sensitive) UOM names, as well as unique suffixes.
+- `class function RegisterUOM(const ACategory, ANameSingular, ANamePlural, ASuffix, ASystems: String; const AFromBase: String; const AToBase: String): TUOM; static;` - Registers a new TUOM object into the UOM system based on a variety of parameters. NOTE: Validation will be done to ensure unique (case sensitive) UOM names, as well as unique suffixes.
 - `class function RegisterSimpleUOM(const ACategory, ANameSingular, ANamePlural, ASuffix, ASystems: String; const ABaseFactor: Double): TUOM; static;` - Registers a new SIMPLE TUOM object into the UOM system based on a variety of parameters.
 - `class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;` - Registers the BASE UOM for a given UOM Category. For example, Meters for Distance, Grams for Mass, Celsius for Temperature...
 - `class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;` - Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `Double`.

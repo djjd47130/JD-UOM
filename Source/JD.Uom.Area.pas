@@ -40,6 +40,8 @@ implementation
 procedure RegisterUOM;
 begin
 
+  //Metric
+
   TUOMUtils.RegisterSimpleUOM('Area',
     'Square Millimeter', 'Square Millimeters', 'mm²', 'Metric', METRIC_MILLI);
 
@@ -54,6 +56,8 @@ begin
 
   TUOMUtils.RegisterSimpleUOM('Area',
     'Square Kilometer', 'Square Kilometers', 'km²', 'Metric', Sqr(METRIC_KILO));
+
+  //Imperial / US Customary
 
   TUOMUtils.RegisterSimpleUOM('Area',
     'Square Inch', 'Square Inches', '"²', 'Imperial,US Customary', Sqr(FACTOR_INCH));

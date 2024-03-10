@@ -25,7 +25,11 @@ const
   FACTOR_UK_GALLON =      0.00454609;
 
 type
-  //TODO: A record that allows volume to be specified using three linear dimensions
+  /// <summary>
+  /// (NOT READY)
+  /// A record that allows volume to be specified using three linear dimensions
+  /// or a TUOMAreaRect and one linear dimension
+  /// </summary>
   TUOMVolumeBox = record
   private
     //FWidth: TUOMLength;
@@ -34,6 +38,8 @@ type
   public
 
   end;
+
+function Cube(const AValue: Double): Double;
 
 implementation
 
@@ -45,17 +51,27 @@ end;
 procedure RegisterUOM;
 begin
 
-  TUOMUtils.RegisterSimpleUOM('Volume',
-    'Milliliter', 'Milliliters', 'mL', 'Metric', Cube(METRIC_MILLI));
+  //Metric
+
+  TUOMMetricUtils.ProduceUOMs('Volume', 'Liter', 'L', [msFemto, msPico,
+    msNano, msMicro, msMilli, msCenti, msDeci, msBase, msDeca, msHecto,
+    msKilo, msMega, msGiga, msTera, msPeta]);
 
   TUOMUtils.RegisterSimpleUOM('Volume',
     'Cubic Centimeter', 'Cubic Centimeters', 'cm³', 'Metric', Cube(METRIC_MILLI));
 
   TUOMUtils.RegisterSimpleUOM('Volume',
-    'Liter', 'Liters', 'L', 'Metric', Cube(METRIC_DECI));
+    'Cubic Meter', 'Cubic Meters', 'm³', 'Metric (Huge)', Cube(METRIC_BASE)).SetAsBase;
+
+  {
+  TUOMUtils.RegisterSimpleUOM('Volume',
+    'Milliliter', 'Milliliters', 'mL', 'Metric', Cube(METRIC_MILLI));
 
   TUOMUtils.RegisterSimpleUOM('Volume',
-    'Cubic Meter', 'Cubic Meters', 'm³', 'Metric (Huge)', Cube(METRIC_BASE)).SetAsBase;
+    'Liter', 'Liters', 'L', 'Metric', Cube(METRIC_DECI));
+  }
+
+  //Imperial / US Customary
 
   TUOMUtils.RegisterSimpleUOM('Volume',
     'Teaspoon (US)', 'Teaspoons (US)', 'US tsp', 'US Customary', FACTOR_US_TEASPOON);
