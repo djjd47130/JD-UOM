@@ -7,17 +7,17 @@ uses
   JD.Uom;
 
 const
-  FACTOR_INCH =           0.0254;
-  FACTOR_FOOT =           0.3048;
-  FACTOR_YARD =           0.9144;
-  FACTOR_FATHOM =         1.82879999999;
-  FACTOR_ROD =            5.0292;
-  FACTOR_FURLONG =        201.168;
-  FACTOR_MILE =           1609.344;
-  FACTOR_NAUTICAL_MILE =  1852;
-  FACTOR_LIGHT_YEAR =     9460730472580800;
-  FACTOR_BANANA =         0.254;
-  FACTOR_IPHONE_14_PRO_MAX = 0.1607;
+  FACTOR_INCH =               0.0254;
+  FACTOR_FOOT =               0.3048;
+  FACTOR_YARD =               0.9144;
+  FACTOR_FATHOM =             1.82879999999;
+  FACTOR_ROD =                5.0292;
+  FACTOR_FURLONG =            201.168;
+  FACTOR_MILE =               1609.344;
+  FACTOR_NAUTICAL_MILE =      1852;
+  FACTOR_LIGHT_YEAR =         9460730472580800;
+  FACTOR_BANANA =             0.254;
+  FACTOR_IPHONE_14_PRO_MAX =  0.1607;
 
 implementation
 
