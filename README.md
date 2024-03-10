@@ -46,7 +46,9 @@ data in the most flexible manner possible.
   - **TUOMVolumeCube** - **(NOT READY)** - Implicit record type to contain 3 linear dimensions.
 - [**JD.Uom.Temperature.pas**](/Docs/JD.Uom.Temperature.md) - Registration of all Temperature related UOMs.
 - [**JD.Uom.Mass.pas**](/Docs/JD.Uom.Mass.md) - Registration of all Mass related UOMs.
+- [**JD.Uom.Frequency.pas**](/Docs/JD.Uom.Frequency.md) - Registration of all Frequency related UOMs.
 - [**JD.Uom.Time.pas**](/Docs/JD.Uom.Time.md) - Registration of all Time related UOMs.
+
 
 **And much more to come...**
 

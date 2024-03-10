@@ -19,6 +19,7 @@ uses
   JD.Uom.Volume,
   JD.Uom.Mass,
   JD.Uom.Time,
+  JD.Uom.Frequency,
   JD.Uom.Speed;
 
 const

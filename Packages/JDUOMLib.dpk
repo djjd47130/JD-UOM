@@ -43,6 +43,7 @@ contains
   JD.Uom.Intf in '..\Source\JD.Uom.Intf.pas',
   JD.Uom.Mass in '..\Source\JD.Uom.Mass.pas',
   JD.Uom.Speed in '..\Source\JD.Uom.Speed.pas',
-  JD.Uom.Time in '..\Source\JD.Uom.Time.pas';
+  JD.Uom.Time in '..\Source\JD.Uom.Time.pas',
+  JD.Uom.Frequency in '..\Source\JD.Uom.Frequency.pas';
 
 end.
