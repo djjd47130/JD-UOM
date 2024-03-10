@@ -19,6 +19,7 @@ uses
   JD.Uom.Volume,
   JD.Uom.Mass,
   JD.Uom.Time,
+  JD.Uom.Frequency,
   JD.Uom.Speed;
 
 const
@@ -43,8 +44,6 @@ type
     lblUnitName: TLabel;
     Label7: TLabel;
     lblUnitSystems: TLabel;
-    Label9: TLabel;
-    lblUnitPrefix: TLabel;
     Label11: TLabel;
     lblUnitSuffix: TLabel;
     Label4: TLabel;
@@ -228,7 +227,6 @@ begin
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;
-  lblUnitPrefix.Caption:= U.Prefix;
   lblUnitSuffix.Caption:= U.Suffix;
   lblUnitBaseFrom.Caption:=
     FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;

@@ -9,16 +9,34 @@ uses
   JD.Uom.Distance;
 
 const
-  FACTOR_MM_PER_SECOND = 277.777777777777777777777778;
-  FACTOR_CM_PER_SECOND = 27.777777777777777777777778;
+  //Metric per Second
+  FACTOR_MM_PER_SECOND = 0.0036;
+  FACTOR_CM_PER_SECOND = 0.036;
   FACTOR_M_PER_SECOND =  3.6;
   FACTOR_KM_PER_SECOND = 3600;
-  FACTOR_MM_PER_HOUR =   1000000;
-  FACTOR_CM_PER_HOUR =   100000;
-  FACTOR_M_PER_HOUR =    1000;
+  //Imperial per Second
+  FACTOR_INCH_PER_SECOND = 0.09144;
+  FACTOR_FOOT_PER_SECOND = 1.097;
+  FACTOR_MILE_PER_SECOND = 5793.64;
+  //Metric per Minute
+  FACTOR_MM_PER_MINUTE = 6e-5;
+  FACTOR_CM_PER_MINUTE = 0.0006;
+  FACTOR_M_PER_MINUTE = 16.6667;
+  FACTOR_KM_PER_MINUTE = 60.00012;
+  //Imperial per Minute
+  FACTOR_INCH_PER_MINUTE = 0.001524;
+  FACTOR_FOOT_PER_MINUTE = 0.018288;
+  FACTOR_MILE_PER_MINUTE = 96.5606;
+  //Metric per Hour
+  FACTOR_MM_PER_HOUR =   1e-6;
+  FACTOR_CM_PER_HOUR =   1e-5;
+  FACTOR_M_PER_HOUR =    0.001;
   FACTOR_KM_PER_HOUR =   1;
-  FACTOR_FOOT_PER_SECOND = 0.911344;
+  //Imperial per Hour
+  FACTOR_INCH_PER_HOUR = 2.54e-5;
+  FACTOR_FOOT_PER_HOUR = 0.0003048;
   FACTOR_MILE_PER_HOUR = 1.609344;
+  //Natural
   FACTOR_KNOT =          1.852;
   FACTOR_MACH =          1235;
   FACTOR_LIGHTSPEED =    1079252848.7999;
@@ -38,25 +56,11 @@ var
   NameSingular, NamePlural, Suffix: String;
   DistFactor, TimeFactor: Double;
 {$ENDIF}
-  function F(const V: Double): String;
-  begin
-    Result:= FormatFloat(NumInternalFormat, V);
-  end;
-  function D(const V: Double): String;
-  begin
-    Result:= 'Value / '+F(V);
-  end;
-  function M(const V: Double): String;
-  begin
-    Result:= 'Value * '+F(V);
-  end;
 begin
-
 
 {$IFDEF DYNAMIC_REG}
 
   //Dynamically register UOMs based on existing Distance and Time UOMs...
-
   for XDist := Low(DIST_UNITS) to High(DIST_UNITS) do begin
     DU:= TUOMUtils.GetUOMByName(DIST_UNITS[XDist]);
     for XTime := Low(TIME_UNITS) to High(TIME_UNITS) do begin
@@ -66,23 +70,10 @@ begin
       Suffix:= DU.Suffix+'/'+TU.Suffix;
       DistFactor:= DU.ConvertToBase(1);
       TimeFactor:= TU.ConvertToBase(1);
-
-      TUOMUtils.RegisterUOM('Speed',
-        NameSingular,
-        NamePlural,
-        '',
-        Suffix,
-        TU.Systems.DelimitedText,
-        function(const Value: Double): Double
-        begin
-          //Base to Unit - TODO: Clearly this is wrong...
-          Result:= Value / (DistFactor / TimeFactor);
-        end,
-        function(const Value: Double): Double
-        begin
-          //Unit to Base - TODO: Clearly this is wrong...
-          Result:= Value * (DistFactor / TimeFactor);
-        end
+      TUOMUtils.RegisterUOM('Speed', NameSingular, NamePlural, Suffix, TU.Systems.DelimitedText,
+        //TODO: Clearly this is wrong...
+        'Value / (DistFactor / TimeFactor)',
+        'Value * (DistFactor / TimeFactor)'
       );
     end;
   end;
@@ -91,247 +82,93 @@ begin
 
 {$ELSE}
 
-  //Metric
+  //Metric per Second
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Millimeter per Second', 'Millimeters per Second', '', 'mm/s', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_MM_PER_SECOND), D(FACTOR_MM_PER_SECOND)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Millimeters per Second
-      Result:= Value * FACTOR_MM_PER_SECOND;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Millimeters per Second to Base
-      Result:= Value / FACTOR_MM_PER_SECOND;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Millimeter per Second', 'Millimeters per Second', 'mm/s', 'Metric', FACTOR_MM_PER_SECOND);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Centimeter per Second', 'Centimeters per Second', '', 'cm/s', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_CM_PER_SECOND), D(FACTOR_CM_PER_SECOND)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Centimeters per Second
-      Result:= Value * FACTOR_CM_PER_SECOND;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Centimeters per Second to Base
-      Result:= Value / FACTOR_CM_PER_SECOND;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Centimeter per Second', 'Centimeters per Second', 'cm/s', 'Metric', FACTOR_CM_PER_SECOND);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Meter per Second', 'Meters per Second', '', 'm/s', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_M_PER_SECOND), M(FACTOR_M_PER_SECOND)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Meters per Second
-      Result:= Value / FACTOR_M_PER_SECOND;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Meters per Second to Base
-      Result:= Value * FACTOR_M_PER_SECOND;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Meter per Second', 'Meters per Second', 'm/s', 'Metric', FACTOR_M_PER_SECOND);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Kilometer per Second', 'Kilometers per Second', '', 'km/s', 'Metric (Huge)',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_KM_PER_SECOND), M(FACTOR_KM_PER_SECOND)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Kilometers per Second
-      Result:= Value / FACTOR_KM_PER_SECOND;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Kilometers per Second to Base
-      Result:= Value * FACTOR_KM_PER_SECOND;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Kilometer per Second', 'Kilometers per Second', 'km/s', 'Metric (Huge)', FACTOR_KM_PER_SECOND);
 
-  //TODO: Add Per Minute for each...
+  //Metric per Minute
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Millimeter per Hour', 'Millimeters per Hour', '', 'mm/h', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_MM_PER_HOUR), D(FACTOR_MM_PER_HOUR)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Millimeters per Hour
-      Result:= Value * FACTOR_MM_PER_HOUR;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Millimeters per Hour to Base
-      Result:= Value / FACTOR_MM_PER_HOUR;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Millimeter per Minute', 'Millimeters per Minute', 'mm/m', 'Metric', FACTOR_MM_PER_MINUTE);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Centimeter per Hour', 'Centimeters per Hour', '', 'cm/h', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_CM_PER_HOUR), D(FACTOR_CM_PER_HOUR)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Centimeters per Hour
-      Result:= Value * FACTOR_CM_PER_HOUR;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Centimeters per Hour to Base
-      Result:= Value / FACTOR_CM_PER_HOUR;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Centimeter per Minute', 'Centimeters per Minute', 'cm/m', 'Metric', FACTOR_CM_PER_MINUTE);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Meter per Hour', 'Meters per Hour', '', 'm/h', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_M_PER_HOUR), D(FACTOR_M_PER_HOUR)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Meters per Hour
-      Result:= Value * FACTOR_M_PER_HOUR;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Meters per Hour to Base
-      Result:= Value / FACTOR_M_PER_HOUR;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Meter per Minute', 'Meters per Minute', 'm/m', 'Metric', FACTOR_M_PER_MINUTE);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Kilometer per Hour', 'Kilometers per Hour', '', 'km/h', 'Metric',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_KM_PER_HOUR), M(FACTOR_KM_PER_HOUR)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Kilometers per Hour
-      Result:= Value / FACTOR_KM_PER_HOUR;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Kilometers per Hour to Base
-      Result:= Value * FACTOR_KM_PER_HOUR;
-    end
-  {$ENDIF}
-  ).SetAsBase;
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Kilometer per Minute', 'Kilometers per Minute', 'km/m', 'Metric (Huge)', FACTOR_KM_PER_MINUTE);
 
-  //Imperial / US Customary
+  //Metric per Hour
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Foot per Second', 'Feet per Second', '', 'ft/s', 'Imperial,US Customary',
-  {$IFDEF USE_MATH_EXPR}
-    M(FACTOR_FOOT_PER_SECOND), D(FACTOR_FOOT_PER_SECOND)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Feet per Second
-      Result:= Value * FACTOR_FOOT_PER_SECOND;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Feet per Second to Base
-      Result:= Value / FACTOR_FOOT_PER_SECOND;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Millimeter per Hour', 'Millimeters per Hour', 'mm/h', 'Metric', FACTOR_MM_PER_HOUR);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Mile per Hour', 'Miles per Hour', '', 'mph', 'Imperial,US Customary',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_MILE_PER_HOUR), M(FACTOR_MILE_PER_HOUR)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Miles per Hour
-      Result:= Value / FACTOR_MILE_PER_HOUR;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Miles per Hour to Base
-      Result:= Value * FACTOR_MILE_PER_HOUR;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Centimeter per Hour', 'Centimeters per Hour', 'cm/h', 'Metric', FACTOR_CM_PER_HOUR);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Meter per Hour', 'Meters per Hour', 'm/h', 'Metric', FACTOR_M_PER_HOUR);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Kilometer per Hour', 'Kilometers per Hour', 'km/h', 'Metric', FACTOR_KM_PER_HOUR).SetAsBase;
+
+  //Imperial per Second
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Inch per Second', 'Inches per Second', 'in/s', 'Imperial,US Customary', FACTOR_INCH_PER_SECOND);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Foot per Second', 'Feet per Second', 'ft/s', 'Imperial,US Customary', FACTOR_FOOT_PER_SECOND);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Mile per Second', 'Miles per Second', 'mps', 'Imperial (Huge),US Customary (Huge)', FACTOR_MILE_PER_SECOND);
+
+  //Imperial per Minute
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Inch per Minute', 'Inches per Minute', 'in/m', 'Imperial,US Customary', FACTOR_INCH_PER_MINUTE);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Foot per Minute', 'Feet per Minute', 'ft/m', 'Imperial,US Customary', FACTOR_FOOT_PER_MINUTE);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Mile per Minute', 'Miles per Minute', 'mpm', 'Imperial (Huge),US Customary (Huge)', FACTOR_MILE_PER_MINUTE);
+
+  //Imperial per Hour
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Inch per Hour', 'Inches per Hour', 'in/h', 'Imperial,US Customary', FACTOR_INCH_PER_HOUR);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Foot per Hour', 'Feet per Hour', 'ft/h', 'Imperial,US Customary', FACTOR_FOOT_PER_HOUR);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Mile per Hour', 'Miles per Hour', 'mph', 'Imperial,US Customary', FACTOR_MILE_PER_HOUR);
 
 {$ENDIF}
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Knot', 'Knots', '', 'kt', 'Imperial,US Customary',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_KNOT), M(FACTOR_KNOT)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Knots
-      Result:= Value / FACTOR_KNOT;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Knots to Base
-      Result:= Value * FACTOR_KNOT;
-    end
-  {$ENDIF}
-  );
+  //Natural
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Mach', 'Mach', '', 'M', 'Natural',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_MACH), M(FACTOR_MACH)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Mach
-      Result:= Value / FACTOR_MACH;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Mach to Base
-      Result:= Value * FACTOR_MACH;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Knot', 'Knots', 'kt', 'Imperial,US Customary', FACTOR_KNOT);
 
-  TUOMUtils.RegisterUOM('Speed',
-    'Lightspeed', 'Lightspeed', '', 'c', 'Natural',
-  {$IFDEF USE_MATH_EXPR}
-    D(FACTOR_LIGHTSPEED), M(FACTOR_LIGHTSPEED)
-  {$ELSE}
-    function(const Value: Double): Double
-    begin
-      //Base to Lightspeed
-      Result:= Value / FACTOR_LIGHTSPEED;
-    end,
-    function(const Value: Double): Double
-    begin
-      //Lightspeed to Base
-      Result:= Value * FACTOR_LIGHTSPEED;
-    end
-  {$ENDIF}
-  );
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Mach', 'Mach', 'M', 'Natural', FACTOR_MACH);
+
+  TUOMUtils.RegisterSimpleUOM('Speed',
+    'Lightspeed', 'Lightspeed', 'c', 'Natural', FACTOR_LIGHTSPEED);
 
 end;
 
