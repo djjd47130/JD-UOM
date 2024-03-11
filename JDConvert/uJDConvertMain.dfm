@@ -565,6 +565,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         Margins.Right = 10
         BlankValue = 1.000000000000000000
         AllowKeyEdit = True
+        ButtonWidth = 24
         Decimals = 4
         IntegersOnly = False
         Max = 1E50
