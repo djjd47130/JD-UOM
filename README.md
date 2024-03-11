@@ -31,6 +31,8 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 There is an application project aimed at both demonstration the capabilities of the library and actually converting
 data in the most flexible manner possible.
 
+### NOTE: This application uses the `Raize` controls, specifically `TRzSpinEdit`.
+
 ![image](https://github.com/djjd47130/JD-UOM/assets/8213266/b6c21e3e-cf1a-4126-889e-baca3172a141)
 
 ![image](https://github.com/djjd47130/JD-UOM/assets/8213266/9c613f6b-f4bd-4881-9c97-559bcd23036b)
