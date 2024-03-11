@@ -67,10 +67,11 @@ type
     Label5: TLabel;
     txtConvertFromValue: TRzSpinEdit;
     cboConvertFromUnit: TComboBox;
-    Label9: TLabel;
-    cboConvertToUnit: TComboBox;
     btnConvert: TButton;
-    txtConvertToValue: TEdit;
+    lstEquivalents: TListBox;
+    lblEquivalentsTitle: TLabel;
+    Label9: TLabel;
+    Splitter1: TSplitter;
     procedure FormCreate(Sender: TObject);
     procedure lstCategoriesClick(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
@@ -79,22 +80,22 @@ type
     procedure txtChartScaleChange(Sender: TObject);
     procedure lstSystemsClickCheck(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
-    procedure btnConvertClick(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
-    procedure cboConvertToUnitClick(Sender: TObject);
     procedure txtConvertFromValueChange(Sender: TObject);
+    procedure lstEquivalentsDblClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
     FSelUOM: String;
-    procedure RefreshSystems;
   public
+    procedure RefreshSystems;
     procedure RefreshCategories;
     procedure RefreshUOMs;
-    procedure RefreshConvert;
     procedure RefreshUOMDetails;
     procedure RefreshChart;
     procedure UpdateChart;
+    procedure RefreshConvert;
+    procedure RefreshEquivalents;
   end;
 
 var
@@ -103,6 +104,9 @@ var
 implementation
 
 {$R *.dfm}
+
+uses
+  ClipBrd;
 
 { TfrmJDConvertMain }
 
@@ -141,6 +145,12 @@ procedure TfrmJDConvertMain.lstCategoriesClick(Sender: TObject);
 begin
   RefreshUOMs;
   RefreshChart;
+end;
+
+procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
+begin
+  //TODO: Copy to clipboard...
+  Clipboard.AsText:= lstEquivalents.Items[lstEquivalents.ItemIndex];
 end;
 
 procedure TfrmJDConvertMain.lstSystemsClickCheck(Sender: TObject);
@@ -182,7 +192,7 @@ end;
 
 procedure TfrmJDConvertMain.txtConvertFromValueChange(Sender: TObject);
 begin
-  btnConvertClick(nil);
+  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.txtValueChange(Sender: TObject);
@@ -317,11 +327,7 @@ begin
   Base:= TUOMUtils.GetBaseUOM(FSelCategory);
   cboConvertFromUnit.Items.Assign(lstUOMs.Items);
   cboConvertFromUnit.ItemIndex:= cboConvertFromUnit.Items.IndexOf(Base.NameSingular);
-  cboConvertToUnit.Items.Assign(lstUOMs.Items);
-  if cboConvertToUnit.Items.Count > 0 then begin
-    cboConvertToUnit.ItemIndex:= 0;
-    btnConvertClick(nil);
-  end;
+  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.UpdateChart;
@@ -339,26 +345,36 @@ begin
   Chart.Invalidate;
 end;
 
-procedure TfrmJDConvertMain.btnConvertClick(Sender: TObject);
+procedure TfrmJDConvertMain.RefreshEquivalents;
 var
-  FU, TU: String;
+  L: TStringList;
+  X: Integer;
+  FU, TU: TUOM;
   FV, TV: Double;
+  Str: String;
+  UN: String;
 begin
-  FU:= cboConvertFromUnit.Text;
-  TU:= cboConvertToUnit.Text;
+  lstEquivalents.Items.Clear;
+  FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
   FV:= txtConvertFromValue.Value;
-  TV:= TUOMUtils.Convert(FV, FU, TU);
-  txtConvertToValue.Text:= FormatFloat(NumFormat, TV);
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListUOMs(L, FSelCategory);
+    for X := 0 to L.Count-1 do begin
+      TU:= TUOMUtils.GetUOMByName(L[X]);
+      TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
+      if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
+      Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
+      lstEquivalents.Items.Add(Str);
+    end;
+  finally
+    L.Free;
+  end;
 end;
 
 procedure TfrmJDConvertMain.cboConvertFromUnitClick(Sender: TObject);
 begin
-  btnConvertClick(nil);
-end;
-
-procedure TfrmJDConvertMain.cboConvertToUnitClick(Sender: TObject);
-begin
-  btnConvertClick(nil);
+  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);

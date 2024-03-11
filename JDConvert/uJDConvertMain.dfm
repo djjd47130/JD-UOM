@@ -379,14 +379,22 @@ object frmJDConvertMain: TfrmJDConvertMain
     ExplicitTop = 212
     ExplicitWidth = 984
     ExplicitHeight = 352
+    object Splitter1: TSplitter
+      Left = 361
+      Top = 1
+      Width = 5
+      Height = 550
+      ResizeStyle = rsUpdate
+      ExplicitLeft = 289
+    end
     object Chart: TChart
       AlignWithMargins = True
-      Left = 566
-      Top = 32
-      Width = 519
-      Height = 249
-      Margins.Left = 50
-      Margins.Right = 50
+      Left = 376
+      Top = 4
+      Width = 797
+      Height = 544
+      Margins.Left = 10
+      Margins.Right = 10
       AllowPanning = pmNone
       LeftWall.Visible = False
       Legend.CheckBoxes = True
@@ -428,17 +436,22 @@ object frmJDConvertMain: TfrmJDConvertMain
       Zoom.Allow = False
       ZoomWheel = pmwNormal
       OnAfterDraw = ChartAfterDraw
+      Align = alClient
       BevelOuter = bvNone
       Color = clBlack
       TabOrder = 0
+      ExplicitLeft = 566
+      ExplicitTop = 38
+      ExplicitWidth = 519
+      ExplicitHeight = 249
       DesignSize = (
-        519
-        249)
+        797
+        544)
       DefaultCanvas = 'TGDIPlusCanvas'
       ColorPaletteIndex = 9
       object txtChartScale: TRzSpinEdit
         AlignWithMargins = True
-        Left = 382
+        Left = 660
         Top = 3
         Width = 132
         Height = 27
@@ -456,7 +469,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         ExplicitLeft = 768
       end
       object chkNegative: TCheckBox
-        Left = 265
+        Left = 543
         Top = 7
         Width = 97
         Height = 19
@@ -493,17 +506,15 @@ object frmJDConvertMain: TfrmJDConvertMain
     object pConvert: TPanel
       Left = 1
       Top = 1
-      Width = 288
+      Width = 360
       Height = 550
       Align = alLeft
       TabOrder = 1
-      ExplicitLeft = 0
-      ExplicitTop = 6
       object lblConvertTitle: TLabel
         AlignWithMargins = True
         Left = 4
         Top = 4
-        Width = 280
+        Width = 352
         Height = 19
         Align = alTop
         Caption = 'Convert'
@@ -518,10 +529,9 @@ object frmJDConvertMain: TfrmJDConvertMain
       object Label5: TLabel
         AlignWithMargins = True
         Left = 4
-        Top = 41
-        Width = 273
+        Top = 29
+        Width = 345
         Height = 19
-        Margins.Top = 15
         Margins.Right = 10
         Align = alTop
         Caption = 'From:'
@@ -532,41 +542,57 @@ object frmJDConvertMain: TfrmJDConvertMain
         Font.Style = [fsBold]
         ParentFont = False
         ExplicitLeft = 11
-        ExplicitTop = 36
-        ExplicitWidth = 47
+        ExplicitTop = 75
+        ExplicitWidth = 273
       end
-      object Label9: TLabel
+      object lblEquivalentsTitle: TLabel
         AlignWithMargins = True
         Left = 4
-        Top = 188
-        Width = 273
+        Top = 152
+        Width = 345
         Height = 19
-        Margins.Top = 15
         Margins.Right = 10
         Align = alTop
-        Caption = 'To:'
+        Caption = 'Equivalents:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -16
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
-        ExplicitLeft = 59
-        ExplicitTop = 277
-        ExplicitWidth = 266
+        ExplicitTop = 243
+        ExplicitWidth = 100
+      end
+      object Label9: TLabel
+        AlignWithMargins = True
+        Left = 4
+        Top = 533
+        Width = 345
+        Height = 13
+        Margins.Right = 10
+        Align = alBottom
+        Caption = '(Double-click to copy to clipboard)'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ExplicitTop = 527
+        ExplicitWidth = 162
       end
       object txtConvertFromValue: TRzSpinEdit
         AlignWithMargins = True
         Left = 11
-        Top = 66
-        Width = 266
+        Top = 54
+        Width = 338
         Height = 28
         Margins.Left = 10
         Margins.Right = 10
         BlankValue = 1.000000000000000000
         AllowKeyEdit = True
         ButtonWidth = 24
-        Decimals = 4
+        Decimals = 12
         IntegersOnly = False
         Max = 1E50
         Min = -1E50
@@ -575,15 +601,14 @@ object frmJDConvertMain: TfrmJDConvertMain
         Align = alTop
         TabOrder = 0
         OnChange = txtConvertFromValueChange
-        ExplicitLeft = 4
-        ExplicitTop = 61
-        ExplicitWidth = 280
+        ExplicitLeft = 9
+        ExplicitWidth = 322
       end
       object cboConvertFromUnit: TComboBox
         AlignWithMargins = True
         Left = 11
-        Top = 100
-        Width = 266
+        Top = 88
+        Width = 338
         Height = 27
         Margins.Left = 10
         Margins.Right = 10
@@ -591,52 +616,34 @@ object frmJDConvertMain: TfrmJDConvertMain
         Style = csDropDownList
         TabOrder = 1
         OnClick = cboConvertFromUnitClick
-        ExplicitTop = 95
-      end
-      object cboConvertToUnit: TComboBox
-        AlignWithMargins = True
-        Left = 11
-        Top = 246
-        Width = 266
-        Height = 27
-        Margins.Left = 10
-        Margins.Right = 10
-        Align = alTop
-        Style = csDropDownList
-        TabOrder = 2
-        OnClick = cboConvertToUnitClick
-        ExplicitTop = 286
+        ExplicitTop = 113
+        ExplicitWidth = 266
       end
       object btnConvert: TButton
         AlignWithMargins = True
         Left = 11
-        Top = 145
-        Width = 266
+        Top = 121
+        Width = 338
         Height = 25
         Margins.Left = 10
-        Margins.Top = 15
         Margins.Right = 10
         Align = alTop
         Caption = 'Convert'
-        TabOrder = 3
-        OnClick = btnConvertClick
-        ExplicitLeft = 80
-        ExplicitTop = 256
-        ExplicitWidth = 75
+        TabOrder = 2
+        ExplicitTop = 187
+        ExplicitWidth = 266
       end
-      object txtConvertToValue: TEdit
+      object lstEquivalents: TListBox
         AlignWithMargins = True
-        Left = 11
-        Top = 213
-        Width = 266
-        Height = 27
-        Margins.Left = 10
-        Margins.Right = 10
-        Align = alTop
-        ReadOnly = True
-        TabOrder = 4
-        ExplicitLeft = -3
-        ExplicitTop = 237
+        Left = 4
+        Top = 177
+        Width = 352
+        Height = 350
+        Align = alClient
+        ItemHeight = 19
+        TabOrder = 3
+        OnDblClick = lstEquivalentsDblClick
+        ExplicitLeft = 2
         ExplicitWidth = 280
       end
     end
