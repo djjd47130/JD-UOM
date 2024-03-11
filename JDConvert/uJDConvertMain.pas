@@ -20,7 +20,8 @@ uses
   JD.Uom.Mass,
   JD.Uom.Time,
   JD.Uom.Frequency,
-  JD.Uom.Speed;
+  JD.Uom.Speed,
+  JD.Uom.Numbers;
 
 const
   WIDTH_SMALL = 2;
@@ -29,7 +30,7 @@ const
 
 type
   TfrmJDConvertMain = class(TForm)
-    pMain: TPanel;
+    pTop: TPanel;
     pCategories: TPanel;
     Label1: TLabel;
     lstCategories: TListBox;
@@ -67,7 +68,6 @@ type
     Label5: TLabel;
     txtConvertFromValue: TRzSpinEdit;
     cboConvertFromUnit: TComboBox;
-    btnConvert: TButton;
     lstEquivalents: TListBox;
     lblEquivalentsTitle: TLabel;
     Label9: TLabel;
@@ -387,6 +387,7 @@ var
 begin
   lstEquivalents.Items.Clear;
   FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
+  if FU = nil then Exit;
   FV:= txtConvertFromValue.Value;
   L:= TStringList.Create;
   try
@@ -395,7 +396,8 @@ begin
       TU:= TUOMUtils.GetUOMByName(L[X]);
       TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
       if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
-      Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
+      //Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
+      Str:= FormatFloat('#,###,###,###,##0.##################', TV)+' '+UN+' ('+TU.Suffix+')';
       lstEquivalents.Items.AddObject(Str, TU);
     end;
   finally

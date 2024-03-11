@@ -15,7 +15,7 @@ object frmJDConvertMain: TfrmJDConvertMain
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 19
-  object pMain: TPanel
+  object pTop: TPanel
     Left = 0
     Top = 0
     Width = 1036
@@ -31,7 +31,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       Height = 209
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 0
+      TabOrder = 1
       object Label1: TLabel
         AlignWithMargins = True
         Left = 3
@@ -68,7 +68,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       Height = 209
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 1
+      TabOrder = 2
       object Label2: TLabel
         AlignWithMargins = True
         Left = 3
@@ -104,7 +104,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       Height = 209
       Align = alClient
       BevelOuter = bvNone
-      TabOrder = 2
+      TabOrder = 3
       ExplicitWidth = 300
       object pTestVal: TPanel
         Left = 0
@@ -339,7 +339,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       Height = 209
       Align = alLeft
       BevelOuter = bvNone
-      TabOrder = 3
+      TabOrder = 0
       object Label12: TLabel
         AlignWithMargins = True
         Left = 3
@@ -441,11 +441,9 @@ object frmJDConvertMain: TfrmJDConvertMain
       Align = alClient
       BevelOuter = bvNone
       Color = clBlack
-      TabOrder = 0
-      ExplicitLeft = 566
-      ExplicitTop = 38
-      ExplicitWidth = 519
-      ExplicitHeight = 249
+      TabOrder = 1
+      ExplicitLeft = 422
+      ExplicitTop = 6
       DesignSize = (
         601
         403)
@@ -511,7 +509,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       Width = 408
       Height = 409
       Align = alLeft
-      TabOrder = 1
+      TabOrder = 0
       ExplicitHeight = 550
       object lblConvertTitle: TLabel
         AlignWithMargins = True
@@ -551,7 +549,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       object lblEquivalentsTitle: TLabel
         AlignWithMargins = True
         Left = 4
-        Top = 152
+        Top = 121
         Width = 393
         Height = 19
         Margins.Right = 10
@@ -595,7 +593,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         BlankValue = 1.000000000000000000
         AllowKeyEdit = True
         ButtonWidth = 24
-        Decimals = 12
+        Decimals = 15
         IntegersOnly = False
         Max = 1E50
         Min = -1E50
@@ -622,26 +620,12 @@ object frmJDConvertMain: TfrmJDConvertMain
         ExplicitTop = 113
         ExplicitWidth = 266
       end
-      object btnConvert: TButton
-        AlignWithMargins = True
-        Left = 11
-        Top = 121
-        Width = 386
-        Height = 25
-        Margins.Left = 10
-        Margins.Right = 10
-        Align = alTop
-        Caption = 'Convert'
-        TabOrder = 2
-        ExplicitTop = 187
-        ExplicitWidth = 266
-      end
       object lstEquivalents: TListBox
         AlignWithMargins = True
         Left = 4
-        Top = 177
+        Top = 146
         Width = 400
-        Height = 209
+        Height = 240
         Align = alClient
         BorderStyle = bsNone
         Font.Charset = DEFAULT_CHARSET
@@ -651,10 +635,11 @@ object frmJDConvertMain: TfrmJDConvertMain
         Font.Style = []
         ItemHeight = 19
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 2
         StyleElements = [seClient, seBorder]
         OnDblClick = lstEquivalentsDblClick
         OnDrawItem = lstEquivalentsDrawItem
+        ExplicitLeft = 2
       end
     end
   end
