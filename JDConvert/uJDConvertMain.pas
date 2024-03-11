@@ -83,6 +83,8 @@ type
     procedure cboConvertFromUnitClick(Sender: TObject);
     procedure txtConvertFromValueChange(Sender: TObject);
     procedure lstEquivalentsDblClick(Sender: TObject);
+    procedure lstEquivalentsDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -151,6 +153,35 @@ procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
 begin
   //TODO: Copy to clipboard...
   Clipboard.AsText:= lstEquivalents.Items[lstEquivalents.ItemIndex];
+end;
+
+procedure TfrmJDConvertMain.lstEquivalentsDrawItem(Control: TWinControl;
+  Index: Integer; Rect: TRect; State: TOwnerDrawState);
+var
+  U: TUOM;
+  C: TCanvas;
+  S: String;
+begin
+  //TODO: Why is none of this working?
+  C:= lstEquivalents.Canvas;
+  U:= TUOM(lstEquivalents.Items.Objects[Index]);
+  S:= lstEquivalents.Items[Index];
+  if U.NameSingular = cboConvertFromUnit.Text then begin
+    //Selected "FROM" unit...
+    C.Font.Color:= clSkyBlue;
+  end else begin
+    //Anything else...
+   C.Font.Color:= clWhite;
+  end;
+  C.Brush.Style:= bsSolid;
+  if odSelected in State then
+    C.Brush.Color:= clNavy
+  else
+    C.Brush.Color:= clBlack;
+  C.Pen.Style:= psClear;
+  C.Rectangle(Rect);
+  InflateRect(Rect, -2, -2);
+  DrawText(C.Handle, PChar(S), Length(S), Rect, DT_SINGLELINE);
 end;
 
 procedure TfrmJDConvertMain.lstSystemsClickCheck(Sender: TObject);
@@ -365,7 +396,7 @@ begin
       TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
       if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
       Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
-      lstEquivalents.Items.Add(Str);
+      lstEquivalents.Items.AddObject(Str, TU);
     end;
   finally
     L.Free;
