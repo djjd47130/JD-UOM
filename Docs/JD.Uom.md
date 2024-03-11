@@ -21,13 +21,13 @@ Central unit to access all possible unit of measure conversions.
 
 - `class function MetricName` - Returns the general name of a given metric unit.
   - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
-  - `Function Result: TUOM` - The `TUOM` object related to given name, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object related to given name, if found.
 - `class function MetricSuffix` - Returns the general suffix of a given metric unit.
   - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
-  - `Function Result: TUOM` - The `TUOM` object related to given name, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object related to given name, if found.
 - `class function MetricFactor` - Returns the base conversion factor of a given metric unit.
   - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
-  - `Function Result: TUOM` - The `TUOM` object related to given name, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object related to given name, if found.
 - `class procedure ProduceUOMs` - Automatically generates and registers UOMs for each specified metric unit.
   - `const Category: String` - The Category associated with the UOMs.
   - `const Name: String` - The base *singular* name of the metric UOMs, such as `Meter`, `Gram`, or `Hertz`.
@@ -50,13 +50,13 @@ Central unit to access all possible unit of measure conversions.
 
 - `procedure Invalidate` - A change has been made which requires parent TUOMUtils to refresh its cache.
 - `function SetAsBase` - Assigns this UOM as the base UOM of its specified Category.
-  - `Function Result: TUOM` - Returns itself.
+  - *`Function Result: TUOM`* - Returns itself.
 - `function ConvertFromBase` - Returns a value converted FROM the base unit.
   - `const Value: Double` - The value to be converted from the base unit.
-  - `Function Result: Double` - The converted value.
+  - *`Function Result: Double`* - The converted value.
 - `function ConvertToBase` - Returns a value converted TO the base unit.
   - `const Value: Double` - The value to be converted to the base unit.
-  - `Function Result: Double` - The converted value.
+  - *`Function Result: Double`* - The converted value.
 - `property ConvertFromBaseFormula: String` - A string containing a mathematical expression to convert the `Value` FROM the base UOM.
 - `property ConvertToBaseFormula: String` - A string containing a mathematical expression to convert the `Value` TO the base UOM.
 - `property Category: String` - The major group of UOMs (Distance, Area, Volume, Mass, Temperature, etc.)
@@ -73,24 +73,24 @@ Central unit to access all possible unit of measure conversions.
   - `var ASuffix: Double` - The resulting suffix value within the given value.
 - `class function StrToUOMValue` - (NOT READY) Parses a given UOM String into `TUOMValue` record type.
   - `const Str: String` - The string value to be parsed and interpreted.
-  - `Function Result: TUOMValue` - The resulting `TUOMValue` record containing value and related unit.
+  - *`Function Result: TUOMValue`* - The resulting `TUOMValue` record containing value and related unit.
 - `class procedure Invalidate` - A change has been made which requires cache to be refreshed.
 - `class function GetUOMByIndex` - Returns a `TUOM` object based on a given list inded of the master UOM list.
   - `const Index: Integer` - The index value within the master UOM list.
-  - `Function Result: TUOM` - The `TUOM` object, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object, if found.
 - `class function GetUOMByName` - Returns a `TUOM` object based on a given UOM's unique SINGULAR name (case sensitive).
   - `const Name: String` - The unique SINGULAR name to find in the master UOM list.
-  - `Function Result: TUOM` - The `TUOM` object, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object, if found.
 - `class function GetUOMBySuffix` - Returns a `TUOM` object based on a given UOM's unique suffix (case sensitive).
   - `const Suffix: String` - The unique suffix to find in the master UOM list.
-  - `Function Result: TUOM` - The `TUOM` object, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object, if found.
 - `class function GetBaseUOM` - Returns a `TUOM` object of the given Category's base unit.
   - `const Category: String` - The category in which to find the base.
-  - `Function Result: TUOM` - The `TUOM` object, if found.
+  - *`Function Result: TUOM`* - The `TUOM` object, if found.
 - `class function CategoryCount` - Returns the number of UOM categories (Distance, Area, Temperature, Mass...).
-  - `Function Result: Integer` - The number of Categories registered.
+  - *`Function Result: Integer`* - The number of Categories registered.
 - `class function SystemCount` - Returns the number of UOM systems (Metric, Imperial, US Customary...).
-  - `Function Result: Integer` - The number of Systems registered.
+  - *`Function Result: Integer`* - The number of Systems registered.
 - `class procedure ListCategories` - Populates a given `TStrings` object with all possible Categories.
   - `const AList: TStrings` - The `TStrings` object to be populated with Categories.
 - `class procedure ListSystems` - Populates a given `TStrings` object with all possible Systems.
@@ -100,7 +100,7 @@ Central unit to access all possible unit of measure conversions.
   - `ACategory: String` - Filters by a specific Category (all by default).
   - `ASystems: String` - Filters by multiple specific Systems (all by default), comma-separated.
 - `class function UOMCount` - Returns the total number of specific UOMs registered.
-  - `Function Result: Integer` - The total number of UOMs registered.
+  - *`Function Result: Integer`* - The total number of UOMs registered.
 - `class function RegisterUOM` - Registers a new `TUOM` object into the UOM system based on a variety of parameters. NOTE: Validation will be done to ensure unique (case sensitive) UOM names, as well as unique suffixes.
   - `const ACategory: String` - The main Category of the UOM (Distance, Mass, Volume...)
   - `const ANameSingular: String` - The unique *singular* name of the UOM (Milligram, Inch, Mile...)
@@ -109,7 +109,7 @@ Central unit to access all possible unit of measure conversions.
   - `const ASystems: String` -  Comma-separated string of multiple Systems (Metric,Imperial,US Customary...)
   - `const AFromBase: String` - The formula to convert *from* the base unit *to* this unit.
   - `const AToBase: String` - The formula to convert *from* this unit *to* the base unit.
-  - `Function Result: TUOM` - The resulting `TUOM` object created from registering.
+  - *`Function Result: TUOM`* - The resulting `TUOM` object created from registering.
 - `class function RegisterSimpleUOM` - Registers a new SIMPLE `TUOM` object into the UOM system based on a variety of parameters.
   - `const ACategory: String` - The main Category of the UOM (Distance, Mass, Volume...)
   - `const ANameSingular: String` - The unique *singular* name of the UOM (Milligram, Inch, Mile...)
@@ -117,7 +117,7 @@ Central unit to access all possible unit of measure conversions.
   - `const ASuffix: String` - The unique suffix to appear at the end of UOM values (mg, in, mi...)
   - `const ASystems: String` -  Comma-separated string of multiple Systems (Metric,Imperial,US Customary...)
   - `const ABaseFactor: Double` - The conversion factor to the base unit.
-  - `Function Result: TUOM` - The resulting `TUOM` object created from registering.
+  - *`Function Result: TUOM`* - The resulting `TUOM` object created from registering.
 - `class procedure RegisterBaseUOM` - Registers the BASE UOM for a given UOM Category. For example, Meters for Distance, Grams for Mass, Celsius for Temperature...
   - `const ACategory: String` - The Category in which this base unit will be assigned.
   - `const AUnit: TUOM` - The specific `TUOM` object to be used as the Category's base unit.
