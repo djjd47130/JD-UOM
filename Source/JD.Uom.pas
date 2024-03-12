@@ -80,40 +80,22 @@ uses
   , dwsCompiler, dwsExprs, dwsComp, dwsErrors
   ;
 
-type
-  /// <summary>
-  /// Base exception type for all exceptions raised from UOM library.
-  /// </summary>
-  EUOMException = Exception;
-  /// <summary>
-  /// Exception indicating a specified UOM is invalid.
-  /// </summary>
-  EUOMInvalidUnitException = EUOMException;
-  /// <summary>
-  /// Exception indicating a specified value is outside of its possible range.
-  /// </summary>
-  EUOMOutOfRangeException = EUOMException;
-  /// <summary>
-  /// Excep tion indicating a value cannot be duplicated.
-  /// </summary>
-  EUOMDuplicateException = EUOMException;
-
-  EUOMEvalException = EUOMException;
-
 const
   /// <summary>
-  ///
+  /// Specifies which characters are part of a number.
+  /// Used for deserializing UOM strings.
   /// </summary>
   PartOfNumber = ['0'..'9', '.', ','];
   /// <summary>
-  ///
+  /// The format for converting Double to String for display.
   /// </summary>
   NumFormat = '#,###,###,###,###,##0.##################';
   /// <summary>
-  ///
+  /// The format for converting Double to String for internal use.
   /// </summary>
   NumInternalFormat = '###############0.##################';
 
+  //Common Metric conversion factors
   METRIC_FEMTO = 0.000000000000001;
   METRIC_PICO  = 0.000000000001;
   METRIC_NANO  = 0.000000001;
@@ -131,11 +113,37 @@ const
   METRIC_PETA  = 1000000000000000;
 
 type
+  TUOMMetricUtils = class;
+  TUOM = class;
+  TUOMUtils = class;
+
+  /// <summary>
+  /// Base exception type for all exceptions raised from UOM library.
+  /// </summary>
+  EUOMException = Exception;
+  /// <summary>
+  /// Exception indicating a specified UOM is invalid.
+  /// </summary>
+  EUOMInvalidUnitException = EUOMException;
+  /// <summary>
+  /// Exception indicating a specified value is outside of its possible range.
+  /// </summary>
+  EUOMOutOfRangeException = EUOMException;
+  /// <summary>
+  /// Exception indicating a value cannot be duplicated.
+  /// </summary>
+  EUOMDuplicateException = EUOMException;
+  /// <summary>
+  /// Exception indicating string expression evaluation failed.
+  /// </summary>
+  EUOMEvalException = EUOMException;
+
   /// <summary>
   /// Enum representing a specific Metric system size.
   /// </summary>
   TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
     msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
+
   /// <summary>
   /// Set of `TMetricUnit` enum.
   /// </summary>
@@ -164,10 +172,6 @@ type
     class procedure ProduceUOMs(const Category: String; const Name: String;
       const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '');
   end;
-
-type
-  TUOM = class;
-  TUOMUtils = class;
 
   /// <summary>
   /// (NOT READY)
@@ -269,14 +273,10 @@ type
     procedure SetConvertFromBaseFormula(const Value: String);
     procedure SetConvertToBaseFormula(const Value: String);
   public
-    constructor Create; overload;
-    constructor Create(const ACategory, ANameSingular, ANamePlural, ASuffix,
-      ASystems: String; const AFromBase: String = ''; const AToBase: String = ''); overload;
+    constructor Create; //overload;
+    //constructor Create(const ACategory, ANameSingular, ANamePlural, ASuffix,
+      //ASystems: String; const AFromBase: String = ''; const AToBase: String = ''); overload;
     destructor Destroy; override;
-    /// <summary>
-    /// A change has been made which requires parent TUOMUtils to refresh its cache.
-    /// </summary>
-    procedure Invalidate; virtual;
     /// <summary>
     /// Assigns this UOM as the base UOM of its specified Category.
     /// </summary>
@@ -348,7 +348,11 @@ type
     /// <summary>
     /// A change has been made which requires cache to be refreshed.
     /// </summary>
-    class procedure Invalidate; virtual;
+    class procedure InvalidateSystems; virtual;
+
+    class procedure InvalidateCategories; virtual;
+
+    class procedure InvalidateUOMs; virtual;
     /// <summary>
     /// Returns a TUOM object based on a given list inded of the master UOM list.
     /// </summary>
@@ -449,6 +453,7 @@ begin
   Result:= TUOMUtils.Convert(Value, FNameSingular, B.FNameSingular);
 end;
 
+{
 constructor TUOM.Create(const ACategory, ANameSingular, ANamePlural, ASuffix,
   ASystems: String; const AFromBase: String = ''; const AToBase: String = '');
 begin
@@ -460,19 +465,12 @@ begin
   FSystems.DelimitedText:= ASystems;
   FConvertFromBaseFormula:= AFromBase;
   FConvertToBaseFormula:= AToBase;
-  //TODO: Validate...
-
-  Invalidate;
 end;
+}
 
 destructor TUOM.Destroy;
 begin
   FreeAndNil(FSystems);
-end;
-
-procedure TUOM.Invalidate;
-begin
-  TUOMUtils.Invalidate;
 end;
 
 function TUOM.SetAsBase: TUOM;
@@ -485,14 +483,14 @@ procedure TUOM.SetConvertFromBaseFormula(const Value: String);
 begin
   FConvertFromBaseFormula := Value;
   //TODO: Validate...
-  Invalidate;
+  TUOMUtils.InvalidateUOMs;
 end;
 
 procedure TUOM.SetConvertToBaseFormula(const Value: String);
 begin
   FConvertToBaseFormula := Value;
   //TODO: Validate...
-  Invalidate;
+  TUOMUtils.InvalidateUOMs;
 end;
 
 function TUOM.GetSystems: TStrings;
@@ -504,35 +502,38 @@ procedure TUOM.SetNamePlural(const Value: String);
 begin
   FNamePlural:= Value;
   //TODO: Validate...
+  TUOMUtils.InvalidateUOMs;
 end;
 
 procedure TUOM.SetNameSingular(const Value: String);
 begin
   FNameSingular:= Value;
   //TODO: Validate...
+  TUOMUtils.InvalidateUOMs;
 end;
 
 procedure TUOM.SetSuffix(const Value: String);
 begin
   FSuffix:= Value;
   //TODO: Validate...
+  TUOMUtils.InvalidateUOMs;
 end;
 
 procedure TUOM.SetSystems(const Value: TStrings);
 begin
   FSystems.Assign(Value);
-  TUOMUtils.ListSystems(TUOMUtils.FSystems);
+  TUOMUtils.InvalidateSystems;
 end;
 
 procedure TUOM.SetCategory(const Value: String);
 begin
   FCategory:= Value;
-  TUOMUtils.ListCategories(TUOMUtils.FCategories);
+  TUOMUtils.InvalidateCategories;
 end;
 
 procedure TUOM.SystemsChanged(Sender: TObject);
 begin
-  TUOMUtils.ListSystems(TUOMUtils.FSystems);
+  TUOMUtils.InvalidateUOMs;
 end;
 
 { TUOMUtils }
@@ -612,10 +613,19 @@ begin
   end;
 end;
 
-class procedure TUOMUtils.Invalidate;
+class procedure TUOMUtils.InvalidateCategories;
 begin
   ListCategories(FCategories);
+end;
+
+class procedure TUOMUtils.InvalidateSystems;
+begin
   ListSystems(FSystems);
+end;
+
+class procedure TUOMUtils.InvalidateUOMs;
+begin
+  //TODO: Anything?
 end;
 
 class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
@@ -761,7 +771,8 @@ begin
     FBaseUOMs.Add(ACategory, AUnit)
   else
     FBaseUOMs[ACategory]:= AUnit;
-  Invalidate;
+  InvalidateUOMs;
+  InvalidateCategories;
 end;
 
 class function TUOMUtils.RegisterSimpleUOM(const ACategory, ANameSingular,
@@ -816,7 +827,7 @@ begin
   finally
     FUOMs.Add(Result);
   end;
-  Invalidate;
+  InvalidateUOMs;
 end;
 
 class function TUOMUtils.StrToUOMValue(const Str: String): TUOMValue;
@@ -829,7 +840,7 @@ end;
 
 class function TUOMUtils.SystemCount: Integer;
 begin
-  Invalidate;
+  //Invalidate;
   Result:= FSystems.Count;
 end;
 
@@ -840,7 +851,7 @@ end;
 
 class function TUOMUtils.CategoryCount: Integer;
 begin
-  Invalidate;
+  //Invalidate;
   Result:= FCategories.Count;
 end;
 

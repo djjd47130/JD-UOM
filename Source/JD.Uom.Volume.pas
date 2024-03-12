@@ -23,6 +23,7 @@ const
   FACTOR_UK_QUART =       0.00113652;
   FACTOR_US_GALLON =      0.00378541;
   FACTOR_UK_GALLON =      0.00454609;
+  FACTOR_EARTH_VOLUME =   1.082999999E+21;
 
 type
   /// <summary>
@@ -115,6 +116,9 @@ begin
 
   TUOMUtils.RegisterSimpleUOM('Volume',
     'Cubic Yard', 'Cubic Yards', 'yd³', 'US Customary (Huge)', Cube(FACTOR_YARD));
+
+  TUOMUtils.RegisterSimpleUOM('Volume',
+    'Earth Volume', 'Earth Volume', 'Earth³', 'Natural', FACTOR_EARTH_VOLUME);
 
 end;
 

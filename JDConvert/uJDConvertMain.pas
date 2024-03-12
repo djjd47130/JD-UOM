@@ -411,10 +411,11 @@ begin
 end;
 
 procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);
-var
-  P1, P2: TPoint;
-  U: TUOM;
+//var
+  //P1, P2: TPoint;
+  //U: TUOM;
 begin
+  {
   if lstCategories.ItemIndex <= 0 then Exit;
   if lstUOMs.ItemIndex <= 0 then Exit;
 
@@ -441,6 +442,7 @@ begin
   P1.X:= Chart.BottomAxis.CalcPosValue(U.ConvertToBase(txtValue.Value)); //TODO: Fix...
   P2.X:= P1.X;
   //Chart.Canvas.Line(P1, P2);
+  }
 
 end;
 
