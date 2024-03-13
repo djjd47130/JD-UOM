@@ -21,7 +21,7 @@ uses
   JD.Uom.Time,
   JD.Uom.Frequency,
   JD.Uom.Speed,
-  JD.Uom.Numbers;
+  JD.Uom.Numbers, Vcl.ComCtrls;
 
 const
   WIDTH_SMALL = 2;
@@ -58,13 +58,11 @@ type
     Label10: TLabel;
     pSystems: TPanel;
     Label12: TLabel;
-    lstSystems: TCheckListBox;
     txtChartScale: TRzSpinEdit;
     Label2: TLabel;
     chkNegative: TCheckBox;
     Series1: TLineSeries;
     pConvert: TPanel;
-    lblConvertTitle: TLabel;
     Label5: TLabel;
     txtConvertFromValue: TRzSpinEdit;
     cboConvertFromUnit: TComboBox;
@@ -72,19 +70,25 @@ type
     lblEquivalentsTitle: TLabel;
     Label9: TLabel;
     Splitter1: TSplitter;
+    lstSystems: TListView;
+    pMain: TPanel;
+    Panel1: TPanel;
+    lblConvertTitle: TLabel;
+    cboConvertCategory: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure lstCategoriesClick(Sender: TObject);
     procedure lstUOMsClick(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure ChartAfterDraw(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
-    procedure lstSystemsClickCheck(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
     procedure txtConvertFromValueChange(Sender: TObject);
     procedure lstEquivalentsDblClick(Sender: TObject);
     procedure lstEquivalentsDrawItem(Control: TWinControl; Index: Integer;
       Rect: TRect; State: TOwnerDrawState);
+    procedure lstSystemsItemChecked(Sender: TObject; Item: TListItem);
+    procedure cboConvertCategoryClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -121,21 +125,33 @@ begin
   Chart.Align:= alClient;
   RefreshSystems;
   RefreshCategories;
+  TUOMUtils.ListCategories(cboConvertCategory.Items);
+  if cboConvertCategory.Items.Count > 0 then
+    cboConvertCategory.ItemIndex:= 0;
+  RefreshConvert;
 end;
 
 procedure TfrmJDConvertMain.RefreshSystems;
 var
+  L: TStringList;
   X: Integer;
   S: String;
+  I: TListItem;
 begin
-  TUOMUtils.ListSystems(lstSystems.Items);
-  lstSystems.CheckAll(TCheckBoxState.cbUnchecked);
-  for X := 0 to lstSystems.Items.Count-1 do begin
-    S:= lstSystems.Items[X];
-    if (S = 'Metric') or (S = 'US Customary') or (S = 'Random') then
-      lstSystems.Checked[X]:= True;
+  lstSystems.Items.Clear;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListSystems(L);
+    for X := 0 to L.Count-1 do begin
+      S:= L[X];
+      I:= lstSystems.Items.Add;
+      I.Caption:= S;
+      I.Checked:= (S = 'Metric') or (S = 'US Customary') or (S = 'Random');
+    end;
+    lstSystemsItemChecked(nil, nil);
+  finally
+    L.Free;
   end;
-  lstSystemsClickCheck(nil);
 end;
 
 procedure TfrmJDConvertMain.chkNegativeClick(Sender: TObject);
@@ -184,16 +200,17 @@ begin
   DrawText(C.Handle, PChar(S), Length(S), Rect, DT_SINGLELINE);
 end;
 
-procedure TfrmJDConvertMain.lstSystemsClickCheck(Sender: TObject);
+procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;
+  Item: TListItem);
 var
   X: Integer;
 begin
   FSelSystems:= '';
   for X := 0 to lstSystems.Items.Count-1 do begin
-    if lstSystems.Checked[X] then begin
+    if lstSystems.Items[X].Checked then begin
       if FSelSystems <> '' then
         FSelSystems:= FSelSystems + ',';
-      FSelSystems:= FSelSystems + lstSystems.Items[X];
+      FSelSystems:= FSelSystems + lstSystems.Items[X].Caption;
     end;
   end;
   RefreshUOMs;
@@ -274,7 +291,6 @@ begin
   finally
     L.Free;
   end;
-  RefreshConvert;
 end;
 
 procedure TfrmJDConvertMain.RefreshUOMDetails;
@@ -352,11 +368,12 @@ end;
 
 procedure TfrmJDConvertMain.RefreshConvert;
 var
+  Cat: String;
   Base: TUOM;
 begin
-  lblConvertTitle.Caption:= 'Convert '+FSelCategory;
-  Base:= TUOMUtils.GetBaseUOM(FSelCategory);
-  cboConvertFromUnit.Items.Assign(lstUOMs.Items);
+  Cat:= cboConvertCategory.Text;
+  Base:= TUOMUtils.GetBaseUOM(Cat);
+  TUOMUtils.ListUOMs(cboConvertFromUnit.Items, Cat);
   cboConvertFromUnit.ItemIndex:= cboConvertFromUnit.Items.IndexOf(Base.NameSingular);
   RefreshEquivalents;
 end;
@@ -391,7 +408,7 @@ begin
   FV:= txtConvertFromValue.Value;
   L:= TStringList.Create;
   try
-    TUOMUtils.ListUOMs(L, FSelCategory);
+    TUOMUtils.ListUOMs(L, cboConvertCategory.Text);
     for X := 0 to L.Count-1 do begin
       TU:= TUOMUtils.GetUOMByName(L[X]);
       TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
@@ -403,6 +420,11 @@ begin
   finally
     L.Free;
   end;
+end;
+
+procedure TfrmJDConvertMain.cboConvertCategoryClick(Sender: TObject);
+begin
+  RefreshConvert;
 end;
 
 procedure TfrmJDConvertMain.cboConvertFromUnitClick(Sender: TObject);
