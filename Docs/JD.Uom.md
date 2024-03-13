@@ -15,7 +15,9 @@ Central unit to access all possible unit of measure conversions.
 - `TMetricUnits` - Set of `TMetricUnit` enum.
 - `TUOMCombinedValueCount` - Specifies the number of values in use in a `TUOMCombinedValue` record.
 
-## `TUOMMetricUtils` - Class providing several helpful tools to manage UOMs of the Metric system.
+## `TUOMMetricUtils`
+
+Class providing several helpful tools to manage UOMs of the Metric system.
 
 - `class function MetricName` - Returns the general name of a given metric unit.
   - `const U: TUOMMetricUnit` - The desired metric unit to lookup.
@@ -33,18 +35,24 @@ Central unit to access all possible unit of measure conversions.
   - `const Units: TUOMMetricUnits` - A set of `TUOMMetricUnit` enums to specify which metric UOMs should be registered.
   - `const Base: String = ''` - The base UOM for the given Category (Default is the default metric `Name` such as `Meter`, `Gram`, or `Hertz`).
 
-## `TUOMValue` - **(NOT READY)** - Abstract record to encapsulate a single possible value attached to a specific UOM category
+## `TUOMValue`
+
+**(NOT READY)** - Abstract record to encapsulate a single possible value attached to a specific UOM category
 
 - Includes class operators to implicitly cast and perform mathematic operations on UOM values.
 - `property UOM: String` - Returns the specified Unit-of-Measurement associated with the value.
 - `property BaseValue: Double` - Returns the raw base value, unconverted.
 - `property ConvertedValue: Double` - Returns the value converted FROM the base TO the specified unit.
 
-## `TUOMCombinedValue` - **(NOT READY)** - A record that can be reused for things like Speed or Frequency, where two different UOM categories are compared with each other.
+## `TUOMCombinedValue`
+
+**(NOT READY)** - A record that can be reused for things like Speed or Frequency, where two different UOM categories are compared with each other.
 
 - Includes class operators to implicitly cast and perform mathematic operations on UOM values.
 
-## `TUOM` - Base object for each possible UOM unit.
+## `TUOM`
+
+Base object for each possible UOM unit.
 
 - `procedure Invalidate` - A change has been made which requires parent TUOMUtils to refresh its cache.
 - `function SetAsBase` - Assigns this UOM as the base UOM of its specified Category.
@@ -63,7 +71,9 @@ Central unit to access all possible unit of measure conversions.
 - `property NamePlural: String` - The plural (value <> 1) name of the TUOM (Meters, Feet, Grams...).
 - `property Suffix: String` - Suffix showing after a given UOM value. Also a unique CASE-SENSITIVE identifer - cannot create duplicates.
 
-## `TUOMUtils` - Main class encapsulating entire UOM library capabilities.
+## `TUOMUtils`
+
+Main class encapsulating entire UOM library capabilities.
 
 - `class procedure ParseSuffix` - (NOT READY) Splits a given UOM String into respective Number (Double) and Suffix (String) values.
   - `AValue: String` - The string value to be parsed.
