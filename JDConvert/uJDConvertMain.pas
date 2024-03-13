@@ -33,9 +33,7 @@ type
     pTop: TPanel;
     pCategories: TPanel;
     Label1: TLabel;
-    lstCategories: TListBox;
     pUOMs: TPanel;
-    lstUOMs: TListBox;
     pInfo: TPanel;
     pTestVal: TPanel;
     lblUnitHeader: TLabel;
@@ -66,7 +64,6 @@ type
     Label5: TLabel;
     txtConvertFromValue: TRzSpinEdit;
     cboConvertFromUnit: TComboBox;
-    lstEquivalents: TListBox;
     lblEquivalentsTitle: TLabel;
     Label9: TLabel;
     Splitter1: TSplitter;
@@ -75,9 +72,10 @@ type
     Panel1: TPanel;
     lblConvertTitle: TLabel;
     cboConvertCategory: TComboBox;
+    lstCategories: TListView;
+    lstUOMs: TListView;
+    lstEquivalents: TListView;
     procedure FormCreate(Sender: TObject);
-    procedure lstCategoriesClick(Sender: TObject);
-    procedure lstUOMsClick(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure ChartAfterDraw(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
@@ -89,6 +87,10 @@ type
       Rect: TRect; State: TOwnerDrawState);
     procedure lstSystemsItemChecked(Sender: TObject; Item: TListItem);
     procedure cboConvertCategoryClick(Sender: TObject);
+    procedure lstCategoriesSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure lstUOMsSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -159,7 +161,8 @@ begin
   RefreshChart;
 end;
 
-procedure TfrmJDConvertMain.lstCategoriesClick(Sender: TObject);
+procedure TfrmJDConvertMain.lstCategoriesSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
 begin
   RefreshUOMs;
   RefreshChart;
@@ -168,7 +171,7 @@ end;
 procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
 begin
   //TODO: Copy to clipboard...
-  Clipboard.AsText:= lstEquivalents.Items[lstEquivalents.ItemIndex];
+  Clipboard.AsText:= lstEquivalents.Selected.Caption;
 end;
 
 procedure TfrmJDConvertMain.lstEquivalentsDrawItem(Control: TWinControl;
@@ -179,6 +182,7 @@ var
   S: String;
 begin
   //TODO: Why is none of this working?
+  {
   C:= lstEquivalents.Canvas;
   U:= TUOM(lstEquivalents.Items.Objects[Index]);
   S:= lstEquivalents.Items[Index];
@@ -198,6 +202,7 @@ begin
   C.Rectangle(Rect);
   InflateRect(Rect, -2, -2);
   DrawText(C.Handle, PChar(S), Length(S), Rect, DT_SINGLELINE);
+  }
 end;
 
 procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;
@@ -217,19 +222,38 @@ begin
   RefreshChart;
 end;
 
-procedure TfrmJDConvertMain.lstUOMsClick(Sender: TObject);
+procedure TfrmJDConvertMain.lstUOMsSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
-  FSelUOM:= lstUOMs.Items[lstUOMs.ItemIndex];
+  if lstUOMs.Selected <> nil then
+    FSelUOM:= lstUOMs.Selected.Caption
+  else
+    FSelUOM:= '';
   RefreshUOMDetails;
   UpdateChart;
 end;
 
 procedure TfrmJDConvertMain.RefreshCategories;
+var
+  L: TStringList;
+  X: Integer;
+  I: TListItem;
 begin
-  TUOMUtils.ListCategories(lstCategories.Items);
+  lstCategories.Items.Clear;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListCategories(L);
+    for X := 0 to L.Count-1 do begin
+      I:= lstCategories.Items.Add;
+      I.Caption:= L[X];
+    end;
+  finally
+    L.Free;
+  end;
+
   if lstCategories.Items.Count > 0 then begin
     lstCategories.ItemIndex:= 0;
-    lstCategoriesClick(nil);
+    lstCategoriesSelectItem(nil, nil, False);
   end;
 end;
 
@@ -270,11 +294,12 @@ var
   L: TStringList;
   FS: String;
   X: Integer;
+  I: TListItem;
   //Comp: TComparison<TUOMValue>;
 begin
   lstUOMs.Items.Clear;
   if lstCategories.ItemIndex < 0 then Exit;
-  FSelCategory:= lstCategories.Items[lstCategories.ItemIndex];
+  FSelCategory:= lstCategories.Selected.Caption;
   FS:= FSelSystems;
   L:= TStringList.Create;
   try
@@ -282,11 +307,13 @@ begin
     //TODO: Sort by size...?
     //L.CustomSort(CompareUOMVal);
     for X := 0 to L.Count-1 do begin
-      lstUOMs.Items.AddObject(L[X], L.Objects[X]);
+      I:= lstUOMs.Items.Add;
+      I.Caption:= L[X];
+      I.Data:= L.Objects[X];
     end;
     if lstUOMs.Items.Count > 0 then begin
       lstUOMs.ItemIndex:= 0;
-      lstUOMsClick(nil);
+      lstUOMsSelectItem(nil, nil, False);
     end;
   finally
     L.Free;
@@ -300,7 +327,7 @@ var
 begin
   if lstUOMs.ItemIndex < 0 then Exit;
   U:= TUOMUtils.GetUOMByName(FSelUOM);
-  BU:= TUOMUtils.GetBaseUOM(lstCategories.Items[lstCategories.ItemIndex]);
+  BU:= TUOMUtils.GetBaseUOM(lstCategories.Selected.Caption);
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;
@@ -335,8 +362,8 @@ begin
     BU:= TUOMUtils.GetBaseUOM(FSelCategory);
     Chart.Title.Text.Text:= BU.Category+' Comparison';
     Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
-    for X := 0 to lstUOMs.Count-1 do begin
-      U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X]);
+    for X := 0 to lstUOMs.Items.Count-1 do begin
+      U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X].Caption);
       S:= TLineSeries.Create(Chart);
       try
         S.Tag:= X;
@@ -401,6 +428,7 @@ var
   FV, TV: Double;
   Str: String;
   UN: String;
+  I: TListItem;
 begin
   lstEquivalents.Items.Clear;
   FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
@@ -415,7 +443,9 @@ begin
       if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
       //Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
       Str:= FormatFloat('#,###,###,###,##0.##################', TV)+' '+UN+' ('+TU.Suffix+')';
-      lstEquivalents.Items.AddObject(Str, TU);
+      I:= lstEquivalents.Items.Add;
+      I.Caption:= Str;
+      I.Data:= TU;
     end;
   finally
     L.Free;
