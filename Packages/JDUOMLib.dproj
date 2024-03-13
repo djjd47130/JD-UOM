@@ -123,6 +123,7 @@
         <DCCReference Include="..\Source\JD.Uom.Time.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Frequency.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Numbers.pas"/>
+        <DCCReference Include="..\Source\JD.Uom.Expr.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

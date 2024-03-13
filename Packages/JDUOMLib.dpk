@@ -45,6 +45,7 @@ contains
   JD.Uom.Speed in '..\Source\JD.Uom.Speed.pas',
   JD.Uom.Time in '..\Source\JD.Uom.Time.pas',
   JD.Uom.Frequency in '..\Source\JD.Uom.Frequency.pas',
-  JD.Uom.Numbers in '..\Source\JD.Uom.Numbers.pas';
+  JD.Uom.Numbers in '..\Source\JD.Uom.Numbers.pas',
+  JD.Uom.Expr in '..\Source\JD.Uom.Expr.pas';
 
 end.

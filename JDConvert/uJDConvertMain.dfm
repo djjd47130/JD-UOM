@@ -173,7 +173,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 3
       ViewStyle = vsReport
       OnDblClick = lstEquivalentsDblClick
-      OnSelectItem = lstCategoriesSelectItem
     end
   end
   object pMain: TPanel

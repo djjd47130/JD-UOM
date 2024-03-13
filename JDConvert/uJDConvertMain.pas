@@ -176,10 +176,12 @@ end;
 
 procedure TfrmJDConvertMain.lstEquivalentsDrawItem(Control: TWinControl;
   Index: Integer; Rect: TRect; State: TOwnerDrawState);
+{
 var
   U: TUOM;
   C: TCanvas;
   S: String;
+}
 begin
   //TODO: Why is none of this working?
   {

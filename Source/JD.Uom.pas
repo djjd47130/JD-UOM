@@ -76,9 +76,8 @@ interface
 {$ENDREGION}
 
 uses
-  System.Classes, System.SysUtils, System.Generics.Collections
-  , dwsCompiler, dwsExprs, dwsComp, dwsErrors
-  ;
+  System.Classes, System.SysUtils, System.Generics.Collections,
+  JD.Uom.Expr;
 
 const
   /// <summary>
@@ -331,7 +330,7 @@ type
     class var FBaseUOMs: TDictionary<String, TUOM>;
     class var FSystems: TStringList;
     class var FCategories: TStringList;
-    class var FDWS: TDelphiWebScript;
+    class var FEvalInst: TUOMEvalInst;
     class function Evaluate(const Value: Double; const Expr: String): Double;
   public
     class constructor Create;
@@ -544,12 +543,12 @@ begin
   FBaseUOMs:= TDictionary<String, TUOM>.Create;
   FSystems:= TStringList.Create;
   FCategories:= TStringList.Create;
-  FDWS:= TDelphiWebScript.Create(nil);
+  FEvalInst:= TUOMEvalInst.Create;
 end;
 
 class destructor TUOMUtils.Destroy;
 begin
-  FreeAndNil(FDWS);
+  FreeAndNil(FEvalInst);
   FreeAndNil(FCategories);
   FreeAndNil(FSystems);
   FreeAndNil(FBaseUOMs);
@@ -589,28 +588,9 @@ begin
 end;
 
 class function TUOMUtils.Evaluate(const Value: Double; const Expr: String): Double;
-var
-  E: String;
-  Prog: IdwsProgram;
-  Exec: IdwsProgramExecution;
-  Res: String;
+
 begin
-  //Evaluate expression using DWScript...
-  E:= StringReplace(Expr, 'Value', FormatFloat(NumInternalFormat, Value), []);
-  Prog:= FDWS.Compile('PrintLn('+E+');');
-  if Prog.Msgs.Count > 0 then begin
-    raise EUOMEvalException.Create(Prog.Msgs.AsInfo);
-  end else begin
-    Exec:= prog.Execute;
-    if Exec.Msgs.HasErrors then begin
-      raise EUOMEvalException.Create(Exec.Msgs.AsInfo);
-    end else begin
-      Res:= Exec.Result.ToString;
-      Res:= StringReplace(Res,#$D,'',[rfReplaceAll]);
-      Res:= StringReplace(Res,#$A,'',[rfReplaceAll]);
-      Result:= StrToFloatDef(Res, -1);
-    end;
-  end;
+  Result:= FEvalInst.Evaluate(Value, Expr);
 end;
 
 class procedure TUOMUtils.InvalidateCategories;
