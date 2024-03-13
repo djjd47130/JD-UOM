@@ -11,7 +11,7 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 
 ## Features
 - Main central class [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) to encapsulate entire UOM conversion capabilities.
-- Base object `TUOM` to encapsulate all possible details of a specific unit of measurement.
+- Base object [`TUOM`](/Docs/JD.Uom.md#tuom) to encapsulate all possible details of a specific unit of measurement.
   - Registered within [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) class.
 - Base UOM registered within [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) for each given Category.
   - For example, the base of "Distance" is "Meters, and the base of "Time" is "Days".
