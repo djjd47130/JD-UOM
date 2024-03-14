@@ -56,7 +56,11 @@ That being said, everything currently starts with [`TUOMUtils`](/Docs/JD.Uom.md#
 There is an application project aimed at both demonstration the capabilities of the library and actually converting
 data in the most flexible manner possible.
 
-### NOTE: This application uses the `Raize` controls, specifically `TRzSpinEdit`.
+### NOTE: This 
+application uses the `Raize` controls, specifically `TRzSpinEdit`.
+
+### NOTE: 
+This application uses the [`JDLib`](https://github.com/djjd47130/JDLib) controls, specifically [`TJDFontButton`](https://github.com/djjd47130/JDLib/blob/master/Docs/TJDFontButton.md).
 
 ![image](https://github.com/djjd47130/JD-UOM/assets/8213266/b6c21e3e-cf1a-4126-889e-baca3172a141)
 
