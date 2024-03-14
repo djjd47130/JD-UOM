@@ -62,9 +62,9 @@ application uses the `Raize` controls, specifically `TRzSpinEdit`.
 ### NOTE: 
 This application uses the [`JDLib`](https://github.com/djjd47130/JDLib) controls, specifically [`TJDFontButton`](https://github.com/djjd47130/JDLib/blob/master/Docs/TJDFontButton.md).
 
-![image](https://github.com/djjd47130/JD-UOM/assets/8213266/6192e78c-b999-4130-b85c-0ae77cfe68a6)
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/964dae59-235f-4559-acc4-ba10065dc4af)
 
-![image](https://github.com/djjd47130/JD-UOM/assets/8213266/aabf6337-0af5-4580-8f7f-d30fe8c95e6e)
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/cb21182d-1d2c-46a0-b36f-207e5519dfe6)
 
 ![image](https://github.com/djjd47130/JD-UOM/assets/8213266/77591b8c-fc8e-4fe6-bf91-80c1c2e9d234)
 
