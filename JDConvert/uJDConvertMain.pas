@@ -10,6 +10,7 @@ uses
   System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.CheckLst, Vcl.Mask,
+  ShellAPI,
   RzEdit, RzSpnEdt,
   VclTee.TeeGDIPlus, VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart,
   JD.Uom,
@@ -83,10 +84,9 @@ type
     Panel3: TPanel;
     Label10: TLabel;
     txtConvertFromValue: TRzSpinEdit;
-    Panel4: TPanel;
+    Stat: TStatusBar;
     Label13: TLabel;
     cboConvertFromUnit: TComboBox;
-    Stat: TStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
@@ -103,6 +103,8 @@ type
     procedure btnConvertNormalClick(Sender: TObject);
     procedure btnConvertSearchClick(Sender: TObject);
     procedure btnDetailsClick(Sender: TObject);
+    procedure lstSystemsClick(Sender: TObject);
+    procedure StatDblClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -190,6 +192,16 @@ begin
   btnDetails.Image.StandardColor:= fcBlue;
 end;
 
+procedure OpenWebPageInDefaultBrowser(const URL: string);
+begin
+  ShellExecute(0, 'open', PChar(URL), nil, nil, SW_SHOWNORMAL);
+end;
+
+procedure TfrmJDConvertMain.StatDblClick(Sender: TObject);
+begin
+  OpenWebPageInDefaultBrowser('https://github.com/djjd47130/JD-UOM');
+end;
+
 procedure TfrmJDConvertMain.RefreshSystems;
 var
   L: TStringList;
@@ -228,6 +240,12 @@ end;
 procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
 begin
   Clipboard.AsText:= lstEquivalents.Selected.Caption;
+end;
+
+procedure TfrmJDConvertMain.lstSystemsClick(Sender: TObject);
+begin
+  if lstSystems.Selected <> nil then
+    lstSystems.Selected.Checked:= not lstSystems.Selected.Checked;
 end;
 
 procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;

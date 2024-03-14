@@ -39,18 +39,16 @@ object frmJDConvertMain: TfrmJDConvertMain
       object pConvert: TPanel
         Left = 0
         Top = 0
-        Width = 427
+        Width = 801
         Height = 608
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 16
-        ExplicitHeight = 586
         object lblEquivalentsTitle: TLabel
           AlignWithMargins = True
           Left = 3
-          Top = 223
-          Width = 414
+          Top = 140
+          Width = 788
           Height = 19
           Margins.Right = 10
           Align = alTop
@@ -63,31 +61,31 @@ object frmJDConvertMain: TfrmJDConvertMain
           ParentFont = False
           ExplicitLeft = 2
           ExplicitTop = 196
+          ExplicitWidth = 414
         end
         object Label9: TLabel
           AlignWithMargins = True
           Left = 3
           Top = 592
-          Width = 414
+          Width = 788
           Height = 13
           Margins.Right = 10
           Align = alBottom
-          Caption = '(Double-click to copy to clipboard)'
+          Caption = '(Double-click any item to copy to clipboard)'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
-          ExplicitTop = 570
-          ExplicitWidth = 162
+          ExplicitWidth = 206
         end
         object lstEquivalents: TListView
           AlignWithMargins = True
           Left = 3
-          Top = 248
-          Width = 421
-          Height = 338
+          Top = 165
+          Width = 795
+          Height = 421
           Align = alClient
           Columns = <
             item
@@ -95,6 +93,7 @@ object frmJDConvertMain: TfrmJDConvertMain
               Width = 400
             end>
           HideSelection = False
+          HotTrackStyles = [htHandPoint, htUnderlineHot]
           ReadOnly = True
           RowSelect = True
           ShowColumnHeaders = False
@@ -103,19 +102,20 @@ object frmJDConvertMain: TfrmJDConvertMain
           OnDblClick = lstEquivalentsDblClick
           ExplicitLeft = 251
           ExplicitTop = 293
+          ExplicitWidth = 421
           ExplicitHeight = 407
         end
         object pConvertNormal: TPanel
           Left = 0
           Top = 0
-          Width = 427
-          Height = 117
+          Width = 801
+          Height = 81
           Align = alTop
           TabOrder = 1
           object Panel1: TPanel
             Left = 1
             Top = 1
-            Width = 425
+            Width = 799
             Height = 33
             Align = alTop
             BevelOuter = bvNone
@@ -137,33 +137,67 @@ object frmJDConvertMain: TfrmJDConvertMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
+              Layout = tlCenter
+            end
+            object Label13: TLabel
+              AlignWithMargins = True
+              Left = 342
+              Top = 3
+              Width = 100
+              Height = 27
+              Align = alLeft
+              AutoSize = False
+              Caption = 'UOM:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              Layout = tlCenter
+              ExplicitLeft = 507
+              ExplicitTop = 0
             end
             object cboConvertCategory: TComboBox
               AlignWithMargins = True
               Left = 116
               Top = 3
-              Width = 299
+              Width = 213
+              Height = 27
+              Margins.Left = 10
+              Margins.Right = 10
+              Align = alLeft
+              Style = csDropDownList
+              TabOrder = 0
+              OnClick = cboConvertCategoryClick
+            end
+            object cboConvertFromUnit: TComboBox
+              AlignWithMargins = True
+              Left = 455
+              Top = 3
+              Width = 334
               Height = 27
               Margins.Left = 10
               Margins.Right = 10
               Align = alClient
               Style = csDropDownList
-              TabOrder = 0
-              OnClick = cboConvertCategoryClick
-              ExplicitLeft = 80
-              ExplicitWidth = 335
+              TabOrder = 1
+              OnClick = cboConvertFromUnitClick
+              ExplicitLeft = 8
+              ExplicitWidth = 779
             end
           end
           object Panel3: TPanel
             Left = 1
             Top = 34
-            Width = 425
+            Width = 799
             Height = 33
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 1
             ExplicitLeft = 2
             ExplicitTop = 48
+            ExplicitWidth = 425
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -179,12 +213,13 @@ object frmJDConvertMain: TfrmJDConvertMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
+              Layout = tlCenter
             end
             object txtConvertFromValue: TRzSpinEdit
               AlignWithMargins = True
               Left = 116
               Top = 3
-              Width = 299
+              Width = 673
               Height = 27
               Margins.Left = 10
               Margins.Right = 10
@@ -205,64 +240,19 @@ object frmJDConvertMain: TfrmJDConvertMain
               ExplicitWidth = 343
             end
           end
-          object Panel4: TPanel
-            Left = 1
-            Top = 67
-            Width = 425
-            Height = 33
-            Align = alTop
-            BevelOuter = bvNone
-            TabOrder = 2
-            ExplicitLeft = 2
-            ExplicitTop = 94
-            object Label13: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 100
-              Height = 27
-              Align = alLeft
-              AutoSize = False
-              Caption = 'From UOM:'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object cboConvertFromUnit: TComboBox
-              AlignWithMargins = True
-              Left = 116
-              Top = 3
-              Width = 299
-              Height = 27
-              Margins.Left = 10
-              Margins.Right = 10
-              Align = alClient
-              Style = csDropDownList
-              TabOrder = 0
-              OnClick = cboConvertFromUnitClick
-              ExplicitLeft = 9
-              ExplicitTop = 103
-              ExplicitWidth = 405
-            end
-          end
         end
         object pConvertSearch: TPanel
           Left = 0
-          Top = 117
-          Width = 427
-          Height = 103
+          Top = 81
+          Width = 801
+          Height = 56
           Align = alTop
           TabOrder = 2
-          ExplicitLeft = 2
-          ExplicitTop = 126
           object txtSearch: TSearchBox
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 419
+            Width = 793
             Height = 27
             Align = alTop
             TabOrder = 0
@@ -361,7 +351,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             BlankValue = 1.000000000000000000
             AllowKeyEdit = True
             Orientation = orHorizontal
-            Value = 10.000000000000000000
+            Value = 100.000000000000000000
             Anchors = [akTop, akRight]
             ParentShowHint = False
             ShowHint = True
@@ -451,6 +441,7 @@ object frmJDConvertMain: TfrmJDConvertMain
                 Width = 180
               end>
             HideSelection = False
+            HotTrackStyles = [htHandPoint, htUnderlineHot]
             ReadOnly = True
             RowSelect = True
             ShowColumnHeaders = False
@@ -497,6 +488,7 @@ object frmJDConvertMain: TfrmJDConvertMain
                 Width = 180
               end>
             HideSelection = False
+            HotTrackStyles = [htHandPoint, htUnderlineHot]
             ReadOnly = True
             RowSelect = True
             ShowColumnHeaders = False
@@ -743,13 +735,16 @@ object frmJDConvertMain: TfrmJDConvertMain
                 Caption = 'System'
                 Width = 180
               end>
+            HotTrackStyles = [htHandPoint, htUnderlineHot]
             ReadOnly = True
             RowSelect = True
             ShowColumnHeaders = False
             SortType = stText
             TabOrder = 0
             ViewStyle = vsReport
+            OnClick = lstSystemsClick
             OnItemChecked = lstSystemsItemChecked
+            ExplicitTop = 29
           end
         end
       end
@@ -908,6 +903,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 642
     Width = 1007
     Height = 19
+    Cursor = crHandPoint
     Panels = <
       item
         Width = 150
@@ -918,6 +914,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           'hub.com/djjd47130/JD-UOM'
         Width = 50
       end>
+    OnDblClick = StatDblClick
     ExplicitLeft = 512
     ExplicitTop = 296
     ExplicitWidth = 0
