@@ -68,7 +68,6 @@ type
     Label12: TLabel;
     lstSystems: TListView;
     pConvert: TPanel;
-    lblEquivalentsTitle: TLabel;
     Label9: TLabel;
     lstEquivalents: TListView;
     Panel2: TPanel;
@@ -479,10 +478,13 @@ begin
       TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
       if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
       //Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
-      Str:= FormatFloat('#,###,###,###,##0.##################', TV)+' '+UN+' ('+TU.Suffix+')';
+      Str:= FormatFloat('#,###,###,###,##0.##################', TV); //+' '+UN+' ('+TU.Suffix+')';
       I:= lstEquivalents.Items.Add;
       I.Caption:= Str;
       I.Data:= TU;
+      I.SubItems.Add(UN);
+      I.SubItems.Add(TU.Suffix);
+      I.SubItems.Add(TU.Systems.DelimitedText);
     end;
   finally
     L.Free;
