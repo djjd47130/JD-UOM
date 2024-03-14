@@ -2,15 +2,27 @@ unit JD.Uom.Expr;
 
 interface
 
+//Perform string-based mathematical evaluations using Delphi Web Script (DWS):
+{$DEFINE USE_DWS}
+
+//TODO: Offer alternatives...
+//- Jedi
+//- ???
+
+
 uses
   System.Classes, System.SysUtils
+  {$IFDEF USE_DWS}
   , dwsCompiler, dwsExprs, dwsComp, dwsErrors
+  {$ENDIF}
   ;
 
 type
   TUOMEvalInst = class(TObject)
   private
+    {$IFDEF USE_DWS}
     FDWS: TDelphiWebScript;
+    {$ENDIF}
   public
     constructor Create;
     destructor Destroy; override;
@@ -26,24 +38,31 @@ uses
 
 constructor TUOMEvalInst.Create;
 begin
+  {$IFDEF USE_DWS}
   FDWS:= TDelphiWebScript.Create(nil);
+  {$ENDIF}
 
 end;
 
 destructor TUOMEvalInst.Destroy;
 begin
 
+  {$IFDEF USE_DWS}
   FreeAndNil(FDWS);
+  {$ENDIF}
   inherited;
 end;
 
 function TUOMEvalInst.Evaluate(const Value: Double; const Expr: String): Double;
 var
   E: String;
+  {$IFDEF USE_DWS}
   Prog: IdwsProgram;
   Exec: IdwsProgramExecution;
   Res: String;
+  {$ENDIF}
 begin
+  {$IFDEF USE_DWS}
   //Evaluate expression using DWScript...
   E:= StringReplace(Expr, 'Value', FormatFloat(NumInternalFormat, Value), []);
   Prog:= FDWS.Compile('PrintLn('+E+');');
@@ -60,6 +79,7 @@ begin
       Result:= StrToFloatDef(Res, -1);
     end;
   end;
+  {$ENDIF}
 end;
 
 end.

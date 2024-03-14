@@ -21,7 +21,9 @@ uses
   JD.Uom.Time,
   JD.Uom.Frequency,
   JD.Uom.Speed,
-  JD.Uom.Numbers, Vcl.ComCtrls;
+  JD.Uom.Numbers, Vcl.ComCtrls, System.ImageList, Vcl.ImgList, JD.Common,
+  JD.Graphics,
+  JD.FontGlyphs;
 
 const
   WIDTH_SMALL = 2;
@@ -30,14 +32,24 @@ const
 
 type
   TfrmJDConvertMain = class(TForm)
+    Pages: TPageControl;
+    tabConvert: TTabSheet;
+    tabDetails: TTabSheet;
+    pBottom: TPanel;
+    Chart: TChart;
+    txtChartScale: TRzSpinEdit;
+    chkNegative: TCheckBox;
+    Series1: TLineSeries;
     pTop: TPanel;
     pCategories: TPanel;
     Label1: TLabel;
+    lstCategories: TListView;
     pUOMs: TPanel;
+    Label2: TLabel;
+    lstUOMs: TListView;
     pInfo: TPanel;
     pTestVal: TPanel;
     lblUnitHeader: TLabel;
-    txtValue: TRzSpinEdit;
     pUnitDetail: TPanel;
     Label3: TLabel;
     lblUnitName: TLabel;
@@ -51,40 +63,29 @@ type
     lblUnitBaseTo: TLabel;
     Label6: TLabel;
     lblUnitNamePlural: TLabel;
-    pBottom: TPanel;
-    Chart: TChart;
-    Label10: TLabel;
     pSystems: TPanel;
     Label12: TLabel;
-    txtChartScale: TRzSpinEdit;
-    Label2: TLabel;
-    chkNegative: TCheckBox;
-    Series1: TLineSeries;
+    lstSystems: TListView;
     pConvert: TPanel;
     Label5: TLabel;
-    txtConvertFromValue: TRzSpinEdit;
-    cboConvertFromUnit: TComboBox;
     lblEquivalentsTitle: TLabel;
     Label9: TLabel;
-    Splitter1: TSplitter;
-    lstSystems: TListView;
-    pMain: TPanel;
+    txtConvertFromValue: TRzSpinEdit;
+    cboConvertFromUnit: TComboBox;
     Panel1: TPanel;
     lblConvertTitle: TLabel;
     cboConvertCategory: TComboBox;
-    lstCategories: TListView;
-    lstUOMs: TListView;
     lstEquivalents: TListView;
+    Glyphs: TJDFontGlyphs;
+    Img32: TImageList;
+    tabFind: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
-    procedure ChartAfterDraw(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
     procedure txtConvertFromValueChange(Sender: TObject);
     procedure lstEquivalentsDblClick(Sender: TObject);
-    procedure lstEquivalentsDrawItem(Control: TWinControl; Index: Integer;
-      Rect: TRect; State: TOwnerDrawState);
     procedure lstSystemsItemChecked(Sender: TObject; Item: TListItem);
     procedure cboConvertCategoryClick(Sender: TObject);
     procedure lstCategoriesSelectItem(Sender: TObject; Item: TListItem;
@@ -123,7 +124,9 @@ begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
   {$ENDIF}
-  WindowState:= wsMaximized;
+  //WindowState:= wsMaximized;
+  ColorManager.BaseColor:= clBlack;
+  pConvert.Align:= alClient;
   Chart.Align:= alClient;
   RefreshSystems;
   RefreshCategories;
@@ -170,41 +173,7 @@ end;
 
 procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
 begin
-  //TODO: Copy to clipboard...
   Clipboard.AsText:= lstEquivalents.Selected.Caption;
-end;
-
-procedure TfrmJDConvertMain.lstEquivalentsDrawItem(Control: TWinControl;
-  Index: Integer; Rect: TRect; State: TOwnerDrawState);
-{
-var
-  U: TUOM;
-  C: TCanvas;
-  S: String;
-}
-begin
-  //TODO: Why is none of this working?
-  {
-  C:= lstEquivalents.Canvas;
-  U:= TUOM(lstEquivalents.Items.Objects[Index]);
-  S:= lstEquivalents.Items[Index];
-  if U.NameSingular = cboConvertFromUnit.Text then begin
-    //Selected "FROM" unit...
-    C.Font.Color:= clSkyBlue;
-  end else begin
-    //Anything else...
-   C.Font.Color:= clWhite;
-  end;
-  C.Brush.Style:= bsSolid;
-  if odSelected in State then
-    C.Brush.Color:= clNavy
-  else
-    C.Brush.Color:= clBlack;
-  C.Pen.Style:= psClear;
-  C.Rectangle(Rect);
-  InflateRect(Rect, -2, -2);
-  DrawText(C.Handle, PChar(S), Length(S), Rect, DT_SINGLELINE);
-  }
 end;
 
 procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;
@@ -297,7 +266,6 @@ var
   FS: String;
   X: Integer;
   I: TListItem;
-  //Comp: TComparison<TUOMValue>;
 begin
   lstUOMs.Items.Clear;
   if lstCategories.ItemIndex < 0 then Exit;
@@ -306,13 +274,13 @@ begin
   L:= TStringList.Create;
   try
     TUOMUtils.ListUOMs(L, FSelCategory, FS);
-    //TODO: Sort by size...?
-    //L.CustomSort(CompareUOMVal);
     for X := 0 to L.Count-1 do begin
       I:= lstUOMs.Items.Add;
       I.Caption:= L[X];
       I.Data:= L.Objects[X];
     end;
+    //TODO: Sort by size...?
+    //lstUOMs.CustomSort(CompareUOMVal);
     if lstUOMs.Items.Count > 0 then begin
       lstUOMs.ItemIndex:= 0;
       lstUOMsSelectItem(nil, nil, False);
@@ -325,20 +293,15 @@ end;
 procedure TfrmJDConvertMain.RefreshUOMDetails;
 var
   U: TUOM;
-  BU: TUOM;
 begin
   if lstUOMs.ItemIndex < 0 then Exit;
   U:= TUOMUtils.GetUOMByName(FSelUOM);
-  BU:= TUOMUtils.GetBaseUOM(lstCategories.Selected.Caption);
   lblUnitName.Caption:= U.NameSingular;
   lblUnitNamePlural.Caption:= U.NamePlural;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;
   lblUnitSuffix.Caption:= U.Suffix;
-  lblUnitBaseFrom.Caption:=
-    FormatFloat(NumFormat, U.ConvertFromBase(txtValue.Value))+' '+U.Suffix;
-  lblUnitBaseTo.Caption:=
-    FormatFloat(NumFormat, U.ConvertToBase(txtValue.Value))+' '+BU.Suffix;
-  UpdateChart;
+  lblUnitBaseFrom.Caption:= U.ConvertFromBaseFormula;
+  lblUnitBaseTo.Caption:= U.ConvertToBaseFormula;
 end;
 
 procedure TfrmJDConvertMain.RefreshChart;
@@ -462,42 +425,6 @@ end;
 procedure TfrmJDConvertMain.cboConvertFromUnitClick(Sender: TObject);
 begin
   RefreshEquivalents;
-end;
-
-procedure TfrmJDConvertMain.ChartAfterDraw(Sender: TObject);
-//var
-  //P1, P2: TPoint;
-  //U: TUOM;
-begin
-  {
-  if lstCategories.ItemIndex <= 0 then Exit;
-  if lstUOMs.ItemIndex <= 0 then Exit;
-
-  U:= TUOMUtils.GetUOMByName(FSelUOM);
-
-  //TODO: Draw crosshair for test value conversion with selected UOM...
-  //Custom drawing on chart: http://www.teechart.net/docs/teechart/vclfmx/tutorials/UserGuide/html/manu390n.htm
-  Chart.Canvas.Brush.Style:= bsClear;
-  Chart.Canvas.Pen.Style:= psSolid;
-  Chart.Canvas.Pen.Width:= WIDTH_CROSSHAIR;
-  Chart.Canvas.Pen.Color:= clYellow;
-  Chart.Canvas.Pen.Style:= TPenStyle.psDash;
-
-  //Horizontal, based on test value
-  P1.X:= Chart.ChartRect.Left;
-  P2.X:= Chart.ChartRect.Right;
-  P1.Y:= Chart.LeftAxis.CalcPosValue(txtValue.Value);
-  P2.Y:= P1.Y;
-  //Chart.Canvas.Line(P1, P2);
-
-  //Vertical, based on conversion of test value to selected unit
-  P1.Y:= Chart.ChartRect.Top;
-  P2.Y:= Chart.ChartRect.Bottom;
-  P1.X:= Chart.BottomAxis.CalcPosValue(U.ConvertToBase(txtValue.Value)); //TODO: Fix...
-  P2.X:= P1.X;
-  //Chart.Canvas.Line(P1, P2);
-  }
-
 end;
 
 end.
