@@ -23,7 +23,7 @@ uses
   JD.Uom.Speed,
   JD.Uom.Numbers, Vcl.ComCtrls, System.ImageList, Vcl.ImgList, JD.Common,
   JD.Graphics,
-  JD.FontGlyphs;
+  JD.FontGlyphs, JD.Ctrls, JD.Ctrls.FontButton, Vcl.WinXCtrls;
 
 const
   WIDTH_SMALL = 2;
@@ -67,18 +67,26 @@ type
     Label12: TLabel;
     lstSystems: TListView;
     pConvert: TPanel;
-    Label5: TLabel;
     lblEquivalentsTitle: TLabel;
     Label9: TLabel;
-    txtConvertFromValue: TRzSpinEdit;
-    cboConvertFromUnit: TComboBox;
+    lstEquivalents: TListView;
+    Panel2: TPanel;
+    btnConvertNormal: TJDFontButton;
+    btnConvertSearch: TJDFontButton;
+    btnDetails: TJDFontButton;
+    pConvertNormal: TPanel;
     Panel1: TPanel;
     lblConvertTitle: TLabel;
     cboConvertCategory: TComboBox;
-    lstEquivalents: TListView;
-    Glyphs: TJDFontGlyphs;
-    Img32: TImageList;
-    tabFind: TTabSheet;
+    pConvertSearch: TPanel;
+    txtSearch: TSearchBox;
+    Panel3: TPanel;
+    Label10: TLabel;
+    txtConvertFromValue: TRzSpinEdit;
+    Panel4: TPanel;
+    Label13: TLabel;
+    cboConvertFromUnit: TComboBox;
+    Stat: TStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
@@ -92,10 +100,14 @@ type
       Selected: Boolean);
     procedure lstUOMsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure btnConvertNormalClick(Sender: TObject);
+    procedure btnConvertSearchClick(Sender: TObject);
+    procedure btnDetailsClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
     FSelUOM: String;
+    procedure ResetButtonColors;
   public
     procedure RefreshSystems;
     procedure RefreshCategories;
@@ -120,6 +132,8 @@ uses
 { TfrmJDConvertMain }
 
 procedure TfrmJDConvertMain.FormCreate(Sender: TObject);
+var
+  X: Integer;
 begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
@@ -134,6 +148,46 @@ begin
   if cboConvertCategory.Items.Count > 0 then
     cboConvertCategory.ItemIndex:= 0;
   RefreshConvert;
+  for X := 0 to Pages.PageCount-1 do
+    Pages.Pages[X].TabVisible:= False;
+  btnConvertNormalClick(nil);
+  Stat.Panels[0].Text:= IntToStr(TUOMUtils.UOMCount) + ' UOMs Registered';
+end;
+
+procedure TfrmJDConvertMain.btnConvertNormalClick(Sender: TObject);
+begin
+  Pages.ActivePage:= tabConvert;
+  ResetButtonColors;
+  btnConvertNormal.Image.StandardColor:= fcOrange;
+
+  pConvertNormal.Visible:= True;
+  pConvertSearch.Visible:= False;
+end;
+
+procedure TfrmJDConvertMain.btnConvertSearchClick(Sender: TObject);
+begin
+  Pages.ActivePage:= tabConvert;
+  ResetButtonColors;
+  btnConvertSearch.Image.StandardColor:= fcOrange;
+
+  pConvertSearch.Visible:= True;
+  pConvertNormal.Visible:= False;
+  txtSearch.SetFocus;
+end;
+
+procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
+begin
+  ResetButtonColors;
+  btnDetails.Image.StandardColor:= fcOrange;
+
+  Pages.ActivePage:= tabDetails;
+end;
+
+procedure TfrmJDConvertMain.ResetButtonColors;
+begin
+  btnConvertNormal.Image.StandardColor:= fcBlue;
+  btnConvertSearch.Image.StandardColor:= fcBlue;
+  btnDetails.Image.StandardColor:= fcBlue;
 end;
 
 procedure TfrmJDConvertMain.RefreshSystems;

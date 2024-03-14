@@ -14,7 +14,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'JD Unit of Measure Conversion';
-  TStyleManager.TrySetStyle('Windows10 Dark');
+  TStyleManager.TrySetStyle('Cobalt XEMedia');
   Application.CreateForm(TfrmJDConvertMain, frmJDConvertMain);
   Application.Run;
 end.

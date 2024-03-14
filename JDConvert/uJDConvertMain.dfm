@@ -2,7 +2,7 @@ object frmJDConvertMain: TfrmJDConvertMain
   Left = 0
   Top = 0
   Caption = 'JD Unit-of-Measure Conversion'
-  ClientHeight = 620
+  ClientHeight = 661
   ClientWidth = 1007
   Color = clBtnFace
   DoubleBuffered = True
@@ -16,10 +16,10 @@ object frmJDConvertMain: TfrmJDConvertMain
   PixelsPerInch = 96
   TextHeight = 19
   object Pages: TPageControl
-    Left = 0
+    Left = 57
     Top = 0
-    Width = 1007
-    Height = 620
+    Width = 950
+    Height = 642
     ActivePage = tabConvert
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -27,9 +27,9 @@ object frmJDConvertMain: TfrmJDConvertMain
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    Images = Img32
     ParentFont = False
     TabOrder = 0
+    ExplicitHeight = 620
     object tabConvert: TTabSheet
       Caption = '    Convert    '
       ExplicitLeft = 0
@@ -40,33 +40,16 @@ object frmJDConvertMain: TfrmJDConvertMain
         Left = 0
         Top = 0
         Width = 427
-        Height = 575
+        Height = 608
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
         ExplicitLeft = 16
         ExplicitHeight = 586
-        object Label5: TLabel
-          AlignWithMargins = True
-          Left = 3
-          Top = 36
-          Width = 414
-          Height = 19
-          Margins.Right = 10
-          Align = alTop
-          Caption = 'From:'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -16
-          Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
-          ParentFont = False
-          ExplicitWidth = 47
-        end
         object lblEquivalentsTitle: TLabel
           AlignWithMargins = True
           Left = 3
-          Top = 127
+          Top = 223
           Width = 414
           Height = 19
           Margins.Right = 10
@@ -78,12 +61,13 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False
-          ExplicitWidth = 100
+          ExplicitLeft = 2
+          ExplicitTop = 196
         end
         object Label9: TLabel
           AlignWithMargins = True
           Left = 3
-          Top = 559
+          Top = 592
           Width = 414
           Height = 13
           Margins.Right = 10
@@ -98,85 +82,12 @@ object frmJDConvertMain: TfrmJDConvertMain
           ExplicitTop = 570
           ExplicitWidth = 162
         end
-        object txtConvertFromValue: TRzSpinEdit
-          AlignWithMargins = True
-          Left = 10
-          Top = 61
-          Width = 407
-          Height = 27
-          Margins.Left = 10
-          Margins.Right = 10
-          BlankValue = 1.000000000000000000
-          AllowKeyEdit = True
-          ButtonWidth = 24
-          Decimals = 15
-          IntegersOnly = False
-          Max = 1E50
-          Min = -1E50
-          Orientation = orHorizontal
-          Value = 1.000000000000000000
-          Align = alTop
-          Alignment = taLeftJustify
-          TabOrder = 0
-          OnChange = txtConvertFromValueChange
-        end
-        object cboConvertFromUnit: TComboBox
-          AlignWithMargins = True
-          Left = 10
-          Top = 94
-          Width = 407
-          Height = 27
-          Margins.Left = 10
-          Margins.Right = 10
-          Align = alTop
-          Style = csDropDownList
-          TabOrder = 1
-          OnClick = cboConvertFromUnitClick
-        end
-        object Panel1: TPanel
-          Left = 0
-          Top = 0
-          Width = 427
-          Height = 33
-          Align = alTop
-          BevelOuter = bvNone
-          TabOrder = 2
-          object lblConvertTitle: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 64
-            Height = 27
-            Align = alLeft
-            Caption = 'Convert'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-            ExplicitHeight = 19
-          end
-          object cboConvertCategory: TComboBox
-            AlignWithMargins = True
-            Left = 80
-            Top = 3
-            Width = 337
-            Height = 27
-            Margins.Left = 10
-            Margins.Right = 10
-            Align = alClient
-            Style = csDropDownList
-            TabOrder = 0
-            OnClick = cboConvertCategoryClick
-          end
-        end
         object lstEquivalents: TListView
           AlignWithMargins = True
           Left = 3
-          Top = 152
+          Top = 248
           Width = 421
-          Height = 401
+          Height = 338
           Align = alClient
           Columns = <
             item
@@ -187,16 +98,180 @@ object frmJDConvertMain: TfrmJDConvertMain
           ReadOnly = True
           RowSelect = True
           ShowColumnHeaders = False
-          TabOrder = 3
+          TabOrder = 0
           ViewStyle = vsReport
           OnDblClick = lstEquivalentsDblClick
-          ExplicitHeight = 412
+          ExplicitLeft = 251
+          ExplicitTop = 293
+          ExplicitHeight = 407
+        end
+        object pConvertNormal: TPanel
+          Left = 0
+          Top = 0
+          Width = 427
+          Height = 117
+          Align = alTop
+          TabOrder = 1
+          object Panel1: TPanel
+            Left = 1
+            Top = 1
+            Width = 425
+            Height = 33
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 0
+            ExplicitLeft = 2
+            ExplicitTop = -2
+            object lblConvertTitle: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 100
+              Height = 27
+              Align = alLeft
+              AutoSize = False
+              Caption = 'Category:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object cboConvertCategory: TComboBox
+              AlignWithMargins = True
+              Left = 116
+              Top = 3
+              Width = 299
+              Height = 27
+              Margins.Left = 10
+              Margins.Right = 10
+              Align = alClient
+              Style = csDropDownList
+              TabOrder = 0
+              OnClick = cboConvertCategoryClick
+              ExplicitLeft = 80
+              ExplicitWidth = 335
+            end
+          end
+          object Panel3: TPanel
+            Left = 1
+            Top = 34
+            Width = 425
+            Height = 33
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitLeft = 2
+            ExplicitTop = 48
+            object Label10: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 100
+              Height = 27
+              Align = alLeft
+              AutoSize = False
+              Caption = 'Value:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object txtConvertFromValue: TRzSpinEdit
+              AlignWithMargins = True
+              Left = 116
+              Top = 3
+              Width = 299
+              Height = 27
+              Margins.Left = 10
+              Margins.Right = 10
+              BlankValue = 1.000000000000000000
+              AllowKeyEdit = True
+              ButtonWidth = 24
+              Decimals = 15
+              IntegersOnly = False
+              Max = 1E50
+              Min = -1E50
+              Orientation = orHorizontal
+              Value = 1.000000000000000000
+              Align = alClient
+              Alignment = taLeftJustify
+              TabOrder = 0
+              OnChange = txtConvertFromValueChange
+              ExplicitLeft = 72
+              ExplicitWidth = 343
+            end
+          end
+          object Panel4: TPanel
+            Left = 1
+            Top = 67
+            Width = 425
+            Height = 33
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 2
+            ExplicitLeft = 2
+            ExplicitTop = 94
+            object Label13: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 100
+              Height = 27
+              Align = alLeft
+              AutoSize = False
+              Caption = 'From UOM:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object cboConvertFromUnit: TComboBox
+              AlignWithMargins = True
+              Left = 116
+              Top = 3
+              Width = 299
+              Height = 27
+              Margins.Left = 10
+              Margins.Right = 10
+              Align = alClient
+              Style = csDropDownList
+              TabOrder = 0
+              OnClick = cboConvertFromUnitClick
+              ExplicitLeft = 9
+              ExplicitTop = 103
+              ExplicitWidth = 405
+            end
+          end
+        end
+        object pConvertSearch: TPanel
+          Left = 0
+          Top = 117
+          Width = 427
+          Height = 103
+          Align = alTop
+          TabOrder = 2
+          ExplicitLeft = 2
+          ExplicitTop = 126
+          object txtSearch: TSearchBox
+            AlignWithMargins = True
+            Left = 4
+            Top = 4
+            Width = 419
+            Height = 27
+            Align = alTop
+            TabOrder = 0
+            ExplicitLeft = 80
+            ExplicitTop = 32
+            ExplicitWidth = 121
+          end
         end
       end
-    end
-    object tabFind: TTabSheet
-      Caption = '    Find    '
-      ImageIndex = 2
     end
     object tabDetails: TTabSheet
       Caption = '    Details    '
@@ -208,8 +283,8 @@ object frmJDConvertMain: TfrmJDConvertMain
       object pBottom: TPanel
         Left = 0
         Top = 255
-        Width = 999
-        Height = 320
+        Width = 942
+        Height = 353
         Align = alClient
         TabOrder = 0
         ExplicitTop = 209
@@ -219,8 +294,8 @@ object frmJDConvertMain: TfrmJDConvertMain
           AlignWithMargins = True
           Left = 11
           Top = 4
-          Width = 977
-          Height = 312
+          Width = 920
+          Height = 345
           Margins.Left = 10
           Margins.Right = 10
           AllowPanning = pmNone
@@ -269,34 +344,33 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 0
           ExplicitLeft = 19
           ExplicitTop = 6
+          ExplicitWidth = 977
           ExplicitHeight = 323
           DesignSize = (
-            977
-            312)
+            920
+            345)
           DefaultCanvas = 'TGDIPlusCanvas'
           ColorPaletteIndex = 9
           object txtChartScale: TRzSpinEdit
             AlignWithMargins = True
-            Left = 1237
-            Top = 3
+            Left = 778
+            Top = 2
             Width = 132
             Height = 27
             Hint = 'How many base units to show in chart'#39's X axis'
             BlankValue = 1.000000000000000000
             AllowKeyEdit = True
-            Max = 1E50
             Orientation = orHorizontal
-            Value = 100.000000000000000000
+            Value = 10.000000000000000000
             Anchors = [akTop, akRight]
             ParentShowHint = False
             ShowHint = True
             TabOrder = 0
             OnChange = txtChartScaleChange
-            ExplicitLeft = 461
           end
           object chkNegative: TCheckBox
-            Left = 1120
-            Top = 7
+            Left = 650
+            Top = 6
             Width = 97
             Height = 19
             Hint = 'Whether to include negative values in chart'#39's X axis'
@@ -313,7 +387,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 1
             StyleElements = [seClient, seBorder]
             OnClick = chkNegativeClick
-            ExplicitLeft = 706
           end
           object Series1: TLineSeries
             Selected.Hover.Visible = False
@@ -334,7 +407,7 @@ object frmJDConvertMain: TfrmJDConvertMain
       object pTop: TPanel
         Left = 0
         Top = 0
-        Width = 999
+        Width = 942
         Height = 255
         Align = alTop
         BevelOuter = bvNone
@@ -437,7 +510,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         object pInfo: TPanel
           Left = 642
           Top = 0
-          Width = 357
+          Width = 300
           Height = 255
           Align = alClient
           BevelOuter = bvNone
@@ -447,7 +520,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           object pTestVal: TPanel
             Left = 0
             Top = 0
-            Width = 357
+            Width = 300
             Height = 25
             Align = alTop
             BevelOuter = bvNone
@@ -473,13 +546,13 @@ object frmJDConvertMain: TfrmJDConvertMain
             AlignWithMargins = True
             Left = 3
             Top = 28
-            Width = 351
+            Width = 294
             Height = 224
             Align = alClient
             TabOrder = 1
             ExplicitWidth = 307
             DesignSize = (
-              351
+              294
               224)
             object Label3: TLabel
               Left = 8
@@ -493,7 +566,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitName: TLabel
               Left = 127
               Top = 16
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -518,7 +591,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitSystems: TLabel
               Left = 127
               Top = 66
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -543,7 +616,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitSuffix: TLabel
               Left = 127
               Top = 91
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -568,7 +641,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitBaseFrom: TLabel
               Left = 127
               Top = 116
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -593,7 +666,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitBaseTo: TLabel
               Left = 127
               Top = 141
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -618,7 +691,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitNamePlural: TLabel
               Left = 127
               Top = 41
-              Width = 208
+              Width = 151
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -682,586 +755,171 @@ object frmJDConvertMain: TfrmJDConvertMain
       end
     end
   end
-  object Glyphs: TJDFontGlyphs
-    ImageLists = <
-      item
-        ImageList = Img32
-      end>
-    Glyphs = <
-      item
-        Caption = 'Convert'
-        Glyph = #61561
-        Color = fcBlue
-        Scale = 0.960000000000000000
-        Ref.FontName = 'FontAwesome'
-        Ref.Glyph = #61561
-        Ref.Color = clBlue
-        Ref.StandardColor = fcBlue
-        Ref.UseStandardColor = True
-      end
-      item
-        Caption = 'Details'
-        Glyph = #61950
-        Color = fcBlue
-        Scale = 0.960000000000000000
-        Ref.FontName = 'FontAwesome'
-        Ref.Glyph = #61950
-        Ref.Color = clBlue
-        Ref.StandardColor = fcBlue
-        Ref.UseStandardColor = True
-      end
-      item
-        Caption = 'Search'
-        Glyph = #61442
-        Color = fcBlue
-        Scale = 0.960000000000000000
-        Ref.FontName = 'FontAwesome'
-        Ref.Glyph = #61442
-        Ref.Color = clBlue
-        Ref.StandardColor = fcBlue
-        Ref.UseStandardColor = True
-      end>
-    Left = 360
-    Top = 8
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 57
+    Height = 642
+    Align = alLeft
+    BevelOuter = bvNone
+    TabOrder = 1
+    ExplicitLeft = -1
+    ExplicitTop = 8
+    ExplicitHeight = 565
+    object btnConvertNormal: TJDFontButton
+      Left = 0
+      Top = 0
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'Normal Conversion (Lookup)'
+      Align = alTop
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61561
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 0
+      Text = 'btnConvertNormal'
+      OnClick = btnConvertNormalClick
+      ExplicitLeft = 2
+      ExplicitTop = -6
+    end
+    object btnConvertSearch: TJDFontButton
+      Left = 0
+      Top = 49
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'Search Conversion (Auto-Detect)'
+      Align = alTop
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61442
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 1
+      Text = 'JDFontButton1'
+      OnClick = btnConvertSearchClick
+      ExplicitLeft = -1
+      ExplicitTop = 43
+    end
+    object btnDetails: TJDFontButton
+      Left = 0
+      Top = 98
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'Unit of Measure Details (Statistics)'
+      Align = alTop
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61950
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 2
+      Text = 'JDFontButton1'
+      OnClick = btnDetailsClick
+      ExplicitLeft = 1
+      ExplicitTop = 102
+      ExplicitWidth = 73
+    end
   end
-  object Img32: TImageList
-    Height = 32
-    Width = 32
-    Left = 416
-    Top = 8
-    Bitmap = {
-      494C010103000800040020002000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
-      0000000000003600000028000000800000002000000001002000000000000040
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000FA999200F739
-      2B00F7392B00FDE1DF0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FEE8E600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E6000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000FA999200F7392B00F739
-      2B00F7392B00FBA69F0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FA999200F7392B00F7392B00F739
-      2B00F7392B00FBB1AB0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FA999200F7392B00F7392B00F7392B00F739
-      2B00F9756B00FEEEEC0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBB1AB00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FDDAD8000000000000000000FEEEEC00F9756B00FCBAB6000000
-      000000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000FEEEEC00FCC3BF00FBA6
-      9F00F7392B00F7392B00F7392B00FA8A8100FBB1AB00FDDAD800000000000000
-      00000000000000000000FA999200F7392B00F7392B00F7392B00F7392B00F975
-      6B00FEEEEC000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FA9992000000000000000000FEF3F300F9756B00F7392B00F7392B00FDD3
-      D00000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FEEEEC00FBA69F00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FCCC
-      C800FEF3F300FA999200F7392B00F7392B00F7392B00F7392B00F9756B00FEEE
-      EC00000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FA8A
-      8100000000000000000000000000FA999200F7392B00F7392B00F7392B00F739
-      2B00FDE1DF00000000000000000000000000F7392B00FEE8E60000000000FCC3
-      BF00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA6
-      9F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA6
-      9F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA69F00FBA6
-      9F00FBA69F00FBA69F00FBA69F00000000000000000000000000000000000000
-      00000000000000000000FCCCC800F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FEEEEC000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FEEE
-      EC000000000000000000FBB1AB00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F9756B00FEEEEC000000000000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FBA69F00000000000000000000000000000000000000
-      000000000000FCBAB600F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F9756B00FEEEEC00000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCBAB600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEEEEC000000
-      000000000000FCC3BF00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FA8A81000000000000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FDD3D000000000000000000000000000000000000000
-      0000FCCCC800F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FCBA
-      B600FDDAD800FEE8E600FEE8E600FCCCC800FA999200F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F9756B00FEEEEC0000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCCCC80000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FDDAD800F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FA99920000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FEEEEC0000000000000000000000000000000000FEEE
-      EC00F7392B00F7392B00F7392B00F7392B00F7392B00FCBAB600000000000000
-      00000000000000000000000000000000000000000000FEE8E600FA8A8100F739
-      2B00F7392B00F7392B00F7392B00FBA69F000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCCCC80000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FEEE
-      EC00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00FCBAB600F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FA8A81000000000000000000000000000000000000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00FDDAD80000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FA99
-      9200F7392B00F7392B00F7392B00F7392B00FDDAD80000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCCCC80000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FCBAB60000000000000000000000000000000000FEEEEC00F739
-      2B00F7392B00F7392B00F7392B00FCBAB6000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FEF3
-      F300F9756B00F7392B00F7392B00F7392B00FA99920000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCCCC80000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FEEE
-      EC00FCCCC800FCCCC800FCCCC800FBA69F00F7392B00F7392B00F7392B00FA8A
-      8100FCCCC800FCCCC800FCCCC800FDD3D000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FDE1DF0000000000000000000000000000000000FCC3BF00F739
-      2B00F7392B00F7392B00F9756B00000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FCCCC800F7392B00F7392B00F7392B00F7392B00FEF3F300000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBA69F00F7392B00F7392B00F7392B00FCCCC80000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B000000000000000000000000000000000000000000FBA69F00F739
-      2B00F7392B00F7392B00FCBAB600000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000F7392B00F7392B00F7392B00F7392B00FDDAD800000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FEF3F300FEE8E600FEE8E600FEE8
-      E600FA999200F7392B00F7392B00F7392B00FCBAB600FEE8E600FEE8E600FEE8
-      E600000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FBA69F000000000000000000000000000000000000000000F7392B00F739
-      2B00F7392B00F7392B00FDDAD800000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FA999200F7392B00F7392B00F7392B00FCCCC800000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F9756B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FBA69F000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E60000000000FBA6
-      9F00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F9756B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FDD3D0000000000000000000000000000000000000000000F7392B00F739
-      2B00F7392B00F7392B00FEE8E600000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FBA69F00F7392B00F7392B00F7392B00FCCCC800000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FBB1AB00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FCC3BF000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E60000000000FEEE
-      EC00F9756B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FCBA
-      B60000000000FCBAB600F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FEEEEC000000000000000000000000000000000000000000F7392B00F739
-      2B00F7392B00F7392B00FEE8E600000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FBA69F00F7392B00F7392B00F7392B00FCCCC800000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000FA999200F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FBA6
-      9F00000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000FDDAD800F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FCBAB6000000
-      00000000000000000000FCCCC800F7392B00F7392B00F7392B00F7392B00FA8A
-      8100000000000000000000000000000000000000000000000000FA8A8100F739
-      2B00F7392B00F7392B00FCCCC800000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FA8A8100F7392B00F7392B00F7392B00FCCCC800000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000FEF3F300F9756B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FA9992000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FCCCC800F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      000000000000FCBAB600F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00FCBAB600000000000000
-      0000000000000000000000000000FDDAD800F9756B00F7392B00F7392B00FCBA
-      B600000000000000000000000000000000000000000000000000FBB1AB00F739
-      2B00F7392B00F7392B00FA999200000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FEEEEC00F7392B00F7392B00F7392B00F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000FEEEEC00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FEEEEC000000
-      000000000000FBA69F00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      00000000000000000000FA999200F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00FCBAB60000000000000000000000
-      000000000000000000000000000000000000FEEEEC00F9756B00F7392B00FDE1
-      DF00000000000000000000000000000000000000000000000000FDDAD800F739
-      2B00F7392B00F7392B00F7392B00FEE8E6000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FBB1AB00F7392B00F7392B00F7392B00F9756B0000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FDDA
-      D800F7392B00F7392B00F7392B00F7392B00F7392B00FEE8E600000000000000
-      0000FCBAB600F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      00000000000000000000FEF3F300F9756B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00FCBAB6000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000FA9992000000
-      000000000000000000000000000000000000000000000000000000000000F975
-      6B00F7392B00F7392B00F7392B00FA8A81000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FDDA
-      D800F7392B00F7392B00F7392B00F7392B00FCBAB60000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FCC3BF00F7392B00F7392B00F7392B00FDDAD8000000000000000000FDDA
-      D800F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000FEE8E600F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FCBAB600000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000FCCC
-      C800F7392B00F7392B00F7392B00F7392B00FA999200FEF3F300000000000000
-      0000000000000000000000000000000000000000000000000000FDDAD800F739
-      2B00F7392B00F7392B00F7392B00F7392B00FEF3F30000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FBB1AB00F7392B00FCBAB6000000000000000000FEEEEC00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00FBA6
-      9F0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      000000000000000000000000000000000000FCCCC800F7392B00F7392B00F739
-      2B00F7392B00FCBAB60000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FA8A8100F7392B00F7392B00F7392B00F7392B00F9756B00FCCCC8000000
-      000000000000000000000000000000000000FEEEEC00FBB1AB00F7392B00F739
-      2B00F7392B00F7392B00F7392B00FCCCC8000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FEE8E60000000000000000000000000000000000FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8
-      E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEE8E600FEEE
-      EC0000000000000000000000000000000000F7392B00FEE8E600000000000000
-      00000000000000000000000000000000000000000000FBB1AB00F7392B00F739
-      2B00FCBAB6000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FEEEEC00F9756B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FA999200FBA69F00FBA69F00FA8A8100F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00FBB1AB00000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000FA8A8100FCBA
-      B600000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FEEEEC00F9756B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00F7392B00FBB1AB0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000FEEEEC000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FEF3F300FBA69F00F7392B00F7392B00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F7392B00F739
-      2B00FCCCC8000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000F7392B00FEE8E600000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FDDAD800FBA69F00F7392B00F739
-      2B00F7392B00F7392B00F7392B00F7392B00F7392B00F9756B00FCBAB600FEF3
-      F300000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FCCCC800FEF3F300000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000FEF3F300FDDA
-      D800FCCCC800FCCCC800FCCCC800FCCCC800FEE8E60000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000424D3E000000000000003E000000
-      2800000080000000200000000100010000000000000200000000000000000000
-      000000000000000000000000FFFFFF00FFFFFFFFFFFFFFFFFFFFFFFF00000000
-      FFFFFFFFFFFFFFFFFFFFFFC300000000FFFFFFFF00000000FFFFFF8300000000
-      FFFFFFFF00000000FFFFFF0300000000FFFFFFFF00000000FFFFFE0300000000
-      F000031F3FFFFFFFFF803C0700000000F000060F3FFFFFFFFE00000F00000000
-      F0000E0720000001FC00001F00000000F0000C0320000001F800003F00000000
-      F000180320000001F000007F00000000F07FF00120000001E03F80FF00000000
-      F07FE00020000003E07FE07F00000000F07FE00020000003C0FFE07F00000000
-      F07FE00020000003C1FFF03F00000000F07FFE0F20000007C1FFF83F00000000
-      000FFE0F20000007C1FFF83F000000000007FE0F20000007C1FFF83F00000000
-      0007FE0F20000807C1FFF83F00000000800FFE0F30001C0FC1FFF83F00000000
-      801FFE0F38003E0FC1FFF03F00000000C018000F3C007F0FC0FFF07F00000000
-      E030000F3C00FFDFE0FFE07F00000000F060000F3E01FFFFE03FC07F00000000
-      F8C0000F3F03FFFFF01F00FF00000000FDE0000F3F87FFFFF00001FF00000000
-      FFFFFFFF3FCFFFFFF80003FF00000000FFFFFFFF3FDFFFFFFC0007FF00000000
-      FFFFFFFF3FFFFFFFFF000FFF00000000FFFFFFFF3FFFFFFFFFC07FFF00000000
-      FFFFFFFFFFFFFFFFFFFFFFFF00000000FFFFFFFFFFFFFFFFFFFFFFFF00000000
-      FFFFFFFFFFFFFFFFFFFFFFFF00000000}
+  object Stat: TStatusBar
+    Left = 0
+    Top = 642
+    Width = 1007
+    Height = 19
+    Panels = <
+      item
+        Width = 150
+      end
+      item
+        Text = 
+          'UOM Library and Application Created by Jerry Dodge - https://git' +
+          'hub.com/djjd47130/JD-UOM'
+        Width = 50
+      end>
+    ExplicitLeft = 512
+    ExplicitTop = 296
+    ExplicitWidth = 0
   end
 end
