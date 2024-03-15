@@ -86,6 +86,7 @@ type
     Stat: TStatusBar;
     Label13: TLabel;
     cboConvertFromUnit: TComboBox;
+    Label5: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
@@ -237,8 +238,13 @@ begin
 end;
 
 procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
+var
+  S: String;
 begin
-  Clipboard.AsText:= lstEquivalents.Selected.Caption;
+  //Value + Space + Suffix
+  S:= lstEquivalents.Selected.Caption;
+  S:= S + ' ' + lstEquivalents.Selected.SubItems[1];
+  Clipboard.AsText:= S;
 end;
 
 procedure TfrmJDConvertMain.lstSystemsClick(Sender: TObject);

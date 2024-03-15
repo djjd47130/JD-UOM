@@ -92,8 +92,8 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 0
           ViewStyle = vsReport
           OnDblClick = lstEquivalentsDblClick
-          ExplicitTop = 140
-          ExplicitHeight = 446
+          ExplicitLeft = 2
+          ExplicitTop = 152
         end
         object pConvertNormal: TPanel
           Left = 0
@@ -129,7 +129,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object Label13: TLabel
               AlignWithMargins = True
-              Left = 398
+              Left = 384
               Top = 3
               Width = 100
               Height = 36
@@ -143,25 +143,22 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object cboConvertCategory: TComboBox
               AlignWithMargins = True
-              Left = 150
+              Left = 143
               Top = 3
               Width = 235
               Height = 37
-              Margins.Left = 10
-              Margins.Right = 10
               Align = alLeft
               Style = csDropDownList
               TabOrder = 0
               OnClick = cboConvertCategoryClick
+              ExplicitLeft = 150
             end
             object cboConvertFromUnit: TComboBox
               AlignWithMargins = True
-              Left = 511
+              Left = 490
               Top = 3
-              Width = 278
+              Width = 306
               Height = 37
-              Margins.Left = 10
-              Margins.Right = 10
               Align = alClient
               Style = csDropDownList
               TabOrder = 1
@@ -198,12 +195,10 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object txtConvertFromValue: TRzSpinEdit
               AlignWithMargins = True
-              Left = 116
+              Left = 109
               Top = 3
-              Width = 673
+              Width = 687
               Height = 36
-              Margins.Left = 10
-              Margins.Right = 10
               BlankValue = 1.000000000000000000
               AllowKeyEdit = True
               ButtonWidth = 24
@@ -217,7 +212,9 @@ object frmJDConvertMain: TfrmJDConvertMain
               Alignment = taLeftJustify
               TabOrder = 0
               OnChange = txtConvertFromValueChange
-              ExplicitHeight = 37
+              ExplicitLeft = 116
+              ExplicitTop = 4
+              ExplicitWidth = 673
             end
           end
         end
@@ -234,14 +231,31 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 2
-          object txtSearch: TSearchBox
+          object Label5: TLabel
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 793
-            Height = 37
-            Align = alTop
+            Width = 100
+            Height = 45
+            Align = alLeft
+            AutoSize = False
+            Caption = 'Value:'
+            Layout = tlCenter
+            ExplicitLeft = 3
+            ExplicitTop = 3
+            ExplicitHeight = 27
+          end
+          object txtSearch: TSearchBox
+            AlignWithMargins = True
+            Left = 110
+            Top = 4
+            Width = 687
+            Height = 45
+            Align = alClient
             TabOrder = 0
+            ExplicitLeft = 4
+            ExplicitWidth = 793
+            ExplicitHeight = 37
           end
         end
       end
@@ -335,7 +349,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             AllowKeyEdit = True
             Max = 999999.000000000000000000
             Orientation = orHorizontal
-            Value = 100.000000000000000000
+            Value = 10.000000000000000000
             Anchors = [akTop, akRight]
             ParentShowHint = False
             ShowHint = True
