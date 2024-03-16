@@ -3,7 +3,7 @@ object frmJDConvertMain: TfrmJDConvertMain
   Top = 0
   Caption = 'JD Unit-of-Measure Conversion'
   ClientHeight = 661
-  ClientWidth = 1104
+  ClientWidth = 1120
   Color = clBtnFace
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -12,15 +12,17 @@ object frmJDConvertMain: TfrmJDConvertMain
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 19
   object Pages: TPageControl
     Left = 57
     Top = 0
-    Width = 1047
+    Width = 1063
     Height = 642
-    ActivePage = tabConvert
+    ActivePage = tabBuilder
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -29,13 +31,10 @@ object frmJDConvertMain: TfrmJDConvertMain
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
-    ExplicitLeft = 63
+    ExplicitWidth = 1047
     object tabConvert: TTabSheet
       Caption = '    Convert    '
-      ExplicitLeft = 0
-      ExplicitTop = 34
-      ExplicitWidth = 1409
-      ExplicitHeight = 586
+      ExplicitWidth = 1039
       object pConvert: TPanel
         Left = 0
         Top = 0
@@ -92,8 +91,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 0
           ViewStyle = vsReport
           OnDblClick = lstEquivalentsDblClick
-          ExplicitLeft = 2
-          ExplicitTop = 152
         end
         object pConvertNormal: TPanel
           Left = 0
@@ -151,7 +148,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Style = csDropDownList
               TabOrder = 0
               OnClick = cboConvertCategoryClick
-              ExplicitLeft = 150
             end
             object cboConvertFromUnit: TComboBox
               AlignWithMargins = True
@@ -163,8 +159,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Style = csDropDownList
               TabOrder = 1
               OnClick = cboConvertFromUnitClick
-              ExplicitLeft = 455
-              ExplicitWidth = 334
             end
           end
           object Panel3: TPanel
@@ -185,19 +179,18 @@ object frmJDConvertMain: TfrmJDConvertMain
               AlignWithMargins = True
               Left = 3
               Top = 3
-              Width = 100
+              Width = 134
               Height = 36
               Align = alLeft
               AutoSize = False
               Caption = 'Value:'
               Layout = tlCenter
-              ExplicitHeight = 27
             end
             object txtConvertFromValue: TRzSpinEdit
               AlignWithMargins = True
-              Left = 109
+              Left = 143
               Top = 3
-              Width = 687
+              Width = 653
               Height = 36
               BlankValue = 1.000000000000000000
               AllowKeyEdit = True
@@ -212,9 +205,7 @@ object frmJDConvertMain: TfrmJDConvertMain
               Alignment = taLeftJustify
               TabOrder = 0
               OnChange = txtConvertFromValueChange
-              ExplicitLeft = 116
-              ExplicitTop = 4
-              ExplicitWidth = 673
+              ExplicitHeight = 37
             end
           end
         end
@@ -235,26 +226,21 @@ object frmJDConvertMain: TfrmJDConvertMain
             AlignWithMargins = True
             Left = 4
             Top = 4
-            Width = 100
+            Width = 134
             Height = 45
             Align = alLeft
             AutoSize = False
-            Caption = 'Value:'
+            Caption = 'Search:'
             Layout = tlCenter
-            ExplicitLeft = 3
-            ExplicitTop = 3
-            ExplicitHeight = 27
           end
           object txtSearch: TSearchBox
             AlignWithMargins = True
-            Left = 110
+            Left = 144
             Top = 4
-            Width = 687
+            Width = 653
             Height = 45
             Align = alClient
             TabOrder = 0
-            ExplicitLeft = 4
-            ExplicitWidth = 793
             ExplicitHeight = 37
           end
         end
@@ -263,25 +249,20 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabDetails: TTabSheet
       Caption = '    Details    '
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 33
-      ExplicitWidth = 585
-      ExplicitHeight = 347
+      ExplicitWidth = 1039
       object pBottom: TPanel
         Left = 0
         Top = 255
-        Width = 1039
+        Width = 1055
         Height = 353
         Align = alClient
         TabOrder = 0
-        ExplicitTop = 209
-        ExplicitWidth = 620
-        ExplicitHeight = 411
+        ExplicitWidth = 1039
         object Chart: TChart
           AlignWithMargins = True
           Left = 11
           Top = 4
-          Width = 1017
+          Width = 1033
           Height = 345
           Margins.Left = 10
           Margins.Right = 10
@@ -329,18 +310,15 @@ object frmJDConvertMain: TfrmJDConvertMain
           BevelOuter = bvNone
           Color = clBlack
           TabOrder = 0
-          ExplicitLeft = 19
-          ExplicitTop = 6
-          ExplicitWidth = 977
-          ExplicitHeight = 323
+          ExplicitWidth = 1017
           DesignSize = (
-            1017
+            1033
             345)
           DefaultCanvas = 'TGDIPlusCanvas'
           ColorPaletteIndex = 9
           object txtChartScale: TRzSpinEdit
             AlignWithMargins = True
-            Left = 875
+            Left = 891
             Top = 2
             Width = 132
             Height = 27
@@ -355,10 +333,10 @@ object frmJDConvertMain: TfrmJDConvertMain
             ShowHint = True
             TabOrder = 0
             OnChange = txtChartScaleChange
-            ExplicitLeft = 778
+            ExplicitLeft = 875
           end
           object chkNegative: TCheckBox
-            Left = 747
+            Left = 763
             Top = 6
             Width = 97
             Height = 19
@@ -376,7 +354,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 1
             StyleElements = [seClient, seBorder]
             OnClick = chkNegativeClick
-            ExplicitLeft = 650
+            ExplicitLeft = 747
           end
           object Series1: TLineSeries
             Selected.Hover.Visible = False
@@ -397,13 +375,12 @@ object frmJDConvertMain: TfrmJDConvertMain
       object pTop: TPanel
         Left = 0
         Top = 0
-        Width = 1039
+        Width = 1055
         Height = 255
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 8
-        ExplicitWidth = 585
+        ExplicitWidth = 1039
         object pCategories: TPanel
           Left = 223
           Top = 0
@@ -448,7 +425,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 0
             ViewStyle = vsReport
             OnSelectItem = lstCategoriesSelectItem
-            ExplicitWidth = 217
           end
         end
         object pUOMs: TPanel
@@ -495,29 +471,26 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 0
             ViewStyle = vsReport
             OnSelectItem = lstUOMsSelectItem
-            ExplicitTop = 29
-            ExplicitWidth = 217
           end
         end
         object pInfo: TPanel
           Left = 642
           Top = 0
-          Width = 397
+          Width = 413
           Height = 255
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 669
-          ExplicitWidth = 313
+          ExplicitWidth = 397
           object pTestVal: TPanel
             Left = 0
             Top = 0
-            Width = 397
+            Width = 413
             Height = 25
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 313
+            ExplicitWidth = 397
             object lblUnitHeader: TLabel
               AlignWithMargins = True
               Left = 3
@@ -538,13 +511,13 @@ object frmJDConvertMain: TfrmJDConvertMain
             AlignWithMargins = True
             Left = 3
             Top = 28
-            Width = 391
+            Width = 407
             Height = 224
             Align = alClient
             TabOrder = 1
-            ExplicitWidth = 307
+            ExplicitWidth = 391
             DesignSize = (
-              391
+              407
               224)
             object Label3: TLabel
               Left = 8
@@ -558,7 +531,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitName: TLabel
               Left = 127
               Top = 16
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -583,7 +556,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitSystems: TLabel
               Left = 127
               Top = 66
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -608,7 +581,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitSuffix: TLabel
               Left = 127
               Top = 91
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -633,7 +606,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitBaseFrom: TLabel
               Left = 127
               Top = 116
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -658,7 +631,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitBaseTo: TLabel
               Left = 127
               Top = 141
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -683,7 +656,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             object lblUnitNamePlural: TLabel
               Left = 127
               Top = 41
-              Width = 248
+              Width = 264
               Height = 19
               Anchors = [akLeft, akTop, akRight]
               AutoSize = False
@@ -744,13 +717,454 @@ object frmJDConvertMain: TfrmJDConvertMain
             ViewStyle = vsReport
             OnClick = lstSystemsClick
             OnItemChecked = lstSystemsItemChecked
-            ExplicitTop = 29
           end
         end
       end
     end
+    object tabBuilder: TTabSheet
+      Caption = '    UOM Builder    '
+      ImageIndex = 2
+      ExplicitLeft = 28
+      ExplicitTop = 49
+      ExplicitWidth = 1039
+      object lstCustomUOMs: TListView
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 1049
+        Height = 238
+        Align = alTop
+        Columns = <
+          item
+            Caption = 'Custom UOM Name'
+            Width = 220
+          end
+          item
+            Caption = 'Type'
+            Width = 100
+          end
+          item
+            Caption = 'Category'
+            Width = 180
+          end
+          item
+            Caption = 'Suffix'
+            Width = 100
+          end
+          item
+            Caption = 'Systems'
+            Width = 400
+          end>
+        HideSelection = False
+        HotTrackStyles = [htHandPoint, htUnderlineHot]
+        ReadOnly = True
+        RowSelect = True
+        TabOrder = 0
+        ViewStyle = vsReport
+        OnSelectItem = lstCustomUOMsSelectItem
+        ExplicitWidth = 1033
+      end
+      object pEditUOM: TPanel
+        Left = 0
+        Top = 244
+        Width = 1055
+        Height = 189
+        Align = alTop
+        TabOrder = 1
+        object lblUserType: TLabel
+          Left = 16
+          Top = 18
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Item Type:'
+        end
+        object lblUserNameSingular: TLabel
+          Left = 18
+          Top = 84
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Name (Singular):'
+        end
+        object lblUserNamePlural: TLabel
+          Left = 395
+          Top = 84
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Name (Plural):'
+        end
+        object lblUserCategory: TLabel
+          Left = 27
+          Top = 51
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Category:'
+        end
+        object lblUserSuffix: TLabel
+          Left = 18
+          Top = 117
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Suffix:'
+        end
+        object lblUserSystems: TLabel
+          Left = 395
+          Top = 117
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'System(s):'
+        end
+        object lblUserFrom: TLabel
+          Left = 18
+          Top = 150
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Convert From Base:'
+        end
+        object lblUserTo: TLabel
+          Left = 386
+          Top = 150
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Convert To Base:'
+        end
+        object lblUserBase: TLabel
+          Left = 393
+          Top = 48
+          Width = 161
+          Height = 19
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Category Base:'
+        end
+        object cboUserType: TComboBox
+          Left = 194
+          Top = 15
+          Width = 193
+          Height = 27
+          Style = csDropDownList
+          TabOrder = 0
+          OnClick = cboUserTypeClick
+          Items.Strings = (
+            'Metric'
+            'Simple'
+            'Formula')
+        end
+        object txtUserNameSingular: TEdit
+          Left = 194
+          Top = 81
+          Width = 193
+          Height = 27
+          TabOrder = 2
+        end
+        object txtUserNamePlural: TEdit
+          Left = 562
+          Top = 81
+          Width = 193
+          Height = 27
+          TabOrder = 3
+        end
+        object txtUserCategory: TEdit
+          Left = 194
+          Top = 48
+          Width = 193
+          Height = 27
+          TabOrder = 1
+        end
+        object txtUserSuffix: TEdit
+          Left = 194
+          Top = 114
+          Width = 193
+          Height = 27
+          TabOrder = 4
+        end
+        object txtUserSystems: TEdit
+          Left = 562
+          Top = 114
+          Width = 193
+          Height = 27
+          TabOrder = 5
+        end
+        object Panel2: TPanel
+          Left = 1016
+          Top = 1
+          Width = 38
+          Height = 187
+          Align = alRight
+          TabOrder = 8
+          ExplicitTop = 3
+          ExplicitHeight = 203
+          object btnNewUOM: TJDFontButton
+            Left = 1
+            Top = 1
+            Width = 36
+            Height = 33
+            Cursor = crHandPoint
+            Hint = 'Create New UOM'
+            Align = alTop
+            DrawStyle = fdTransparent
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Image.AutoSize = False
+            Image.Text = #61543
+            Image.Font.Charset = DEFAULT_CHARSET
+            Image.Font.Color = clWindowText
+            Image.Font.Height = -21
+            Image.Font.Name = 'FontAwesome'
+            Image.Font.Style = []
+            Image.Font.Quality = fqAntialiased
+            Image.StandardColor = fcGreen
+            Overlay.Text = #57715
+            Overlay.Font.Charset = DEFAULT_CHARSET
+            Overlay.Font.Color = clWindowText
+            Overlay.Font.Height = -7
+            Overlay.Font.Name = 'FontAwesome'
+            Overlay.Font.Style = []
+            Overlay.Font.Quality = fqAntialiased
+            Overlay.Position = foNone
+            Overlay.Margin = 3
+            ImagePosition = fpImgOnly
+            ShowHint = True
+            SubTextFont.Charset = DEFAULT_CHARSET
+            SubTextFont.Color = clGray
+            SubTextFont.Height = -11
+            SubTextFont.Name = 'Tahoma'
+            SubTextFont.Style = []
+            TabOrder = 0
+            Text = 'btnConvertNormal'
+            OnClick = btnNewUOMClick
+          end
+          object btnEditUOM: TJDFontButton
+            Left = 1
+            Top = 34
+            Width = 36
+            Height = 33
+            Cursor = crHandPoint
+            Hint = 'Edit Selected UOM'
+            Align = alTop
+            DrawStyle = fdTransparent
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Image.AutoSize = False
+            Image.Text = #61504
+            Image.Font.Charset = DEFAULT_CHARSET
+            Image.Font.Color = clWindowText
+            Image.Font.Height = -21
+            Image.Font.Name = 'FontAwesome'
+            Image.Font.Style = []
+            Image.Font.Quality = fqAntialiased
+            Image.StandardColor = fcYellow
+            Overlay.Text = #57715
+            Overlay.Font.Charset = DEFAULT_CHARSET
+            Overlay.Font.Color = clWindowText
+            Overlay.Font.Height = -7
+            Overlay.Font.Name = 'FontAwesome'
+            Overlay.Font.Style = []
+            Overlay.Font.Quality = fqAntialiased
+            Overlay.Position = foNone
+            Overlay.Margin = 3
+            ImagePosition = fpImgOnly
+            ShowHint = True
+            SubTextFont.Charset = DEFAULT_CHARSET
+            SubTextFont.Color = clGray
+            SubTextFont.Height = -11
+            SubTextFont.Name = 'Tahoma'
+            SubTextFont.Style = []
+            TabOrder = 1
+            Text = 'btnConvertNormal'
+            OnClick = btnEditUOMClick
+          end
+          object btnDeleteUOM: TJDFontButton
+            Left = 1
+            Top = 67
+            Width = 36
+            Height = 33
+            Cursor = crHandPoint
+            Hint = 'Delete Selected UOM'
+            Align = alTop
+            DrawStyle = fdTransparent
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Image.AutoSize = False
+            Image.Text = #61544
+            Image.Font.Charset = DEFAULT_CHARSET
+            Image.Font.Color = clWindowText
+            Image.Font.Height = -21
+            Image.Font.Name = 'FontAwesome'
+            Image.Font.Style = []
+            Image.Font.Quality = fqAntialiased
+            Image.StandardColor = fcRed
+            Overlay.Text = #57715
+            Overlay.Font.Charset = DEFAULT_CHARSET
+            Overlay.Font.Color = clWindowText
+            Overlay.Font.Height = -7
+            Overlay.Font.Name = 'FontAwesome'
+            Overlay.Font.Style = []
+            Overlay.Font.Quality = fqAntialiased
+            Overlay.Position = foNone
+            Overlay.Margin = 3
+            ImagePosition = fpImgOnly
+            ShowHint = True
+            SubTextFont.Charset = DEFAULT_CHARSET
+            SubTextFont.Color = clGray
+            SubTextFont.Height = -11
+            SubTextFont.Name = 'Tahoma'
+            SubTextFont.Style = []
+            TabOrder = 2
+            Text = 'btnConvertNormal'
+          end
+          object btnSaveUOM: TJDFontButton
+            Left = 1
+            Top = 100
+            Width = 36
+            Height = 33
+            Cursor = crHandPoint
+            Hint = 'Save Changes to UOM'
+            Align = alTop
+            DrawStyle = fdTransparent
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Image.AutoSize = False
+            Image.Text = #61452
+            Image.Font.Charset = DEFAULT_CHARSET
+            Image.Font.Color = clWindowText
+            Image.Font.Height = -21
+            Image.Font.Name = 'FontAwesome'
+            Image.Font.Style = []
+            Image.Font.Quality = fqAntialiased
+            Image.StandardColor = fcGreen
+            Overlay.Text = #57715
+            Overlay.Font.Charset = DEFAULT_CHARSET
+            Overlay.Font.Color = clWindowText
+            Overlay.Font.Height = -7
+            Overlay.Font.Name = 'FontAwesome'
+            Overlay.Font.Style = []
+            Overlay.Font.Quality = fqAntialiased
+            Overlay.Position = foNone
+            Overlay.Margin = 3
+            ImagePosition = fpImgOnly
+            ShowHint = True
+            SubTextFont.Charset = DEFAULT_CHARSET
+            SubTextFont.Color = clGray
+            SubTextFont.Height = -11
+            SubTextFont.Name = 'Tahoma'
+            SubTextFont.Style = []
+            TabOrder = 3
+            Text = 'btnConvertNormal'
+            OnClick = btnSaveUOMClick
+            ExplicitTop = 94
+          end
+          object btnCancelUOM: TJDFontButton
+            Left = 1
+            Top = 133
+            Width = 36
+            Height = 33
+            Cursor = crHandPoint
+            Hint = 'Cancel Changes to UOM'
+            Align = alTop
+            DrawStyle = fdTransparent
+            Enabled = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            Image.AutoSize = False
+            Image.Text = #61453
+            Image.Font.Charset = DEFAULT_CHARSET
+            Image.Font.Color = clWindowText
+            Image.Font.Height = -21
+            Image.Font.Name = 'FontAwesome'
+            Image.Font.Style = []
+            Image.Font.Quality = fqAntialiased
+            Image.StandardColor = fcRed
+            Overlay.Text = #57715
+            Overlay.Font.Charset = DEFAULT_CHARSET
+            Overlay.Font.Color = clWindowText
+            Overlay.Font.Height = -7
+            Overlay.Font.Name = 'FontAwesome'
+            Overlay.Font.Style = []
+            Overlay.Font.Quality = fqAntialiased
+            Overlay.Position = foNone
+            Overlay.Margin = 3
+            ImagePosition = fpImgOnly
+            ShowHint = True
+            SubTextFont.Charset = DEFAULT_CHARSET
+            SubTextFont.Color = clGray
+            SubTextFont.Height = -11
+            SubTextFont.Name = 'Tahoma'
+            SubTextFont.Style = []
+            TabOrder = 4
+            Text = 'btnConvertNormal'
+            OnClick = btnCancelUOMClick
+            ExplicitTop = 139
+          end
+        end
+        object txtUserFrom: TEdit
+          Left = 194
+          Top = 147
+          Width = 193
+          Height = 27
+          TabOrder = 6
+        end
+        object txtUserTo: TEdit
+          Left = 562
+          Top = 147
+          Width = 193
+          Height = 27
+          TabOrder = 7
+        end
+        object lstUserUnits: TCheckListBox
+          Left = 784
+          Top = 16
+          Width = 185
+          Height = 161
+          ItemHeight = 19
+          TabOrder = 9
+        end
+        object chkUserBase: TToggleSwitch
+          Left = 562
+          Top = 49
+          Width = 98
+          Height = 21
+          StateCaptions.CaptionOn = 'True'
+          StateCaptions.CaptionOff = 'False'
+          TabOrder = 10
+        end
+      end
+    end
   end
-  object Panel2: TPanel
+  object pMenu: TPanel
     Left = 0
     Top = 0
     Width = 57
@@ -758,9 +1172,8 @@ object frmJDConvertMain: TfrmJDConvertMain
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = -1
-    ExplicitTop = 8
-    ExplicitHeight = 565
+    ExplicitLeft = 1
+    ExplicitTop = -6
     object btnConvertNormal: TJDFontButton
       Left = 0
       Top = 0
@@ -803,8 +1216,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 0
       Text = 'btnConvertNormal'
       OnClick = btnConvertNormalClick
-      ExplicitLeft = 2
-      ExplicitTop = -6
     end
     object btnConvertSearch: TJDFontButton
       Left = 0
@@ -848,8 +1259,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 1
       Text = 'JDFontButton1'
       OnClick = btnConvertSearchClick
-      ExplicitLeft = -1
-      ExplicitTop = 43
     end
     object btnDetails: TJDFontButton
       Left = 0
@@ -893,15 +1302,58 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 2
       Text = 'JDFontButton1'
       OnClick = btnDetailsClick
+      ExplicitLeft = -2
+      ExplicitTop = 104
+    end
+    object btnUOMBuilder: TJDFontButton
+      Left = 0
+      Top = 147
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'Build Custom UOMs'
+      Align = alTop
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61875
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 3
+      Text = 'btnUOMBuilder'
+      OnClick = btnUOMBuilderClick
       ExplicitLeft = 1
-      ExplicitTop = 102
-      ExplicitWidth = 73
     end
   end
   object Stat: TStatusBar
     Left = 0
     Top = 642
-    Width = 1104
+    Width = 1120
     Height = 19
     Cursor = crHandPoint
     Panels = <
@@ -915,8 +1367,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Width = 50
       end>
     OnDblClick = StatDblClick
-    ExplicitLeft = 512
-    ExplicitTop = 296
-    ExplicitWidth = 0
+    ExplicitWidth = 1104
   end
 end

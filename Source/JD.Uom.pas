@@ -137,6 +137,8 @@ type
   /// </summary>
   EUOMEvalException = EUOMException;
 
+  EUOMFileException = EUOMException;
+
   /// <summary>
   /// Enum representing a specific Metric system size.
   /// </summary>
@@ -413,6 +415,10 @@ type
     /// </summary>
     class procedure RegisterBaseUOM(const ACategory: String; const AUnit: TUOM); static;
     /// <summary>
+    /// Unregisters the specified UOM from the system.
+    /// </summary>
+    class procedure UnregisterUOM(const UOM: TUOM);
+    /// <summary>
     /// Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `Double`.
     /// </summary>
     class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
@@ -605,7 +611,8 @@ end;
 
 class procedure TUOMUtils.InvalidateUOMs;
 begin
-  //TODO: Anything?
+  InvalidateCategories;
+  InvalidateSystems;
 end;
 
 class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
@@ -822,6 +829,18 @@ class function TUOMUtils.SystemCount: Integer;
 begin
   //Invalidate;
   Result:= FSystems.Count;
+end;
+
+class procedure TUOMUtils.UnregisterUOM(const UOM: TUOM);
+var
+  I: Integer;
+begin
+  I:= FUOMs.IndexOf(UOM);
+  if I > -1 then begin
+    FUOMs.Delete(I);
+    InvalidateUOMs;
+
+  end;
 end;
 
 class function TUOMUtils.UOMCount: Integer;
