@@ -279,7 +279,7 @@ function TfrmJDConvertMain.UserFilename: String;
 begin
   Result:= TPath.GetHomePath;
   Result:= TPath.Combine(Result, 'JD Software');
-  Result:= TPath.Combine(Result, 'JD UOM');
+  Result:= TPath.Combine(Result, 'JD Convert');
   Result:= TPath.Combine(Result, 'User UOMs.ini');
 end;
 
