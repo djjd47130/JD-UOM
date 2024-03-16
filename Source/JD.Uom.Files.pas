@@ -396,10 +396,14 @@ begin
     utSimple: begin
       TUOMUtils.RegisterSimpleUOM(FCategory, FNameSingular, FNamePlural,
         FSuffix, FSystems, FFactor);
+      if IsBase then
+        TUOMUtils.RegisterBaseUOM(Category, GetRegisteredUOM);
     end;
     utFormula: begin
       TUOMUtils.RegisterUOM(FCategory, FNameSingular, FNamePlural, FSuffix,
         FSystems, FFromBase, FToBase);
+      if IsBase then
+        TUOMUtils.RegisterBaseUOM(Category, GetRegisteredUOM);
     end;
   end;
 end;

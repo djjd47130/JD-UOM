@@ -43,10 +43,10 @@ begin
   //Metric
 
   TUOMUtils.RegisterSimpleUOM('Area',
-    'Square Millimeter', 'Square Millimeters', 'mm²', 'Metric', METRIC_MILLI);
+    'Square Millimeter', 'Square Millimeters', 'mm²', 'Metric', Sqr(METRIC_MILLI));
 
   TUOMUtils.RegisterSimpleUOM('Area',
-    'Square Centimeter', 'Square Centimeters', 'cm²', 'Metric', METRIC_CENTI);
+    'Square Centimeter', 'Square Centimeters', 'cm²', 'Metric', Sqr(METRIC_CENTI));
 
   TUOMUtils.RegisterSimpleUOM('Area',
     'Square Meter', 'Square Meters', 'm²', 'Metric', Sqr(METRIC_BASE)).SetAsBase;

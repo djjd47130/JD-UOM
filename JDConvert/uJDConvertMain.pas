@@ -7,7 +7,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages,
   System.Generics.Collections, System.Generics.Defaults, System.UITypes,
-  System.SysUtils, System.Variants, System.Classes,
+  System.SysUtils, System.Variants, System.Classes, System.Types,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
   Vcl.ExtCtrls, Vcl.CheckLst, Vcl.Mask,
   Vcl.ComCtrls, System.ImageList, Vcl.ImgList, Vcl.WinXCtrls,
@@ -17,8 +17,9 @@ uses
   JD.Common, JD.Graphics, JD.FontGlyphs, JD.Ctrls, JD.Ctrls.FontButton,
 
   JD.Uom,
-  JD.Uom.Files,
+  JD.Uom.Files
 
+  {
   JD.Uom.Distance,
   JD.Uom.Area,
   JD.Uom.Temperature,
@@ -28,6 +29,7 @@ uses
   JD.Uom.Frequency,
   JD.Uom.Speed,
   JD.Uom.Numbers
+  }
   ;
 
 const
@@ -152,6 +154,7 @@ type
     FSelSystems: String;
     FSelCategory: String;
     FSelUOM: String;
+    FSystemUOMs: TUOMFile;
     FUserUOMs: TUOMFile;
     FEditingUOM: Boolean;
     FIsNewUOM: Boolean;
@@ -176,7 +179,9 @@ type
     procedure UpdateChart;
 
     //UOM Builder Related
-    function UserFilename: String;
+    function SystemUOMPath: String;
+    function UserUOMFilename: String;
+    procedure LoadSystemUOMs;
     procedure LoadUserUOMs;
     procedure SaveUserUOMs;
     procedure LoadUserUnits;
@@ -218,12 +223,14 @@ begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
   {$ENDIF}
+  FSystemUOMs:= TUOMFile.Create(nil);
   FUserUOMs:= TUOMFile.Create(nil);
-  FUserUOMs.Filename:= UserFilename;
+  FUserUOMs.Filename:= UserUOMFilename;
   ColorManager.BaseColor:= clBlack;
   pConvert.Align:= alClient;
   Chart.Align:= alClient;
 
+  LoadSystemUOMs;
   LoadUserUnits;
   LoadUserUOMs;
   RefreshAll;
@@ -236,6 +243,7 @@ end;
 procedure TfrmJDConvertMain.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(FUserUOMs);
+  FreeAndNil(FSystemUOMs);
 end;
 
 function TfrmJDConvertMain.GetUserUnits: String;
@@ -275,7 +283,7 @@ begin
   Stat.Panels[0].Text:= IntToStr(TUOMUtils.UOMCount) + ' UOMs Registered';
 end;
 
-function TfrmJDConvertMain.UserFilename: String;
+function TfrmJDConvertMain.UserUOMFilename: String;
 begin
   Result:= TPath.GetHomePath;
   Result:= TPath.Combine(Result, 'JD Software');
@@ -293,10 +301,29 @@ begin
   end;
 end;
 
+procedure TfrmJDConvertMain.LoadSystemUOMs;
+var
+  Files: TStringDynArray;
+  X: Integer;
+begin
+  try
+    if DirectoryExists(SystemUOMPath) then begin
+      Files:= TDirectory.GetFiles(SystemUOMPath, '*.ini');
+      for X := 0 to Length(Files)-1 do begin
+        FSystemUOMs.LoadFromFile(Files[X]).RegisterAllUOMs;
+      end;
+    end;
+  except
+    on E: Exception do begin
+      MessageDlg('Failed to load system UOMs: '+E.Message, mtError, [mbOK], 0);
+    end;
+  end;
+end;
+
 procedure TfrmJDConvertMain.LoadUserUOMs;
 begin
   try
-    if FileExists(UserFilename) then
+    if FileExists(UserUOMFilename) then
       FUserUOMs.Load.RegisterAllUOMs;
     RefreshUserUOMList;
   except
@@ -526,6 +553,12 @@ end;
 procedure TfrmJDConvertMain.StatDblClick(Sender: TObject);
 begin
   OpenWebPageInDefaultBrowser('https://github.com/djjd47130/JD-UOM');
+end;
+
+function TfrmJDConvertMain.SystemUOMPath: String;
+begin
+  Result:= ExtractFilePath(ParamStr(0));
+  Result:= TPath.Combine(Result, 'System');
 end;
 
 procedure TfrmJDConvertMain.RefreshUOMSystemList;
@@ -825,29 +858,31 @@ begin
     Amt:= Round(txtChartScale.Value);
 
     BU:= TUOMUtils.GetBaseUOM(FSelCategory);
-    Chart.Title.Text.Text:= BU.Category+' Comparison';
-    Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
-    for X := 0 to lstUOMs.Items.Count-1 do begin
-      U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X].Caption);
-      S:= TLineSeries.Create(Chart);
-      try
-        S.Tag:= X;
-        S.ParentChart:= Chart;
-        S.Title:= U.NameSingular;
-        if U.NameSingular = FSelUOM then
-          S.LinePen.Width:= WIDTH_LARGE
-        else
-          S.LinePen.Width:= WIDTH_SMALL;
-        if chkNegative.Checked then
-          Start:= -Amt
-        else
-          Start:= 0;
-        for Y := Start to Amt do begin
-          V:= U.ConvertToBase(Y);
-          S.Add(V, IntToStr(Y));
+    if Assigned(BU) then begin
+      Chart.Title.Text.Text:= BU.Category+' Comparison';
+      Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
+      for X := 0 to lstUOMs.Items.Count-1 do begin
+        U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X].Caption);
+        S:= TLineSeries.Create(Chart);
+        try
+          S.Tag:= X;
+          S.ParentChart:= Chart;
+          S.Title:= U.NameSingular;
+          if U.NameSingular = FSelUOM then
+            S.LinePen.Width:= WIDTH_LARGE
+          else
+            S.LinePen.Width:= WIDTH_SMALL;
+          if chkNegative.Checked then
+            Start:= -Amt
+          else
+            Start:= 0;
+          for Y := Start to Amt do begin
+            V:= U.ConvertToBase(Y);
+            S.Add(V, IntToStr(Y));
+          end;
+        finally
+          Chart.AddSeries(S);
         end;
-      finally
-        Chart.AddSeries(S);
       end;
 
     end;
