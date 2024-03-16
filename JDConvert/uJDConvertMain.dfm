@@ -732,8 +732,9 @@ object frmJDConvertMain: TfrmJDConvertMain
         Left = 3
         Top = 3
         Width = 1049
-        Height = 238
-        Align = alTop
+        Height = 413
+        Align = alClient
+        Color = clBlack
         Columns = <
           item
             Caption = 'Custom UOM Name'
@@ -755,24 +756,33 @@ object frmJDConvertMain: TfrmJDConvertMain
             Caption = 'Systems'
             Width = 400
           end>
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
         HideSelection = False
         HotTrackStyles = [htHandPoint, htUnderlineHot]
         ReadOnly = True
         RowSelect = True
+        ParentFont = False
         TabOrder = 0
         ViewStyle = vsReport
         OnSelectItem = lstCustomUOMsSelectItem
         ExplicitWidth = 1033
+        ExplicitHeight = 238
       end
       object pEditUOM: TPanel
         Left = 0
-        Top = 244
+        Top = 419
         Width = 1055
         Height = 189
-        Align = alTop
+        Align = alBottom
+        BevelOuter = bvNone
         TabOrder = 1
+        ExplicitTop = 244
         object lblUserType: TLabel
-          Left = 16
+          Left = 18
           Top = 18
           Width = 161
           Height = 19
@@ -799,8 +809,8 @@ object frmJDConvertMain: TfrmJDConvertMain
           Caption = 'Name (Plural):'
         end
         object lblUserCategory: TLabel
-          Left = 27
-          Top = 51
+          Left = 18
+          Top = 48
           Width = 161
           Height = 19
           Alignment = taRightJustify
@@ -901,12 +911,13 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 5
         end
         object Panel2: TPanel
-          Left = 1016
-          Top = 1
+          Left = 1017
+          Top = 0
           Width = 38
-          Height = 187
+          Height = 189
           Align = alRight
           TabOrder = 8
+          ExplicitLeft = 1016
           ExplicitTop = 3
           ExplicitHeight = 203
           object btnNewUOM: TJDFontButton

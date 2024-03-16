@@ -155,6 +155,7 @@ type
     FUserUOMs: TUOMFile;
     FEditingUOM: Boolean;
     FIsNewUOM: Boolean;
+    FSelUserItem: TListItem;
   public
     //Common
     procedure RefreshAll;
@@ -509,7 +510,7 @@ end;
 
 procedure TfrmJDConvertMain.UpdateUserUOMActions;
 begin
-  lstCustomUOMs.Enabled:= (not FEditingUOM);
+  //lstCustomUOMs.Enabled:= (not FEditingUOM);
   btnNewUOM.Enabled:= (not FEditingUOM);
   btnEditUOM.Enabled:= (not FEditingUOM) and (lstCustomUOMs.Selected <> nil);
   btnDeleteUOM.Enabled:= (not FEditingUOM) and (lstCustomUOMs.Selected <> nil);
@@ -565,7 +566,16 @@ end;
 procedure TfrmJDConvertMain.lstCustomUOMsSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 begin
-  ShowUserUOMDetails;
+  if FEditingUOM then begin
+    if Item <> FSelUserItem then begin
+      //TODO: Prevent change (need a better method other than Enabled=False)...
+      if FSelUserItem <> nil then
+        lstCustomUOMs.ItemIndex:= FSelUserItem.Index;
+    end;
+  end else begin
+    FSelUserItem:= Item;
+    ShowUserUOMDetails;
+  end;
 end;
 
 procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
@@ -765,16 +775,18 @@ procedure TfrmJDConvertMain.SetUserEditMode(const Editing: Boolean; const IsNew:
 begin
   FEditingUOM:= Editing;
   FIsNewUOM:= IsNew;
+
   cboUserType.Enabled:= Editing;
-  txtUserCategory.Enabled:= Editing;
-  chkUserBase.Enabled:= Editing;
-  txtUserNameSingular.Enabled:= Editing;
-  txtUserNamePlural.Enabled:= Editing;
-  txtUserSuffix.Enabled:= Editing;
-  txtUserSystems.Enabled:= Editing;
-  txtUserFrom.Enabled:= Editing;
-  txtUserTo.Enabled:= Editing;
+  txtUserCategory.ReadOnly:= not Editing;
+  chkUserBase.ReadOnly:= not Editing;
+  txtUserNameSingular.ReadOnly:= not Editing;
+  txtUserNamePlural.ReadOnly:= not Editing;
+  txtUserSuffix.ReadOnly:= not Editing;
+  txtUserSystems.ReadOnly:= not Editing;
+  txtUserFrom.ReadOnly:= not Editing;
+  txtUserTo.ReadOnly:= not Editing;
   lstUserUnits.Enabled:= Editing;
+
   UpdateUserUOMActions;
 end;
 
