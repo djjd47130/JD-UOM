@@ -36,45 +36,18 @@ ShowTasksTreeLines=yes
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
-[Types]
-Name: "full"; Description: "Full Installation"
-Name: "compact"; Description: "Compact Installation"
-Name: "custom"; Description: "Custom Installation"; Flags: iscustom
-
-[Components]
-Name: "jdconvert"; Description: "JD Convert Application"; Types: full compact custom; Flags: fixed
-Name: "help"; Description: "JD Convert Help File"; Types: full compact custom; Flags: fixed
-Name: "fontawesome"; Description: "FontAwesom Font (Glyphs)"; Types: full compact custom; Flags: fixed
-Name: "systemuoms"; Description: "System UOMs"; Types: full
-Name: "systemuoms\distance"; Description: "Distance UOMs"; Types: full compact custom; Flags: disablenouninstallwarning fixed
-Name: "systemuoms\area"; Description: "Area UOMs"; Types: full; Flags: disablenouninstallwarning
-Name: "systemuoms\temp"; Description: "Temperature UOMs"; Types: full; Flags: disablenouninstallwarning
-
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
 ; JD Convert Application
-Source: "..\Win32\Release\{#MyAppExeName}"; DestDir: "{app}"; Components: jdconvert; Flags: ignoreversion
-; System UOMs - BE SURE TO INCLUDE IN InstallDelete
-; Also be sure to create reference in [Components]
-Source: "UOMs\Distance.ini"; DestDir: "{app}\System"; Components: systemuoms\distance; Flags: ignoreversion
-Source: "UOMs\Area.ini"; DestDir: "{app}\System"; Components: systemuoms\area; Flags: ignoreversion
-Source: "UOMs\Temperature.ini"; DestDir: "{app}\System"; Components: systemuoms\temp; Flags: ignoreversion
+Source: "..\Win32\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 ; FontAwesome
-Source: "FontAwesome.ttf"; DestDir: "{autofonts}"; FontInstall: "FontAwesome"; Components: fontawesome; Flags: onlyifdoesntexist uninsneveruninstall
+Source: "FontAwesome.ttf"; DestDir: "{autofonts}"; FontInstall: "FontAwesome"; Flags: onlyifdoesntexist uninsneveruninstall
 ; Help File
-Source: "..\Help_output\HTML Help\JD Convert Help.chm"; DestDir: "{app}"; Components: help; Flags: ignoreversion  
+Source: "..\Help_output\HTML Help\JD Convert Help.chm"; DestDir: "{app}"; Flags: ignoreversion  
 Source: "{srcexe}"; DestDir: "{app}"; Flags: ignoreversion external
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-
-[InstallDelete]
-Type: files; Name: "{app}\JDConvert.exe"
-Type: files; Name: "{app}\FontAwesome.ttf"
-Type: files; Name: "{app}\JDConvert Help.chm"
-Type: files; Name: "{app}\System\Distance.ini"
-Type: files; Name: "{app}\System\Area.ini"
-Type: files; Name: "{app}\System\Temperature.ini"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

@@ -20,17 +20,16 @@ uses
   JD.Uom,
   JD.Uom.Files, Vcl.AppEvnts
 
-  {
-  JD.Uom.Distance,
-  JD.Uom.Area,
-  JD.Uom.Temperature,
-  JD.Uom.Volume,
-  JD.Uom.Mass,
-  JD.Uom.Time,
-  JD.Uom.Frequency,
-  JD.Uom.Speed,
-  JD.Uom.Numbers
-  }
+
+  , JD.Uom.Distance
+  , JD.Uom.Area
+  , JD.Uom.Temperature
+  , JD.Uom.Volume
+  , JD.Uom.Mass
+  , JD.Uom.Time
+  , JD.Uom.Frequency
+  , JD.Uom.Speed
+  , JD.Uom.Numbers
 
   ;
 
@@ -883,15 +882,6 @@ begin
     ShowUserUOMDetails;
   end;
 end;
-
-
-
-
-
-
-
-
-
 
 procedure TfrmJDConvertMain.RefreshUserUOMList;
 var

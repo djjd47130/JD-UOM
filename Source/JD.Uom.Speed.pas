@@ -4,9 +4,7 @@ interface
 
 uses
   System.Classes, System.SysUtils,
-  JD.Uom,
-  JD.Uom.Time,
-  JD.Uom.Distance;
+  JD.Uom;
 
 const
   //Metric per Second
