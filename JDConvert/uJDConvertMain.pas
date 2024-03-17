@@ -18,7 +18,7 @@ uses
   JD.Common, JD.Graphics, JD.FontGlyphs, JD.Ctrls, JD.Ctrls.FontButton,
 
   JD.Uom,
-  JD.Uom.Files
+  JD.Uom.Files, Vcl.AppEvnts
 
   {
   JD.Uom.Distance,
@@ -31,6 +31,7 @@ uses
   JD.Uom.Speed,
   JD.Uom.Numbers
   }
+
   ;
 
 const
@@ -123,6 +124,7 @@ type
     lstUserUnits: TCheckListBox;
     chkUserBase: TToggleSwitch;
     lblUserBase: TLabel;
+    ApplicationEvents1: TApplicationEvents;
     procedure FormCreate(Sender: TObject);
     procedure txtValueChange(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
@@ -151,6 +153,8 @@ type
     procedure btnCancelUOMClick(Sender: TObject);
     procedure btnEditUOMClick(Sender: TObject);
     procedure btnSaveUOMClick(Sender: TObject);
+    function ApplicationEvents1Help(Command: Word; Data: NativeInt;
+      var CallHelp: Boolean): Boolean;
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -160,6 +164,7 @@ type
     FEditingUOM: Boolean;
     FIsNewUOM: Boolean;
     FSelUserItem: TListItem;
+    procedure CloseHelpWnd;
   public
     //Common
     procedure RefreshAll;
@@ -347,6 +352,27 @@ begin
       MessageDlg('Failed to save custom UOMs: '+E.Message, mtError, [mbOK], 0);
     end;
   end;
+end;
+
+procedure TfrmJDConvertMain.CloseHelpWnd;
+var
+  HlpWind: HWND;
+const
+  HelpTitle = 'JD Convert Help';
+begin
+  HlpWind := FindWindow('HH Parent',HelpTitle);
+  if HlpWind <> 0 then PostMessage(HlpWind,WM_Close,0,0);
+end;
+
+function TfrmJDConvertMain.ApplicationEvents1Help(Command: Word;
+  Data: NativeInt; var CallHelp: Boolean): Boolean;
+begin
+  CloseHelpWnd;
+  Result := ShellExecute(0,'open','hh.exe',
+                         PWideChar('-mapid '+IntToStr(Data)
+                                   +' ms-its:'+Application.HelpFile),
+                         nil,SW_SHOW) = 32;
+  CallHelp := false;
 end;
 
 procedure TfrmJDConvertMain.btnCancelUOMClick(Sender: TObject);

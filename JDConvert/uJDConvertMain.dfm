@@ -1382,4 +1382,9 @@ object frmJDConvertMain: TfrmJDConvertMain
     OnDblClick = StatDblClick
     ExplicitWidth = 1104
   end
+  object ApplicationEvents1: TApplicationEvents
+    OnHelp = ApplicationEvents1Help
+    Left = 413
+    Top = 254
+  end
 end
