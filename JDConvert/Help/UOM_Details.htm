@@ -1,0 +1,100 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>UOM Details</title>
+<meta name="GENERATOR" content="WinCHM">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+html,body { 
+	/* Default Font */
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11pt;
+}
+</style>
+
+</head>
+
+<body>
+<H1> 
+ Summary</H1>
+<P> 
+ This mode provides detailed information about all 
+registered UOMs along with a comparison chart.</P>
+<P><IMG alt="" src="Images/JDConvertDetails.png"></P>
+<P>&nbsp;</P>
+<H1>Systems Filter</H1>
+<P>This lists all possible UOM systems (Metric, Imperial, 
+US Customary, etc.) with a checkbox next to each. Toggling these checkboxes will 
+refresh the "Units" list to the right to only those UOMs which are part of the 
+selected systems. Note that a single UOM may be a part of more than 1 system. For example, "Foot" is 
+part of both the "Imperial" and "US Customary" systems.</P>
+<P>        
+             
+           NOTE: Some systems have "(Huge)" 
+and "(Tiny)" at the end of their name, corresponding with the scale of the UOMs within. For example, a "Femtometer" 
+is "Metric (Tiny)" whereas a "Petameter" is "Metric (Huge)".</P>
+<P>        
+             
+                
+                    
+        &nbsp;</P>
+<H1>Category Filter</H1>
+<P>This lists all possible UOM categories (Distance, Area, 
+Volume, Mass, Temperature, etc.). Selecting an item will refresh the "Units" list to the right to 
+only those UOMs which are part of the selected category. This 
+will also reload the chart below to show a comparison of UOMs within that category.</P>
+<P>&nbsp;</P>
+<H1>Units List</H1>
+<P>This lists all possible UOMs which are a part of the 
+selected Systems and Category. Selecting an item will refresh the "Unit" details 
+panel to the right.</P>
+<P>&nbsp;</P>
+<H1>Unit Details</H1>
+<P>This displays details about the UOM selected in the 
+"Units" list.</P>
+<UL>
+  <LI>
+<DIV><STRONG>Name</STRONG> - The SINGULAR name of the 
+  UOM, which is used as its main unique identifier.</DIV>
+  <LI>
+<DIV><STRONG>Name Plural</STRONG> - The PLURAL name of 
+  the UOM, which is loosely used as a unique identifier.</DIV>
+  <LI>
+<DIV><STRONG>System(s)</STRONG> - The measurement 
+  system(s) associated with the UOM (Metric, Imperial, US Customary, etc.), 
+  separated by commas.</DIV>
+  <LI>
+<DIV><STRONG>Suffix</STRONG> - The suffix string which 
+  gets displayed after a value of the given UOM, which is also a case-sensitive 
+  unique identifier.</DIV>
+  <LI>
+<DIV><STRONG>From Base</STRONG> - The formula to convert 
+  the UOM FROM the category's base unit.</DIV>
+  <LI>
+<DIV><STRONG>To Base</STRONG> - The formula to convert 
+  the UOM TO the category's base unit.</DIV></LI></UL>
+<P>&nbsp;</P>
+<H1>Comparison Chart</H1>
+<P>This displays a visual comparison between all the UOMs 
+matching the selected Systems and Category.</P>
+<UL>
+  <LI>
+<DIV><STRONG>Negative Checkbox</STRONG>  - When enabled, chart will display 
+  negative values to the left, where "0" will be in the center.</DIV>
+  <LI>
+<DIV><STRONG>Count</STRONG> - Use this control to change the number of 
+  values to be displayed in the chart.</DIV>
+  <UL>
+    <LI>
+<DIV><STRONG>NOTE</STRONG>: Be careful, as large values like 10,000 will 
+    freeze the application while loading.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>UOM Checkboxes</STRONG>  - Toggle individual UOMs on or off to 
+  show or hide them within the chart.</DIV>
+  <UL>
+    <LI>
+<DIV>This is particularly helpful to hide larger UOMs 
+    so you can see smaller ones more easily.</DIV></LI></UL></LI></UL>
+<P>&nbsp;</P>
+<P>&nbsp;</P></body>
+</html>

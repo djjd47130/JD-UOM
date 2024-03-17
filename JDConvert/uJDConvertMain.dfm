@@ -22,7 +22,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabBuilder
+    ActivePage = tabConvert
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

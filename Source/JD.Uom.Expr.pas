@@ -41,12 +41,10 @@ begin
   {$IFDEF USE_DWS}
   FDWS:= TDelphiWebScript.Create(nil);
   {$ENDIF}
-
 end;
 
 destructor TUOMEvalInst.Destroy;
 begin
-
   {$IFDEF USE_DWS}
   FreeAndNil(FDWS);
   {$ENDIF}
