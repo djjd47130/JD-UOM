@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JD Convert"
-#define MyAppVersion "1.2"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "JD Software"
 #define MyAppURL "http://jerrydodge.com"
 #define MyAppExeName "JDConvert.exe"
@@ -30,6 +30,7 @@ SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayIcon={app}\JDConvert.exe,0
 AppModifyPath={app}\JDConvert Setup.exe
+CloseApplications=force
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -67,6 +68,9 @@ Source: "{srcexe}"; DestDir: "{app}"; Flags: ignoreversion external
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [InstallDelete]
+Type: files; Name: "{app}\JDConvert.exe"
+Type: files; Name: "{app}\FontAwesome.ttf"
+Type: files; Name: "{app}\JDConvert Help.chm"
 Type: files; Name: "{app}\System\Distance.ini"
 Type: files; Name: "{app}\System\Area.ini"
 Type: files; Name: "{app}\System\Temperature.ini"
