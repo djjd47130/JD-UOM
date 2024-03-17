@@ -126,7 +126,6 @@ type
     lblUserBase: TLabel;
     ApplicationEvents1: TApplicationEvents;
     procedure FormCreate(Sender: TObject);
-    procedure txtValueChange(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
@@ -165,6 +164,8 @@ type
     FIsNewUOM: Boolean;
     FSelUserItem: TListItem;
     procedure CloseHelpWnd;
+    procedure MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
+      const AHelpContext: Integer = 0);
   public
     //Common
     procedure RefreshAll;
@@ -256,30 +257,77 @@ begin
   FreeAndNil(FSystemUOMs);
 end;
 
-function TfrmJDConvertMain.GetUserUnits: String;
+procedure TfrmJDConvertMain.CloseHelpWnd;
+var
+  HlpWind: HWND;
+const
+  HelpTitle = 'JD Convert Help';
+begin
+  HlpWind := FindWindow('HH Parent',HelpTitle);
+  if HlpWind <> 0 then PostMessage(HlpWind,WM_Close,0,0);
+end;
+
+function TfrmJDConvertMain.ApplicationEvents1Help(Command: Word;
+  Data: NativeInt; var CallHelp: Boolean): Boolean;
+begin
+  CloseHelpWnd;
+  Result := ShellExecute(0,'open','hh.exe', PWideChar('-mapid '+IntToStr(Data)
+    +' ms-its:'+Application.HelpFile), nil,SW_SHOW) = 32;
+  CallHelp := false;
+end;
+
+
+
+
+
+
+//Global across application
+
+procedure TfrmJDConvertMain.ResetButtonColors;
 var
   X: Integer;
 begin
-  Result:= '';
-  for X := 0 to lstUserUnits.Items.Count-1 do begin
-    if lstUserUnits.Checked[X] then begin
-      if Result <> '' then Result:= Result  + ',';
-      Result:= Result + lstUserUnits.Items[X];
+  for X := 0 to pMenu.ControlCount-1 do begin
+    if pMenu.Controls[X] is TJDFontButton then begin
+      TJDFontButton(pMenu.Controls[X]).Image.StandardColor:= fcBlue;
+      TJDFontButton(pMenu.Controls[X]).DrawStyle:= fdTransparent;
     end;
   end;
 end;
 
-procedure TfrmJDConvertMain.SetUserUnits(const Value: String);
-var
-  Units: TUOMMetricUnits;
-  X: Integer;
-  U: TUOMMetricUnit;
+procedure TfrmJDConvertMain.MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
+  const AHelpContext: Integer = 0);
 begin
-  Units:= StringToMetricUnits(Value);
-  for X := 0 to lstUserUnits.Items.Count-1 do begin
-    U:= StringToMetricUnit(lstUserUnits.Items[X]);
-    lstUserUnits.Checked[X]:= U in Units;
-  end;
+  Pages.ActivePage:= ATab;
+  ResetButtonColors;
+  AButton.Image.StandardColor:= fcOrange;
+  AButton.DrawStyle:= fdThemed;
+  Self.HelpContext:= AHelpContext;
+end;
+
+procedure TfrmJDConvertMain.btnConvertNormalClick(Sender: TObject);
+begin
+  MenuButtonSelected(btnConvertNormal, tabConvert, 1002);
+  pConvertNormal.Visible:= True;
+  pConvertSearch.Visible:= False;
+end;
+
+procedure TfrmJDConvertMain.btnConvertSearchClick(Sender: TObject);
+begin
+  MenuButtonSelected(btnConvertSearch, tabConvert, 1003);
+  pConvertSearch.Visible:= True;
+  pConvertNormal.Visible:= False;
+  txtSearch.SetFocus;
+end;
+
+procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
+begin
+  MenuButtonSelected(btnDetails, tabDetails, 1004);
+end;
+
+procedure TfrmJDConvertMain.btnUOMBuilderClick(Sender: TObject);
+begin
+  MenuButtonSelected(btnUOMBuilder, tabBuilder, 1005);
 end;
 
 procedure TfrmJDConvertMain.RefreshAll;
@@ -291,24 +339,6 @@ begin
     cboConvertCategory.ItemIndex:= 0;
   RefreshConvert;
   Stat.Panels[0].Text:= IntToStr(TUOMUtils.UOMCount) + ' UOMs Registered';
-end;
-
-function TfrmJDConvertMain.UserUOMFilename: String;
-begin
-  Result:= TPath.GetHomePath;
-  Result:= TPath.Combine(Result, 'JD Software');
-  Result:= TPath.Combine(Result, 'JD Convert');
-  Result:= TPath.Combine(Result, 'User UOMs.ini');
-end;
-
-procedure TfrmJDConvertMain.LoadUserUnits;
-var
-  U: TUOMMetricUnit;
-begin
-  lstUserUnits.Items.Clear;
-  for U := Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
-    lstUserUnits.Items.Add(MetricUnitToString(U));
-  end;
 end;
 
 procedure TfrmJDConvertMain.LoadSystemUOMs;
@@ -330,91 +360,367 @@ begin
   end;
 end;
 
-procedure TfrmJDConvertMain.LoadUserUOMs;
+procedure OpenWebPageInDefaultBrowser(const URL: string);
 begin
-  try
-    if FileExists(UserUOMFilename) then
-      FUserUOMs.Load.RegisterAllUOMs;
-    RefreshUserUOMList;
-  except
-    on E: Exception do begin
-      MessageDlg('Failed to load custom UOMs: '+E.Message, mtError, [mbOK], 0);
-    end;
-  end;
+  ShellExecute(0, 'open', PChar(URL), nil, nil, SW_SHOWNORMAL);
 end;
 
-procedure TfrmJDConvertMain.SaveUserUOMs;
+procedure TfrmJDConvertMain.StatDblClick(Sender: TObject);
 begin
-  try
-    FUserUOMs.Save;
-  except
-    on E: Exception do begin
-      MessageDlg('Failed to save custom UOMs: '+E.Message, mtError, [mbOK], 0);
-    end;
-  end;
+  OpenWebPageInDefaultBrowser('https://github.com/djjd47130/JD-UOM');
 end;
 
-procedure TfrmJDConvertMain.CloseHelpWnd;
+function TfrmJDConvertMain.SystemUOMPath: String;
+begin
+  Result:= ExtractFilePath(ParamStr(0));
+  Result:= TPath.Combine(Result, 'System');
+end;
+
+
+
+
+
+
+//Convert Regular Mode
+
+procedure TfrmJDConvertMain.txtConvertFromValueChange(Sender: TObject);
+begin
+  RefreshEquivalents;
+end;
+
+procedure TfrmJDConvertMain.RefreshConvert;
 var
-  HlpWind: HWND;
-const
-  HelpTitle = 'JD Convert Help';
+  Cat: String;
+  Base: TUOM;
 begin
-  HlpWind := FindWindow('HH Parent',HelpTitle);
-  if HlpWind <> 0 then PostMessage(HlpWind,WM_Close,0,0);
+  Cat:= cboConvertCategory.Text;
+  Base:= TUOMUtils.GetBaseUOM(Cat);
+  TUOMUtils.ListUOMs(cboConvertFromUnit.Items, Cat);
+  cboConvertFromUnit.ItemIndex:= cboConvertFromUnit.Items.IndexOf(Base.NameSingular);
+  RefreshEquivalents;
 end;
 
-function TfrmJDConvertMain.ApplicationEvents1Help(Command: Word;
-  Data: NativeInt; var CallHelp: Boolean): Boolean;
+procedure TfrmJDConvertMain.RefreshEquivalents;
+var
+  L: TStringList;
+  X: Integer;
+  FU, TU: TUOM;
+  FV, TV: Double;
+  Str: String;
+  UN: String;
+  I: TListItem;
 begin
-  CloseHelpWnd;
-  Result := ShellExecute(0,'open','hh.exe',
-                         PWideChar('-mapid '+IntToStr(Data)
-                                   +' ms-its:'+Application.HelpFile),
-                         nil,SW_SHOW) = 32;
-  CallHelp := false;
+  lstEquivalents.Items.Clear;
+  FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
+  if FU = nil then Exit;
+  FV:= txtConvertFromValue.Value;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListUOMs(L, cboConvertCategory.Text);
+    for X := 0 to L.Count-1 do begin
+      TU:= TUOMUtils.GetUOMByName(L[X]);
+      TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
+      if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
+      //Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
+      Str:= FormatFloat('#,###,###,###,##0.##################', TV); //+' '+UN+' ('+TU.Suffix+')';
+      I:= lstEquivalents.Items.Add;
+      I.Caption:= Str;
+      I.Data:= TU;
+      I.SubItems.Add(UN);
+      I.SubItems.Add(TU.Suffix);
+      I.SubItems.Add(TU.Systems.DelimitedText);
+    end;
+  finally
+    L.Free;
+  end;
 end;
+
+procedure TfrmJDConvertMain.cboConvertCategoryClick(Sender: TObject);
+begin
+  RefreshConvert;
+end;
+
+procedure TfrmJDConvertMain.cboConvertFromUnitClick(Sender: TObject);
+begin
+  RefreshEquivalents;
+end;
+
+procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
+var
+  S: String;
+begin
+  //Value + Space + Suffix
+  S:= lstEquivalents.Selected.Caption;
+  S:= S + ' ' + lstEquivalents.Selected.SubItems[1];
+  Clipboard.AsText:= S;
+end;
+
+
+
+
+
+
+//Convert Search Mode
+
+
+
+
+
+
+
+//UOM Details Mode
+
+procedure TfrmJDConvertMain.RefreshUOMDetails;
+var
+  U: TUOM;
+begin
+  if lstUOMs.ItemIndex < 0 then Exit;
+  U:= TUOMUtils.GetUOMByName(FSelUOM);
+  lblUnitName.Caption:= U.NameSingular;
+  lblUnitNamePlural.Caption:= U.NamePlural;
+  lblUnitSystems.Caption:= U.Systems.DelimitedText;
+  lblUnitSuffix.Caption:= U.Suffix;
+  lblUnitBaseFrom.Caption:= U.ConvertFromBaseFormula;
+  lblUnitBaseTo.Caption:= U.ConvertToBaseFormula;
+end;
+
+procedure TfrmJDConvertMain.RefreshUOMSystemList;
+var
+  L: TStringList;
+  X: Integer;
+  S: String;
+  I: TListItem;
+begin
+  lstSystems.Items.Clear;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListSystems(L);
+    for X := 0 to L.Count-1 do begin
+      S:= L[X];
+      I:= lstSystems.Items.Add;
+      I.Caption:= S;
+      I.Checked:= (S = 'Metric') or (S = 'US Customary') or (S = 'Random');
+    end;
+    lstSystemsItemChecked(nil, nil);
+  finally
+    L.Free;
+  end;
+end;
+
+procedure TfrmJDConvertMain.lstCategoriesSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+begin
+  RefreshUOMList;
+  RefreshChart;
+end;
+
+procedure TfrmJDConvertMain.lstSystemsClick(Sender: TObject);
+begin
+  if lstSystems.Selected <> nil then
+    lstSystems.Selected.Checked:= not lstSystems.Selected.Checked;
+end;
+
+procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;
+  Item: TListItem);
+var
+  X: Integer;
+begin
+  FSelSystems:= '';
+  for X := 0 to lstSystems.Items.Count-1 do begin
+    if lstSystems.Items[X].Checked then begin
+      if FSelSystems <> '' then
+        FSelSystems:= FSelSystems + ',';
+      FSelSystems:= FSelSystems + lstSystems.Items[X].Caption;
+    end;
+  end;
+  RefreshUOMList;
+  RefreshChart;
+end;
+
+procedure TfrmJDConvertMain.lstUOMsSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
+begin
+  if lstUOMs.Selected <> nil then
+    FSelUOM:= lstUOMs.Selected.Caption
+  else
+    FSelUOM:= '';
+  RefreshUOMDetails;
+  UpdateChart;
+end;
+
+procedure TfrmJDConvertMain.RefreshUOMCategoryList;
+var
+  L: TStringList;
+  X: Integer;
+  I: TListItem;
+begin
+  lstCategories.Items.Clear;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListCategories(L);
+    for X := 0 to L.Count-1 do begin
+      I:= lstCategories.Items.Add;
+      I.Caption:= L[X];
+    end;
+  finally
+    L.Free;
+  end;
+
+  if lstCategories.Items.Count > 0 then begin
+    lstCategories.ItemIndex:= 0;
+    lstCategoriesSelectItem(nil, nil, False);
+  end;
+end;
+
+function CompareUOMVal(const A, B: TUOMValue): Integer;
+var
+  UA, UB: TUOM;
+  VA, VB: Double;
+begin
+  UA:= TUOMUtils.GetUOMByName(A.UOM);
+  UB:= TUOMUtils.GetUOMByName(B.UOM);
+  VA:= UA.ConvertToBase(1);
+  VB:= UB.ConvertToBase(1);
+  if VA = VB then Result:= 0 else begin
+    if VB > VA then
+      Result:= 1
+    else
+      Result:= -1;
+  end;
+end;
+
+procedure TfrmJDConvertMain.RefreshUOMList;
+var
+  L: TStringList;
+  FS: String;
+  X: Integer;
+  I: TListItem;
+begin
+  lstUOMs.Items.Clear;
+  if lstCategories.ItemIndex < 0 then Exit;
+  FSelCategory:= lstCategories.Selected.Caption;
+  FS:= FSelSystems;
+  L:= TStringList.Create;
+  try
+    TUOMUtils.ListUOMs(L, FSelCategory, FS);
+    for X := 0 to L.Count-1 do begin
+      I:= lstUOMs.Items.Add;
+      I.Caption:= L[X];
+      I.Data:= L.Objects[X];
+    end;
+    //TODO: Sort by size...?
+    //lstUOMs.CustomSort(CompareUOMVal);
+    if lstUOMs.Items.Count > 0 then begin
+      lstUOMs.ItemIndex:= 0;
+      lstUOMsSelectItem(nil, nil, False);
+    end;
+  finally
+    L.Free;
+  end;
+end;
+
+
+
+
+
+
+
+//UOM Details Mode - Chart
+
+procedure TfrmJDConvertMain.txtChartScaleChange(Sender: TObject);
+begin
+  RefreshChart;
+end;
+
+procedure TfrmJDConvertMain.RefreshChart;
+var
+  X: Integer;
+  S: TLineSeries;
+  U: TUOM;
+  BU: TUOM;
+  Y: Integer;
+  V: Double;
+  Amt: Integer;
+  Start: Integer;
+begin
+  Chart.SeriesList.Clear;
+  Chart.Invalidate;
+  Screen.Cursor:= crHourglass;
+  try
+    Application.ProcessMessages;
+
+    if lstUOMs.Items.Count <= 0 then Exit;
+    Amt:= Round(txtChartScale.Value);
+
+    BU:= TUOMUtils.GetBaseUOM(FSelCategory);
+    if Assigned(BU) then begin
+      Chart.Title.Text.Text:= BU.Category+' Comparison';
+      Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
+      for X := 0 to lstUOMs.Items.Count-1 do begin
+        U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X].Caption);
+        S:= TLineSeries.Create(Chart);
+        try
+          S.Tag:= X;
+          S.ParentChart:= Chart;
+          S.Title:= U.NameSingular;
+          if U.NameSingular = FSelUOM then
+            S.LinePen.Width:= WIDTH_LARGE
+          else
+            S.LinePen.Width:= WIDTH_SMALL;
+          if chkNegative.Checked then
+            Start:= -Amt
+          else
+            Start:= 0;
+          for Y := Start to Amt do begin
+            V:= U.ConvertToBase(Y);
+            S.Add(V, IntToStr(Y));
+          end;
+        finally
+          Chart.AddSeries(S);
+        end;
+      end;
+
+    end;
+    UpdateChart;
+    Chart.Invalidate;
+  finally
+    Screen.Cursor:= crDefault;
+  end;
+end;
+
+procedure TfrmJDConvertMain.UpdateChart;
+var
+  S: TLineSeries;
+  X: Integer;
+begin
+  for X := 0 to Chart.SeriesCount-1 do begin
+    S:= TLineSeries(Chart.Series[X]);
+    if S.Title = FSelUOM then
+      S.LinePen.Width:= WIDTH_LARGE
+    else
+      S.LinePen.Width:= WIDTH_SMALL;
+  end;
+  Chart.Invalidate;
+end;
+
+procedure TfrmJDConvertMain.chkNegativeClick(Sender: TObject);
+begin
+  RefreshChart;
+end;
+
+
+
+
+
+
+
+//UOM Builder
 
 procedure TfrmJDConvertMain.btnCancelUOMClick(Sender: TObject);
 begin
   FEditingUOM:= False;
   SetUserEditMode(False);
   ShowUserUOMDetails;
-end;
-
-procedure TfrmJDConvertMain.btnConvertNormalClick(Sender: TObject);
-begin
-  Pages.ActivePage:= tabConvert;
-  ResetButtonColors;
-  btnConvertNormal.Image.StandardColor:= fcOrange;
-  btnConvertNormal.DrawStyle:= fdThemed;
-  Self.HelpContext:= 1002;
-
-  pConvertNormal.Visible:= True;
-  pConvertSearch.Visible:= False;
-end;
-
-procedure TfrmJDConvertMain.btnConvertSearchClick(Sender: TObject);
-begin
-  Pages.ActivePage:= tabConvert;
-  ResetButtonColors;
-  btnConvertSearch.Image.StandardColor:= fcOrange;
-  btnConvertSearch.DrawStyle:= fdThemed;
-  Self.HelpContext:= 1003;
-
-  pConvertSearch.Visible:= True;
-  pConvertNormal.Visible:= False;
-  txtSearch.SetFocus;
-end;
-
-procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
-begin
-  ResetButtonColors;
-  btnDetails.Image.StandardColor:= fcOrange;
-  btnDetails.DrawStyle:= fdThemed;
-  Self.HelpContext:= 1004;
-
-  Pages.ActivePage:= tabDetails;
 end;
 
 procedure TfrmJDConvertMain.btnEditUOMClick(Sender: TObject);
@@ -553,28 +859,6 @@ begin
   end;
 end;
 
-procedure TfrmJDConvertMain.btnUOMBuilderClick(Sender: TObject);
-begin
-  ResetButtonColors;
-  btnUOMBuilder.Image.StandardColor:= fcOrange;
-  btnUOMBuilder.DrawStyle:= fdThemed;
-  Self.HelpContext:= 1005;
-
-  Pages.ActivePage:= tabBuilder;
-end;
-
-procedure TfrmJDConvertMain.ResetButtonColors;
-var
-  X: Integer;
-begin
-  for X := 0 to pMenu.ControlCount-1 do begin
-    if pMenu.Controls[X] is TJDFontButton then begin
-      TJDFontButton(pMenu.Controls[X]).Image.StandardColor:= fcBlue;
-      TJDFontButton(pMenu.Controls[X]).DrawStyle:= fdTransparent;
-    end;
-  end;
-end;
-
 procedure TfrmJDConvertMain.UpdateUserUOMActions;
 begin
   //lstCustomUOMs.Enabled:= (not FEditingUOM);
@@ -583,57 +867,6 @@ begin
   btnDeleteUOM.Enabled:= (not FEditingUOM) and (lstCustomUOMs.Selected <> nil);
   btnSaveUOM.Enabled:= FEditingUOM;
   btnCancelUOM.Enabled:= FEditingUOM;
-end;
-
-procedure OpenWebPageInDefaultBrowser(const URL: string);
-begin
-  ShellExecute(0, 'open', PChar(URL), nil, nil, SW_SHOWNORMAL);
-end;
-
-procedure TfrmJDConvertMain.StatDblClick(Sender: TObject);
-begin
-  OpenWebPageInDefaultBrowser('https://github.com/djjd47130/JD-UOM');
-end;
-
-function TfrmJDConvertMain.SystemUOMPath: String;
-begin
-  Result:= ExtractFilePath(ParamStr(0));
-  Result:= TPath.Combine(Result, 'System');
-end;
-
-procedure TfrmJDConvertMain.RefreshUOMSystemList;
-var
-  L: TStringList;
-  X: Integer;
-  S: String;
-  I: TListItem;
-begin
-  lstSystems.Items.Clear;
-  L:= TStringList.Create;
-  try
-    TUOMUtils.ListSystems(L);
-    for X := 0 to L.Count-1 do begin
-      S:= L[X];
-      I:= lstSystems.Items.Add;
-      I.Caption:= S;
-      I.Checked:= (S = 'Metric') or (S = 'US Customary') or (S = 'Random');
-    end;
-    lstSystemsItemChecked(nil, nil);
-  finally
-    L.Free;
-  end;
-end;
-
-procedure TfrmJDConvertMain.chkNegativeClick(Sender: TObject);
-begin
-  RefreshChart;
-end;
-
-procedure TfrmJDConvertMain.lstCategoriesSelectItem(Sender: TObject;
-  Item: TListItem; Selected: Boolean);
-begin
-  RefreshUOMList;
-  RefreshChart;
 end;
 
 procedure TfrmJDConvertMain.lstCustomUOMsSelectItem(Sender: TObject;
@@ -651,135 +884,14 @@ begin
   end;
 end;
 
-procedure TfrmJDConvertMain.lstEquivalentsDblClick(Sender: TObject);
-var
-  S: String;
-begin
-  //Value + Space + Suffix
-  S:= lstEquivalents.Selected.Caption;
-  S:= S + ' ' + lstEquivalents.Selected.SubItems[1];
-  Clipboard.AsText:= S;
-end;
 
-procedure TfrmJDConvertMain.lstSystemsClick(Sender: TObject);
-begin
-  if lstSystems.Selected <> nil then
-    lstSystems.Selected.Checked:= not lstSystems.Selected.Checked;
-end;
 
-procedure TfrmJDConvertMain.lstSystemsItemChecked(Sender: TObject;
-  Item: TListItem);
-var
-  X: Integer;
-begin
-  FSelSystems:= '';
-  for X := 0 to lstSystems.Items.Count-1 do begin
-    if lstSystems.Items[X].Checked then begin
-      if FSelSystems <> '' then
-        FSelSystems:= FSelSystems + ',';
-      FSelSystems:= FSelSystems + lstSystems.Items[X].Caption;
-    end;
-  end;
-  RefreshUOMList;
-  RefreshChart;
-end;
 
-procedure TfrmJDConvertMain.lstUOMsSelectItem(Sender: TObject; Item: TListItem;
-  Selected: Boolean);
-begin
-  if lstUOMs.Selected <> nil then
-    FSelUOM:= lstUOMs.Selected.Caption
-  else
-    FSelUOM:= '';
-  RefreshUOMDetails;
-  UpdateChart;
-end;
 
-procedure TfrmJDConvertMain.RefreshUOMCategoryList;
-var
-  L: TStringList;
-  X: Integer;
-  I: TListItem;
-begin
-  lstCategories.Items.Clear;
-  L:= TStringList.Create;
-  try
-    TUOMUtils.ListCategories(L);
-    for X := 0 to L.Count-1 do begin
-      I:= lstCategories.Items.Add;
-      I.Caption:= L[X];
-    end;
-  finally
-    L.Free;
-  end;
 
-  if lstCategories.Items.Count > 0 then begin
-    lstCategories.ItemIndex:= 0;
-    lstCategoriesSelectItem(nil, nil, False);
-  end;
-end;
 
-procedure TfrmJDConvertMain.txtChartScaleChange(Sender: TObject);
-begin
-  RefreshChart;
-end;
 
-procedure TfrmJDConvertMain.txtConvertFromValueChange(Sender: TObject);
-begin
-  RefreshEquivalents;
-end;
 
-procedure TfrmJDConvertMain.txtValueChange(Sender: TObject);
-begin
-  RefreshUOMDetails;
-end;
-
-function CompareUOMVal(const A, B: TUOMValue): Integer;
-var
-  UA, UB: TUOM;
-  VA, VB: Double;
-begin
-  UA:= TUOMUtils.GetUOMByName(A.UOM);
-  UB:= TUOMUtils.GetUOMByName(B.UOM);
-  VA:= UA.ConvertToBase(1);
-  VB:= UB.ConvertToBase(1);
-  if VA = VB then Result:= 0 else begin
-    if VB > VA then
-      Result:= 1
-    else
-      Result:= -1;
-  end;
-end;
-
-procedure TfrmJDConvertMain.RefreshUOMList;
-var
-  L: TStringList;
-  FS: String;
-  X: Integer;
-  I: TListItem;
-begin
-  lstUOMs.Items.Clear;
-  if lstCategories.ItemIndex < 0 then Exit;
-  FSelCategory:= lstCategories.Selected.Caption;
-  FS:= FSelSystems;
-  L:= TStringList.Create;
-  try
-    TUOMUtils.ListUOMs(L, FSelCategory, FS);
-    for X := 0 to L.Count-1 do begin
-      I:= lstUOMs.Items.Add;
-      I.Caption:= L[X];
-      I.Data:= L.Objects[X];
-    end;
-    //TODO: Sort by size...?
-    //lstUOMs.CustomSort(CompareUOMVal);
-    if lstUOMs.Items.Count > 0 then begin
-      lstUOMs.ItemIndex:= 0;
-      lstUOMsSelectItem(nil, nil, False);
-    end;
-  finally
-    L.Free;
-  end;
-end;
 
 procedure TfrmJDConvertMain.RefreshUserUOMList;
 var
@@ -863,146 +975,28 @@ begin
   UpdateUserUOMActions;
 end;
 
-procedure TfrmJDConvertMain.RefreshUOMDetails;
-var
-  U: TUOM;
+procedure TfrmJDConvertMain.LoadUserUOMs;
 begin
-  if lstUOMs.ItemIndex < 0 then Exit;
-  U:= TUOMUtils.GetUOMByName(FSelUOM);
-  lblUnitName.Caption:= U.NameSingular;
-  lblUnitNamePlural.Caption:= U.NamePlural;
-  lblUnitSystems.Caption:= U.Systems.DelimitedText;
-  lblUnitSuffix.Caption:= U.Suffix;
-  lblUnitBaseFrom.Caption:= U.ConvertFromBaseFormula;
-  lblUnitBaseTo.Caption:= U.ConvertToBaseFormula;
-end;
-
-procedure TfrmJDConvertMain.RefreshChart;
-var
-  X: Integer;
-  S: TLineSeries;
-  U: TUOM;
-  BU: TUOM;
-  Y: Integer;
-  V: Double;
-  Amt: Integer;
-  Start: Integer;
-begin
-  Chart.SeriesList.Clear;
-  Chart.Invalidate;
-  Screen.Cursor:= crHourglass;
   try
-    Application.ProcessMessages;
-
-    if lstUOMs.Items.Count <= 0 then Exit;
-    Amt:= Round(txtChartScale.Value);
-
-    BU:= TUOMUtils.GetBaseUOM(FSelCategory);
-    if Assigned(BU) then begin
-      Chart.Title.Text.Text:= BU.Category+' Comparison';
-      Chart.BottomAxis.Title.Text:= 'Base UOM - '+BU.NameSingular;
-      for X := 0 to lstUOMs.Items.Count-1 do begin
-        U:= TUOMUtils.GetUOMByName(lstUOMs.Items[X].Caption);
-        S:= TLineSeries.Create(Chart);
-        try
-          S.Tag:= X;
-          S.ParentChart:= Chart;
-          S.Title:= U.NameSingular;
-          if U.NameSingular = FSelUOM then
-            S.LinePen.Width:= WIDTH_LARGE
-          else
-            S.LinePen.Width:= WIDTH_SMALL;
-          if chkNegative.Checked then
-            Start:= -Amt
-          else
-            Start:= 0;
-          for Y := Start to Amt do begin
-            V:= U.ConvertToBase(Y);
-            S.Add(V, IntToStr(Y));
-          end;
-        finally
-          Chart.AddSeries(S);
-        end;
-      end;
-
+    if FileExists(UserUOMFilename) then
+      FUserUOMs.Load.RegisterAllUOMs;
+    RefreshUserUOMList;
+  except
+    on E: Exception do begin
+      MessageDlg('Failed to load custom UOMs: '+E.Message, mtError, [mbOK], 0);
     end;
-    UpdateChart;
-    Chart.Invalidate;
-  finally
-    Screen.Cursor:= crDefault;
   end;
 end;
 
-procedure TfrmJDConvertMain.RefreshConvert;
-var
-  Cat: String;
-  Base: TUOM;
+procedure TfrmJDConvertMain.SaveUserUOMs;
 begin
-  Cat:= cboConvertCategory.Text;
-  Base:= TUOMUtils.GetBaseUOM(Cat);
-  TUOMUtils.ListUOMs(cboConvertFromUnit.Items, Cat);
-  cboConvertFromUnit.ItemIndex:= cboConvertFromUnit.Items.IndexOf(Base.NameSingular);
-  RefreshEquivalents;
-end;
-
-procedure TfrmJDConvertMain.UpdateChart;
-var
-  S: TLineSeries;
-  X: Integer;
-begin
-  for X := 0 to Chart.SeriesCount-1 do begin
-    S:= TLineSeries(Chart.Series[X]);
-    if S.Title = FSelUOM then
-      S.LinePen.Width:= WIDTH_LARGE
-    else
-      S.LinePen.Width:= WIDTH_SMALL;
-  end;
-  Chart.Invalidate;
-end;
-
-procedure TfrmJDConvertMain.RefreshEquivalents;
-var
-  L: TStringList;
-  X: Integer;
-  FU, TU: TUOM;
-  FV, TV: Double;
-  Str: String;
-  UN: String;
-  I: TListItem;
-begin
-  lstEquivalents.Items.Clear;
-  FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
-  if FU = nil then Exit;
-  FV:= txtConvertFromValue.Value;
-  L:= TStringList.Create;
   try
-    TUOMUtils.ListUOMs(L, cboConvertCategory.Text);
-    for X := 0 to L.Count-1 do begin
-      TU:= TUOMUtils.GetUOMByName(L[X]);
-      TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
-      if TV = 1 then UN:= TU.NameSingular else UN:= TU.NamePlural;
-      //Str:= FormatFloat(NumFormat, TV)+' '+UN+' ('+TU.Suffix+')';
-      Str:= FormatFloat('#,###,###,###,##0.##################', TV); //+' '+UN+' ('+TU.Suffix+')';
-      I:= lstEquivalents.Items.Add;
-      I.Caption:= Str;
-      I.Data:= TU;
-      I.SubItems.Add(UN);
-      I.SubItems.Add(TU.Suffix);
-      I.SubItems.Add(TU.Systems.DelimitedText);
+    FUserUOMs.Save;
+  except
+    on E: Exception do begin
+      MessageDlg('Failed to save custom UOMs: '+E.Message, mtError, [mbOK], 0);
     end;
-  finally
-    L.Free;
   end;
-end;
-
-procedure TfrmJDConvertMain.cboConvertCategoryClick(Sender: TObject);
-begin
-  RefreshConvert;
-end;
-
-procedure TfrmJDConvertMain.cboConvertFromUnitClick(Sender: TObject);
-begin
-  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.ShowUserUOMControls(const AVisible: Boolean);
@@ -1038,6 +1032,50 @@ begin
   end else begin
     ShowUserUOMControls(True);
     SetUserTypeMode(TUOMFileItemType(cboUserType.ItemIndex));
+  end;
+end;
+
+function TfrmJDConvertMain.GetUserUnits: String;
+var
+  X: Integer;
+begin
+  Result:= '';
+  for X := 0 to lstUserUnits.Items.Count-1 do begin
+    if lstUserUnits.Checked[X] then begin
+      if Result <> '' then Result:= Result  + ',';
+      Result:= Result + lstUserUnits.Items[X];
+    end;
+  end;
+end;
+
+procedure TfrmJDConvertMain.SetUserUnits(const Value: String);
+var
+  Units: TUOMMetricUnits;
+  X: Integer;
+  U: TUOMMetricUnit;
+begin
+  Units:= StringToMetricUnits(Value);
+  for X := 0 to lstUserUnits.Items.Count-1 do begin
+    U:= StringToMetricUnit(lstUserUnits.Items[X]);
+    lstUserUnits.Checked[X]:= U in Units;
+  end;
+end;
+
+function TfrmJDConvertMain.UserUOMFilename: String;
+begin
+  Result:= TPath.GetHomePath;
+  Result:= TPath.Combine(Result, 'JD Software');
+  Result:= TPath.Combine(Result, 'JD Convert');
+  Result:= TPath.Combine(Result, 'User UOMs.ini');
+end;
+
+procedure TfrmJDConvertMain.LoadUserUnits;
+var
+  U: TUOMMetricUnit;
+begin
+  lstUserUnits.Items.Clear;
+  for U := Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
+    lstUserUnits.Items.Add(MetricUnitToString(U));
   end;
 end;
 

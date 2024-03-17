@@ -31,6 +31,7 @@ WizardStyle=modern
 UninstallDisplayIcon={app}\JDConvert.exe,0
 AppModifyPath={app}\JDConvert Setup.exe
 CloseApplications=force
+ShowTasksTreeLines=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -42,8 +43,8 @@ Name: "custom"; Description: "Custom Installation"; Flags: iscustom
 
 [Components]
 Name: "jdconvert"; Description: "JD Convert Application"; Types: full compact custom; Flags: fixed
-Name: "fontawesome"; Description: "Install Font Awesome"; Types: full compact custom; Flags: fixed
 Name: "help"; Description: "JD Convert Help File"; Types: full compact custom; Flags: fixed
+Name: "fontawesome"; Description: "FontAwesom Font (Glyphs)"; Types: full compact custom; Flags: fixed
 Name: "systemuoms"; Description: "System UOMs"; Types: full
 Name: "systemuoms\distance"; Description: "Distance UOMs"; Types: full compact custom; Flags: disablenouninstallwarning fixed
 Name: "systemuoms\area"; Description: "Area UOMs"; Types: full; Flags: disablenouninstallwarning
