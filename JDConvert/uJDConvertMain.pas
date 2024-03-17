@@ -14,6 +14,7 @@ uses
   ShellAPI,
   RzEdit, RzSpnEdt,
   VclTee.TeeGDIPlus, VCLTee.TeEngine, VCLTee.Series, VCLTee.TeeProcs, VCLTee.Chart,
+  Vcl.HtmlHelpViewer,
   JD.Common, JD.Graphics, JD.FontGlyphs, JD.Ctrls, JD.Ctrls.FontButton,
 
   JD.Uom,
@@ -223,6 +224,10 @@ begin
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown:= True;
   {$ENDIF}
+
+  //NOTE: Putting this in the initialization section does not work properly!
+  Application.HelpFile:= TPath.Combine(ExtractFilePath(ParamStr(0)), 'JD Convert Help.chm');
+
   FSystemUOMs:= TUOMFile.Create(nil);
   FUserUOMs:= TUOMFile.Create(nil);
   FUserUOMs.Filename:= UserUOMFilename;
@@ -356,6 +361,8 @@ begin
   Pages.ActivePage:= tabConvert;
   ResetButtonColors;
   btnConvertNormal.Image.StandardColor:= fcOrange;
+  btnConvertNormal.DrawStyle:= fdThemed;
+  Self.HelpContext:= 1002;
 
   pConvertNormal.Visible:= True;
   pConvertSearch.Visible:= False;
@@ -366,6 +373,8 @@ begin
   Pages.ActivePage:= tabConvert;
   ResetButtonColors;
   btnConvertSearch.Image.StandardColor:= fcOrange;
+  btnConvertSearch.DrawStyle:= fdThemed;
+  Self.HelpContext:= 1003;
 
   pConvertSearch.Visible:= True;
   pConvertNormal.Visible:= False;
@@ -376,6 +385,8 @@ procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
 begin
   ResetButtonColors;
   btnDetails.Image.StandardColor:= fcOrange;
+  btnDetails.DrawStyle:= fdThemed;
+  Self.HelpContext:= 1004;
 
   Pages.ActivePage:= tabDetails;
 end;
@@ -520,6 +531,8 @@ procedure TfrmJDConvertMain.btnUOMBuilderClick(Sender: TObject);
 begin
   ResetButtonColors;
   btnUOMBuilder.Image.StandardColor:= fcOrange;
+  btnUOMBuilder.DrawStyle:= fdThemed;
+  Self.HelpContext:= 1005;
 
   Pages.ActivePage:= tabBuilder;
 end;
@@ -530,7 +543,8 @@ var
 begin
   for X := 0 to pMenu.ControlCount-1 do begin
     if pMenu.Controls[X] is TJDFontButton then begin
-      TJDFontbutton(pMenu.Controls[X]).Image.StandardColor:= fcBlue;
+      TJDFontButton(pMenu.Controls[X]).Image.StandardColor:= fcBlue;
+      TJDFontButton(pMenu.Controls[X]).DrawStyle:= fdTransparent;
     end;
   end;
 end;

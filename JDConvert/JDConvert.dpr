@@ -13,8 +13,9 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  TStyleManager.TrySetStyle('Carbon');
   Application.Title := 'JD Unit of Measure Conversion';
-  TStyleManager.TrySetStyle('Cobalt XEMedia');
+  Application.HelpFile := '';
   Application.CreateForm(TfrmJDConvertMain, frmJDConvertMain);
   Application.Run;
 end.

@@ -308,7 +308,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           ZoomWheel = pmwNormal
           Align = alClient
           BevelOuter = bvNone
-          Color = clBlack
+          Color = 1644825
           TabOrder = 0
           ExplicitWidth = 1017
           DesignSize = (
@@ -1270,6 +1270,8 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 1
       Text = 'JDFontButton1'
       OnClick = btnConvertSearchClick
+      ExplicitLeft = -1
+      ExplicitTop = 43
     end
     object btnDetails: TJDFontButton
       Left = 0

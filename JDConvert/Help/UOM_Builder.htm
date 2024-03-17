@@ -15,6 +15,279 @@ html,body {
 </head>
 
 <body>
-<P> 
- <EM>             </EM>&nbsp;</P></body>
+<H1> 
+ Summary</H1>
+<P><STRONG><EM><U><FONT color=#ff0000>(NOT YET 
+FULLY&nbsp;SUPPORTED)</FONT></U></EM></STRONG>          
+            
+             </P>
+<P>This mode allows you to create your own custom UOMs. 
+These are saved outside of the built-in system UOMs, and are implemented 
+throughout the system in the same manner. Custom UOMs are saved per Windows user.</P>
+<P><IMG alt="" src="Images/JDConvertBuilder.png">         </P>
+<P>&nbsp;</P>
+<H1>Custom UOM List</H1>
+<P>This list contains all user-created UOMs. Selecting an 
+item will display its details down below.</P>
+<P>There are several columns in this list:</P>
+<UL>
+  <LI>
+<DIV><STRONG>Custom UOM Name</STRONG>   - The main SINGULAR name of the UOM, 
+  which is its main unique identifier.</DIV>
+  <LI>
+<DIV><STRONG>Type</STRONG> - The type of custom UOM entry. See "Custom UOM 
+  Types" below.</DIV>
+  <LI>
+<DIV><STRONG>Category</STRONG> - The overall category 
+  associated with the UOM.</DIV>
+  <LI>
+<DIV><STRONG>Suffix</STRONG> - The text suffix to display 
+  after a value of the UOM, which also acts as a case-sensitive unique 
+  identifier.</DIV>
+  <LI>
+<DIV><STRONG>Systems</STRONG> - The UOM system(s) 
+  associated with the UOM, separated by commas.</DIV></LI></UL>
+<P>&nbsp;</P>
+<H1>Custom UOM Types</H1>
+<P>Any given custom UOM must be assigned one of the following 
+types:</P>
+<H2>           
+Metric</H2>
+<P>Multiple metric-specific UOMs will be automatically generated for each of the selected Metric 
+units.</P>
+<P><IMG alt="" src="Images/JDConvertBuilder-Metric.png">           
+</P>
+<UL>
+  <LI>
+<DIV><STRONG>Category</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  )           
+ - The overall category associated with the 
+  UOM (Distance, Area, Volume, Mass,           
+etc.).</DIV>
+  <LI>
+<DIV><STRONG>Name (Singular)</STRONG> 
+  (<FONT color=#ff0000>Required</FONT> 
+  )           
+  - The SINGULAR name of the UOM. Used 
+  as the unique identifier across the           
+application.</DIV>
+  <UL>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>           
+: This is automatically used in combination 
+    with all selected           
+Metric Units. For example, the base name 
+    "Shaq" will produce UOMs such as "Millishaq", "Centishaq",           
+etc.</DIV>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>           
+: Each           
+UOM generated will automatically append the singular 
+    name with an "s" to make the plural           
+version.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>Base UOM</STRONG> (<FONT color=#0000ff>Optional</FONT> 
+  )           
+    - Specifies which 
+    of the generated UOMs to use as the           
+base.</DIV>
+  <UL>
+  <LI>
+<DIV>           
+     Leave blank 
+    to let the application automatically use the Metric           
+base.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>Suffix</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  )           
+     - The 
+    text to be displayed after a given UOM           
+value.</DIV>
+  <UL>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>           
+: This is automatically used in combination 
+    with all the selected Metric Units and their suffix.           
+For example, the base&nbsp; suffix "Shaq" will 
+    produce UOMs with suffixes such as "mShaq", "cShaq",           
+etc.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>Metric Units</STRONG> 
+  (<FONT color=#ff0000>Required</FONT>) - Specifies each of 
+  the possible Metric units to be 
+  auto-generated.           
+A separate UOM will be created for 
+    each option you check. Must select at least           
+one.</DIV></LI></UL>
+<H2>           
+Simple</H2>
+<P>A single UOM with a simple "Factor" to be used to convert to and from the category's base 
+UOM.</P>
+<P><IMG alt="" src="Images/JDConvertBuilder-Simple.png">                  
+</P>
+<UL>
+  <LI>
+<DIV><STRONG>Category</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The overall category 
+  associated with the UOM (Distance, Area, Volume, Mass,           
+etc.).</DIV>
+  <LI>
+<DIV><STRONG>Category Base</STRONG> 
+  (<FONT color=#0000ff>Optional</FONT> 
+  ) - Whether this UOM is 
+  to be used as the base UOM for the given           
+category.</DIV>
+  <UL>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>: BE CAREFUL WITH THIS, 
+    ESPECIALLY WHEN USING EXISTING BUILT-IN CATEGORY. 
+  This will override whatever base is already assigned to that           
+category.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>Name (Singular)</STRONG>(<FONT color=#ff0000>Required</FONT>)&nbsp; - The SINGULAR name 
+  of the UOM. Used as the unique identifier across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>Name (Plural)</STRONG> 
+  (<FONT color=#ff0000>Required</FONT> 
+  ) - The PLURAL name of 
+  the UOM. Loosely used as a unique identifier across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>Suffix</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The text value to be 
+  displayed after a value of the UOM. Used as a case-sensitive unique identifier 
+  across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>System(s)</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - One or more UOM systems 
+  associated with the UOM (Metric, Imperial, US Customary,           
+etc.).</DIV>
+  <LI>
+<DIV><STRONG>Factor</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The conversion factor to be 
+  used to calculate between this UOM and the category's base           
+UOM.</DIV>
+  <UL>
+    <LI>
+<DIV>           
+For example, in the "Distance" category, where 
+    "Meter" is the base, this number represents how much of the base is within 
+    this           
+UOM.</DIV>
+    <LI>
+<DIV>           
+As pictured above, 1 "Shaq" is equal to 2.158999 
+           
+"Meters".</DIV></LI></UL></LI></UL>
+<H2>           
+Formula</H2>
+<P>A single UOM with string-based mathematical expressions to convert from and to the category's base 
+UOM.</P>
+<P><IMG alt="" 
+src="Images/JDConvertBuilder-Formula.png">           
+</P>
+<UL>
+  <LI>
+<DIV><STRONG>Category</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The overall category 
+  associated with the UOM (Distance, Area, Volume, Mass,           
+etc.).</DIV>
+  <LI>
+<DIV><STRONG>Category Base</STRONG> 
+  (<FONT color=#0000ff>Optional</FONT> 
+  ) - Whether this UOM is 
+  to be used as the base UOM for the given           
+category.</DIV>
+<UL>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>: BE CAREFUL WITH THIS, ESPECIALLY WHEN USING 
+  EXISTING BUILT-IN CATEGORY. 
+  This will override whatever base is already assigned to that           
+category.</DIV></LI></UL>
+  <LI>
+<DIV><STRONG>Name (Singular)</STRONG> 
+  (<FONT color=#ff0000>Required</FONT> 
+  ) - The SINGULAR name 
+  of the UOM. Used as the unique identifier across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>Name (Plural)</STRONG> 
+  (<FONT color=#ff0000>Required</FONT> 
+  ) - The PLURAL name of 
+  the UOM. Loosely used as a unique identifier across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>Suffix</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The text value to be 
+  displayed after a value of the UOM. Used as a case-sensitive unique identifier 
+  across the           
+application.</DIV>
+  <LI>
+<DIV><STRONG>System(s)</STRONG>(<FONT color=#ff0000>Required</FONT>)&nbsp; - One or more UOM systems 
+  associated with the UOM (Metric, Imperial, US Customary,           
+etc.).</DIV>
+  <LI>
+<DIV><STRONG>From Base</STRONG>(<FONT color=#ff0000>Required</FONT>)&nbsp; - The formula to be used 
+  to convert this UOM FROM the category's base           
+UOM.</DIV>
+  <LI>
+<DIV><STRONG>To Base</STRONG> (<FONT color=#ff0000>Required</FONT> 
+  ) - The formula to be used 
+  to convert this UOM TO the category's base           
+UOM.</DIV>
+  <LI>
+<DIV><STRONG>NOTE</STRONG>  : The formulas must use 
+  the text "Value" to represent the value being           
+converted.</DIV></LI></UL>
+<P>       
+                    
+&nbsp;</P>
+<H1>       
+                    
+Editing       
+                    
+Buttons</H1>
+<P>       
+                    
+On the       
+                    
+right side of the UOM details area, there are a number of 
+buttons for editing custom       
+                    
+UOMs:</P>
+<UL>
+  <LI>
+<DIV><IMG style="HEIGHT: 
+  27px; WIDTH: 28px" alt="" src="Images/JDConvertBuilder-EditingButtons-Add.png" width=29 align=absMiddle height=27 >&nbsp;- Add new 
+  custom UOM       
+                    
+</DIV>
+  <LI>
+<DIV><IMG style="HEIGHT: 
+  28px; WIDTH: 28px" alt="" src="Images/JDConvertBuilder-EditingButtons-Edit.png" width=32 align=absMiddle height=30 > - Edit 
+  selected custom UOM       
+                    
+</DIV>
+  <LI>
+<DIV><IMG style="HEIGHT: 
+  28px; WIDTH: 28px" alt="" src="Images/JDConvertBuilder-EditingButtons-Delete.png" width=27 align=absMiddle height=26 > - Delete 
+  selected custom UOM       
+                    
+</DIV>
+  <LI>
+<DIV><IMG alt="" 
+  src="Images/JDConvertBuilder-EditingButtons-Save.png" align=absMiddle > - Save 
+  changes to custom&nbsp;UOM       
+                    
+</DIV>
+  <LI>
+<DIV><IMG alt="" 
+  src="Images/JDConvertBuilder-EditingButtons-Cancel.png" align=absMiddle > - Cancel 
+  changes to custom UOM       
+                    
+</DIV></LI></UL>
+<P>&nbsp;</P>
+<P>&nbsp;</P></body>
 </html>
