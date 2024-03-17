@@ -41,8 +41,9 @@ Name: "custom"; Description: "Custom Installation"; Flags: iscustom
 Name: "jdconvert"; Description: "JD Convert Application"; Types: full compact custom; Flags: fixed
 Name: "fontawesome"; Description: "Install Font Awesome"; Types: full compact custom; Flags: fixed
 Name: "systemuoms"; Description: "System UOMs"; Types: full
-Name: "systemuoms\distance"; Description: "Distance UOMs"; Types: full
-Name: "systemuoms\area"; Description: "Area UOMs"; Types: full
+Name: "systemuoms\distance"; Description: "Distance UOMs"; Types: full; Flags: disablenouninstallwarning
+Name: "systemuoms\area"; Description: "Area UOMs"; Types: full; Flags: disablenouninstallwarning
+Name: "systemuoms\temp"; Description: "Temperature UOMs"; Types: full; Flags: disablenouninstallwarning
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
@@ -50,12 +51,18 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 ; JD Convert Application
 Source: "..\Win32\Release\{#MyAppExeName}"; DestDir: "{app}"; Components: jdconvert; Flags: ignoreversion
-; System UOMs
-Source: "UOMs\Distance.ini"; DestDir: "{app}\System"; Components: systemuoms\distance; Flags: ignoreversion
+; System UOMs - BE SURE TO INCLUDE IN InstallDelete
+Source: "UOMs\Distance.ini"; DestDir: "{app}\System"; Components: systemuoms\distance; Flags: ignoreversion 
 Source: "UOMs\Area.ini"; DestDir: "{app}\System"; Components: systemuoms\area; Flags: ignoreversion
+Source: "UOMs\Temperature.ini"; DestDir: "{app}\System"; Components: systemuoms\temp; Flags: ignoreversion
 ; FontAwesome
 Source: "FontAwesome.ttf"; DestDir: "{autofonts}"; FontInstall: "FontAwesome"; Components: fontawesome; Flags: onlyifdoesntexist uninsneveruninstall
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[InstallDelete]
+Type: files; Name: "{app}\System\Distance.ini"
+Type: files; Name: "{app}\System\Area.ini"
+Type: files; Name: "{app}\System\Temperature.ini"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -63,4 +70,8 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+
+
+
 
