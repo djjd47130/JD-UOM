@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JD Convert"
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.2"
 #define MyAppPublisher "JD Software"
 #define MyAppURL "http://jerrydodge.com"
 #define MyAppExeName "JDConvert.exe"
@@ -24,10 +24,12 @@ DefaultGroupName={#MyAppName}
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename=JDConvert Setup
-SetupIconFile=D:\Development\GitHub\JD-Uom\JD-UOM\JDConvert\JDConvert.ico
+SetupIconFile=..\JDConvert.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+UninstallDisplayIcon={app}\JDConvert.exe,0
+AppModifyPath={app}\JDConvert Setup.exe
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -60,7 +62,8 @@ Source: "UOMs\Temperature.ini"; DestDir: "{app}\System"; Components: systemuoms\
 ; FontAwesome
 Source: "FontAwesome.ttf"; DestDir: "{autofonts}"; FontInstall: "FontAwesome"; Components: fontawesome; Flags: onlyifdoesntexist uninsneveruninstall
 ; Help File
-Source: "..\Help_output\HTML Help\JD Convert Help.chm"; DestDir: "{app}"; Components: help; Flags: ignoreversion
+Source: "..\Help_output\HTML Help\JD Convert Help.chm"; DestDir: "{app}"; Components: help; Flags: ignoreversion  
+Source: "{srcexe}"; DestDir: "{app}"; Flags: ignoreversion external
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [InstallDelete]
