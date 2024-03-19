@@ -737,8 +737,8 @@ var
 begin
   Result:= nil;
   for X := 0 to FUOMs.Count-1 do begin
-    if (Trim(Name) = Trim(FUOMs[X].FNameSingular)) or
-       (Trim(Name) = Trim(FUOMs[X].FNamePlural)) then
+    if (SameText(Trim(Name), Trim(FUOMs[X].FNameSingular))) or
+       (SameText(Trim(Name), Trim(FUOMs[X].FNamePlural))) then
     begin
       Result:= FUOMs[X];
       Break;
