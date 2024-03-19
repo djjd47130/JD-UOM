@@ -31,7 +31,7 @@ begin
 
   TUOMMetricUtils.ProduceUOMs('Distance', 'Meter', 'm', [msFemto, msPico,
     msNano, msMicro, msMilli, msCenti, msDeci, msBase, msDeca, msHecto,
-    msKilo, msMega, msGiga, msTera, msPeta]);
+    msKilo, msMega, msGiga, msTera, msPeta], 'Meter');
 
   //Imperial / US Customary
 

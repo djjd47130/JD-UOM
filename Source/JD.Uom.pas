@@ -171,7 +171,8 @@ type
     /// Automatically generates and registers UOMs for each specified metric unit.
     /// </summary>
     class procedure ProduceUOMs(const Category: String; const Name: String;
-      const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '');
+      const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '';
+      const Systems: String = 'Metric');
   end;
 
   /// <summary>
@@ -252,11 +253,18 @@ type
     property Value3: TUOMValue read FValue3 write SetValue3;
   end;
 
+
+  //TODO: Modify TUOM to use UOM types, similar as TUOMFileItem was done.
+  //  Ultimately should replace the need for TUOMFileItem.
+  TUOMType = (uomFactor, uomFormula, uomMetric, uomCombo);
+
   /// <summary>
   /// Base object for each possible UOM unit.
   /// </summary>
   TUOM = class(TObject)
   private
+    FOwner: TUOM;
+    FUOMType: TUOMType;
     FCategory: String;
     FSystems: TStringList;
     FNameSingular: String;
@@ -264,6 +272,7 @@ type
     FSuffix: String;
     FConvertToBaseFormula: String;
     FConvertFromBaseFormula: String;
+    FFactor: Double;
     function GetSystems: TStrings;
     procedure SystemsChanged(Sender: TObject);
     procedure SetNamePlural(const Value: String);
@@ -273,10 +282,10 @@ type
     procedure SetCategory(const Value: String);
     procedure SetConvertFromBaseFormula(const Value: String);
     procedure SetConvertToBaseFormula(const Value: String);
+    procedure SetFactor(const Value: Double);
+    procedure SetUOMType(const Value: TUOMType);
   public
-    constructor Create; //overload;
-    //constructor Create(const ACategory, ANameSingular, ANamePlural, ASuffix,
-      //ASystems: String; const AFromBase: String = ''; const AToBase: String = ''); overload;
+    constructor Create(const AOwner: TUOM);
     destructor Destroy; override;
     /// <summary>
     /// Assigns this UOM as the base UOM of its specified Category.
@@ -321,6 +330,10 @@ type
     /// Also a unique CASE-SENSITIVE identifer - cannot create duplicates.
     /// </summary>
     property Suffix: String read FSuffix write SetSuffix;
+
+    property Factor: Double read FFactor write SetFactor;
+
+    property UOMType: TUOMType read FUOMType write SetUOMType;
   end;
 
   /// <summary>
@@ -332,7 +345,7 @@ type
     class var FBaseUOMs: TDictionary<String, TUOM>;
     class var FSystems: TStringList;
     class var FCategories: TStringList;
-    class var FEvalInst: TUOMEvalInst;
+    class var FEvalInst: TUOMEvaluator;
     class function Evaluate(const Value: Double; const Expr: String): Double;
   public
     class constructor Create;
@@ -403,12 +416,15 @@ type
     /// </summary>
     class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
       ASuffix, ASystems: String;
-      const AFromBase: String; const AToBase: String): TUOM; static;
+      const AFromBase: String; const AToBase: String;
+      const AFactor: Double = 0;
+      const AOwner: TUOM = nil): TUOM; static;
     /// <summary>
     /// Registers a new SIMPLE TUOM object into the UOM system based on a variety of parameters.
     /// </summary>
     class function RegisterSimpleUOM(const ACategory, ANameSingular,
-      ANamePlural, ASuffix, ASystems: String; const ABaseFactor: Double): TUOM; static;
+      ANamePlural, ASuffix, ASystems: String; const ABaseFactor: Double;
+      const AOwner: TUOM = nil): TUOM; static;
     /// <summary>
     /// Registers the BASE UOM for a given UOM Category. For example,
     /// Meters for Distance, Grams for Mass, Celsius for Temperature...
@@ -434,8 +450,9 @@ implementation
 
 { TUOM }
 
-constructor TUOM.Create;
+constructor TUOM.Create(const AOwner: TUOM);
 begin
+  FOwner:= AOwner;
   FSystems:= TStringList.Create;
   FSystems.Delimiter:= ',';
   FSystems.StrictDelimiter:= True;
@@ -498,6 +515,13 @@ begin
   TUOMUtils.InvalidateUOMs;
 end;
 
+procedure TUOM.SetFactor(const Value: Double);
+begin
+  FFactor := Value;
+  //TODO: Validate...
+  TUOMUtils.InvalidateUOMs;
+end;
+
 function TUOM.GetSystems: TStrings;
 begin
   Result:= TStrings(FSystems);
@@ -530,6 +554,12 @@ begin
   TUOMUtils.InvalidateSystems;
 end;
 
+procedure TUOM.SetUOMType(const Value: TUOMType);
+begin
+  FUOMType := Value;
+  TUOMUtils.InvalidateUOMs;
+end;
+
 procedure TUOM.SetCategory(const Value: String);
 begin
   FCategory:= Value;
@@ -549,7 +579,7 @@ begin
   FBaseUOMs:= TDictionary<String, TUOM>.Create;
   FSystems:= TStringList.Create;
   FCategories:= TStringList.Create;
-  FEvalInst:= TUOMEvalInst.Create;
+  FEvalInst:= TUOMEvaluator.Create;
 end;
 
 class destructor TUOMUtils.Destroy;
@@ -575,17 +605,63 @@ begin
   if not Assigned(T) then begin
     raise EUOMInvalidUnitException.Create('Conversion to unit "'+F.NameSingular+'" not found.');
   end;
-  if Trim(F.ConvertFromBaseFormula) = '' then begin
-    raise EUOMException.Create('Conversion from formula is blank.');
+
+  if F.FUOMType = uomFormula then begin
+    if Trim(F.ConvertFromBaseFormula) = '' then begin
+      raise EUOMException.Create('Conversion from formula is blank.');
+    end;
+  end else begin
+    if F.Factor = 0 then begin
+      raise EUOMException.Create('Conversion from factor is 0.');
+    end;
   end;
-  if Trim(T.ConvertToBaseFormula) = '' then begin
-    raise EUOMException.Create('Conversion to formula is blank.');
+
+  if T.FUOMType = uomFormula then begin
+    if Trim(T.ConvertToBaseFormula) = '' then begin
+      raise EUOMException.Create('Conversion to formula is blank.');
+    end;
+  end else begin
+    if T.Factor = 0 then begin
+      raise EUOMException.Create('Conversion to factor is 0.');
+    end;
   end;
+
+
   try
+
+    //TODO: Change to respect new enum FUOMType: TUOMType...
+
     //From input value to base...
-    Result:= Evaluate(Value, F.ConvertToBaseFormula);
+    case F.UOMType of
+      uomFactor, uomMetric: begin
+        Result:= Value * F.Factor;
+      end;
+      uomFormula: begin
+        Result:= Evaluate(Value, F.ConvertToBaseFormula);
+      end;
+      uomCombo: begin
+
+      end;
+    end;
+
     //From base to output value...
-    Result:= Evaluate(Result, T.ConvertFromBaseFormula);
+    case T.UOMType of
+      uomFactor, uomMetric: begin
+        Result:= Result / T.Factor;
+      end;
+      uomFormula: begin
+        Result:= Evaluate(Result, T.ConvertFromBaseFormula);
+      end;
+      uomCombo: begin
+
+      end;
+    end;
+
+
+    //From input value to base...
+    //Result:= Evaluate(Value, F.ConvertToBaseFormula);
+    //From base to output value...
+    //Result:= Evaluate(Result, T.ConvertFromBaseFormula);
   except
     on E: Exception do begin
       raise EUOMException.Create('Convert function failed: '+E.Message);
@@ -764,18 +840,20 @@ end;
 
 class function TUOMUtils.RegisterSimpleUOM(const ACategory, ANameSingular,
   ANamePlural, ASuffix, ASystems: String;
-  const ABaseFactor: Double): TUOM;
+  const ABaseFactor: Double; const AOwner: TUOM = nil): TUOM;
 var
   F: String;
 begin
   F:= FormatFloat(NumInternalFormat, ABaseFactor);
   Result:= RegisterUOM(ACategory, ANameSingular, ANamePlural, ASuffix, ASystems,
-    'Value / '+F, 'Value * '+F);
+    'Value / '+F, 'Value * '+F, ABaseFactor, AOwner);
+  //TODO: Change to record factor INSTEAD of formula...
+  Result.FUOMType:= TUOMType.uomFactor;
 end;
 
 class function TUOMUtils.RegisterUOM(const ACategory, ANameSingular,
   ANamePlural, ASuffix, ASystems: String;
-  const AFromBase, AToBase: String): TUOM;
+  const AFromBase, AToBase: String; const AFactor: Double = 0; const AOwner: TUOM = nil): TUOM;
 begin
 
   if Trim(ANameSingular) = '' then begin
@@ -800,8 +878,11 @@ begin
     raise EUOMDuplicateException.Create('Cannot register duplicate unit suffix '+ASuffix);
   end;
 
-  Result:= TUOM.Create;
+
+
+  Result:= TUOM.Create(AOwner);
   try
+    Result.FUOMType:= TUOMType.uomFormula;
     Result.FCategory:= ACategory;
     Result.FNameSingular:= ANameSingular;
     Result.FNamePlural:= ANamePlural;
@@ -811,6 +892,7 @@ begin
     Result.FSystems.DelimitedText:= ASystems;
     Result.FConvertFromBaseFormula:= AFromBase;
     Result.FConvertToBaseFormula:= AToBase;
+    Result.FFactor:= AFactor;
   finally
     FUOMs.Add(Result);
   end;
@@ -1088,42 +1170,70 @@ begin
 end;
 
 class procedure TUOMMetricUtils.ProduceUOMs(const Category, Name,
-  Suffix: String; const Units: TUOMMetricUnits; const Base: String = '');
+  Suffix: String; const Units: TUOMMetricUnits; const Base: String = '';
+  const Systems: String = 'Metric');
 var
-  U: TUOM;
+  U, BU: TUOM;
   MU: TUOMMetricUnit;
   MN, MS: String;
   MF: Double;
   NS, NP, S: String;
-  Sys: String;
+  L: TStringList;
+  X: Integer;
 begin
-  for MU:= Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
-    if MU in Units then begin
-      //Get base Metric info...
-      MN:= Trim(MetricName(MU));
-      MS:= Trim(MetricSuffix(MU));
-      MF:= MetricFactor(MU);
-      //Produce singular and plural names...
-      NS:= MN + LowerCase(Name);
-      NP:= MN + LowerCase(Name) + 's';
-      //Capitalize first letter...
-      NS[1]:= UpCase(NS[1]);
-      NP[1]:= UpCase(NP[1]);
-      //Produce suffix...
-      S:= MS + Suffix;
-      //Produce system name...
-      Sys:= 'Metric';
-      if MF <= METRIC_MICRO then
-        Sys:= Sys + ' (Tiny)'
-      else if MF >= METRIC_MEGA then
-        Sys:= Sys + ' (Huge)';
-      //Register UOM...
-      U:= TUOMUtils.RegisterSimpleUOM(Category, NS, NP, S, Sys, MF);
-      //Register base UOM...
-      if ((MU = TUOMMetricUnit.msBase) and (Base = '')) or (Base = NS) then
-        TUOMUtils.RegisterBaseUOM(Category, U);
+  //Validate...
+  if not (msBase in Units) then
+    raise EUOMException.Create('Metric UOM must include base!');
+
+  //Proceed...
+  L:= TStringList.Create;
+  try
+    L.Delimiter:= ',';
+
+    //Register base UOM...
+    BU:= TUOMUtils.RegisterSimpleUOM(Category, Name, Name+'s', Suffix, Systems, MetricFactor(msBase));
+    BU.FUOMType:= TUOMType.uomMetric;
+
+    for MU:= Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
+      if (MU in Units) and (MU <> msBase) then begin
+        //Get base Metric info...
+        MN:= Trim(MetricName(MU));
+        MS:= Trim(MetricSuffix(MU));
+        MF:= MetricFactor(MU);
+        //Produce singular and plural names...
+        NS:= MN + LowerCase(Name);
+        NP:= MN + LowerCase(Name) + 's';
+        //Capitalize first letter...
+        NS[1]:= UpCase(NS[1]);
+        NP[1]:= UpCase(NP[1]);
+        //Produce suffix...
+        S:= MS + Suffix;
+
+        //Produce system name(s)...
+        L.DelimitedText:= Systems;
+        for X := 0 to L.Count-1 do begin
+          if MF <= METRIC_MICRO then
+            L[X]:= L[X] + ' (Tiny)'
+          else if MF >= METRIC_MEGA then
+            L[X]:= L[X] + ' (Huge)';
+        end;
+
+        //Register child UOM...
+        U:= TUOMUtils.RegisterSimpleUOM(Category, NS, NP, S, L.DelimitedText, MF, BU);
+        U.FUOMType:= TUOMType.uomMetric;
+      end;
     end;
+
+    //Register base UOM...
+    if Base <> '' then begin
+      U:= TUOMUtils.GetUOMByName(Base);
+      if Assigned(U) then
+        U.SetAsBase;
+    end;
+  finally
+    L.Free;
   end;
+
 end;
 
 { TUOMCombinedValue }

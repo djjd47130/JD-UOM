@@ -34,7 +34,7 @@ begin
 
   TUOMMetricUtils.ProduceUOMs('Mass', 'Gram', 'g', [msFemto, msPico,
     msNano, msMicro, msMilli, msCenti, msDeci, msBase, msDeca, msHecto,
-    msKilo, msMega, msGiga, msTera, msPeta]);
+    msKilo, msMega, msGiga, msTera, msPeta], 'Gram');
 
   //Same as Megagram
   TUOMUtils.RegisterSimpleUOM('Mass',

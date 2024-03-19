@@ -124,6 +124,7 @@
         <DCCReference Include="..\Source\JD.Uom.Numbers.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Expr.pas"/>
         <DCCReference Include="..\Source\JD.Uom.Files.pas"/>
+        <DCCReference Include="..\Source\JD.Uom.Data.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

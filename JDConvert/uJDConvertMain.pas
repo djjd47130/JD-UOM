@@ -30,6 +30,7 @@ uses
   , JD.Uom.Frequency
   , JD.Uom.Speed
   , JD.Uom.Numbers
+  , JD.Uom.Data
 
   ;
 
@@ -309,6 +310,7 @@ begin
   MenuButtonSelected(btnConvertNormal, tabConvert, 1002);
   pConvertNormal.Visible:= True;
   pConvertSearch.Visible:= False;
+  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.btnConvertSearchClick(Sender: TObject);
@@ -317,6 +319,7 @@ begin
   pConvertSearch.Visible:= True;
   pConvertNormal.Visible:= False;
   txtSearch.SetFocus;
+  RefreshEquivalents;
 end;
 
 procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
@@ -409,6 +412,9 @@ var
   UN: String;
   I: TListItem;
 begin
+
+  //TODO: Handle EITHER regular mode OR search mode...
+
   lstEquivalents.Items.Clear;
   FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
   if FU = nil then Exit;

@@ -18,7 +18,14 @@ uses
   ;
 
 type
-  TUOMEvalInst = class(TObject)
+
+  /// <summary>
+  /// Encapsulates a string-based mathematical expression evaluator to be used
+  ///  in conversions. Made as abstract as possible so the rest of the system
+  ///  has no concept of how expressions are evaluated. Alternative solutions
+  ///  can be implemented by means of compiler conditionals.
+  /// </summary>
+  TUOMEvaluator = class(TObject)
   private
     {$IFDEF USE_DWS}
     FDWS: TDelphiWebScript;
@@ -34,16 +41,16 @@ implementation
 uses
   JD.Uom;
 
-{ TUOMEvalInst }
+{ TUOMEvaluator }
 
-constructor TUOMEvalInst.Create;
+constructor TUOMEvaluator.Create;
 begin
   {$IFDEF USE_DWS}
   FDWS:= TDelphiWebScript.Create(nil);
   {$ENDIF}
 end;
 
-destructor TUOMEvalInst.Destroy;
+destructor TUOMEvaluator.Destroy;
 begin
   {$IFDEF USE_DWS}
   FreeAndNil(FDWS);
@@ -51,7 +58,7 @@ begin
   inherited;
 end;
 
-function TUOMEvalInst.Evaluate(const Value: Double; const Expr: String): Double;
+function TUOMEvaluator.Evaluate(const Value: Double; const Expr: String): Double;
 var
   E: String;
   {$IFDEF USE_DWS}

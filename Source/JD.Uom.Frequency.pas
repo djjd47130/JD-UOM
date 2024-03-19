@@ -27,7 +27,7 @@ procedure RegisterUOMs;
 begin
   TUOMMetricUtils.ProduceUOMs('Frequency', 'Hertz', 'Hz', [msFemto, msPico,
     msNano, msMicro, msMilli, msCenti, msDeci, msBase, msDeca, msHecto,
-    msKilo, msMega, msGiga, msTera, msPeta]);
+    msKilo, msMega, msGiga, msTera, msPeta], 'Hertz');
 
   TUOMUtils.RegisterSimpleUOM('Frequency',
     'Cycle per Second', 'Cycles per Second', 'cps', 'Natural', FACTOR_CPS);

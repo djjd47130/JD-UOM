@@ -46,6 +46,7 @@ contains
   JD.Uom.Frequency in '..\Source\JD.Uom.Frequency.pas',
   JD.Uom.Numbers in '..\Source\JD.Uom.Numbers.pas',
   JD.Uom.Expr in '..\Source\JD.Uom.Expr.pas',
-  JD.Uom.Files in '..\Source\JD.Uom.Files.pas';
+  JD.Uom.Files in '..\Source\JD.Uom.Files.pas',
+  JD.Uom.Data in '..\Source\JD.Uom.Data.pas';
 
 end.

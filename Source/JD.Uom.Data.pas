@@ -15,6 +15,7 @@ type
     umdYottaBits, umdYobiBits, umdYottaBytes, umdYobiBytes);
   TUOMDataUnits = set of TUOMDataUnit;
 
+  {
   TUOMDataUtils = class
   public
     class procedure UnitList(AList: TStrings); static;
@@ -42,14 +43,24 @@ type
     function ToBits: Double;
     //TODO
   end;
+  }
 
 implementation
 
-var
-  DefaultDataUnit: TUOMDataUnit;
+procedure RegisterUOMs;
+begin
+  //TODO...
+
+  TUOMMetricUtils.ProduceUOMs('Data', 'Bit', 'b', [msBase,
+    msKilo, msMega, msGiga, msTera, msPeta]);
+
+  TUOMMetricUtils.ProduceUOMs('Data', 'Byte', 'B', [msBase,
+    msKilo, msMega, msGiga, msTera, msPeta], 'Byte');
+
+end;
 
 { TUOMDataUtils }
-
+        {
 class procedure TUOMDataUtils.UnitList(AList: TStrings);
 var
   V: TUOMDataUnit;
@@ -145,9 +156,11 @@ begin
   //TODO
   Result:= 0;
 end;
+}
 
 { TUOMData }
 
+{
 class operator TUOMData.implicit(const AValue: TUOMData): Double;
 begin
   Result:= 0;
@@ -198,7 +211,8 @@ begin
     //TODO
   end;
 end;
+}
 
 initialization
-  DefaultDataUnit:= TUOMDataUnit.umdMegaBytes;
+  RegisterUOMs;
 end.
