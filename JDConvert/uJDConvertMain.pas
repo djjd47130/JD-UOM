@@ -164,6 +164,8 @@ type
     FEditingUOM: Boolean;
     FIsNewUOM: Boolean;
     FSelUserItem: TListItem;
+    FFoundVal: Double;
+    FFoundUOM: TUOM;
     procedure CloseHelpWnd;
     procedure MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
       const AHelpContext: Integer = 0);
@@ -405,9 +407,9 @@ begin
   if U = nil then begin
     MessageDlg('Could not find UOM "'+Suf+'".', mtError, [mbOK], 0);
   end else begin
-    //TEMPORARY
-    MessageDlg(FormatFloat(NumFormat, Val)+' '+U.NameSingular, mtInformation, [mbOK], 0);
-    //Self.RefreshEquivalents;
+    FFoundVal:= Val;
+    FFoundUOM:= U;
+    RefreshEquivalents;
   end;
 end;
 
@@ -437,12 +439,21 @@ begin
   //TODO: Handle EITHER regular mode OR search mode...
 
   lstEquivalents.Items.Clear;
-  FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
-  if FU = nil then Exit;
-  FV:= txtConvertFromValue.Value;
+
   L:= TStringList.Create;
   try
-    TUOMUtils.ListUOMs(L, cboConvertCategory.Text);
+    if Self.pConvertSearch.Visible then begin
+      FU:= FFoundUOM;
+      FV:= FFoundVal;
+      if FU = nil then Exit;
+      TUOMUtils.ListUOMs(L, FU.Category);
+    end else begin
+      FU:= TUOMUtils.GetUOMByName(cboConvertFromUnit.Text);
+      FV:= txtConvertFromValue.Value;
+      if FU = nil then Exit;
+      TUOMUtils.ListUOMs(L, cboConvertCategory.Text);
+    end;
+
     for X := 0 to L.Count-1 do begin
       TU:= TUOMUtils.GetUOMByName(L[X]);
       TV:= TUOMUtils.Convert(FV, FU.NameSingular, TU.NameSingular);
