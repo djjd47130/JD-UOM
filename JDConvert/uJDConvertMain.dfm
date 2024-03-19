@@ -239,6 +239,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             Height = 45
             Align = alClient
             TabOrder = 0
+            OnInvokeSearch = txtSearchInvokeSearch
             ExplicitHeight = 37
           end
         end
@@ -417,7 +418,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 0
             ViewStyle = vsReport
             OnSelectItem = lstCategoriesSelectItem
-            ExplicitWidth = 196
           end
         end
         object pUOMs: TPanel
@@ -428,7 +428,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 2
-          ExplicitLeft = 425
           object Label2: TLabel
             AlignWithMargins = True
             Left = 3
@@ -475,8 +474,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alClient
           BevelOuter = bvNone
           TabOrder = 3
-          ExplicitLeft = 642
-          ExplicitWidth = 413
           object pTestVal: TPanel
             Left = 0
             Top = 0
@@ -485,7 +482,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitWidth = 413
             object lblUnitHeader: TLabel
               AlignWithMargins = True
               Left = 3
@@ -510,7 +506,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Height = 224
             Align = alClient
             TabOrder = 1
-            ExplicitWidth = 407
             DesignSize = (
               383
               224)
@@ -712,8 +707,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             ViewStyle = vsReport
             OnClick = lstSystemsClick
             OnItemChecked = lstSystemsItemChecked
-            ExplicitLeft = 2
-            ExplicitWidth = 217
           end
         end
       end
@@ -1211,8 +1204,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 0
       Text = 'btnConvertNormal'
       OnClick = btnConvertNormalClick
-      ExplicitLeft = 1
-      ExplicitTop = 3
     end
     object btnConvertSearch: TJDFontButton
       Left = 0

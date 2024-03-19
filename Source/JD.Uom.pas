@@ -253,9 +253,9 @@ type
     property Value3: TUOMValue read FValue3 write SetValue3;
   end;
 
-
-  //TODO: Modify TUOM to use UOM types, similar as TUOMFileItem was done.
-  //  Ultimately should replace the need for TUOMFileItem.
+  /// <summary>
+  /// Defines how the UOM shall be registered and how conversion shall be performed.
+  /// </summary>
   TUOMType = (uomFactor, uomFormula, uomMetric, uomCombo);
 
   /// <summary>
@@ -379,6 +379,9 @@ type
     /// Returns a TUOM object based on a given UOM's u ique suffix (case sensitive).
     /// </summary>
     class function GetUOMBySuffix(const Suffix: String): TUOM; static;
+
+    class function GetUOMByNameOrSuffix(const Value: String): TUOM; static;
+
     /// <summary>
     /// Returns a TUOM object of the given Category's base unit.
     /// </summary>
@@ -734,11 +737,20 @@ var
 begin
   Result:= nil;
   for X := 0 to FUOMs.Count-1 do begin
-    if Trim(Name) = Trim(FUOMs[X].FNameSingular) then begin
+    if (Trim(Name) = Trim(FUOMs[X].FNameSingular)) or
+       (Trim(Name) = Trim(FUOMs[X].FNamePlural)) then
+    begin
       Result:= FUOMs[X];
       Break;
     end;
   end;
+end;
+
+class function TUOMUtils.GetUOMByNameOrSuffix(const Value: String): TUOM;
+begin
+  Result:= GetUOMByName(Value);
+  if Result = nil then
+    Result:= GetUOMBySuffix(Value);
 end;
 
 class function TUOMUtils.GetUOMBySuffix(const Suffix: String): TUOM;

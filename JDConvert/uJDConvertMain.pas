@@ -154,6 +154,7 @@ type
     procedure btnSaveUOMClick(Sender: TObject);
     function ApplicationEvents1Help(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
+    procedure txtSearchInvokeSearch(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -388,6 +389,26 @@ end;
 procedure TfrmJDConvertMain.txtConvertFromValueChange(Sender: TObject);
 begin
   RefreshEquivalents;
+end;
+
+procedure TfrmJDConvertMain.txtSearchInvokeSearch(Sender: TObject);
+var
+  S: String;
+  Val: Double;
+  Suf: String;
+  U: TUOM;
+begin
+  lstEquivalents.Items.Clear;
+  S:= txtSearch.Text;
+  TUOMUtils.ParseSuffix(S, Val, Suf);
+  U:= TUOMUtils.GetUOMByNameOrSuffix(Suf);
+  if U = nil then begin
+    MessageDlg('Could not find UOM "'+Suf+'".', mtError, [mbOK], 0);
+  end else begin
+    //TEMPORARY
+    MessageDlg(FormatFloat(NumFormat, Val)+' '+U.NameSingular, mtInformation, [mbOK], 0);
+    //Self.RefreshEquivalents;
+  end;
 end;
 
 procedure TfrmJDConvertMain.RefreshConvert;
