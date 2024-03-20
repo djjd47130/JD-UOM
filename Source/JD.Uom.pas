@@ -526,7 +526,7 @@ end;
 function TUOM.AddAlias(const S: String): TUOM;
 begin
   //TODO: Prevent duplicate...
-  FAliases.Append(S);
+  FAliases.Add(S);
   Result:= Self;
 end;
 
@@ -555,7 +555,6 @@ begin
   B:= TUOMUtils.GetBaseUOM(FCategory);
   Result:= TUOMUtils.Convert(Value, FNameSingular, B.FNameSingular);
 end;
-
 
 function TUOM.SetAsBase: TUOM;
 begin
@@ -826,7 +825,7 @@ begin
         Break;
       end;
     end;
-    if U <> nil then Break;
+    if Result <> nil then Break;
   end;
 end;
 
