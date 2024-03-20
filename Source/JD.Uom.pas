@@ -79,22 +79,35 @@ uses
   System.Classes, System.SysUtils, System.Generics.Collections,
   JD.Uom.Expr;
 
+type
+
+  /// <summary>
+  /// Main type to be used across UOM library for all UOM numbers.
+  /// Was Double, but Extended fixed several issues.
+  /// </summary>
+  UOMNum = Extended;
+
 const
+
   /// <summary>
   /// Specifies which characters are part of a number.
   /// Used for deserializing UOM strings.
   /// </summary>
   PartOfNumber = ['0'..'9', '.', ','];
   /// <summary>
-  /// The format for converting Double to String for display.
+  /// The format for converting value to String for display.
   /// </summary>
-  NumFormat = '#,###,###,###,###,##0.##################';
+  NumFormat = '#,###,###,###,###,###,###,##0.############################';
   /// <summary>
-  /// The format for converting Double to String for internal use.
+  /// The format for converting value to String for internal use.
   /// </summary>
-  NumInternalFormat = '###############0.##################';
+  NumInternalFormat = '#####################0.############################';
 
   //Common Metric conversion factors
+  {
+  METRIC_YOCTO: UOMNum = 0.000000000000000000000001;
+  METRIC_ZEPTO = 0.000000000000000000001;
+  METRIC_ATTO  = 0.000000000000000001;
   METRIC_FEMTO = 0.000000000000001;
   METRIC_PICO  = 0.000000000001;
   METRIC_NANO  = 0.000000001;
@@ -110,6 +123,32 @@ const
   METRIC_GIGA  = 1000000000;
   METRIC_TERA  = 1000000000000;
   METRIC_PETA  = 1000000000000000;
+  METRIC_EXA   = 1000000000000000000;
+  METRIC_ZETA  = 1000000000000000000e3;
+  METRIC_YOTTA = 1000000000000000000e6;
+  }
+
+  METRIC_YOCTO: UOMNum = 1e-24;
+  METRIC_ZEPTO: UOMNum = 1e-21;
+  METRIC_ATTO:  UOMNum = 1e-18;
+  METRIC_FEMTO: UOMNum = 1e-15;
+  METRIC_PICO:  UOMNum = 1e-12;
+  METRIC_NANO:  UOMNum = 1e-09;
+  METRIC_MICRO: UOMNum = 1e-06;
+  METRIC_MILLI: UOMNum = 1e-03;
+  METRIC_CENTI: UOMNum = 1e-02;
+  METRIC_DECI:  UOMNum = 1e-01;
+  METRIC_BASE:  UOMNum = 1e+00;
+  METRIC_DECA:  UOMNum = 1e+01;
+  METRIC_HECTO: UOMNum = 1e+02;
+  METRIC_KILO:  UOMNum = 1e+03;
+  METRIC_MEGA:  UOMNum = 1e+06;
+  METRIC_GIGA:  UOMNum = 1e+09;
+  METRIC_TERA:  UOMNum = 1e+12;
+  METRIC_PETA:  UOMNum = 1e+15;
+  METRIC_EXA:   UOMNum = 1e+18;
+  METRIC_ZETA:  UOMNum = 1e+21;
+  METRIC_YOTTA: UOMNum = 1e+24;
 
 type
   TUOMMetricUtils = class;
@@ -142,8 +181,10 @@ type
   /// <summary>
   /// Enum representing a specific Metric system size.
   /// </summary>
-  TUOMMetricUnit = (msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
-    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta);
+  TUOMMetricUnit = (msYocto, msZepto, msAtto,
+    msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
+    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta,
+    msExa, msZeta, msYotta);
 
   /// <summary>
   /// Set of `TMetricUnit` enum.
@@ -166,13 +207,13 @@ type
     /// <summary>
     /// Returns the base conversion factor of a given metric unit.
     /// </summary>
-    class function MetricFactor(const U: TUOMMetricUnit): Double; static;
+    class function MetricFactor(const U: TUOMMetricUnit): UOMNum; static;
     /// <summary>
     /// Automatically generates and registers UOMs for each specified metric unit.
     /// </summary>
     class procedure ProduceUOMs(const Category: String; const Name: String;
       const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '';
-      const Systems: String = 'Metric');
+      const Systems: String = 'Metric'; const OffsetBase: String = '');
   end;
 
   /// <summary>
@@ -182,15 +223,15 @@ type
   TUOMValue = record
   private
     FUOM: String;
-    FBaseValue: Double;
+    FBaseValue: UOMNum;
     procedure SetUOM(const Value: String);
-    procedure SetBaseValue(const Value: Double);
-    function GetConvertedValue: Double;
-    procedure SetConvertedValue(const Value: Double);
+    procedure SetBaseValue(const Value: UOMNum);
+    function GetConvertedValue: UOMNum;
+    procedure SetConvertedValue(const Value: UOMNum);
     function GetUomObj: TUOM;
   public
-    class operator Implicit(const Value: TUOMValue): Double;
-    class operator Implicit(const Value: Double): TUOMValue;
+    class operator Implicit(const Value: TUOMValue): UOMNum;
+    class operator Implicit(const Value: UOMNum): TUOMValue;
     class operator Implicit(const Value: TUOMValue): String;
     class operator Implicit(const Value: String): TUOMValue;
     class operator Trunc(const Value: TUOMValue): TUOMValue;
@@ -217,11 +258,11 @@ type
     /// <summary>
     /// Returns the raw base value, unconverted.
     /// </summary>
-    property BaseValue: Double read FBaseValue write SetBaseValue;
+    property BaseValue: UOMNum read FBaseValue write SetBaseValue;
     /// <summary>
     /// Returns the value converted FROM the base TO the specified unit.
     /// </summary>
-    property ConvertedValue: Double read GetConvertedValue write SetConvertedValue;
+    property ConvertedValue: UOMNum read GetConvertedValue write SetConvertedValue;
   end;
 
   /// <summary>
@@ -272,9 +313,11 @@ type
     FSuffix: String;
     FConvertToBaseFormula: String;
     FConvertFromBaseFormula: String;
-    FFactor: Double;
+    FFactor: UOMNum;
+    FAliases: TStringList;
     function GetSystems: TStrings;
     procedure SystemsChanged(Sender: TObject);
+    procedure AliasesChanged(Sender: TObject);
     procedure SetNamePlural(const Value: String);
     procedure SetNameSingular(const Value: String);
     procedure SetSuffix(const Value: String);
@@ -282,8 +325,9 @@ type
     procedure SetCategory(const Value: String);
     procedure SetConvertFromBaseFormula(const Value: String);
     procedure SetConvertToBaseFormula(const Value: String);
-    procedure SetFactor(const Value: Double);
+    procedure SetFactor(const Value: UOMNum);
     procedure SetUOMType(const Value: TUOMType);
+    function GetAlias(const Index: Integer): String;
   public
     constructor Create(const AOwner: TUOM);
     destructor Destroy; override;
@@ -294,11 +338,11 @@ type
     /// <summary>
     /// Returns a value converted FROM the base unit.
     /// </summary>
-    function ConvertFromBase(const Value: Double): Double;
+    function ConvertFromBase(const Value: UOMNum): UOMNum;
     /// <summary>
     /// Returns a value converted TO the base unit.
     /// </summary>
-    function ConvertToBase(const Value: Double): Double;
+    function ConvertToBase(const Value: UOMNum): UOMNum;
   public
     /// <summary>
     /// A string containing a mathematical expression to convert the `Value` FROM the base UOM.
@@ -331,9 +375,15 @@ type
     /// </summary>
     property Suffix: String read FSuffix write SetSuffix;
 
-    property Factor: Double read FFactor write SetFactor;
+    property Factor: UOMNum read FFactor write SetFactor;
 
     property UOMType: TUOMType read FUOMType write SetUOMType;
+
+    function AddAlias(const S: String): TUOM;
+
+    function AliasCount: Integer;
+
+    property Aliases[const Index: Integer]: String read GetAlias;
   end;
 
   /// <summary>
@@ -346,14 +396,15 @@ type
     class var FSystems: TStringList;
     class var FCategories: TStringList;
     class var FEvalInst: TUOMEvaluator;
-    class function Evaluate(const Value: Double; const Expr: String): Double;
+    class function Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
+    class function GetUOMByAlias(const Value: String): TUOM; static;
   public
     class constructor Create;
     class destructor Destroy;
     /// <summary>
-    /// (NOT READY) Splits a given UOM String into respective Number (Double) and Suffix (String) values.
+    /// (NOT READY) Splits a given UOM String into respective Number and Suffix values.
     /// </summary>
-    class procedure ParseSuffix(AValue: String; var ANumber: Double;
+    class procedure ParseSuffix(AValue: String; var ANumber: UOMNum;
       var ASuffix: String); static;
     /// <summary>
     /// (NOT READY) Parses a given UOM String into `TUOMValue` record type.
@@ -420,13 +471,13 @@ type
     class function RegisterUOM(const ACategory, ANameSingular, ANamePlural,
       ASuffix, ASystems: String;
       const AFromBase: String; const AToBase: String;
-      const AFactor: Double = 0;
+      const AFactor: UOMNum = 0;
       const AOwner: TUOM = nil): TUOM; static;
     /// <summary>
     /// Registers a new SIMPLE TUOM object into the UOM system based on a variety of parameters.
     /// </summary>
     class function RegisterSimpleUOM(const ACategory, ANameSingular,
-      ANamePlural, ASuffix, ASystems: String; const ABaseFactor: Double;
+      ANamePlural, ASuffix, ASystems: String; const ABaseFactor: UOMNum;
       const AOwner: TUOM = nil): TUOM; static;
     /// <summary>
     /// Registers the BASE UOM for a given UOM Category. For example,
@@ -438,9 +489,9 @@ type
     /// </summary>
     class procedure UnregisterUOM(const UOM: TUOM);
     /// <summary>
-    /// Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `Double`.
+    /// Converts a given `Value` from a given `FromUOM` to a given `ToUOM` as a `UOMNum`.
     /// </summary>
-    class function Convert(const Value: Double; const FromUOM, ToUOM: String): Double; static;
+    class function Convert(const Value: UOMNum; const FromUOM, ToUOM: String): UOMNum; static;
     /// <summary>
     /// Accesses any registered TUOM object by its given master list index.
     /// </summary>
@@ -456,13 +507,40 @@ implementation
 constructor TUOM.Create(const AOwner: TUOM);
 begin
   FOwner:= AOwner;
+  FAliases:= TStringList.Create;
+  FAliases.Delimiter:= ',';
+  FAliases.StrictDelimiter:= True;
+  FAliases.OnChange:= AliasesChanged;
   FSystems:= TStringList.Create;
   FSystems.Delimiter:= ',';
   FSystems.StrictDelimiter:= True;
   FSystems.OnChange:= SystemsChanged;
 end;
 
-function TUOM.ConvertFromBase(const Value: Double): Double;
+destructor TUOM.Destroy;
+begin
+  FreeAndNil(FSystems);
+  FreeAndNil(FAliases);
+end;
+
+function TUOM.AddAlias(const S: String): TUOM;
+begin
+  //TODO: Prevent duplicate...
+  FAliases.Append(S);
+  Result:= Self;
+end;
+
+function TUOM.AliasCount: Integer;
+begin
+  Result:= FAliases.Count;
+end;
+
+procedure TUOM.AliasesChanged(Sender: TObject);
+begin
+  TUOMUtils.InvalidateUOMs;
+end;
+
+function TUOM.ConvertFromBase(const Value: UOMNum): UOMNum;
 var
   B: TUOM;
 begin
@@ -470,7 +548,7 @@ begin
   Result:= TUOMUtils.Convert(Value, B.FNameSingular, FNameSingular);
 end;
 
-function TUOM.ConvertToBase(const Value: Double): Double;
+function TUOM.ConvertToBase(const Value: UOMNum): UOMNum;
 var
   B: TUOM;
 begin
@@ -478,25 +556,6 @@ begin
   Result:= TUOMUtils.Convert(Value, FNameSingular, B.FNameSingular);
 end;
 
-{
-constructor TUOM.Create(const ACategory, ANameSingular, ANamePlural, ASuffix,
-  ASystems: String; const AFromBase: String = ''; const AToBase: String = '');
-begin
-  Create;
-  FCategory:= ACategory;
-  FNameSingular:= ANameSingular;
-  FNamePlural:= ANamePlural;
-  FSuffix:= ASuffix;
-  FSystems.DelimitedText:= ASystems;
-  FConvertFromBaseFormula:= AFromBase;
-  FConvertToBaseFormula:= AToBase;
-end;
-}
-
-destructor TUOM.Destroy;
-begin
-  FreeAndNil(FSystems);
-end;
 
 function TUOM.SetAsBase: TUOM;
 begin
@@ -518,11 +577,16 @@ begin
   TUOMUtils.InvalidateUOMs;
 end;
 
-procedure TUOM.SetFactor(const Value: Double);
+procedure TUOM.SetFactor(const Value: UOMNum);
 begin
   FFactor := Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
+end;
+
+function TUOM.GetAlias(const Index: Integer): String;
+begin
+  Result:= FAliases[Index];
 end;
 
 function TUOM.GetSystems: TStrings;
@@ -594,8 +658,8 @@ begin
   FreeAndNil(FUOMs);
 end;
 
-class function TUOMUtils.Convert(const Value: Double; const FromUOM,
-  ToUOM: String): Double;
+class function TUOMUtils.Convert(const Value: UOMNum; const FromUOM,
+  ToUOM: String): UOMNum;
 var
   F, T: TUOM;
 begin
@@ -643,7 +707,8 @@ begin
         Result:= Evaluate(Value, F.ConvertToBaseFormula);
       end;
       uomCombo: begin
-
+        //TODO
+        Result:= Evaluate(Value, F.ConvertToBaseFormula);
       end;
     end;
 
@@ -656,7 +721,8 @@ begin
         Result:= Evaluate(Result, T.ConvertFromBaseFormula);
       end;
       uomCombo: begin
-
+        //TODO
+        Result:= Evaluate(Result, T.ConvertFromBaseFormula);
       end;
     end;
 
@@ -672,7 +738,7 @@ begin
   end;
 end;
 
-class function TUOMUtils.Evaluate(const Value: Double; const Expr: String): Double;
+class function TUOMUtils.Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
 
 begin
   Result:= FEvalInst.Evaluate(Value, Expr);
@@ -694,7 +760,7 @@ begin
   InvalidateSystems;
 end;
 
-class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: Double; var ASuffix: String);
+class procedure TUOMUtils.ParseSuffix(AValue: String; var ANumber: UOMNum; var ASuffix: String);
 var
   X: Integer;
   NS: String;
@@ -746,11 +812,31 @@ begin
   end;
 end;
 
+class function TUOMUtils.GetUOMByAlias(const Value: String): TUOM;
+var
+  X, Y: Integer;
+  U: TUOM;
+begin
+  Result:= nil;
+  for X := 0 to FUOMs.Count-1 do begin
+    U:= FUOMs[X];
+    for Y := 0 to U.AliasCount-1 do begin
+      if Trim(U.Aliases[Y]) = Trim(Value) then begin
+        Result:= U;
+        Break;
+      end;
+    end;
+    if U <> nil then Break;
+  end;
+end;
+
 class function TUOMUtils.GetUOMByNameOrSuffix(const Value: String): TUOM;
 begin
   Result:= GetUOMByName(Value);
   if Result = nil then
     Result:= GetUOMBySuffix(Value);
+  if Result = nil then
+    Result:= GetUOMByAlias(Value);
 end;
 
 class function TUOMUtils.GetUOMBySuffix(const Suffix: String): TUOM;
@@ -852,7 +938,7 @@ end;
 
 class function TUOMUtils.RegisterSimpleUOM(const ACategory, ANameSingular,
   ANamePlural, ASuffix, ASystems: String;
-  const ABaseFactor: Double; const AOwner: TUOM = nil): TUOM;
+  const ABaseFactor: UOMNum; const AOwner: TUOM = nil): TUOM;
 var
   F: String;
 begin
@@ -865,7 +951,7 @@ end;
 
 class function TUOMUtils.RegisterUOM(const ACategory, ANameSingular,
   ANamePlural, ASuffix, ASystems: String;
-  const AFromBase, AToBase: String; const AFactor: Double = 0; const AOwner: TUOM = nil): TUOM;
+  const AFromBase, AToBase: String; const AFactor: UOMNum = 0; const AOwner: TUOM = nil): TUOM;
 begin
 
   if Trim(ANameSingular) = '' then begin
@@ -950,7 +1036,7 @@ end;
 
 { TUOMValue }
 
-class operator TUOMValue.Implicit(const Value: TUOMValue): Double;
+class operator TUOMValue.Implicit(const Value: TUOMValue): UOMNum;
 var
   U: TUOM;
 begin
@@ -961,7 +1047,7 @@ begin
   Result:= U.ConvertFromBase(Value.FBaseValue);
 end;
 
-class operator TUOMValue.Implicit(const Value: Double): TUOMValue;
+class operator TUOMValue.Implicit(const Value: UOMNum): TUOMValue;
 //var
   //U: TUOM;
 begin
@@ -974,7 +1060,7 @@ end;
 class operator TUOMValue.Implicit(const Value: TUOMValue): String;
 var
   U: TUOM;
-  V: Double;
+  V: UOMNum;
 begin
   //Implicitly return the CONVERTED value formatted as string...
   U:= TUOMUtils.GetUOMByName(Value.FUOM);
@@ -1067,7 +1153,7 @@ begin
   Result.FBaseValue:= Round(Value.FBaseValue);
 end;
 
-function TUOMValue.GetConvertedValue: Double;
+function TUOMValue.GetConvertedValue: UOMNum;
 var
   U: TUOM;
 begin
@@ -1082,7 +1168,7 @@ begin
   Result:= TUOMUtils.GetUOMByName(FUOM);
 end;
 
-procedure TUOMValue.SetConvertedValue(const Value: Double);
+procedure TUOMValue.SetConvertedValue(const Value: UOMNum);
 var
   U: TUOM;
 begin
@@ -1107,16 +1193,19 @@ begin
   Result.FBaseValue:= Trunc(Value.FBaseValue);
 end;
 
-procedure TUOMValue.SetBaseValue(const Value: Double);
+procedure TUOMValue.SetBaseValue(const Value: UOMNum);
 begin
   FBaseValue := Value;
 end;
 
 { TUOMMetricUtils }
 
-class function TUOMMetricUtils.MetricFactor(const U: TUOMMetricUnit): Double;
+class function TUOMMetricUtils.MetricFactor(const U: TUOMMetricUnit): UOMNum;
 begin
   case U of
+    msYocto:  Result:= METRIC_YOCTO;
+    msZepto:  Result:= METRIC_ZEPTO;
+    msAtto:   Result:= METRIC_ATTO;
     msFemto:  Result:= METRIC_FEMTO;
     msPico:   Result:= METRIC_PICO;
     msNano:   Result:= METRIC_NANO;
@@ -1132,6 +1221,9 @@ begin
     msGiga:   Result:= METRIC_GIGA;
     msTera:   Result:= METRIC_TERA;
     msPeta:   Result:= METRIC_PETA;
+    msExa:    Result:= METRIC_EXA;
+    msZeta:   Result:= METRIC_ZETA;
+    msYotta:  Result:= METRIC_YOTTA;
     else      Result:= METRIC_BASE;
   end;
 end;
@@ -1139,7 +1231,11 @@ end;
 class function TUOMMetricUtils.MetricName(
   const U: TUOMMetricUnit): String;
 begin
+  //https://www.techtarget.com/searchstorage/definition/Kilo-mega-giga-tera-peta-and-all-that
   case U of
+    msYocto:  Result:= 'Yocto';
+    msZepto:  Result:= 'Zepto';
+    msAtto:   Result:= 'Atto';
     msFemto:  Result:= 'Femto';
     msPico:   Result:= 'Pico';
     msNano:   Result:= 'Nano';
@@ -1155,6 +1251,9 @@ begin
     msGiga:   Result:= 'Giga';
     msTera:   Result:= 'Tera';
     msPeta:   Result:= 'Peta';
+    msExa:    Result:= 'Exa';
+    msZeta:   Result:= 'Zeta';
+    msYotta:  Result:= 'Yotta';
     else      Result:= '';
   end;
 end;
@@ -1162,6 +1261,9 @@ end;
 class function TUOMMetricUtils.MetricSuffix(const U: TUOMMetricUnit): String;
 begin
   case U of
+    msYocto:  Result:= 'y';
+    msZepto:  Result:= 'z';
+    msAtto:   Result:= 'a';
     msFemto:  Result:= 'f';
     msPico:   Result:= 'p';
     msNano:   Result:= 'n';
@@ -1177,18 +1279,21 @@ begin
     msGiga:   Result:= 'G';
     msTera:   Result:= 'T';
     msPeta:   Result:= 'P';
+    msExa:    Result:= 'E';
+    msZeta:   Result:= 'Z';
+    msYotta:  Result:= 'Y';
     else      Result:= '';
   end;
 end;
 
 class procedure TUOMMetricUtils.ProduceUOMs(const Category, Name,
   Suffix: String; const Units: TUOMMetricUnits; const Base: String = '';
-  const Systems: String = 'Metric');
+  const Systems: String = 'Metric'; const OffsetBase: String = '');
 var
   U, BU: TUOM;
   MU: TUOMMetricUnit;
   MN, MS: String;
-  MF: Double;
+  MF: UOMNum;
   NS, NP, S: String;
   L: TStringList;
   X: Integer;
@@ -1203,7 +1308,12 @@ begin
     L.Delimiter:= ',';
 
     //Register base UOM...
-    BU:= TUOMUtils.RegisterSimpleUOM(Category, Name, Name+'s', Suffix, Systems, MetricFactor(msBase));
+    //Apply offset of specified...
+    MF:= MetricFactor(msBase);
+    if OffsetBase <> '' then begin
+      MF:= TUOMUtils.Evaluate(MF, OffsetBase);
+    end;
+    BU:= TUOMUtils.RegisterSimpleUOM(Category, Name, Name+'s', Suffix, Systems, MF);
     BU.FUOMType:= TUOMType.uomMetric;
 
     for MU:= Low(TUOMMetricUnit) to High(TUOMMetricUnit) do begin
@@ -1220,6 +1330,11 @@ begin
         NP[1]:= UpCase(NP[1]);
         //Produce suffix...
         S:= MS + Suffix;
+
+        //Apply offset of specified...
+        if OffsetBase <> '' then begin
+          MF:= TUOMUtils.Evaluate(MF, OffsetBase);
+        end;
 
         //Produce system name(s)...
         L.DelimitedText:= Systems;

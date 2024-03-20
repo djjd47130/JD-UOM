@@ -87,14 +87,12 @@ type
     lblConvertTitle: TLabel;
     cboConvertCategory: TComboBox;
     pConvertSearch: TPanel;
-    txtSearch: TSearchBox;
     Panel3: TPanel;
     Label10: TLabel;
     txtConvertFromValue: TRzSpinEdit;
     Stat: TStatusBar;
     Label13: TLabel;
     cboConvertFromUnit: TComboBox;
-    Label5: TLabel;
     tabBuilder: TTabSheet;
     btnUOMBuilder: TJDFontButton;
     lstCustomUOMs: TListView;
@@ -125,6 +123,11 @@ type
     chkUserBase: TToggleSwitch;
     lblUserBase: TLabel;
     ApplicationEvents1: TApplicationEvents;
+    Panel4: TPanel;
+    Label5: TLabel;
+    txtSearch: TSearchBox;
+    Panel5: TPanel;
+    lblSearchFound: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
@@ -164,11 +167,12 @@ type
     FEditingUOM: Boolean;
     FIsNewUOM: Boolean;
     FSelUserItem: TListItem;
-    FFoundVal: Double;
+    FFoundVal: UOMNum;
     FFoundUOM: TUOM;
     procedure CloseHelpWnd;
     procedure MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
       const AHelpContext: Integer = 0);
+    procedure ShowSearchResult(const Value: UOMNum; UOM: TUOM);
   public
     //Common
     procedure RefreshAll;
@@ -393,10 +397,29 @@ begin
   RefreshEquivalents;
 end;
 
+procedure TfrmJDConvertMain.ShowSearchResult(const Value: UOMNum; UOM: TUOM);
+var
+  S: String;
+begin
+  if Assigned(UOM) then begin
+    S:= UOM.Category+': '+FormatFloat(NumFormat, Value) + ' ';
+    if Value = 1 then
+      S:= S + UOM.NameSingular
+    else
+      S:= S + UOM.NamePlural;
+    S:= S + ' ('+UOM.Suffix+')';
+    lblSearchFound.Caption:= S;
+    lblSearchFound.Font.Color:= ColorManager.Color[fcGreen];
+  end else begin
+    lblSearchFound.Caption:= 'UOM not found or invalid search criteria!';
+    lblSearchFound.Font.Color:= ColorManager.Color[fcRed];
+  end;
+end;
+
 procedure TfrmJDConvertMain.txtSearchInvokeSearch(Sender: TObject);
 var
   S: String;
-  Val: Double;
+  Val: UOMNum;
   Suf: String;
   U: TUOM;
 begin
@@ -404,13 +427,12 @@ begin
   S:= txtSearch.Text;
   TUOMUtils.ParseSuffix(S, Val, Suf);
   U:= TUOMUtils.GetUOMByNameOrSuffix(Suf);
-  if U = nil then begin
-    MessageDlg('Could not find UOM "'+Suf+'".', mtError, [mbOK], 0);
-  end else begin
+  if U <> nil then begin
     FFoundVal:= Val;
     FFoundUOM:= U;
     RefreshEquivalents;
   end;
+  ShowSearchResult(Val, U);
 end;
 
 procedure TfrmJDConvertMain.RefreshConvert;
@@ -430,7 +452,7 @@ var
   L: TStringList;
   X: Integer;
   FU, TU: TUOM;
-  FV, TV: Double;
+  FV, TV: UOMNum;
   Str: String;
   UN: String;
   I: TListItem;
@@ -612,7 +634,7 @@ end;
 function CompareUOMVal(const A, B: TUOMValue): Integer;
 var
   UA, UB: TUOM;
-  VA, VB: Double;
+  VA, VB: UOMNum;
 begin
   UA:= TUOMUtils.GetUOMByName(A.UOM);
   UB:= TUOMUtils.GetUOMByName(B.UOM);
@@ -676,7 +698,7 @@ var
   U: TUOM;
   BU: TUOM;
   Y: Integer;
-  V: Double;
+  V: UOMNum;
   Amt: Integer;
   Start: Integer;
 begin
@@ -776,7 +798,7 @@ end;
 procedure TfrmJDConvertMain.btnSaveUOMClick(Sender: TObject);
 var
   T: TUOMFileItemType;
-  V: Double;
+  V: UOMNum;
   I: TUOMFileItem;
   UnitsChecked: Integer;
   X: Integer;

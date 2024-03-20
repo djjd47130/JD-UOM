@@ -22,13 +22,13 @@ type
     FLength: TUOMValue;
     procedure SetLength(const Value: TUOMValue);
     procedure SetWidth(const Value: TUOMValue);
-    function GetArea: Double;
+    function GetArea: UOMNum;
   public
     property Width: TUOMValue read FWidth write SetWidth;
     property Length: TUOMValue read FLength write SetLength;
-    property Area: Double read GetArea;
-    class operator implicit(const AValue: Double): TUOMAreaRect;
-    class operator implicit(const AValue: TUOMAreaRect): Double;
+    property Area: UOMNum read GetArea;
+    class operator implicit(const AValue: UOMNum): TUOMAreaRect;
+    class operator implicit(const AValue: TUOMAreaRect): UOMNum;
     class operator implicit(const AValue: String): TUOMAreaRect;
     class operator implicit(const AValue: TUOMAreaRect): String;
     class operator implicit(const AValue: TUOMValue): TUOMAreaRect;
@@ -88,7 +88,7 @@ begin
   FWidth := Value;
 end;
 
-function TUOMAreaRect.GetArea: Double;
+function TUOMAreaRect.GetArea: UOMNum;
 begin
   //TODO: Convert combined UOMs...
   Result:= FWidth * FLength;
@@ -96,13 +96,13 @@ begin
 end;
 
 class operator TUOMAreaRect.implicit(
-  const AValue: TUOMAreaRect): Double;
+  const AValue: TUOMAreaRect): UOMNum;
 begin
   Result:= 0; //TODO
 end;
 
 class operator TUOMAreaRect.implicit(
-  const AValue: Double): TUOMAreaRect;
+  const AValue: UOMNum): TUOMAreaRect;
 begin
   //TODO: Kinda hard to convert from area to width/length dimensions...
   //  Perhaps just get the square root?

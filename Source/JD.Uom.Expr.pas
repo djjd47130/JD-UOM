@@ -33,7 +33,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    function Evaluate(const Value: Double; const Expr: String): Double;
+    function Evaluate(const Value: Extended; const Expr: String): Extended;
   end;
 
 implementation
@@ -58,7 +58,7 @@ begin
   inherited;
 end;
 
-function TUOMEvaluator.Evaluate(const Value: Double; const Expr: String): Double;
+function TUOMEvaluator.Evaluate(const Value: Extended; const Expr: String): Extended;
 var
   E: String;
   {$IFDEF USE_DWS}

@@ -40,11 +40,11 @@ type
 
   end;
 
-function Cube(const AValue: Double): Double;
+function Cube(const AValue: UOMNum): UOMNum;
 
 implementation
 
-function Cube(const AValue: Double): Double;
+function Cube(const AValue: UOMNum): UOMNum;
 begin
   Result:= AValue * AValue * AValue;
 end;

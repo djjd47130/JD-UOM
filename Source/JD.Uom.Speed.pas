@@ -52,7 +52,7 @@ var
   DU, TU: TUOM;
   XDist, XTime: Integer;
   NameSingular, NamePlural, Suffix: String;
-  DistFactor, TimeFactor: Double;
+  DistFactor, TimeFactor: UOMNum;
 {$ENDIF}
 begin
 

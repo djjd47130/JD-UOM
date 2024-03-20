@@ -29,17 +29,18 @@ begin
 
   //Metric
 
-  TUOMMetricUtils.ProduceUOMs('Distance', 'Meter', 'm', [msFemto, msPico,
-    msNano, msMicro, msMilli, msCenti, msDeci, msBase, msDeca, msHecto,
-    msKilo, msMega, msGiga, msTera, msPeta], 'Meter');
+  TUOMMetricUtils.ProduceUOMs('Distance', 'Meter', 'm', [msYocto, msZepto, msAtto,
+    msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
+    msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta,
+    msExa, msZeta, msYotta], 'Meter');
 
   //Imperial / US Customary
 
   TUOMUtils.RegisterSimpleUOM('Distance',
-    'Inch', 'Inches', '"', 'Imperial,US Customary', FACTOR_INCH);
+    'Inch', 'Inches', '"', 'Imperial,US Customary', FACTOR_INCH).AddAlias('in').AddAlias('In').AddAlias('IN');
 
   TUOMUtils.RegisterSimpleUOM('Distance',
-    'Foot', 'Feet', '''', 'Imperial,US Customary', FACTOR_FOOT);
+    'Foot', 'Feet', '''', 'Imperial,US Customary', FACTOR_FOOT).AddAlias('ft').AddAlias('Ft').AddAlias('FT');
 
   TUOMUtils.RegisterSimpleUOM('Distance',
     'Yard', 'Yards', 'yd', 'Imperial,US Customary', FACTOR_YARD);

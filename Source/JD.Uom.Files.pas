@@ -55,7 +55,7 @@ type
     FSuffix: String;
     FCategory: String;
     FSystems: String;
-    FFactor: Double;
+    FFactor: UOMNum;
     FFromBase: String;
     FToBase: String;
     FIsBase: Boolean;
@@ -63,7 +63,7 @@ type
     FBaseUOM: String;
     procedure SetItemType(const Value: TUOMFileItemType);
     procedure SetCategory(const Value: String);
-    procedure SetFactor(const Value: Double);
+    procedure SetFactor(const Value: UOMNum);
     procedure SetFromBase(const Value: String);
     procedure SetIsBase(const Value: Boolean);
     procedure SetNamePlural(const Value: String);
@@ -86,7 +86,7 @@ type
     property Suffix: String read FSuffix write SetSuffix;
     property Category: String read FCategory write SetCategory;
     property Systems: String read FSystems write SetSystems;
-    property Factor: Double read FFactor write SetFactor;
+    property Factor: UOMNum read FFactor write SetFactor;
     property FromBase: String read FFromBase write SetFromBase;
     property ToBase: String read FToBase write SetToBase;
     property IsBase: Boolean read FIsBase write SetIsBase;
@@ -206,7 +206,7 @@ var
     NS, NP, Suf, Cat, Sys: String;
     IsBase: Boolean;
     FromBase, ToBase: String;
-    Factor: Double;
+    Factor: UOMNum;
     MUS: String;
     MB: String;
     procedure AddUOM(const AType: TUOMFileItemType);
@@ -423,7 +423,7 @@ begin
   FCategory := Value;
 end;
 
-procedure TUOMFileItem.SetFactor(const Value: Double);
+procedure TUOMFileItem.SetFactor(const Value: UOMNum);
 begin
   FFactor := Value;
 end;

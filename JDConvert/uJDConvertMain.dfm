@@ -61,9 +61,9 @@ object frmJDConvertMain: TfrmJDConvertMain
         object lstEquivalents: TListView
           AlignWithMargins = True
           Left = 3
-          Top = 153
+          Top = 204
           Width = 795
-          Height = 433
+          Height = 382
           Align = alClient
           Columns = <
             item
@@ -89,6 +89,8 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 0
           ViewStyle = vsReport
           OnDblClick = lstEquivalentsDblClick
+          ExplicitTop = 153
+          ExplicitHeight = 433
         end
         object pConvertNormal: TPanel
           Left = 0
@@ -96,11 +98,12 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 801
           Height = 97
           Align = alTop
+          BevelOuter = bvNone
           TabOrder = 1
           object Panel1: TPanel
-            Left = 1
-            Top = 1
-            Width = 799
+            Left = 0
+            Top = 0
+            Width = 801
             Height = 42
             Align = alTop
             BevelOuter = bvNone
@@ -111,6 +114,9 @@ object frmJDConvertMain: TfrmJDConvertMain
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 0
+            ExplicitLeft = 1
+            ExplicitTop = 1
+            ExplicitWidth = 799
             object lblConvertTitle: TLabel
               AlignWithMargins = True
               Left = 3
@@ -151,18 +157,19 @@ object frmJDConvertMain: TfrmJDConvertMain
               AlignWithMargins = True
               Left = 490
               Top = 3
-              Width = 306
+              Width = 308
               Height = 37
               Align = alClient
               Style = csDropDownList
               TabOrder = 1
               OnClick = cboConvertFromUnitClick
+              ExplicitWidth = 306
             end
           end
           object Panel3: TPanel
-            Left = 1
-            Top = 43
-            Width = 799
+            Left = 0
+            Top = 42
+            Width = 801
             Height = 42
             Align = alTop
             BevelOuter = bvNone
@@ -173,6 +180,9 @@ object frmJDConvertMain: TfrmJDConvertMain
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 1
+            ExplicitLeft = 1
+            ExplicitTop = 43
+            ExplicitWidth = 799
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -188,7 +198,7 @@ object frmJDConvertMain: TfrmJDConvertMain
               AlignWithMargins = True
               Left = 143
               Top = 3
-              Width = 653
+              Width = 655
               Height = 36
               BlankValue = 1.000000000000000000
               AllowKeyEdit = True
@@ -203,6 +213,7 @@ object frmJDConvertMain: TfrmJDConvertMain
               Alignment = taLeftJustify
               TabOrder = 0
               OnChange = txtConvertFromValueChange
+              ExplicitWidth = 653
               ExplicitHeight = 37
             end
           end
@@ -211,8 +222,9 @@ object frmJDConvertMain: TfrmJDConvertMain
           Left = 0
           Top = 97
           Width = 801
-          Height = 53
+          Height = 104
           Align = alTop
+          BevelOuter = bvNone
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -24
@@ -220,27 +232,76 @@ object frmJDConvertMain: TfrmJDConvertMain
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 2
-          object Label5: TLabel
-            AlignWithMargins = True
-            Left = 4
-            Top = 4
-            Width = 134
-            Height = 45
-            Align = alLeft
-            AutoSize = False
-            Caption = 'Search:'
-            Layout = tlCenter
-          end
-          object txtSearch: TSearchBox
-            AlignWithMargins = True
-            Left = 144
-            Top = 4
-            Width = 653
-            Height = 45
-            Align = alClient
+          object Panel4: TPanel
+            Left = 0
+            Top = 0
+            Width = 801
+            Height = 49
+            Align = alTop
+            BevelOuter = bvNone
             TabOrder = 0
-            OnInvokeSearch = txtSearchInvokeSearch
-            ExplicitHeight = 37
+            ExplicitLeft = 40
+            ExplicitTop = 56
+            ExplicitWidth = 689
+            object Label5: TLabel
+              AlignWithMargins = True
+              Left = 3
+              Top = 3
+              Width = 134
+              Height = 43
+              Align = alLeft
+              AutoSize = False
+              Caption = 'Search:'
+              Layout = tlCenter
+              ExplicitTop = 0
+            end
+            object txtSearch: TSearchBox
+              AlignWithMargins = True
+              Left = 143
+              Top = 3
+              Width = 655
+              Height = 43
+              Align = alClient
+              TabOrder = 0
+              OnInvokeSearch = txtSearchInvokeSearch
+              ExplicitLeft = 36
+              ExplicitTop = 6
+              ExplicitWidth = 653
+              ExplicitHeight = 37
+            end
+          end
+          object Panel5: TPanel
+            Left = 0
+            Top = 49
+            Width = 801
+            Height = 49
+            Align = alTop
+            TabOrder = 1
+            ExplicitLeft = 2
+            ExplicitTop = 75
+            object lblSearchFound: TLabel
+              AlignWithMargins = True
+              Left = 4
+              Top = 4
+              Width = 793
+              Height = 41
+              Align = alClient
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'Enter your search above'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWhite
+              Font.Height = -24
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              Layout = tlCenter
+              StyleElements = [seClient, seBorder]
+              ExplicitLeft = 3
+              ExplicitTop = 0
+              ExplicitWidth = 134
+              ExplicitHeight = 43
+            end
           end
         end
       end

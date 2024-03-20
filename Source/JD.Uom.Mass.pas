@@ -16,18 +16,6 @@ const
 implementation
 
 procedure RegisterUOM;
-  function F(const V: Double): String;
-  begin
-    Result:= FormatFloat(NumInternalFormat, V);
-  end;
-  function D(const V: Double): String;
-  begin
-    Result:= 'Value / '+F(V);
-  end;
-  function M(const V: Double): String;
-  begin
-    Result:= 'Value * '+F(V);
-  end;
 begin
 
   //Metric

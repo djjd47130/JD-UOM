@@ -33,15 +33,15 @@ const
 implementation
 
 procedure RegisterUOM;
-  function F(const V: Double): String;
+  function F(const V: UOMNum): String;
   begin
     Result:= FormatFloat(NumInternalFormat, V);
   end;
-  function D(const V: Double): String;
+  function D(const V: UOMNum): String;
   begin
     Result:= 'Value / '+F(V);
   end;
-  function M(const V: Double): String;
+  function M(const V: UOMNum): String;
   begin
     Result:= 'Value * '+F(V);
   end;
