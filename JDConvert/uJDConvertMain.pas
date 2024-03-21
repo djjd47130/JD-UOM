@@ -426,7 +426,7 @@ begin
   lstEquivalents.Items.Clear;
   S:= txtSearch.Text;
   TUOMUtils.ParseSuffix(S, Val, Suf);
-  U:= TUOMUtils.GetUOMByNameOrSuffix(Suf);
+  U:= TUOMUtils.FindUOM(Suf);
   if U <> nil then begin
     FFoundVal:= Val;
     FFoundUOM:= U;

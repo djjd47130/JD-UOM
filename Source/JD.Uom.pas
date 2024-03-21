@@ -87,6 +87,8 @@ type
   /// </summary>
   UOMNum = Extended;
 
+
+
 const
 
   /// <summary>
@@ -103,31 +105,9 @@ const
   /// </summary>
   NumInternalFormat = '#####################0.############################';
 
-  //Common Metric conversion factors
-  {
-  METRIC_YOCTO: UOMNum = 0.000000000000000000000001;
-  METRIC_ZEPTO = 0.000000000000000000001;
-  METRIC_ATTO  = 0.000000000000000001;
-  METRIC_FEMTO = 0.000000000000001;
-  METRIC_PICO  = 0.000000000001;
-  METRIC_NANO  = 0.000000001;
-  METRIC_MICRO = 0.000001;
-  METRIC_MILLI = 0.001;
-  METRIC_CENTI = 0.01;
-  METRIC_DECI  = 0.1;
-  METRIC_BASE  = 1;
-  METRIC_DECA  = 10;
-  METRIC_HECTO = 100;
-  METRIC_KILO  = 1000;
-  METRIC_MEGA  = 1000000;
-  METRIC_GIGA  = 1000000000;
-  METRIC_TERA  = 1000000000000;
-  METRIC_PETA  = 1000000000000000;
-  METRIC_EXA   = 1000000000000000000;
-  METRIC_ZETA  = 1000000000000000000e3;
-  METRIC_YOTTA = 1000000000000000000e6;
-  }
 
+
+  //Common Metric conversion factors
   METRIC_YOCTO: UOMNum = 1e-24;
   METRIC_ZEPTO: UOMNum = 1e-21;
   METRIC_ATTO:  UOMNum = 1e-18;
@@ -150,10 +130,14 @@ const
   METRIC_ZETA:  UOMNum = 1e+21;
   METRIC_YOTTA: UOMNum = 1e+24;
 
+
+
 type
   TUOMMetricUtils = class;
   TUOM = class;
   TUOMUtils = class;
+
+
 
   /// <summary>
   /// Base exception type for all exceptions raised from UOM library.
@@ -175,8 +159,12 @@ type
   /// Exception indicating string expression evaluation failed.
   /// </summary>
   EUOMEvalException = EUOMException;
-
+  /// <summary>
+  /// Exception indicating failure to load a UOM file.
+  /// </summary>
   EUOMFileException = EUOMException;
+
+
 
   /// <summary>
   /// Enum representing a specific Metric system size.
@@ -215,6 +203,8 @@ type
       const Suffix: String; const Units: TUOMMetricUnits; const Base: String = '';
       const Systems: String = 'Metric'; const OffsetBase: String = '');
   end;
+
+
 
   /// <summary>
   /// (NOT READY)
@@ -265,12 +255,22 @@ type
     property ConvertedValue: UOMNum read GetConvertedValue write SetConvertedValue;
   end;
 
+
+
   /// <summary>
+  /// (NOT READY)
   /// Specifies the number of values in use in a TUOMCombinedValue record.
   /// </summary>
   TUOMCombinedValueCount = (cvcTwo, cvcThree);
 
   /// <summary>
+  /// (NOT READY)
+  /// Specifies the type of values in use in a TUOMCombinedValue record.
+  /// </summary>
+  TUOMCombinedValueType = (cvtDivide, cvtMultiply, cvtAdd);
+
+  /// <summary>
+  /// (NOT READY)
   /// A record that can be reused for things like Speed or Frequency,
   ///   where two different UOM categories are compared with each other.
   ///   For example, Miles per Hour, Meters per Second, Bananas per Cubic Yard...
@@ -293,6 +293,8 @@ type
     property Value2: TUOMValue read FValue2 write SetValue2;
     property Value3: TUOMValue read FValue3 write SetValue3;
   end;
+
+
 
   /// <summary>
   /// Defines how the UOM shall be registered and how conversion shall be performed.
@@ -374,15 +376,25 @@ type
     /// Also a unique CASE-SENSITIVE identifer - cannot create duplicates.
     /// </summary>
     property Suffix: String read FSuffix write SetSuffix;
-
+    /// <summary>
+    /// Conversion factor for simple UOM conversions.
+    /// </summary>
     property Factor: UOMNum read FFactor write SetFactor;
-
+    /// <summary>
+    /// Type of UOM, defining core behavior.
+    /// </summary>
     property UOMType: TUOMType read FUOMType write SetUOMType;
-
+    /// <summary>
+    /// Adds a string to be used as a unique identifer for UOM.
+    /// </summary>
     function AddAlias(const S: String): TUOM;
-
+    /// <summary>
+    /// Returns the total number of Aliases associated with this UOM.
+    /// </summary>
     function AliasCount: Integer;
-
+    /// <summary>
+    /// Returns a string representing a specific Alias by its list inded.
+    /// </summary>
     property Aliases[const Index: Integer]: String read GetAlias;
   end;
 
@@ -397,7 +409,6 @@ type
     class var FCategories: TStringList;
     class var FEvalInst: TUOMEvaluator;
     class function Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
-    class function GetUOMByAlias(const Value: String): TUOM; static;
   public
     class constructor Create;
     class destructor Destroy;
@@ -411,12 +422,16 @@ type
     /// </summary>
     class function StrToUOMValue(const Str: String): TUOMValue;
     /// <summary>
-    /// A change has been made which requires cache to be refreshed.
+    /// A change has been made which requires Systems cache to be refreshed.
     /// </summary>
     class procedure InvalidateSystems; virtual;
-
+    /// <summary>
+    /// A change has been made which requires Categories cache to be refreshed.
+    /// </summary>
     class procedure InvalidateCategories; virtual;
-
+    /// <summary>
+    /// A change has been made which requires all cache to be refreshed.
+    /// </summary>
     class procedure InvalidateUOMs; virtual;
     /// <summary>
     /// Returns a TUOM object based on a given list inded of the master UOM list.
@@ -427,12 +442,17 @@ type
     /// </summary>
     class function GetUOMByName(const Name: String): TUOM; static;
     /// <summary>
-    /// Returns a TUOM object based on a given UOM's u ique suffix (case sensitive).
+    /// Returns a TUOM object based on a given UOM's unique suffix (case sensitive).
     /// </summary>
     class function GetUOMBySuffix(const Suffix: String): TUOM; static;
-
-    class function GetUOMByNameOrSuffix(const Value: String): TUOM; static;
-
+    /// <summary>
+    /// Returns a TUOM object based on a given UOM's Alias.
+    /// </summary>
+    class function GetUOMByAlias(const Value: String): TUOM; static;
+    /// <summary>
+    /// Returns a TUOM object based on a given UOM's unique identifier of any kind.
+    /// </summary>
+    class function FindUOM(const Value: String): TUOM; static;
     /// <summary>
     /// Returns a TUOM object of the given Category's base unit.
     /// </summary>
@@ -829,7 +849,7 @@ begin
   end;
 end;
 
-class function TUOMUtils.GetUOMByNameOrSuffix(const Value: String): TUOM;
+class function TUOMUtils.FindUOM(const Value: String): TUOM;
 begin
   Result:= GetUOMByName(Value);
   if Result = nil then
