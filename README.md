@@ -10,8 +10,8 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 ### NOTE: Do not get confused with the term `unit` - it is used to reference a unit-of-measurement, and does not mean a "delphi unit". Except for in documentation, such as below.
 
 ## Features
-- Main central class [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) to encapsulate entire UOM conversion capabilities.
-- Base object [`TUOM`](/Docs/JD.Uom.md#tuom) to encapsulate all possible details of a specific unit of measurement.
+- Main central class [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) to encapsulate entire UOM conversion library and its capabilities.
+- Main object [`TUOM`](/Docs/JD.Uom.md#tuom) to encapsulate all possible details of a specific unit of measurement.
   - Registered within [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) class.
 - Base UOM registered within [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) for each given Category.
   - For example, the base of "Distance" is "Meters, and the base of "Time" is "Days".
@@ -22,10 +22,10 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
   - For example, "Temperature" is one Category which requires more than just a single factor to divide / multiply.
   - Also allows for UI display of formulas to the user.
 - Statistic capabilities for any given unit of measurement.
-  - For example, list all UOM Categories, Get UOM Object by Name, Conversion Examples.
+  - For example, list all UOM Categories, Get UOM Object by Name, Find UOM, etc.
 - Add a given Category unit to your `uses` clause to add support to your own project.
   - For example, `uses JD.Uom.Distance, JD.Uom.Area, JD.Uom.Time` - and all UOMs of those categories will be automatically registered.
-- Application `JDConvert.exe` to demonstrate all possible UOM capabilities.
+- Application `JDConvert.exe` to demonstrate all possible UOM capabilities, including custom user-level UOMs.
 
 ## Units
 
@@ -33,6 +33,8 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
   - [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) - Main class to encapsulate entire conversion library and UOM details.
   - [`TUOM`](/Docs/JD.Uom.md#tuom) - Base object referencing a specific unit of measurement and all its details.
   - [`TUOMValue`](/Docs/JD.Uom.md#tuomvalue) **(NOT READY)** - Implicit record type to contain a single value of any given UOM.
+- **JD.Uom.Expr.pas** - Encapsulates string-based expression evaluation on an abstract level.
+- **JD.Uom.Files.pas** - Encapsulates the ability to save/load UOMs via INI files.
 - [**JD.Uom.Distance.pas**](/Docs/JD.Uom.Distance.md) - Registration of Distance related UOMs.
 - [**JD.Uom.Area.pas**](/Docs/JD.Uom.Area.md) - Registration of all Area related UOMs.
   - **TUOMAreaRect** - **(NOT READY)** - Implicit record type to contain 2 linear dimensions.
@@ -47,9 +49,9 @@ Visit [Open Issues](https://github.com/djjd47130/JD-UOM/issues?q=is%3Aopen+is%3A
 
 ## Usage
 
-Currently, this library is in active development. Eventually, [`TUOMValue`](/Docs/JD.Uom.md#tuomvalue) will be the grand class of everything, encapsulating any possible value of any given UOM. However, it's currently still a work-in-progress to implement an infrastructure.
+Currently, this library is in active development. Eventually, [`TUOMValue`](/Docs/JD.Uom.md#tuomvalue) will be the grand master of everything, encapsulating any possible value of any given UOM. However, it's currently still a work-in-progress to implement an infrastructure.
 
-That being said, everything currently starts with [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) in [`JD.Uom.pas`](/Docs/JD.Uom.md). Specific units are registered via `TUOMUtils.RegisterUOM`. This registration is deliberately done from **outside** this main unit, as to be as abstract as possible. You can access information about all registered UOMs through [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils). For example, `GetUOMByName` or `ListCategories`. 
+That aside, everything currently starts with [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils) in [`JD.Uom.pas`](/Docs/JD.Uom.md). Specific units are registered via `TUOMUtils.RegisterUOM`. This registration is deliberately done from **outside** this main unit, as to be as abstract as possible. You can access information about all registered UOMs through [`TUOMUtils`](/Docs/JD.Uom.md#tuomutils). For example, `GetUOMByName` or `ListCategories`. 
 
 ## Application
 
@@ -60,7 +62,7 @@ data in the most flexible manner possible.
 This application uses the `Raize` controls, specifically `TRzSpinEdit`.
 
 ### NOTE: 
-This application uses the [`JDLib`](https://github.com/djjd47130/JDLib) controls, specifically [`TJDFontButton`](https://github.com/djjd47130/JDLib/blob/master/Docs/TJDFontButton.md).
+This application uses the [`JDLib`](https://github.com/djjd47130/JDLib) controls, specifically [`TJDFontButton`](https://github.com/djjd47130/JDLib/blob/master/Docs/TJDFontButton.md), also written by Jerry Dodge.
 
 ![image](https://github.com/djjd47130/JD-UOM/assets/8213266/964dae59-235f-4559-acc4-ba10065dc4af)
 
