@@ -2,8 +2,8 @@ object frmExprTest: TfrmExprTest
   Left = 0
   Top = 0
   Caption = 'UOM Expression Test App'
-  ClientHeight = 439
-  ClientWidth = 633
+  ClientHeight = 506
+  ClientWidth = 669
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,43 +17,59 @@ object frmExprTest: TfrmExprTest
   TextHeight = 19
   object Splitter1: TSplitter
     Left = 0
-    Top = 248
-    Width = 633
+    Top = 315
+    Width = 669
     Height = 8
     Cursor = crVSplit
     Align = alBottom
     Beveled = True
+    ExplicitTop = 248
+    ExplicitWidth = 633
   end
   object txtExpr: TMemo
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 627
-    Height = 242
+    Width = 663
+    Height = 309
     Align = alClient
     Lines.Strings = (
-      'var V = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39');'
+      'var OutUOM: String;'
+      'var V, T: Float;'
+      'var Res: String;'
       ''
-      'PrintLn(V);')
+      'V:= UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
+      ''
+      'OutUOM:= '#39'ft'#39';'
+      'T:= Convert(V, '#39'Meter'#39', OutUOM);'
+      'Res:= UOMString(T, OutUOM);'
+      'PrintLn(Res);'
+      ''
+      'OutUOM:= '#39'ly'#39';'
+      'T:= Convert(V, '#39'Meter'#39', OutUOM);'
+      'Res:= UOMString(T, OutUOM);'
+      'PrintLn(Res);')
     ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitWidth = 523
-    ExplicitHeight = 174
+    ExplicitLeft = -2
+    ExplicitTop = 0
+    ExplicitHeight = 290
   end
   object Panel1: TPanel
     Left = 0
-    Top = 256
-    Width = 633
+    Top = 323
+    Width = 669
     Height = 183
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitTop = 256
+    ExplicitWidth = 633
     object Button1: TButton
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 627
+      Width = 663
       Height = 25
       Align = alTop
       Caption = 'Evaluate Expression'
@@ -68,7 +84,7 @@ object frmExprTest: TfrmExprTest
       AlignWithMargins = True
       Left = 3
       Top = 34
-      Width = 627
+      Width = 663
       Height = 146
       Align = alClient
       ScrollBars = ssVertical
@@ -78,49 +94,5 @@ object frmExprTest: TfrmExprTest
       ExplicitWidth = 523
       ExplicitHeight = 107
     end
-  end
-  object DWS: TDelphiWebScript
-    Left = 360
-    Top = 96
-  end
-  object dwsUnit1: TdwsUnit
-    Script = DWS
-    Classes = <
-      item
-        Fields = <
-          item
-            Visibility = cvPrivate
-          end>
-      end>
-    Constants = <
-      item
-        Name = 'TEST'
-        DataType = 'Float'
-        Value = '42'
-      end>
-    Enumerations = <
-      item
-        Elements = <>
-      end>
-    Functions = <
-      item
-        Name = 'UOM'
-        Parameters = <
-          item
-            Name = 'Expr'
-            DataType = 'String'
-          end>
-        ResultType = 'Float'
-      end>
-    Records = <
-      item
-        Name = 'TUOM'
-        Members = <>
-        Properties = <>
-      end>
-    UnitName = 'JD.UOM'
-    StaticSymbols = False
-    Left = 416
-    Top = 96
   end
 end

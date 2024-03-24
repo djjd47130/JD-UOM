@@ -23,6 +23,8 @@ type
     procedure JDUOMFunctionsPowerEval(info: TProgramInfo);
     procedure JDUOMFunctionsConvertEval(info: TProgramInfo);
     procedure JDUOMFunctionsUOMStringEval(info: TProgramInfo);
+    procedure JDUOMFunctionsSqrEval(info: TProgramInfo);
+    procedure JDUOMFunctionsCubeEval(info: TProgramInfo);
   private
     { Private declarations }
   public
@@ -130,6 +132,11 @@ begin
     F.NameSingular, T.NameSingular);
 end;
 
+procedure TdmDWS.JDUOMFunctionsCubeEval(info: TProgramInfo);
+begin
+  Info.ResultAsFloat:= Power(Info.ParamAsFloat[0], 3);
+end;
+
 procedure TdmDWS.JDUOMFunctionsFindUOMEval(info: TProgramInfo);
 var
   U: TUOM;
@@ -214,6 +221,11 @@ begin
     L.Free;
   end;
   PopulateUOM(U, Info);
+end;
+
+procedure TdmDWS.JDUOMFunctionsSqrEval(info: TProgramInfo);
+begin
+  Info.ResultAsFloat:= Power(Info.ParamAsFloat[0], 2);
 end;
 
 procedure TdmDWS.JDUOMFunctionsUOMEval(info: TProgramInfo);

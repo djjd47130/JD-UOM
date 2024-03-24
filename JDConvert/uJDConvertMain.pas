@@ -136,6 +136,13 @@ type
     Label15: TLabel;
     Edit1: TEdit;
     JDFontButton1: TJDFontButton;
+    btnUOMScript: TJDFontButton;
+    tabScripts: TTabSheet;
+    Panel7: TPanel;
+    Button1: TButton;
+    txtOutput: TMemo;
+    Splitter1: TSplitter;
+    txtExpr: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
@@ -167,6 +174,8 @@ type
       var CallHelp: Boolean): Boolean;
     procedure txtSearchInvokeSearch(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
+    procedure btnUOMScriptClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -346,6 +355,22 @@ end;
 procedure TfrmJDConvertMain.btnUOMBuilderClick(Sender: TObject);
 begin
   MenuButtonSelected(btnUOMBuilder, tabBuilder, 1005);
+end;
+
+procedure TfrmJDConvertMain.btnUOMScriptClick(Sender: TObject);
+begin
+  MenuButtonSelected(btnUOMScript, tabScripts, 1007);
+end;
+
+procedure TfrmJDConvertMain.Button1Click(Sender: TObject);
+begin
+  try
+    txtOutput.Lines.Text:= TUOMUtils.Calculate(txtExpr.Text);
+  except
+    on E: Exception do begin
+      txtOutput.Lines.Text:= E.Message;
+    end;
+  end;
 end;
 
 procedure TfrmJDConvertMain.RefreshAll;

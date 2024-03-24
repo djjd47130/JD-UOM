@@ -4,9 +4,9 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  JD.Uom.Expr
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls
 
+  , JD.Uom.Expr
   , JD.Uom
   , JD.Uom.Distance
   , JD.Uom.Area
@@ -19,14 +19,12 @@ uses
   , JD.Uom.Numbers
   , JD.Uom.Data
 
-  , dwsCompiler, dwsExprs, dwsComp, dwsErrors, Vcl.ExtCtrls
+  , Vcl.ExtCtrls
 
   ;
 
 type
   TfrmExprTest = class(TForm)
-    DWS: TDelphiWebScript;
-    dwsUnit1: TdwsUnit;
     txtExpr: TMemo;
     Panel1: TPanel;
     Button1: TButton;
@@ -36,7 +34,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    FEval: TUOMEvaluator;
+    //FEval: TUOMEvaluator;
   public
     { Public declarations }
   end;
@@ -50,19 +48,19 @@ implementation
 
 procedure TfrmExprTest.FormCreate(Sender: TObject);
 begin
-  FEval:= TUOMEvaluator.Create;
-  FEval.AddConstant('TEST_VAL', '42', 'Float');
+  //FEval:= TUOMEvaluator.Create;
+  //FEval.AddConstant('TEST_VAL', '42', 'Float');
 end;
 
 procedure TfrmExprTest.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FEval);
+  //FreeAndNil(FEval);
 end;
 
 procedure TfrmExprTest.Button1Click(Sender: TObject);
 begin
   try
-    txtOutput.Lines.Text:= FEval.Calculate(txtExpr.Text);
+    txtOutput.Lines.Text:= TUOMUtils.Calculate(txtExpr.Text);
   except
     on E: Exception do begin
       txtOutput.Lines.Text:= E.Message;

@@ -22,7 +22,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabSettings
+    ActivePage = tabScripts
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -89,8 +89,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           TabOrder = 0
           ViewStyle = vsReport
           OnDblClick = lstEquivalentsDblClick
-          ExplicitTop = 153
-          ExplicitHeight = 433
         end
         object pConvertNormal: TPanel
           Left = 0
@@ -114,9 +112,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 0
-            ExplicitLeft = 1
-            ExplicitTop = 1
-            ExplicitWidth = 799
             object lblConvertTitle: TLabel
               AlignWithMargins = True
               Left = 3
@@ -163,7 +158,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Style = csDropDownList
               TabOrder = 1
               OnClick = cboConvertFromUnitClick
-              ExplicitWidth = 306
             end
           end
           object Panel3: TPanel
@@ -180,9 +174,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Font.Style = [fsBold]
             ParentFont = False
             TabOrder = 1
-            ExplicitLeft = 1
-            ExplicitTop = 43
-            ExplicitWidth = 799
             object Label10: TLabel
               AlignWithMargins = True
               Left = 3
@@ -213,7 +204,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Alignment = taLeftJustify
               TabOrder = 0
               OnChange = txtConvertFromValueChange
-              ExplicitWidth = 653
               ExplicitHeight = 37
             end
           end
@@ -240,9 +230,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Align = alTop
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = 40
-            ExplicitTop = 56
-            ExplicitWidth = 689
             object Label5: TLabel
               AlignWithMargins = True
               Left = 3
@@ -264,9 +251,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Align = alClient
               TabOrder = 0
               OnInvokeSearch = txtSearchInvokeSearch
-              ExplicitLeft = 36
-              ExplicitTop = 6
-              ExplicitWidth = 653
               ExplicitHeight = 37
             end
           end
@@ -277,8 +261,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             Height = 49
             Align = alTop
             TabOrder = 1
-            ExplicitLeft = 2
-            ExplicitTop = 75
             object lblSearchFound: TLabel
               AlignWithMargins = True
               Left = 4
@@ -1236,9 +1218,89 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
       end
     end
+    object tabScripts: TTabSheet
+      Caption = '    Scripts    '
+      ImageIndex = 4
+      ExplicitLeft = 6
+      ExplicitTop = 28
+      object Splitter1: TSplitter
+        Left = 0
+        Top = 353
+        Width = 1055
+        Height = 7
+        Cursor = crVSplit
+        Align = alBottom
+        Beveled = True
+        ExplicitTop = 408
+      end
+      object Panel7: TPanel
+        Left = 0
+        Top = 360
+        Width = 1055
+        Height = 248
+        Align = alBottom
+        BevelOuter = bvNone
+        TabOrder = 0
+        object Button1: TButton
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 1049
+          Height = 25
+          Align = alTop
+          Caption = 'Evaluate Expression'
+          Default = True
+          TabOrder = 0
+          OnClick = Button1Click
+        end
+        object txtOutput: TMemo
+          AlignWithMargins = True
+          Left = 3
+          Top = 34
+          Width = 1049
+          Height = 211
+          Align = alClient
+          ScrollBars = ssVertical
+          TabOrder = 1
+          ExplicitHeight = 146
+        end
+      end
+      object txtExpr: TMemo
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 1049
+        Height = 347
+        Align = alClient
+        Lines.Strings = (
+          'var OutUOM: String;'
+          'var V, T: Float;'
+          'var Res: String;'
+          ''
+          'V:= UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
+          ''
+          'Res:= UOMString(V, '#39'Meter'#39')+'#39' is the same as:'#39';'
+          'PrintLn(Res);'
+          ''
+          'OutUOM:= '#39'ft'#39';'
+          'T:= Convert(V, '#39'Meter'#39', OutUOM);'
+          'Res:= UOMString(T, OutUOM);'
+          'PrintLn(Res);'
+          ''
+          'OutUOM:= '#39'ly'#39';'
+          'T:= Convert(V, '#39'Meter'#39', OutUOM);'
+          'Res:= UOMString(T, OutUOM);'
+          'PrintLn(Res);')
+        ScrollBars = ssVertical
+        TabOrder = 1
+        ExplicitHeight = 366
+      end
+    end
     object tabSettings: TTabSheet
       Caption = '    Settings    '
       ImageIndex = 3
+      ExplicitLeft = 6
+      ExplicitTop = 28
       object Panel6: TPanel
         Left = 0
         Top = 0
@@ -1246,7 +1308,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 41
         Align = alTop
         TabOrder = 0
-        ExplicitLeft = 2
         object Label15: TLabel
           AlignWithMargins = True
           Left = 4
@@ -1266,9 +1327,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Align = alClient
           TabOrder = 0
           Text = 'Edit1'
-          ExplicitLeft = 392
-          ExplicitTop = 8
-          ExplicitWidth = 121
           ExplicitHeight = 27
         end
         object JDFontButton1: TJDFontButton
@@ -1323,6 +1381,8 @@ object frmJDConvertMain: TfrmJDConvertMain
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitLeft = -2
+    ExplicitTop = -6
     object btnConvertNormal: TJDFontButton
       Left = 0
       Top = 0
@@ -1536,9 +1596,53 @@ object frmJDConvertMain: TfrmJDConvertMain
       SubTextFont.Style = []
       TabOrder = 4
       Text = 'Settings'
+      Visible = False
       OnClick = btnSettingsClick
+    end
+    object btnUOMScript: TJDFontButton
+      Left = 0
+      Top = 196
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'Execute UOM Conversion Scripts'
+      Align = alTop
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61788
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 5
+      Text = 'btnUOMBuilder'
+      OnClick = btnUOMScriptClick
       ExplicitLeft = -2
-      ExplicitTop = 587
+      ExplicitTop = 283
     end
   end
   object Stat: TStatusBar

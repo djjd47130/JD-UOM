@@ -6,7 +6,8 @@ uses
   Vcl.Forms,
   uJDConvertMain in 'uJDConvertMain.pas' {frmJDConvertMain},
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  JD.Uom.Expr.DWS in '..\Source\JD.Uom.Expr.DWS.pas' {dmDWS: TDataModule};
 
 {$R *.res}
 
@@ -17,5 +18,6 @@ begin
   Application.Title := 'JD Unit of Measure Conversion';
   Application.HelpFile := '';
   Application.CreateForm(TfrmJDConvertMain, frmJDConvertMain);
+  Application.CreateForm(TdmDWS, dmDWS);
   Application.Run;
 end.

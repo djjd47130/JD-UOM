@@ -46,6 +46,7 @@ Source: "..\Win32\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversi
 Source: "FontAwesome.ttf"; DestDir: "{autofonts}"; FontInstall: "FontAwesome"; Flags: onlyifdoesntexist uninsneveruninstall
 ; Help File
 Source: "..\Help_output\HTML Help\JD Convert Help.chm"; DestDir: "{app}"; Flags: ignoreversion  
+; Installer (self) for "Modify" functionality
 Source: "{srcexe}"; DestDir: "{app}"; Flags: ignoreversion external
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

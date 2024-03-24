@@ -466,10 +466,13 @@ type
     class var FSystems: TStringList;
     class var FCategories: TStringList;
     class var FEvalInst: TUOMEvaluator;
-    class function Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
   public
     class constructor Create;
     class destructor Destroy;
+
+    class function Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
+    class function Calculate(const Expr: String): String;
+
     /// <summary>
     /// (NOT READY) Splits a given UOM String into respective Number and Suffix values.
     /// </summary>
@@ -1126,6 +1129,11 @@ end;
 class function TUOMUtils.UOMCount: Integer;
 begin
   Result:= FUOMs.Count;
+end;
+
+class function TUOMUtils.Calculate(const Expr: String): String;
+begin
+  Result:= FEvalInst.Calculate(Expr);
 end;
 
 class function TUOMUtils.CategoryCount: Integer;

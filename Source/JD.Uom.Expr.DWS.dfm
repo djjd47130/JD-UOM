@@ -1,7 +1,7 @@
 object dmDWS: TdmDWS
   OldCreateOrder = False
-  Height = 353
-  Width = 431
+  Height = 166
+  Width = 265
   object DWS: TDelphiWebScript
     Left = 72
     Top = 32
@@ -182,6 +182,26 @@ object dmDWS: TdmDWS
           end>
         ResultType = 'String'
         OnEval = JDUOMFunctionsUOMStringEval
+      end
+      item
+        Name = 'Sqr'
+        Parameters = <
+          item
+            Name = 'Value'
+            DataType = 'Float'
+          end>
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsSqrEval
+      end
+      item
+        Name = 'Cube'
+        Parameters = <
+          item
+            Name = 'Value'
+            DataType = 'Float'
+          end>
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsCubeEval
       end>
     Records = <
       item
@@ -246,7 +266,7 @@ object dmDWS: TdmDWS
       end>
     UnitName = 'JD.UOM'
     StaticSymbols = False
-    Left = 111
+    Left = 119
     Top = 32
   end
 end
