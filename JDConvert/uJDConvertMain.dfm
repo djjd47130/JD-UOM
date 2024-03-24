@@ -350,6 +350,8 @@ object frmJDConvertMain: TfrmJDConvertMain
           BevelOuter = bvNone
           Color = 1644825
           TabOrder = 0
+          ExplicitLeft = 9
+          ExplicitTop = 3
           DesignSize = (
             1033
             345)
@@ -1221,8 +1223,6 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabScripts: TTabSheet
       Caption = '    Scripts    '
       ImageIndex = 4
-      ExplicitLeft = 6
-      ExplicitTop = 28
       object Splitter1: TSplitter
         Left = 0
         Top = 353
@@ -1266,13 +1266,53 @@ object frmJDConvertMain: TfrmJDConvertMain
           WordWrap = False
         end
       end
-      object txtExpr: TMemo
+      object txtExpr: TSynEdit
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 1049
         Height = 347
         Align = alClient
+        Color = 1644825
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -16
+        Font.Name = 'Consolas'
+        Font.Style = []
+        Font.Quality = fqClearTypeNatural
+        TabOrder = 1
+        UseCodeFolding = False
+        Gutter.Color = 1644825
+        Gutter.BorderColor = clSilver
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWhite
+        Gutter.Font.Height = -16
+        Gutter.Font.Name = 'Consolas'
+        Gutter.Font.Style = []
+        Gutter.Font.Quality = fqClearTypeNatural
+        Gutter.ShowLineNumbers = True
+        Gutter.Gradient = True
+        Gutter.GradientStartColor = clBlack
+        Gutter.GradientEndColor = 1644825
+        Gutter.Bands = <
+          item
+            Kind = gbkMarks
+            Width = 13
+          end
+          item
+            Kind = gbkLineNumbers
+          end
+          item
+            Kind = gbkFold
+          end
+          item
+            Kind = gbkTrackChanges
+          end
+          item
+            Kind = gbkMargin
+            Width = 3
+          end>
+        Highlighter = SynPasSyn1
         Lines.Strings = (
           'var V: Float = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
           'var BU: TUOM = BaseUOM('#39'Distance'#39');'
@@ -1291,16 +1331,12 @@ object frmJDConvertMain: TfrmJDConvertMain
           'OutputConversion('#39'ft'#39');'
           'OutputConversion('#39'km'#39');'
           'OutputConversion('#39'ly'#39');')
-        ScrollBars = ssVertical
-        TabOrder = 1
-        ExplicitHeight = 366
+        SelectedColor.Alpha = 0.400000005960464500
       end
     end
     object tabSettings: TTabSheet
       Caption = '    Settings    '
       ImageIndex = 3
-      ExplicitLeft = 6
-      ExplicitTop = 28
       object Panel6: TPanel
         Left = 0
         Top = 0
@@ -1381,8 +1417,6 @@ object frmJDConvertMain: TfrmJDConvertMain
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = -2
-    ExplicitTop = -6
     object btnConvertNormal: TJDFontButton
       Left = 0
       Top = 0
@@ -1641,8 +1675,6 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 5
       Text = 'btnUOMBuilder'
       OnClick = btnUOMScriptClick
-      ExplicitLeft = -2
-      ExplicitTop = 283
     end
   end
   object Stat: TStatusBar
@@ -1667,5 +1699,12 @@ object frmJDConvertMain: TfrmJDConvertMain
     OnHelp = ApplicationEvents1Help
     Left = 413
     Top = 254
+  end
+  object SynPasSyn1: TSynPasSyn
+    KeyAttri.Foreground = 14021631
+    NumberAttri.Foreground = clMoneyGreen
+    StringAttri.Foreground = clSkyBlue
+    Left = 589
+    Top = 246
   end
 end

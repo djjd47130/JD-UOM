@@ -30,7 +30,8 @@ uses
   , JD.Uom.Frequency
   , JD.Uom.Speed
   , JD.Uom.Numbers
-  , JD.Uom.Data
+  , JD.Uom.Data, SynEditHighlighter, SynEditCodeFolding, SynHighlighterPas,
+  SynEdit
 
   ;
 
@@ -142,7 +143,8 @@ type
     Button1: TButton;
     txtOutput: TMemo;
     Splitter1: TSplitter;
-    txtExpr: TMemo;
+    txtExpr: TSynEdit;
+    SynPasSyn1: TSynPasSyn;
     procedure FormCreate(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);

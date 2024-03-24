@@ -18,6 +18,5 @@ begin
   Application.Title := 'JD Unit of Measure Conversion';
   Application.HelpFile := '';
   Application.CreateForm(TfrmJDConvertMain, frmJDConvertMain);
-  Application.CreateForm(TdmDWS, dmDWS);
   Application.Run;
 end.
