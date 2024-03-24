@@ -1260,9 +1260,10 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 1049
           Height = 211
           Align = alClient
-          ScrollBars = ssVertical
+          ReadOnly = True
+          ScrollBars = ssBoth
           TabOrder = 1
-          ExplicitHeight = 146
+          WordWrap = False
         end
       end
       object txtExpr: TMemo

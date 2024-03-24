@@ -177,6 +177,7 @@ type
     procedure btnUOMScriptClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
   private
+    FCurMode: String;
     FSelSystems: String;
     FSelCategory: String;
     FSelUOM: String;
@@ -188,9 +189,10 @@ type
     FFoundVal: UOMNum;
     FFoundUOM: TUOM;
     procedure CloseHelpWnd;
-    procedure MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
+    procedure MenuButtonSelected(const AModeName: String; AButton: TJDFontButton; ATab: TTabSheet;
       const AHelpContext: Integer = 0);
     procedure ShowSearchResult(const Value: UOMNum; UOM: TUOM);
+    procedure UpdateTitle;
   public
     //Common
     procedure RefreshAll;
@@ -320,19 +322,21 @@ begin
   end;
 end;
 
-procedure TfrmJDConvertMain.MenuButtonSelected(AButton: TJDFontButton; ATab: TTabSheet;
+procedure TfrmJDConvertMain.MenuButtonSelected(const AModeName: String; AButton: TJDFontButton; ATab: TTabSheet;
   const AHelpContext: Integer = 0);
 begin
+  FCurMode:= AModeName;
   Pages.ActivePage:= ATab;
   ResetButtonColors;
   AButton.Image.StandardColor:= fcOrange;
   AButton.DrawStyle:= fdThemed;
   Self.HelpContext:= AHelpContext;
+  Self.UpdateTitle;
 end;
 
 procedure TfrmJDConvertMain.btnConvertNormalClick(Sender: TObject);
 begin
-  MenuButtonSelected(btnConvertNormal, tabConvert, 1002);
+  MenuButtonSelected('Convert', btnConvertNormal, tabConvert, 1002);
   pConvertNormal.Visible:= True;
   pConvertSearch.Visible:= False;
   RefreshEquivalents;
@@ -340,7 +344,7 @@ end;
 
 procedure TfrmJDConvertMain.btnConvertSearchClick(Sender: TObject);
 begin
-  MenuButtonSelected(btnConvertSearch, tabConvert, 1003);
+  MenuButtonSelected('Search', btnConvertSearch, tabConvert, 1003);
   pConvertSearch.Visible:= True;
   pConvertNormal.Visible:= False;
   txtSearch.SetFocus;
@@ -349,17 +353,22 @@ end;
 
 procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);
 begin
-  MenuButtonSelected(btnDetails, tabDetails, 1004);
+  MenuButtonSelected('UOM Details', btnDetails, tabDetails, 1004);
 end;
 
 procedure TfrmJDConvertMain.btnUOMBuilderClick(Sender: TObject);
 begin
-  MenuButtonSelected(btnUOMBuilder, tabBuilder, 1005);
+  MenuButtonSelected('UOM Builder', btnUOMBuilder, tabBuilder, 1005);
+end;
+
+procedure TfrmJDConvertMain.btnSettingsClick(Sender: TObject);
+begin
+  MenuButtonSelected('Settings', btnSettings, tabSettings, 1006);
 end;
 
 procedure TfrmJDConvertMain.btnUOMScriptClick(Sender: TObject);
 begin
-  MenuButtonSelected(btnUOMScript, tabScripts, 1007);
+  MenuButtonSelected('UOM Scripting', btnUOMScript, tabScripts, 1007);
 end;
 
 procedure TfrmJDConvertMain.Button1Click(Sender: TObject);
@@ -797,6 +806,11 @@ begin
   Chart.Invalidate;
 end;
 
+procedure TfrmJDConvertMain.UpdateTitle;
+begin
+  Caption:= 'JD Unit-of-Measure Conversion - '+FCurMode;
+end;
+
 procedure TfrmJDConvertMain.chkNegativeClick(Sender: TObject);
 begin
   RefreshChart;
@@ -910,12 +924,6 @@ begin
   Self.RefreshAll;
   Self.RefreshUserUOMList;
 
-end;
-
-procedure TfrmJDConvertMain.btnSettingsClick(Sender: TObject);
-begin
-  //TODO
-  MenuButtonSelected(btnSettings, tabSettings, 1006);
 end;
 
 procedure TfrmJDConvertMain.ClearUserUOM;
