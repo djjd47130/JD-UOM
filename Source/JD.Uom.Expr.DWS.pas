@@ -25,6 +25,7 @@ type
     procedure JDUOMFunctionsUOMStringEval(info: TProgramInfo);
     procedure JDUOMFunctionsSqrEval(info: TProgramInfo);
     procedure JDUOMFunctionsCubeEval(info: TProgramInfo);
+    procedure JDUOMFunctionsBaseUOMEval(info: TProgramInfo);
   private
     { Private declarations }
   public
@@ -116,6 +117,16 @@ begin
       Result:= Res;
     end;
   end;
+end;
+
+procedure TdmDWS.JDUOMFunctionsBaseUOMEval(info: TProgramInfo);
+var
+  U: TUOM;
+begin
+  U:= TUOMUtils.GetBaseUOM(Info.ParamAsString[0]);
+  if U = nil then
+    raise Exception.Create('Failed to find UOM');
+  PopulateUOM(U, Info);
 end;
 
 procedure TdmDWS.JDUOMFunctionsConvertEval(info: TProgramInfo);

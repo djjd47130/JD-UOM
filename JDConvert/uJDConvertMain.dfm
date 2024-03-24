@@ -1248,7 +1248,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 1049
           Height = 25
           Align = alTop
-          Caption = 'Evaluate Expression'
+          Caption = 'Execute Script'
           Default = True
           TabOrder = 0
           OnClick = Button1Click
@@ -1274,24 +1274,23 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 347
         Align = alClient
         Lines.Strings = (
-          'var OutUOM: String;'
-          'var V, T: Float;'
-          'var Res: String;'
+          'var V: Float = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
+          'var BU: TUOM = BaseUOM('#39'Distance'#39');'
           ''
-          'V:= UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
+          'procedure OutputConversion(const UOM: String);'
+          'var'
+          '  T: Float;'
+          '  Res: String;'
+          'begin'
+          '  T:= Convert(V, '#39'Meter'#39', UOM);'
+          '  Res:= UOMString(T, UOM);'
+          '  PrintLn(Res);'
+          'end;'
           ''
-          'Res:= UOMString(V, '#39'Meter'#39')+'#39' is the same as:'#39';'
-          'PrintLn(Res);'
-          ''
-          'OutUOM:= '#39'ft'#39';'
-          'T:= Convert(V, '#39'Meter'#39', OutUOM);'
-          'Res:= UOMString(T, OutUOM);'
-          'PrintLn(Res);'
-          ''
-          'OutUOM:= '#39'ly'#39';'
-          'T:= Convert(V, '#39'Meter'#39', OutUOM);'
-          'Res:= UOMString(T, OutUOM);'
-          'PrintLn(Res);')
+          'PrintLn(UOMString(V, BU.NameSingular)+'#39' is the same as:'#39');'
+          'OutputConversion('#39'ft'#39');'
+          'OutputConversion('#39'km'#39');'
+          'OutputConversion('#39'ly'#39');')
         ScrollBars = ssVertical
         TabOrder = 1
         ExplicitHeight = 366

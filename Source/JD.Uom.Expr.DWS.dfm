@@ -202,6 +202,16 @@ object dmDWS: TdmDWS
           end>
         ResultType = 'Float'
         OnEval = JDUOMFunctionsCubeEval
+      end
+      item
+        Name = 'BaseUOM'
+        Parameters = <
+          item
+            Name = 'Category'
+            DataType = 'String'
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsBaseUOMEval
       end>
     Records = <
       item
