@@ -22,7 +22,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabConvert
+    ActivePage = tabSettings
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -647,7 +647,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object Label4: TLabel
               Left = 0
-              Top = 116
+              Top = 140
               Width = 113
               Height = 19
               Alignment = taRightJustify
@@ -656,7 +656,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object lblUnitBaseFrom: TLabel
               Left = 127
-              Top = 116
+              Top = 140
               Width = 240
               Height = 19
               Anchors = [akLeft, akTop, akRight]
@@ -668,11 +668,10 @@ object frmJDConvertMain: TfrmJDConvertMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitWidth = 191
             end
             object Label8: TLabel
               Left = 0
-              Top = 141
+              Top = 165
               Width = 113
               Height = 19
               Alignment = taRightJustify
@@ -681,7 +680,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             object lblUnitBaseTo: TLabel
               Left = 127
-              Top = 141
+              Top = 165
               Width = 240
               Height = 19
               Anchors = [akLeft, akTop, akRight]
@@ -693,7 +692,6 @@ object frmJDConvertMain: TfrmJDConvertMain
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
-              ExplicitWidth = 191
             end
             object Label6: TLabel
               Left = 0
@@ -719,6 +717,30 @@ object frmJDConvertMain: TfrmJDConvertMain
               Font.Style = [fsBold]
               ParentFont = False
               ExplicitWidth = 388
+            end
+            object Label14: TLabel
+              Left = 0
+              Top = 115
+              Width = 113
+              Height = 19
+              Alignment = taRightJustify
+              AutoSize = False
+              Caption = 'Aliases'
+            end
+            object lblUnitAliases: TLabel
+              Left = 127
+              Top = 115
+              Width = 240
+              Height = 19
+              Anchors = [akLeft, akTop, akRight]
+              AutoSize = False
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -16
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
             end
           end
         end
@@ -1214,6 +1236,84 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
       end
     end
+    object tabSettings: TTabSheet
+      Caption = '    Settings    '
+      ImageIndex = 3
+      object Panel6: TPanel
+        Left = 0
+        Top = 0
+        Width = 1055
+        Height = 41
+        Align = alTop
+        TabOrder = 0
+        ExplicitLeft = 2
+        object Label15: TLabel
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 309
+          Height = 33
+          Align = alLeft
+          AutoSize = False
+          Caption = 'Custom UOM File Location'
+        end
+        object Edit1: TEdit
+          AlignWithMargins = True
+          Left = 319
+          Top = 4
+          Width = 691
+          Height = 33
+          Align = alClient
+          TabOrder = 0
+          Text = 'Edit1'
+          ExplicitLeft = 392
+          ExplicitTop = 8
+          ExplicitWidth = 121
+          ExplicitHeight = 27
+        end
+        object JDFontButton1: TJDFontButton
+          AlignWithMargins = True
+          Left = 1016
+          Top = 4
+          Width = 35
+          Height = 33
+          Cursor = crHandPoint
+          Align = alRight
+          DrawStyle = fdTransparent
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          Image.AutoSize = False
+          Image.Text = #61564
+          Image.Font.Charset = DEFAULT_CHARSET
+          Image.Font.Color = clWindowText
+          Image.Font.Height = -21
+          Image.Font.Name = 'FontAwesome'
+          Image.Font.Style = []
+          Image.Font.Quality = fqAntialiased
+          Image.StandardColor = fcOrange
+          Overlay.Text = #57715
+          Overlay.Font.Charset = DEFAULT_CHARSET
+          Overlay.Font.Color = clWindowText
+          Overlay.Font.Height = -7
+          Overlay.Font.Name = 'FontAwesome'
+          Overlay.Font.Style = []
+          Overlay.Font.Quality = fqAntialiased
+          Overlay.Position = foNone
+          Overlay.Margin = 3
+          ImagePosition = fpImgOnly
+          SubTextFont.Charset = DEFAULT_CHARSET
+          SubTextFont.Color = clGray
+          SubTextFont.Height = -11
+          SubTextFont.Name = 'Tahoma'
+          SubTextFont.Style = []
+          TabOrder = 1
+          Text = 'JDFontButton1'
+        end
+      end
+    end
   end
   object pMenu: TPanel
     Left = 0
@@ -1394,6 +1494,51 @@ object frmJDConvertMain: TfrmJDConvertMain
       TabOrder = 3
       Text = 'btnUOMBuilder'
       OnClick = btnUOMBuilderClick
+    end
+    object btnSettings: TJDFontButton
+      Left = 0
+      Top = 593
+      Width = 57
+      Height = 49
+      Cursor = crHandPoint
+      Hint = 'App Settings'
+      Align = alBottom
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61459
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -27
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcBlue
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      ShowHint = True
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 4
+      Text = 'Settings'
+      OnClick = btnSettingsClick
+      ExplicitLeft = -2
+      ExplicitTop = 587
     end
   end
   object Stat: TStatusBar

@@ -107,6 +107,41 @@ const
 
 
 
+  //Standard dictionary numbers
+  //https://en.wikipedia.org/wiki/Names_of_large_numbers
+  NUM_HUNDRED:          UOMNum = 1e2;
+  NUM_THOUSAND:         UOMNum = 1e3;
+  NUM_MILLION:          UOMNum = 1e6;
+  NUM_BILLION:          UOMNum = 1e9;
+  NUM_TRILLION:         UOMNum = 1e12;
+  NUM_QUADRILLION:      UOMNum = 1e15;
+  NUM_QUINTILLION:      UOMNum = 1e18;
+  NUM_SEXTILLION:       UOMNum = 1e21;
+  NUM_SEPTILLION:       UOMNum = 1e24;
+  NUM_OCTILLION:        UOMNum = 1e27;
+  NUM_NONILLION:        UOMNum = 1e30;
+  NUM_DECILLION:        UOMNum = 1e33;
+  NUM_UNDECILLION:      UOMNum = 1e36;
+  NUM_DUODECILLION:     UOMNum = 1e39;
+  NUM_TREDECILLION:     UOMNum = 1e42;
+  NUM_QUATTORDECILLION: UOMNum = 1e45;
+  NUM_QUINDECILLION:    UOMNum = 1e48;
+  NUM_SEXDECILLION:     UOMNum = 1e51;
+  NUM_SEPTENDECILLION:  UOMNum = 1e54;
+  NUM_OCTODECILLION:    UOMNum = 1e57;
+  NUM_NOVEMDECILLION:   UOMNum = 1e60;
+  NUM_VIGINTILLION:     UOMNum = 1e63;
+
+  //TODO: Fill in more...
+
+  NUM_GOOGOL:           UOMNum = 1e100;
+
+  NUM_CENTILLION:       UOMNum = 1e303;
+
+  NUM_GOOGOLPLEX:       String = '10^NUM_GOOGOL';
+  NUM_GOOGOLPLEXPLEX:   String = '10^NUM_GOOGOLPLEX';
+
+
   //Common Metric conversion factors
   METRIC_YOCTO: UOMNum = 1e-24;
   METRIC_ZEPTO: UOMNum = 1e-21;
@@ -163,6 +198,22 @@ type
   /// Exception indicating failure to load a UOM file.
   /// </summary>
   EUOMFileException = EUOMException;
+
+
+
+  TUOMDictNum = (dnHundred, dnThousand, dnMillion, dnBillion, dnTrillion,
+    dnQuadrillion, dnQuintillion, dnSextillion, dnSeptillion, dnOctillion,
+    cnNonillion, dnDecillion, dnUndecillion, dnDuodecillion, dnTredecillion,
+    dnQuatrodecillion, dnQuindecillion, dnSexdecillion, dnSeptendecillion,
+    dnOctodecillion, dnNovemdecillion, dnVigintillion,
+
+    dnGoogol, dnCentillion, dnGoogolplex, dnGoogolplexplex);
+
+  TUOMDictNumUtils = class
+  public
+    class function Name(const Num: TUOMDictNum): String;
+    class function Factor(const Num: TUOMDictNum): Extended;
+  end;
 
 
 
@@ -346,6 +397,9 @@ type
     /// </summary>
     function ConvertToBase(const Value: UOMNum): UOMNum;
   public
+
+    property Owner: TUOM read FOwner;
+
     /// <summary>
     /// A string containing a mathematical expression to convert the `Value` FROM the base UOM.
     /// </summary>
@@ -396,6 +450,10 @@ type
     /// Returns a string representing a specific Alias by its list inded.
     /// </summary>
     property Aliases[const Index: Integer]: String read GetAlias;
+    /// <summary>
+    /// Returns a string representing all Aliases of UOM, comma separated.
+    /// </summary>
+    function AllAliases: String;
   end;
 
   /// <summary>
@@ -518,9 +576,17 @@ type
     class property UOMs[const Index: Integer]: TUOM read GetUOMByIndex; default;
   end;
 
+function UOMValue(const Value: UOMNum; const UOM: String): TUOMValue;
+
 ////////////////////////////////////////////////////////////////////////////////
 implementation
 ////////////////////////////////////////////////////////////////////////////////
+
+function UOMValue(const Value: UOMNum; const UOM: String): TUOMValue;
+begin
+  Result.FUOM:= UOM;
+  Result.ConvertedValue:= Value;
+end;
 
 { TUOM }
 
@@ -558,6 +624,11 @@ end;
 procedure TUOM.AliasesChanged(Sender: TObject);
 begin
   TUOMUtils.InvalidateUOMs;
+end;
+
+function TUOM.AllAliases: String;
+begin
+  Result:= FAliases.DelimitedText;
 end;
 
 function TUOM.ConvertFromBase(const Value: UOMNum): UOMNum;
@@ -683,6 +754,7 @@ var
   F, T: TUOM;
 begin
   //MAIN CONVERSION FUNCTION - Dynamically calls relevant unit conversion methods.
+  Result:= 0;
   F:= GetUOMByName(FromUOM);
   if not Assigned(F) then begin
     raise EUOMInvalidUnitException.Create('Conversion from unit "'+F.NameSingular+'" not found.');
@@ -1017,11 +1089,20 @@ begin
 end;
 
 class function TUOMUtils.StrToUOMValue(const Str: String): TUOMValue;
+var
+  Val: UOMNum;
+  Txt: String;
+  U: TUOM;
 begin
-  //TODO: Parse Str and return a corresponding TUOMValue record...
-
-
-
+  //Parse Str and return a corresponding TUOMValue record...
+  Result.FBaseValue:= 0;
+  Result.FUOM:= '';
+  TUOMUtils.ParseSuffix(Str, Val, Txt);
+  U:= TUOMUtils.FindUOM(Txt);
+  if Assigned(U) then begin
+    Result.FUOM:= U.NameSingular;
+    Result.ConvertedValue:= Val;
+  end;
 end;
 
 class function TUOMUtils.SystemCount: Integer;
@@ -1034,11 +1115,11 @@ class procedure TUOMUtils.UnregisterUOM(const UOM: TUOM);
 var
   I: Integer;
 begin
+  //TODO: If this is metric, also unregister all child UOMs
   I:= FUOMs.IndexOf(UOM);
   if I > -1 then begin
     FUOMs.Delete(I);
     InvalidateUOMs;
-
   end;
 end;
 
@@ -1411,6 +1492,77 @@ procedure TUOMCombinedValue.SetValue3(const Value: TUOMValue);
 begin
   FValue3 := Value;
   Invalidate;
+end;
+
+{ TUOMDictNumUtils }
+
+class function TUOMDictNumUtils.Factor(const Num: TUOMDictNum): Extended;
+begin
+  Result:= 0;
+  case Num of
+    dnHundred:          ;
+    dnThousand:         ;
+    dnMillion:          ;
+    dnBillion:          ;
+    dnTrillion:         ;
+    dnQuadrillion:      ;
+    dnQuintillion:      ;
+    dnSextillion:       ;
+    dnSeptillion:       ;
+    dnOctillion:        ;
+    cnNonillion:        ;
+    dnDecillion:        ;
+    dnUndecillion:      ;
+    dnDuodecillion:     ;
+    dnTredecillion:     ;
+    dnQuatrodecillion:  ;
+    dnQuindecillion:    ;
+    dnSexdecillion:     ;
+    dnSeptendecillion:  ;
+    dnOctodecillion:    ;
+    dnNovemdecillion:   ;
+    dnVigintillion:     ;
+    dnGoogol:           ;
+    dnCentillion:       ;
+    dnGoogolplex:       ;
+    dnGoogolplexplex:   ;
+  end;
+end;
+
+class function TUOMDictNumUtils.Name(const Num: TUOMDictNum): String;
+begin
+  Result:= '';
+  case Num of
+    dnHundred:          Result:= 'Hundred';
+    dnThousand:         Result:= 'Thousand';
+    dnMillion:          Result:= 'Million';
+    dnBillion:          Result:= 'Billion';
+    dnTrillion:         Result:= 'Trillion';
+    dnQuadrillion:      Result:= 'Quadrillion';
+    dnQuintillion:      Result:= 'Quintillion';
+    dnSextillion:       Result:= 'Sextillion';
+    dnSeptillion:       Result:= 'Septillion';
+    dnOctillion:        Result:= 'Octillion';
+    cnNonillion:        Result:= 'Nonillion';
+    dnDecillion:        Result:= 'Decillion';
+    dnUndecillion:      Result:= 'Undecillion';
+    dnDuodecillion:     Result:= 'Duodecillion';
+    dnTredecillion:     Result:= 'Tredecillion';
+    dnQuatrodecillion:  Result:= 'Quatrodecillion';
+    dnQuindecillion:    Result:= 'Quindecillion';
+    dnSexdecillion:     Result:= 'Sexdecillion';
+    dnSeptendecillion:  Result:= 'Septendecillion';
+    dnOctodecillion:    Result:= 'Octodecillion';
+    dnNovemdecillion:   Result:= 'Novemdecillion';
+    dnVigintillion:     Result:= 'Vigintillion';
+
+    dnGoogol:           Result:= 'Googol';
+
+    dnCentillion:       Result:= 'Centillion';
+
+    dnGoogolplex:       Result:= 'Googoplex';
+    dnGoogolplexplex:   Result:= 'Googoplexplex';
+  end;
 end;
 
 initialization

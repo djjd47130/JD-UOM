@@ -5,44 +5,69 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
-  dwsCompiler, dwsExprs, dwsComp;
+  JD.Uom.Expr
+
+  , JD.Uom
+  , JD.Uom.Distance
+  , JD.Uom.Area
+  , JD.Uom.Temperature
+  , JD.Uom.Volume
+  , JD.Uom.Mass
+  , JD.Uom.Time
+  , JD.Uom.Frequency
+  , JD.Uom.Speed
+  , JD.Uom.Numbers
+  , JD.Uom.Data
+
+  , dwsCompiler, dwsExprs, dwsComp, dwsErrors, Vcl.ExtCtrls
+
+  ;
 
 type
-  TForm1 = class(TForm)
-    txtExpr: TEdit;
-    txtResult: TEdit;
-    Button1: TButton;
+  TfrmExprTest = class(TForm)
     DWS: TDelphiWebScript;
+    dwsUnit1: TdwsUnit;
+    txtExpr: TMemo;
+    Panel1: TPanel;
+    Button1: TButton;
+    txtOutput: TMemo;
+    Splitter1: TSplitter;
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
-    { Private declarations }
+    FEval: TUOMEvaluator;
   public
     { Public declarations }
   end;
 
 var
-  Form1: TForm1;
+  frmExprTest: TfrmExprTest;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm1.Button1Click(Sender: TObject);
-var
-  Prog: IdwsProgram;
-  Exec: IdwsProgramExecution;
+procedure TfrmExprTest.FormCreate(Sender: TObject);
 begin
-  Prog:= DWS.Compile('PrintLn('+txtExpr.Text+');');
-  if prog.Msgs.Count > 0 then
-    txtResult.Text:= prog.Msgs.AsInfo
-  else begin
-    exec:= prog.Execute;
-    txtResult.Text:= exec.Result.ToString;
-    if exec.Msgs.HasErrors then begin
-      raise Exception.Create(exec.Msgs.AsInfo);
+  FEval:= TUOMEvaluator.Create;
+  FEval.AddConstant('TEST_VAL', '42', 'Float');
+end;
+
+procedure TfrmExprTest.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FEval);
+end;
+
+procedure TfrmExprTest.Button1Click(Sender: TObject);
+begin
+  try
+    txtOutput.Lines.Text:= FEval.Calculate(txtExpr.Text);
+  except
+    on E: Exception do begin
+      txtOutput.Lines.Text:= E.Message;
     end;
   end;
-
 end;
 
 end.

@@ -47,6 +47,7 @@ contains
   JD.Uom.Numbers in '..\Source\JD.Uom.Numbers.pas',
   JD.Uom.Expr in '..\Source\JD.Uom.Expr.pas',
   JD.Uom.Files in '..\Source\JD.Uom.Files.pas',
-  JD.Uom.Data in '..\Source\JD.Uom.Data.pas';
+  JD.Uom.Data in '..\Source\JD.Uom.Data.pas',
+  JD.Uom.Expr.DWS in '..\Source\JD.Uom.Expr.DWS.pas' {dmDWS: TDataModule};
 
 end.

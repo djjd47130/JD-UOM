@@ -128,6 +128,14 @@ type
     txtSearch: TSearchBox;
     Panel5: TPanel;
     lblSearchFound: TLabel;
+    Label14: TLabel;
+    lblUnitAliases: TLabel;
+    btnSettings: TJDFontButton;
+    tabSettings: TTabSheet;
+    Panel6: TPanel;
+    Label15: TLabel;
+    Edit1: TEdit;
+    JDFontButton1: TJDFontButton;
     procedure FormCreate(Sender: TObject);
     procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
@@ -158,6 +166,7 @@ type
     function ApplicationEvents1Help(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
     procedure txtSearchInvokeSearch(Sender: TObject);
+    procedure btnSettingsClick(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -539,6 +548,7 @@ begin
   lblUnitNamePlural.Caption:= U.NamePlural;
   lblUnitSystems.Caption:= U.Systems.DelimitedText;
   lblUnitSuffix.Caption:= U.Suffix;
+  lblUnitAliases.Caption:= U.AllAliases;
   lblUnitBaseFrom.Caption:= U.ConvertFromBaseFormula;
   lblUnitBaseTo.Caption:= U.ConvertToBaseFormula;
 end;
@@ -875,6 +885,12 @@ begin
   Self.RefreshAll;
   Self.RefreshUserUOMList;
 
+end;
+
+procedure TfrmJDConvertMain.btnSettingsClick(Sender: TObject);
+begin
+  //TODO
+  MenuButtonSelected(btnSettings, tabSettings, 1006);
 end;
 
 procedure TfrmJDConvertMain.ClearUserUOM;
