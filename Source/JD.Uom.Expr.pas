@@ -3,7 +3,8 @@ unit JD.Uom.Expr;
 interface
 
 //Perform string-based mathematical evaluations using Delphi Web Script (DWS):
-{$DEFINE USE_DWS}
+{ $DEFINE USE_DWS}
+//MOVED TO PROJECT CONFIG LEVEL
 
 //TODO: Offer alternatives...
 //- Jedi
@@ -130,12 +131,15 @@ function TUOMEvaluator.Evaluate(const Value: Extended; const Expr: String;
 begin
   {$IFDEF USE_DWS}
   Result:= FModule.Evaluate(Value, Expr, PrintLn);
+  {$ELSE}
+  Result:= -1;
   {$ENDIF}
 end;
 
 function TUOMEvaluator.EvaluateStr(const Value: Extended; const Expr: String;
   const PrintLn: Boolean): String;
 begin
+  Result:= '';
   {$IFDEF USE_DWS}
   Result:= FModule.EvaluateStr(Value, Expr, PrintLn);
   {$ENDIF}

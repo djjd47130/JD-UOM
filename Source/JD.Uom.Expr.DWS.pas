@@ -1,15 +1,13 @@
 unit JD.Uom.Expr.DWS;
 
-//NOTE: Be sure to exclude this from package upon compilation!
+//NOTE: This unit is conditionally used in JD.Uom.Expr.pas.
+//Be sure to exclude this from package upon compilation!
 
 interface
 
 uses
-  System.SysUtils, System.Classes
-
-  , dwsCompiler, dwsExprs, dwsComp, dwsErrors, dwsSymbols
-
-  ;
+  System.SysUtils, System.Classes,
+  dwsCompiler, dwsExprs, dwsComp, dwsErrors, dwsSymbols;
 
 type
   TdmDWS = class(TDataModule)

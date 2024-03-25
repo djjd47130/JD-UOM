@@ -4,7 +4,8 @@ program MathExprTest;
 
 uses
   Vcl.Forms,
-  uMathExprTestMain in 'uMathExprTestMain.pas' {frmExprTest};
+  uMathExprTestMain in 'uMathExprTestMain.pas' {frmExprTest},
+  JD.Uom.Expr.DWS in '..\Source\JD.Uom.Expr.DWS.pas' {dmDWS: TDataModule};
 
 {$R *.res}
 

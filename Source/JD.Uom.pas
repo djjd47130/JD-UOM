@@ -99,11 +99,11 @@ const
   /// <summary>
   /// The format for converting value to String for display.
   /// </summary>
-  NumFormat = '#,###,###,###,###,###,###,##0.############################';
+  NumFormat = '#,###,###,###,###,###,###,##0.##################################';
   /// <summary>
   /// The format for converting value to String for internal use.
   /// </summary>
-  NumInternalFormat = '#####################0.############################';
+  NumInternalFormat = '#####################0.##################################';
 
 
 

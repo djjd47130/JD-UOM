@@ -7,7 +7,8 @@ uses
   uJDConvertMain in 'uJDConvertMain.pas' {frmJDConvertMain},
   Vcl.Themes,
   Vcl.Styles,
-  JD.Uom.Expr.DWS in '..\Source\JD.Uom.Expr.DWS.pas' {dmDWS: TDataModule};
+  uJDConvertScripting in 'uJDConvertScripting.pas' {frJDConvertScripting: TFrame},
+  uJDConvertDetails in 'uJDConvertDetails.pas' {frJDConvertDetails: TFrame};
 
 {$R *.res}
 

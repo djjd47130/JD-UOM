@@ -291,489 +291,85 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabDetails: TTabSheet
       Caption = '    Details    '
       ImageIndex = 1
-      object pBottom: TPanel
-        Left = 0
-        Top = 255
-        Width = 1055
-        Height = 353
-        Align = alClient
-        TabOrder = 0
-        object Chart: TChart
-          AlignWithMargins = True
-          Left = 11
-          Top = 4
-          Width = 1033
-          Height = 345
-          Margins.Left = 10
-          Margins.Right = 10
-          AllowPanning = pmNone
-          LeftWall.Visible = False
-          Legend.CheckBoxes = True
-          Legend.Font.Color = clWhite
-          Legend.Transparent = True
-          Title.Font.Color = clWhite
-          Title.Font.Height = -19
-          Title.Font.Style = [fsBold]
-          Title.Text.Strings = (
-            'UOM Comparison')
-          BottomAxis.Axis.Color = 1283489920
-          BottomAxis.Axis.Width = 0
-          BottomAxis.Grid.Color = clGray
-          BottomAxis.Grid.Width = 0
-          BottomAxis.Grid.DrawEvery = 5
-          BottomAxis.Increment = 10.000000000000000000
-          BottomAxis.LabelsAngle = 90
-          BottomAxis.LabelsFormat.Font.Color = clWhite
-          BottomAxis.MinorTickLength = 3
-          BottomAxis.TickLength = 7
-          BottomAxis.Title.Caption = 'Base Unit'
-          BottomAxis.Title.Font.Color = clWhite
-          BottomAxis.Title.Font.Height = -13
-          BottomAxis.Title.Font.Style = [fsBold]
-          Chart3DPercent = 22
-          LeftAxis.Axis.Color = clGray
-          LeftAxis.Axis.Width = 1
-          LeftAxis.AxisValuesFormat = '#,###,###,##0.#########'
-          LeftAxis.Grid.Color = 1837138048
-          LeftAxis.Grid.Width = 0
-          LeftAxis.LabelsFormat.Font.Color = clWhite
-          LeftAxis.Title.Caption = 'Conversion'
-          LeftAxis.Title.Font.Color = clWhite
-          LeftAxis.Title.Font.Height = -13
-          LeftAxis.Title.Font.Style = [fsBold]
-          Panning.MouseWheel = pmwNone
-          View3D = False
-          View3DWalls = False
-          Zoom.Allow = False
-          ZoomWheel = pmwNormal
-          Align = alClient
-          BevelOuter = bvNone
-          Color = 1644825
-          TabOrder = 0
-          ExplicitLeft = 9
-          ExplicitTop = 3
-          DesignSize = (
-            1033
-            345)
-          DefaultCanvas = 'TGDIPlusCanvas'
-          ColorPaletteIndex = 9
-          object txtChartScale: TRzSpinEdit
-            AlignWithMargins = True
-            Left = 891
-            Top = 2
-            Width = 132
-            Height = 27
-            Hint = 'How many base units to show in chart'#39's X axis'
-            BlankValue = 1.000000000000000000
-            AllowKeyEdit = True
-            Max = 999999.000000000000000000
-            Orientation = orHorizontal
-            Value = 10.000000000000000000
-            Anchors = [akTop, akRight]
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 0
-            OnChange = txtChartScaleChange
-          end
-          object chkNegative: TCheckBox
-            Left = 763
-            Top = 6
-            Width = 97
-            Height = 19
-            Hint = 'Whether to include negative values in chart'#39's X axis'
-            Anchors = [akTop, akRight]
-            Caption = 'Negative'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWhite
-            Font.Height = -16
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 1
-            StyleElements = [seClient, seBorder]
-            OnClick = chkNegativeClick
-          end
-          object Series1: TLineSeries
-            Selected.Hover.Visible = False
-            Title = 'Comparison'
-            Brush.BackColor = clDefault
-            LinePen.Color = 16685954
-            LinePen.Width = 2
-            Pointer.InflateMargins = True
-            Pointer.Style = psRectangle
-            TreatNulls = tnIgnore
-            XValues.Name = 'X'
-            XValues.Order = loAscending
-            YValues.Name = 'Y'
-            YValues.Order = loNone
-          end
-        end
-      end
-      object pTop: TPanel
+      inline UOMDetails: TfrJDConvertDetails
         Left = 0
         Top = 0
         Width = 1055
-        Height = 255
-        Align = alTop
-        BevelOuter = bvNone
-        TabOrder = 1
-        object pCategories: TPanel
-          Left = 233
-          Top = 0
-          Width = 216
-          Height = 255
-          Align = alLeft
-          BevelOuter = bvNone
-          TabOrder = 1
-          object Label1: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 210
-            Height = 19
-            Align = alTop
-            Caption = 'Categories'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-            ExplicitWidth = 88
-          end
-          object lstCategories: TListView
-            AlignWithMargins = True
-            Left = 3
-            Top = 28
-            Width = 210
-            Height = 224
-            Align = alClient
-            Columns = <
-              item
-                Caption = 'System'
-                Width = 180
-              end>
-            HideSelection = False
-            HotTrackStyles = [htHandPoint, htUnderlineHot]
-            ReadOnly = True
-            RowSelect = True
-            ShowColumnHeaders = False
-            TabOrder = 0
-            ViewStyle = vsReport
-            OnSelectItem = lstCategoriesSelectItem
+        Height = 608
+        Align = alClient
+        TabOrder = 0
+        ExplicitLeft = 128
+        ExplicitTop = 69
+        ExplicitWidth = 838
+        ExplicitHeight = 512
+        inherited pBottom: TPanel
+          Width = 1055
+          Height = 353
+          ExplicitLeft = 0
+          ExplicitTop = 255
+          ExplicitWidth = 958
+          ExplicitHeight = 318
+          inherited Chart: TChart
+            Width = 1033
+            Height = 345
+            ExplicitLeft = 11
+            ExplicitTop = 4
+            ExplicitWidth = 936
+            ExplicitHeight = 310
+            inherited txtChartScale: TRzSpinEdit
+              Left = 891
+              Height = 27
+              OnChange = nil
+              ExplicitLeft = 794
+              ExplicitHeight = 27
+            end
+            inherited chkNegative: TCheckBox
+              Left = 763
+              ExplicitLeft = 666
+            end
           end
         end
-        object pUOMs: TPanel
-          Left = 449
-          Top = 0
-          Width = 217
-          Height = 255
-          Align = alLeft
-          BevelOuter = bvNone
-          TabOrder = 2
-          object Label2: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 211
-            Height = 19
-            Align = alTop
-            Caption = 'Units'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-            ExplicitWidth = 42
+        inherited pTop: TPanel
+          Width = 1055
+          ExplicitLeft = 0
+          ExplicitWidth = 958
+          inherited pUOMs: TPanel
+            inherited lstUOMs: TListView
+              ExplicitTop = 28
+            end
           end
-          object lstUOMs: TListView
-            AlignWithMargins = True
-            Left = 3
-            Top = 28
-            Width = 211
-            Height = 224
-            Align = alClient
-            Columns = <
-              item
-                Caption = 'System'
-                Width = 180
-              end>
-            HideSelection = False
-            HotTrackStyles = [htHandPoint, htUnderlineHot]
-            ReadOnly = True
-            RowSelect = True
-            ShowColumnHeaders = False
-            TabOrder = 0
-            ViewStyle = vsReport
-            OnSelectItem = lstUOMsSelectItem
-          end
-        end
-        object pInfo: TPanel
-          Left = 666
-          Top = 0
-          Width = 389
-          Height = 255
-          Align = alClient
-          BevelOuter = bvNone
-          TabOrder = 3
-          object pTestVal: TPanel
-            Left = 0
-            Top = 0
+          inherited pInfo: TPanel
             Width = 389
-            Height = 25
-            Align = alTop
-            BevelOuter = bvNone
-            TabOrder = 0
-            object lblUnitHeader: TLabel
-              AlignWithMargins = True
-              Left = 3
-              Top = 3
-              Width = 34
-              Height = 19
-              Align = alLeft
-              Caption = 'Unit'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
+            ExplicitWidth = 292
+            inherited pTestVal: TPanel
+              Width = 389
+              ExplicitWidth = 292
             end
-          end
-          object pUnitDetail: TPanel
-            AlignWithMargins = True
-            Left = 3
-            Top = 28
-            Width = 383
-            Height = 224
-            Align = alClient
-            TabOrder = 1
-            DesignSize = (
-              383
-              224)
-            object Label3: TLabel
-              Left = 0
-              Top = 16
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'Name'
+            inherited pUnitDetail: TPanel
+              Width = 383
+              ExplicitWidth = 286
+              inherited lblUnitName: TLabel
+                Width = 240
+              end
+              inherited lblUnitSystems: TLabel
+                Width = 240
+              end
+              inherited lblUnitSuffix: TLabel
+                Width = 240
+              end
+              inherited lblUnitBaseFrom: TLabel
+                Width = 240
+              end
+              inherited lblUnitBaseTo: TLabel
+                Width = 240
+              end
+              inherited lblUnitNamePlural: TLabel
+                Width = 240
+              end
+              inherited lblUnitAliases: TLabel
+                Width = 240
+              end
             end
-            object lblUnitName: TLabel
-              Left = 127
-              Top = 16
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitWidth = 388
-            end
-            object Label7: TLabel
-              Left = 0
-              Top = 66
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'System(s)'
-            end
-            object lblUnitSystems: TLabel
-              Left = 127
-              Top = 66
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitWidth = 242
-            end
-            object Label11: TLabel
-              Left = 0
-              Top = 91
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'Suffix'
-            end
-            object lblUnitSuffix: TLabel
-              Left = 127
-              Top = 91
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitWidth = 191
-            end
-            object Label4: TLabel
-              Left = 0
-              Top = 140
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'From Base'
-            end
-            object lblUnitBaseFrom: TLabel
-              Left = 127
-              Top = 140
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object Label8: TLabel
-              Left = 0
-              Top = 165
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'To Base'
-            end
-            object lblUnitBaseTo: TLabel
-              Left = 127
-              Top = 165
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object Label6: TLabel
-              Left = 0
-              Top = 41
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'Name Plural'
-            end
-            object lblUnitNamePlural: TLabel
-              Left = 127
-              Top = 41
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-              ExplicitWidth = 388
-            end
-            object Label14: TLabel
-              Left = 0
-              Top = 115
-              Width = 113
-              Height = 19
-              Alignment = taRightJustify
-              AutoSize = False
-              Caption = 'Aliases'
-            end
-            object lblUnitAliases: TLabel
-              Left = 127
-              Top = 115
-              Width = 240
-              Height = 19
-              Anchors = [akLeft, akTop, akRight]
-              AutoSize = False
-              Caption = '...'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -16
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-          end
-        end
-        object pSystems: TPanel
-          Left = 0
-          Top = 0
-          Width = 233
-          Height = 255
-          Align = alLeft
-          BevelOuter = bvNone
-          TabOrder = 0
-          object Label12: TLabel
-            AlignWithMargins = True
-            Left = 3
-            Top = 3
-            Width = 227
-            Height = 19
-            Align = alTop
-            Caption = 'Systems'
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Tahoma'
-            Font.Style = [fsBold]
-            ParentFont = False
-            ExplicitWidth = 67
-          end
-          object lstSystems: TListView
-            AlignWithMargins = True
-            Left = 3
-            Top = 28
-            Width = 227
-            Height = 224
-            Align = alClient
-            Checkboxes = True
-            Columns = <
-              item
-                Caption = 'System'
-                Width = 180
-              end>
-            HotTrackStyles = [htHandPoint, htUnderlineHot]
-            ReadOnly = True
-            RowSelect = True
-            ShowColumnHeaders = False
-            SortType = stText
-            TabOrder = 0
-            ViewStyle = vsReport
-            OnClick = lstSystemsClick
-            OnItemChecked = lstSystemsItemChecked
           end
         end
       end
@@ -1223,115 +819,66 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabScripts: TTabSheet
       Caption = '    Scripts    '
       ImageIndex = 4
-      object Splitter1: TSplitter
+      ExplicitLeft = 6
+      ExplicitTop = 28
+      inline frJDConvertScripting1: TfrJDConvertScripting
         Left = 0
-        Top = 353
+        Top = 0
         Width = 1055
-        Height = 7
-        Cursor = crVSplit
-        Align = alBottom
-        Beveled = True
-        ExplicitTop = 408
-      end
-      object Panel7: TPanel
-        Left = 0
-        Top = 360
-        Width = 1055
-        Height = 248
-        Align = alBottom
-        BevelOuter = bvNone
-        TabOrder = 0
-        object Button1: TButton
-          AlignWithMargins = True
-          Left = 3
-          Top = 3
-          Width = 1049
-          Height = 25
-          Align = alTop
-          Caption = 'Execute Script'
-          Default = True
-          TabOrder = 0
-          OnClick = Button1Click
-        end
-        object txtOutput: TMemo
-          AlignWithMargins = True
-          Left = 3
-          Top = 34
-          Width = 1049
-          Height = 211
-          Align = alClient
-          ReadOnly = True
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-        end
-      end
-      object txtExpr: TSynEdit
-        AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 1049
-        Height = 347
+        Height = 608
         Align = alClient
-        Color = 1644825
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWhite
-        Font.Height = -16
-        Font.Name = 'Consolas'
-        Font.Style = []
-        Font.Quality = fqClearTypeNatural
-        TabOrder = 1
-        UseCodeFolding = False
-        Gutter.Color = 1644825
-        Gutter.BorderColor = clSilver
-        Gutter.Font.Charset = DEFAULT_CHARSET
-        Gutter.Font.Color = clWhite
-        Gutter.Font.Height = -16
-        Gutter.Font.Name = 'Consolas'
-        Gutter.Font.Style = []
-        Gutter.Font.Quality = fqClearTypeNatural
-        Gutter.ShowLineNumbers = True
-        Gutter.Gradient = True
-        Gutter.GradientStartColor = clBlack
-        Gutter.GradientEndColor = 1644825
-        Gutter.Bands = <
-          item
-            Kind = gbkMarks
-            Width = 13
+        TabOrder = 0
+        ExplicitLeft = 184
+        ExplicitTop = 63
+        inherited Splitter1: TSplitter
+          Top = 353
+          Width = 1055
+        end
+        inherited Panel7: TPanel
+          Top = 360
+          Width = 1055
+          ExplicitLeft = 0
+          ExplicitWidth = 862
+          inherited txtOutput: TMemo
+            Width = 1049
+            ExplicitLeft = 2
+            ExplicitTop = 35
           end
-          item
-            Kind = gbkLineNumbers
+          inherited btnExecScript: TJDFontButton
+            Width = 1049
           end
-          item
-            Kind = gbkFold
+        end
+        inherited txtExpr: TSynEdit
+          Width = 1049
+          Height = 306
+          ExplicitLeft = 3
+          ExplicitWidth = 856
+          ExplicitHeight = 284
+        end
+        inherited pJDConvertScriptingToolbar: TPanel
+          Width = 1055
+          ExplicitLeft = 2
+          ExplicitWidth = 1055
+          inherited JDFontButton1: TJDFontButton
+            Width = 33
+            ExplicitLeft = 4
+            ExplicitTop = 4
+            ExplicitWidth = 33
           end
-          item
-            Kind = gbkTrackChanges
+          inherited JDFontButton2: TJDFontButton
+            Left = 43
+            ExplicitTop = 4
           end
-          item
-            Kind = gbkMargin
-            Width = 3
-          end>
-        Highlighter = SynPasSyn1
-        Lines.Strings = (
-          'var V: Float = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
-          'var BU: TUOM = BaseUOM('#39'Distance'#39');'
-          ''
-          'procedure OutputConversion(const UOM: String);'
-          'var'
-          '  T: Float;'
-          '  Res: String;'
-          'begin'
-          '  T:= Convert(V, '#39'Meter'#39', UOM);'
-          '  Res:= UOMString(T, UOM);'
-          '  PrintLn(Res);'
-          'end;'
-          ''
-          'PrintLn(UOMString(V, BU.NameSingular)+'#39' is the same as:'#39');'
-          'OutputConversion('#39'ft'#39');'
-          'OutputConversion('#39'km'#39');'
-          'OutputConversion('#39'ly'#39');')
-        SelectedColor.Alpha = 0.400000005960464500
+          inherited JDFontButton3: TJDFontButton
+            Left = 86
+            ExplicitTop = 4
+          end
+          inherited JDFontButton4: TJDFontButton
+            Left = 129
+            ExplicitLeft = 214
+            ExplicitTop = 5
+          end
+        end
       end
     end
     object tabSettings: TTabSheet
@@ -1699,12 +1246,5 @@ object frmJDConvertMain: TfrmJDConvertMain
     OnHelp = ApplicationEvents1Help
     Left = 413
     Top = 254
-  end
-  object SynPasSyn1: TSynPasSyn
-    KeyAttri.Foreground = 14021631
-    NumberAttri.Foreground = clMoneyGreen
-    StringAttri.Foreground = clSkyBlue
-    Left = 589
-    Top = 246
   end
 end
