@@ -24,6 +24,9 @@ type
     procedure JDUOMFunctionsSqrEval(info: TProgramInfo);
     procedure JDUOMFunctionsCubeEval(info: TProgramInfo);
     procedure JDUOMFunctionsBaseUOMEval(info: TProgramInfo);
+    procedure JDUOMFunctionsUOMExistsEval(info: TProgramInfo);
+    procedure JDUOMFunctionsUOMCountEval(info: TProgramInfo);
+    procedure JDUOMFunctionsUOMByIndexEval(info: TProgramInfo);
   private
     { Private declarations }
   public
@@ -191,7 +194,7 @@ begin
   try
     L.Delimiter:= ',';
     L.StrictDelimiter:= True;
-    L.DelimitedText:= info.ParamAsString[7];
+    L.DelimitedText:= info.ParamAsString[6];
     for X := 0 to L.Count-1 do begin
       U.AddAlias(L[X]);
     end;
@@ -237,12 +240,35 @@ begin
   Info.ResultAsFloat:= Power(Info.ParamAsFloat[0], 2);
 end;
 
+procedure TdmDWS.JDUOMFunctionsUOMByIndexEval(info: TProgramInfo);
+var
+  U: TUOM;
+begin
+  U:= TUOMUtils.GetUOMByIndex(Info.ParamAsInteger[0]);
+  if U = nil then
+    raise Exception.Create('Failed to find UOM.');
+  PopulateUOM(U, Info);
+end;
+
+procedure TdmDWS.JDUOMFunctionsUOMCountEval(info: TProgramInfo);
+begin
+  Info.ResultAsInteger:= TUOMUtils.UOMCount;
+end;
+
 procedure TdmDWS.JDUOMFunctionsUOMEval(info: TProgramInfo);
 var
   V: TUOMValue;
 begin
   V:= TUOMUtils.StrToUOMValue(info.ParamAsString[0]);
   Info.ResultAsFloat:= V.BaseValue;
+end;
+
+procedure TdmDWS.JDUOMFunctionsUOMExistsEval(info: TProgramInfo);
+var
+  U: TUOM;
+begin
+  U:= TUOMUtils.FindUOM(Info.ParamAsString[0]);
+  Info.ResultAsBoolean:= (U <> nil);
 end;
 
 procedure TdmDWS.JDUOMFunctionsUOMStringEval(info: TProgramInfo);

@@ -132,28 +132,42 @@ object frJDConvertScripting: TfrJDConvertScripting
       end>
     Highlighter = SynPasSyn1
     Lines.Strings = (
+      'const CAT: String = '#39'Distance'#39';'
+      ''
+      'if not UOMExists('#39'Jerry'#39') then'
+      
+        '  RegisterSimpleUOM(CAT, '#39'Jerry'#39', '#39'Jerrys'#39', '#39'Jry'#39', '#39'Random'#39', 1.7' +
+        '272, '#39#39');'
+      ''
       'var V: Float = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
-      'var BU: TUOM = BaseUOM('#39'Distance'#39');'
+      'var BU: TUOM = BaseUOM(CAT);'
       ''
       'procedure OutputConversion(const UOM: String);'
       'var'
       '  T: Float;'
       '  Res: String;'
+      '  U: TUOM;'
       'begin'
-      '  T:= Convert(V, '#39'Meter'#39', UOM);'
-      '  Res:= UOMString(T, UOM);'
+      '  T:= Convert(V, BU.NameSingular, UOM);'
+      '  U:= FindUOM(UOM);'
+      '  Res:= UOMString(T, UOM) + '#39' ('#39'+U.Suffix+'#39')'#39';'
       '  PrintLn(Res);'
       'end;'
       ''
-      'PrintLn(UOMString(V, BU.NameSingular)+'#39' is the same as:'#39');'
-      'OutputConversion('#39'ft'#39');'
-      'OutputConversion('#39'km'#39');'
-      'OutputConversion('#39'ly'#39');')
+      
+        'PrintLn(UOMString(V, BU.NameSingular)+'#39' ('#39'+BU.Suffix+'#39') is the s' +
+        'ame as:'#39');'
+      ''
+      'var X: Integer;'
+      'var U: TUOM;'
+      'for X:= 0 to UOMCount - 1 do begin'
+      '  U:= UOMByIndex(X);'
+      
+        '  if (U.Category = BU.Category) and (U.NameSingular <> BU.NameSi' +
+        'ngular) then'
+      '    OutputConversion(U.NameSingular);'
+      'end;')
     SelectedColor.Alpha = 0.400000005960464500
-    ExplicitLeft = -187
-    ExplicitTop = 3
-    ExplicitWidth = 1049
-    ExplicitHeight = 347
   end
   object pJDConvertScriptingToolbar: TPanel
     Left = 0
@@ -165,6 +179,7 @@ object frJDConvertScripting: TfrJDConvertScripting
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
+    Visible = False
     ExplicitTop = -3
     object JDFontButton1: TJDFontButton
       AlignWithMargins = True

@@ -212,6 +212,31 @@ object dmDWS: TdmDWS
           end>
         ResultType = 'TUOM'
         OnEval = JDUOMFunctionsBaseUOMEval
+      end
+      item
+        Name = 'UOMExists'
+        Parameters = <
+          item
+            Name = 'Name'
+            DataType = 'String'
+          end>
+        ResultType = 'Boolean'
+        OnEval = JDUOMFunctionsUOMExistsEval
+      end
+      item
+        Name = 'UOMCount'
+        ResultType = 'Integer'
+        OnEval = JDUOMFunctionsUOMCountEval
+      end
+      item
+        Name = 'UOMByIndex'
+        Parameters = <
+          item
+            Name = 'Index'
+            DataType = 'Integer'
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsUOMByIndexEval
       end>
     Records = <
       item
