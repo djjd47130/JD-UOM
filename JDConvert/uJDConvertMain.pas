@@ -133,6 +133,7 @@ type
     procedure txtSearchInvokeSearch(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
     procedure btnUOMScriptClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     FCurMode: String;
     FSystemUOMs: TUOMFile;
@@ -248,6 +249,25 @@ begin
   SaveUserUOMs;
 end;
 
+procedure TfrmJDConvertMain.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+  if Scripting.Modified then begin
+    case MessageDlg('Save changes to script?', mtWarning, [mbYes,mbNo,mbCancel], 0) of
+      mrYes: begin
+        CanClose:= Scripting.Save;
+      end;
+      mrNo: begin
+        CanClose:= True;
+      end;
+      else begin
+        CanClose:= False;
+        Self.btnUOMScriptClick(nil);
+      end;
+    end;
+  end;
+end;
+
 procedure TfrmJDConvertMain.CloseHelpWnd;
 var
   HlpWind: HWND;
@@ -350,6 +370,7 @@ end;
 procedure TfrmJDConvertMain.btnUOMScriptClick(Sender: TObject);
 begin
   MenuButtonSelected('UOM Scripting', btnUOMScript, tabScripts, 1007);
+  Scripting.UpdateActions;
 end;
 
 procedure TfrmJDConvertMain.RefreshAll;

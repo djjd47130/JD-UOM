@@ -13,6 +13,7 @@ object frmJDConvertMain: TfrmJDConvertMain
   Font.Style = []
   OldCreateOrder = False
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
@@ -855,10 +856,6 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 1055
           ExplicitTop = 360
           ExplicitWidth = 1055
-          inherited btnExecScript: TJDFontButton
-            Width = 1049
-            ExplicitWidth = 1049
-          end
           inherited txtOutput: TSynEdit
             Width = 1049
             ExplicitWidth = 1049
@@ -866,7 +863,7 @@ object frmJDConvertMain: TfrmJDConvertMain
         end
         inherited txtExpr: TSynEdit
           Width = 1049
-          Height = 306
+          Height = 287
           ExplicitWidth = 1049
           ExplicitHeight = 306
         end
@@ -874,23 +871,33 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 1055
           ExplicitWidth = 1055
           inherited btnNew: TJDFontButton
-            Left = 89
+            Left = 46
             Width = 33
             ExplicitLeft = 89
             ExplicitWidth = 33
           end
           inherited btnOpen: TJDFontButton
-            Left = 46
+            Left = 3
             ExplicitLeft = 46
           end
           inherited btnSave: TJDFontButton
-            Left = 128
+            Left = 85
             ExplicitLeft = 128
           end
           inherited btnSaveAs: TJDFontButton
-            Left = 171
+            Left = 128
             ExplicitLeft = 171
           end
+          inherited btnExec: TJDFontButton
+            Left = 171
+          end
+        end
+        inherited Stat: TStatusBar
+          Top = 334
+          Width = 1055
+          ExplicitLeft = 0
+          ExplicitTop = 334
+          ExplicitWidth = 1055
         end
       end
     end

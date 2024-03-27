@@ -173,7 +173,7 @@ object frJDConvertScripting: TfrJDConvertScripting
         'Singular) then'
       '    OutputConversion(U.NameSingular);'
       'end;')
-    Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
+    Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoShowLigatures]
     SelectedColor.Alpha = 0.400000005960464500
     WantTabs = True
     OnChange = txtExprChange
@@ -430,17 +430,21 @@ object frJDConvertScripting: TfrJDConvertScripting
     CommentAttri.Style = [fsBold]
     KeyAttri.Foreground = 14021631
     NumberAttri.Foreground = clMoneyGreen
+    FloatAttri.Foreground = clMoneyGreen
     StringAttri.Foreground = clSkyBlue
     Left = 733
     Top = 86
   end
   object dlgOpen: TOpenTextFileDialog
-    Left = 184
-    Top = 160
+    Filter = 'UOM Script Files (*.uoms)|*.uoms|All Files (*.*)|*.*'
+    Left = 704
+    Top = 224
   end
   object dlgSave: TSaveTextFileDialog
-    Left = 248
-    Top = 160
+    DefaultExt = '.uoms'
+    Filter = 'UOM Script Files (*.uoms)|*.uoms|All Files (*.*)|*.*'
+    Left = 768
+    Top = 224
   end
   object Acts: TActionList
     Left = 736

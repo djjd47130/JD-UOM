@@ -1,17 +1,24 @@
+//Register all possible Distance UOMs
 
+//Factor Constants
+const FACTOR_MIL =                2.54e-5;
+const FACTOR_INCH =               0.0254;
+const FACTOR_FOOT =               0.3048;
+const FACTOR_YARD =               0.9144;
+const FACTOR_FATHOM =             1.82879999999;
+const FACTOR_ROD =                5.0292;
+const FACTOR_FURLONG =            201.168;
+const FACTOR_MILE =               1609.344;
+const FACTOR_NAUTICAL_MILE =      1852;
+const FACTOR_LIGHT_YEAR =         9460730472580800;
+const FACTOR_BANANA =             0.254;
+const FACTOR_IPHONE_14_PRO_MAX =  0.1607;
 
-const  FACTOR_MIL =                2.54e-5;
-const  FACTOR_INCH =               0.0254;
-const  FACTOR_FOOT =               0.3048;
-const  FACTOR_YARD =               0.9144;
-const  FACTOR_FATHOM =             1.82879999999;
-const  FACTOR_ROD =                5.0292;
-const  FACTOR_FURLONG =            201.168;
-const  FACTOR_MILE =               1609.344;
-const  FACTOR_NAUTICAL_MILE =      1852;
-const  FACTOR_LIGHT_YEAR =         9460730472580800;
-const  FACTOR_BANANA =             0.254;
-const  FACTOR_IPHONE_14_PRO_MAX =  0.1607;
+RegisterMetricUOM('Distance', 'Meter', 'm',
+  [msYocto, msZepto, msAtto,
+  msFemto, msPico, msNano, msMicro, msMilli, msCenti, msDeci,
+  msBase, msDeca, msHecto, msKilo, msMega, msGiga, msTera, msPeta,
+  msExa, msZeta, msYotta], 'Meter');
 
 RegisterSimpleUOM('Distance',
   'Mil', 'Mil', 'mil', 'Imperial,US Customary', FACTOR_MIL,
@@ -48,6 +55,4 @@ RegisterSimpleUOM('Distance',
 RegisterSimpleUOM('Distance',
   'Light Year', 'Light Years', 'ly', 'Natural', FACTOR_LIGHT_YEAR,
   'lightyear,Lightyear,LightYear,lightyears,Lightyears,LightYears');
-
-
 

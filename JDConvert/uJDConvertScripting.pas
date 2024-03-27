@@ -42,14 +42,14 @@ type
   private
     FFilename: String;
     FModified: Boolean;
-    procedure UpdateActions;
+  public
     function New: Boolean;
     function Load(const Filename: String): Boolean;
+    function SaveToFile(const Filename: String): Boolean;
     function Save: Boolean;
     function SaveAs: Boolean;
-    function SaveToFile(const Filename: String): Boolean;
-  public
-    { Public declarations }
+    procedure UpdateActions;
+    property Modified: Boolean read FModified;
   end;
 
 implementation
@@ -194,14 +194,25 @@ begin
 end;
 
 procedure TfrJDConvertScripting.UpdateActions;
+var
+  X: Integer;
 begin
   //TODO
   actSave.Enabled:= FModified;
-  Stat.Panels[0].Text:= IntToStr(txtExpr.CaretY)+':'+IntToStr(txtExpr.CaretX);
+  Stat.Panels[0].Text:= 'Line '+IntToStr(txtExpr.CaretY)+' Col '+IntToStr(txtExpr.CaretX);
   if FModified then begin
     Stat.Panels[1].Text:= 'Modified';
   end else begin
     Stat.Panels[1].Text:= '';
+  end;
+  if FFileName = '' then begin
+    Stat.Panels[2].Text:= 'Untitled.uoms';
+  end else begin
+    Stat.Panels[2].Text:= ExtractFileName(FFilename);
+  end;
+
+  for X := 0 to pJDConvertScriptingToolbar.ControlCount-1 do begin
+    TControl(pJDConvertScriptingToolbar.Controls[X]).Invalidate;
   end;
 end;
 
