@@ -1,13 +1,13 @@
 object frJDConvertScripting: TfrJDConvertScripting
   Left = 0
   Top = 0
-  Width = 862
-  Height = 545
+  Width = 923
+  Height = 613
   TabOrder = 0
   object Splitter1: TSplitter
     Left = 0
-    Top = 290
-    Width = 862
+    Top = 358
+    Width = 923
     Height = 7
     Cursor = crVSplit
     Align = alBottom
@@ -18,34 +18,17 @@ object frJDConvertScripting: TfrJDConvertScripting
   end
   object Panel7: TPanel
     Left = 0
-    Top = 297
-    Width = 862
+    Top = 365
+    Width = 923
     Height = 248
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = -193
-    ExplicitWidth = 1055
-    object txtOutput: TMemo
-      AlignWithMargins = True
-      Left = 3
-      Top = 39
-      Width = 856
-      Height = 206
-      Align = alClient
-      ReadOnly = True
-      ScrollBars = ssBoth
-      TabOrder = 0
-      WordWrap = False
-      ExplicitTop = 34
-      ExplicitWidth = 1049
-      ExplicitHeight = 211
-    end
     object btnExecScript: TJDFontButton
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 856
+      Width = 917
       Height = 30
       Cursor = crHandPoint
       Align = alTop
@@ -78,26 +61,82 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Height = -11
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
-      TabOrder = 1
+      TabOrder = 0
       Text = 'Execute Script'
       OnClick = btnExecScriptClick
-      ExplicitLeft = 4
+    end
+    object txtOutput: TSynEdit
+      AlignWithMargins = True
+      Left = 3
+      Top = 39
+      Width = 917
+      Height = 206
+      Align = alClient
+      DoubleBuffered = True
+      Color = 1644825
+      ActiveLineColor = clBlack
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Consolas'
+      Font.Style = []
+      Font.Quality = fqClearTypeNatural
+      ParentDoubleBuffered = False
+      TabOrder = 1
+      UseCodeFolding = False
+      Gutter.Color = 1644825
+      Gutter.BorderColor = clSilver
+      Gutter.Font.Charset = DEFAULT_CHARSET
+      Gutter.Font.Color = clWhite
+      Gutter.Font.Height = -16
+      Gutter.Font.Name = 'Consolas'
+      Gutter.Font.Style = []
+      Gutter.Font.Quality = fqClearTypeNatural
+      Gutter.ShowLineNumbers = True
+      Gutter.Gradient = True
+      Gutter.GradientStartColor = clBlack
+      Gutter.GradientEndColor = 1644825
+      Gutter.Bands = <
+        item
+          Kind = gbkMarks
+          Width = 13
+        end
+        item
+          Kind = gbkLineNumbers
+        end
+        item
+          Kind = gbkFold
+        end
+        item
+          Kind = gbkTrackChanges
+        end
+        item
+          Kind = gbkMargin
+          Width = 3
+        end>
+      Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
+      ReadOnly = True
+      SelectedColor.Alpha = 0.400000005960464500
+      WantTabs = True
     end
   end
   object txtExpr: TSynEdit
     AlignWithMargins = True
     Left = 3
     Top = 44
-    Width = 856
-    Height = 243
+    Width = 917
+    Height = 311
     Align = alClient
+    DoubleBuffered = True
     Color = 1644825
+    ActiveLineColor = clBlack
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Consolas'
     Font.Style = []
     Font.Quality = fqClearTypeNatural
+    ParentDoubleBuffered = False
     TabOrder = 1
     UseCodeFolding = False
     Gutter.Color = 1644825
@@ -132,47 +171,53 @@ object frJDConvertScripting: TfrJDConvertScripting
       end>
     Highlighter = SynPasSyn1
     Lines.Strings = (
+      '//Using Distance UOM category...'
       'const CAT: String = '#39'Distance'#39';'
       ''
+      '//Register Jerry Distance UOM, if doesn'#39't exist...'
       'if not UOMExists('#39'Jerry'#39') then'
       
         '  RegisterSimpleUOM(CAT, '#39'Jerry'#39', '#39'Jerrys'#39', '#39'Jry'#39', '#39'Random'#39', 1.7' +
         '272, '#39#39');'
       ''
-      'var V: Float = UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39') + Sqr(46);'
-      'var BU: TUOM = BaseUOM(CAT);'
+      '//Perform random calculation on different UOMs...'
+      
+        'var V: Float = (UOM('#39'3ft'#39') / UOM('#39'6.9cm'#39')) + (Sqr(46) - UOM('#39'6yd' +
+        #39'));'
       ''
+      
+        '//Central procedure to print out converted version of V (Value).' +
+        '..'
       'procedure OutputConversion(const UOM: String);'
-      'var'
-      '  T: Float;'
-      '  Res: String;'
-      '  U: TUOM;'
       'begin'
-      '  T:= Convert(V, BU.NameSingular, UOM);'
-      '  U:= FindUOM(UOM);'
-      '  Res:= UOMString(T, UOM) + '#39' ('#39'+U.Suffix+'#39')'#39';'
-      '  PrintLn(Res);'
+      
+        '  PrintLn(UOMString(Convert(V, BaseUOM(CAT).NameSingular, UOM), ' +
+        'UOM) + '#39' ('#39'+FindUOM(UOM).Suffix+'#39')'#39');'
       'end;'
       ''
+      '//Print base value and UOM message...'
       
-        'PrintLn(UOMString(V, BU.NameSingular)+'#39' ('#39'+BU.Suffix+'#39') is the s' +
-        'ame as:'#39');'
+        'PrintLn(UOMString(V, BaseUOM(CAT).NameSingular)+'#39' ('#39'+BaseUOM(CAT' +
+        ').Suffix+'#39') is the same as:'#39');'
       ''
-      'var X: Integer;'
+      '//Print conversion for each possible UOM in category...'
       'var U: TUOM;'
-      'for X:= 0 to UOMCount - 1 do begin'
+      'for var X:= 0 to UOMCount - 1 do begin'
       '  U:= UOMByIndex(X);'
+      '  //UOM is same category, and not the base...'
       
-        '  if (U.Category = BU.Category) and (U.NameSingular <> BU.NameSi' +
-        'ngular) then'
+        '  if (U.Category = CAT) and (U.NameSingular <> BaseUOM(CAT).Name' +
+        'Singular) then'
       '    OutputConversion(U.NameSingular);'
       'end;')
+    Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
     SelectedColor.Alpha = 0.400000005960464500
+    WantTabs = True
   end
   object pJDConvertScriptingToolbar: TPanel
     Left = 0
     Top = 0
-    Width = 862
+    Width = 923
     Height = 41
     Align = alTop
     BevelOuter = bvNone
@@ -180,7 +225,6 @@ object frJDConvertScripting: TfrJDConvertScripting
     ShowHint = True
     TabOrder = 2
     Visible = False
-    ExplicitTop = -3
     object JDFontButton1: TJDFontButton
       AlignWithMargins = True
       Left = 46
@@ -222,9 +266,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 0
       Text = ''
-      ExplicitLeft = 63
-      ExplicitTop = 5
-      ExplicitHeight = 33
     end
     object JDFontButton2: TJDFontButton
       AlignWithMargins = True
@@ -267,9 +308,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 1
       Text = ''
-      ExplicitLeft = 47
-      ExplicitTop = 5
-      ExplicitHeight = 33
     end
     object JDFontButton3: TJDFontButton
       AlignWithMargins = True
@@ -312,9 +350,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 2
       Text = ''
-      ExplicitLeft = 90
-      ExplicitTop = 5
-      ExplicitHeight = 33
     end
     object JDFontButton4: TJDFontButton
       AlignWithMargins = True
@@ -358,9 +393,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 3
       Text = ''
-      ExplicitLeft = 213
-      ExplicitTop = 0
-      ExplicitHeight = 33
     end
     object JDFontButton5: TJDFontButton
       AlignWithMargins = True
@@ -403,12 +435,11 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 4
       Text = ''
-      ExplicitLeft = -12
-      ExplicitTop = 5
-      ExplicitHeight = 33
     end
   end
   object SynPasSyn1: TSynPasSyn
+    CommentAttri.Foreground = clLime
+    CommentAttri.Style = [fsBold]
     KeyAttri.Foreground = 14021631
     NumberAttri.Foreground = clMoneyGreen
     StringAttri.Foreground = clSkyBlue

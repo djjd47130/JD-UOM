@@ -358,6 +358,7 @@ type
   TUOM = class(TObject)
   private
     FOwner: TUOM;
+    FProtected: Boolean;
     FUOMType: TUOMType;
     FCategory: String;
     FSystems: TStringList;
@@ -381,9 +382,12 @@ type
     procedure SetFactor(const Value: UOMNum);
     procedure SetUOMType(const Value: TUOMType);
     function GetAlias(const Index: Integer): String;
+    procedure SetProtected(const Value: Boolean);
+    procedure AssertProtected;
   public
     constructor Create(const AOwner: TUOM);
     destructor Destroy; override;
+    property ProtectedUOM: Boolean read FProtected write SetProtected;
     /// <summary>
     /// Assigns this UOM as the base UOM of its specified Category.
     /// </summary>
@@ -472,6 +476,8 @@ type
 
     class function Evaluate(const Value: UOMNum; const Expr: String): UOMNum;
     class function Calculate(const Expr: String): String;
+
+    class function CategoryProtected(const Category: String): Boolean; static;
 
     /// <summary>
     /// (NOT READY) Splits a given UOM String into respective Number and Suffix values.
@@ -614,6 +620,7 @@ end;
 
 function TUOM.AddAlias(const S: String): TUOM;
 begin
+  AssertProtected;
   //TODO: Prevent duplicate...
   FAliases.Add(S);
   Result:= Self;
@@ -650,14 +657,22 @@ begin
   Result:= TUOMUtils.Convert(Value, FNameSingular, B.FNameSingular);
 end;
 
+procedure TUOM.AssertProtected;
+begin
+  if FProtected then
+    raise Exception.Create('Cannot modify protected UOM.');
+end;
+
 function TUOM.SetAsBase: TUOM;
 begin
+  AssertProtected;
   TUOMUtils.RegisterBaseUOM(FCategory, Self);
   Result:= Self;
 end;
 
 procedure TUOM.SetConvertFromBaseFormula(const Value: String);
 begin
+  AssertProtected;
   FConvertFromBaseFormula := Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
@@ -665,6 +680,7 @@ end;
 
 procedure TUOM.SetConvertToBaseFormula(const Value: String);
 begin
+  AssertProtected;
   FConvertToBaseFormula := Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
@@ -672,6 +688,7 @@ end;
 
 procedure TUOM.SetFactor(const Value: UOMNum);
 begin
+  AssertProtected;
   FFactor := Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
@@ -689,6 +706,7 @@ end;
 
 procedure TUOM.SetNamePlural(const Value: String);
 begin
+  AssertProtected;
   FNamePlural:= Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
@@ -696,6 +714,7 @@ end;
 
 procedure TUOM.SetNameSingular(const Value: String);
 begin
+  AssertProtected;
   FNameSingular:= Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
@@ -703,25 +722,34 @@ end;
 
 procedure TUOM.SetSuffix(const Value: String);
 begin
+  AssertProtected;
   FSuffix:= Value;
   //TODO: Validate...
   TUOMUtils.InvalidateUOMs;
 end;
 
+procedure TUOM.SetProtected(const Value: Boolean);
+begin
+  FProtected := Value;
+end;
+
 procedure TUOM.SetSystems(const Value: TStrings);
 begin
+  AssertProtected;
   FSystems.Assign(Value);
   TUOMUtils.InvalidateSystems;
 end;
 
 procedure TUOM.SetUOMType(const Value: TUOMType);
 begin
+  AssertProtected;
   FUOMType := Value;
   TUOMUtils.InvalidateUOMs;
 end;
 
 procedure TUOM.SetCategory(const Value: String);
 begin
+  AssertProtected;
   FCategory:= Value;
   TUOMUtils.InvalidateCategories;
 end;
@@ -1021,6 +1049,8 @@ class procedure TUOMUtils.RegisterBaseUOM(const ACategory: String;
 var
   T: TUOM;
 begin
+  if TUOMUtils.CategoryProtected(ACategory) then
+    raise Exception.Create('Cannot change base of protected system UOM.');
   T:= TUOMUtils.GetBaseUOM(ACategory);
   if T = nil then
     FBaseUOMs.Add(ACategory, AUnit)
@@ -1117,10 +1147,18 @@ end;
 class procedure TUOMUtils.UnregisterUOM(const UOM: TUOM);
 var
   I: Integer;
+  X: Integer;
+  U: TUOM;
 begin
-  //TODO: If this is metric, also unregister all child UOMs
   I:= FUOMs.IndexOf(UOM);
   if I > -1 then begin
+    //First unregister any child UOMs...
+    for X := TUOMUtils.UOMCount-1 downto 0 do begin
+      U:= TUOMUtils.GetUOMByIndex(X);
+      if U.Owner = UOM then begin
+        TUOMUtils.UnregisterUOM(U);
+      end;
+    end;
     FUOMs.Delete(I);
     InvalidateUOMs;
   end;
@@ -1140,6 +1178,21 @@ class function TUOMUtils.CategoryCount: Integer;
 begin
   //Invalidate;
   Result:= FCategories.Count;
+end;
+
+class function TUOMUtils.CategoryProtected(const Category: String): Boolean;
+var
+  X: Integer;
+  U: TUOM;
+begin
+  Result:= False;
+  for X := 0 to FUOMs.Count-1 do begin
+    U:= FUOMs[X];
+    if SameText(Category, U.Category) and (U.ProtectedUOM) then begin
+      Result:= True;
+      Break;
+    end;
+  end;
 end;
 
 { TUOMValue }

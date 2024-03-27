@@ -12,7 +12,6 @@ type
   TfrJDConvertScripting = class(TFrame)
     SynPasSyn1: TSynPasSyn;
     Panel7: TPanel;
-    txtOutput: TMemo;
     Splitter1: TSplitter;
     txtExpr: TSynEdit;
     btnExecScript: TJDFontButton;
@@ -22,6 +21,7 @@ type
     JDFontButton3: TJDFontButton;
     JDFontButton4: TJDFontButton;
     JDFontButton5: TJDFontButton;
+    txtOutput: TSynEdit;
     procedure btnExecScriptClick(Sender: TObject);
   private
     { Private declarations }

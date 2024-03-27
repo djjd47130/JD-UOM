@@ -22,7 +22,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabScripts
+    ActivePage = tabBuilder
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -298,76 +298,79 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 608
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 128
-        ExplicitTop = 69
-        ExplicitWidth = 838
-        ExplicitHeight = 512
+        ExplicitWidth = 1055
+        ExplicitHeight = 608
         inherited pBottom: TPanel
           Width = 1055
           Height = 353
-          ExplicitLeft = 0
-          ExplicitTop = 255
-          ExplicitWidth = 958
-          ExplicitHeight = 318
+          ExplicitWidth = 1055
+          ExplicitHeight = 353
           inherited Chart: TChart
             Width = 1033
             Height = 345
-            ExplicitLeft = 11
-            ExplicitTop = 4
-            ExplicitWidth = 936
-            ExplicitHeight = 310
+            ExplicitWidth = 1033
+            ExplicitHeight = 345
             inherited txtChartScale: TRzSpinEdit
               Left = 891
               Height = 27
               OnChange = nil
-              ExplicitLeft = 794
+              ExplicitLeft = 891
               ExplicitHeight = 27
             end
             inherited chkNegative: TCheckBox
               Left = 763
-              ExplicitLeft = 666
+              ExplicitLeft = 763
             end
           end
         end
         inherited pTop: TPanel
           Width = 1055
-          ExplicitLeft = 0
-          ExplicitWidth = 958
+          ExplicitWidth = 1055
           inherited pUOMs: TPanel
+            Width = 240
+            ExplicitWidth = 240
+            inherited Label2: TLabel
+              Width = 234
+            end
             inherited lstUOMs: TListView
-              ExplicitTop = 28
+              Width = 234
             end
           end
           inherited pInfo: TPanel
-            Width = 389
-            ExplicitWidth = 292
+            Left = 689
+            Width = 366
+            ExplicitWidth = 389
             inherited pTestVal: TPanel
-              Width = 389
-              ExplicitWidth = 292
+              Width = 366
+              ExplicitWidth = 389
             end
             inherited pUnitDetail: TPanel
-              Width = 383
-              ExplicitWidth = 286
+              Width = 360
+              ExplicitWidth = 383
               inherited lblUnitName: TLabel
-                Width = 240
+                Width = 217
+                ExplicitWidth = 240
               end
               inherited lblUnitSystems: TLabel
-                Width = 240
+                Width = 217
+                ExplicitWidth = 240
               end
               inherited lblUnitSuffix: TLabel
-                Width = 240
+                Width = 217
+                ExplicitWidth = 240
               end
               inherited lblUnitBaseFrom: TLabel
-                Width = 240
+                Width = 217
               end
               inherited lblUnitBaseTo: TLabel
-                Width = 240
+                Width = 217
               end
               inherited lblUnitNamePlural: TLabel
-                Width = 240
+                Width = 217
+                ExplicitWidth = 240
               end
               inherited lblUnitAliases: TLabel
-                Width = 240
+                Width = 217
               end
             end
           end
@@ -737,6 +740,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 3
             Text = 'btnConvertNormal'
             OnClick = btnSaveUOMClick
+            ExplicitTop = 94
           end
           object btnCancelUOM: TJDFontButton
             Left = 1
@@ -819,8 +823,6 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabScripts: TTabSheet
       Caption = '    Scripts    '
       ImageIndex = 4
-      ExplicitLeft = 6
-      ExplicitTop = 28
       inline frJDConvertScripting1: TfrJDConvertScripting
         Left = 0
         Top = 0
@@ -828,8 +830,8 @@ object frmJDConvertMain: TfrmJDConvertMain
         Height = 608
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 184
-        ExplicitTop = 63
+        ExplicitWidth = 1055
+        ExplicitHeight = 608
         inherited Splitter1: TSplitter
           Top = 353
           Width = 1055
@@ -837,46 +839,43 @@ object frmJDConvertMain: TfrmJDConvertMain
         inherited Panel7: TPanel
           Top = 360
           Width = 1055
-          ExplicitLeft = 0
-          ExplicitWidth = 862
-          inherited txtOutput: TMemo
-            Width = 1049
-            ExplicitLeft = 2
-            ExplicitTop = 35
-          end
+          ExplicitTop = 360
+          ExplicitWidth = 1055
           inherited btnExecScript: TJDFontButton
             Width = 1049
+            ExplicitWidth = 1049
+          end
+          inherited txtOutput: TSynEdit
+            Width = 1049
+            ExplicitWidth = 1049
           end
         end
         inherited txtExpr: TSynEdit
           Width = 1049
           Height = 306
-          ExplicitLeft = 3
-          ExplicitWidth = 856
-          ExplicitHeight = 284
+          ExplicitWidth = 1049
+          ExplicitHeight = 306
         end
         inherited pJDConvertScriptingToolbar: TPanel
           Width = 1055
-          ExplicitLeft = 2
           ExplicitWidth = 1055
           inherited JDFontButton1: TJDFontButton
+            Left = 89
             Width = 33
-            ExplicitLeft = 4
-            ExplicitTop = 4
+            ExplicitLeft = 89
             ExplicitWidth = 33
           end
           inherited JDFontButton2: TJDFontButton
-            Left = 43
-            ExplicitTop = 4
+            Left = 46
+            ExplicitLeft = 46
           end
           inherited JDFontButton3: TJDFontButton
-            Left = 86
-            ExplicitTop = 4
+            Left = 128
+            ExplicitLeft = 128
           end
           inherited JDFontButton4: TJDFontButton
-            Left = 129
-            ExplicitLeft = 214
-            ExplicitTop = 5
+            Left = 171
+            ExplicitLeft = 171
           end
         end
       end
@@ -1242,9 +1241,9 @@ object frmJDConvertMain: TfrmJDConvertMain
       end>
     OnDblClick = StatDblClick
   end
-  object ApplicationEvents1: TApplicationEvents
-    OnHelp = ApplicationEvents1Help
-    Left = 413
-    Top = 254
+  object AppEvents: TApplicationEvents
+    OnHelp = AppEventsHelp
+    Left = 421
+    Top = 302
   end
 end

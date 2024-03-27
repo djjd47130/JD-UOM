@@ -117,8 +117,8 @@ begin
 end;
 
 const
-  WIDTH_SMALL = 2;
-  WIDTH_LARGE = 6;
+  WIDTH_SMALL = 3;
+  WIDTH_LARGE = 7;
   WIDTH_CROSSHAIR = 1;
 
 procedure TfrJDConvertDetails.RefreshChart;

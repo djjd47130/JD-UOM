@@ -318,7 +318,13 @@ begin
   I:= TIniFile.Create(FFilename);
   try
 
-    //First, erase everything in the file...
+    //First, unregister all custom UOMs...
+    for X := 0 to FItems.Count-1 do begin
+      Itm:= FItems[X];
+      Itm.UnregisterUOM;
+    end;
+
+    //Next, erase everything in the file...
     L:= TStringList.Create;
     try
       I.ReadSections(L);
@@ -362,7 +368,9 @@ begin
   finally
     I.Free;
   end;
-  Result:= Self;
+
+  //Finally, reload and reregister...
+  Result:= RegisterAllUOMs;
 end;
 
 { TUOMFileItem }

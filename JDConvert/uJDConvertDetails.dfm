@@ -11,10 +11,6 @@ object frJDConvertDetails: TfrJDConvertDetails
     Height = 318
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -97
-    ExplicitTop = 220
-    ExplicitWidth = 1055
-    ExplicitHeight = 353
     object Chart: TChart
       AlignWithMargins = True
       Left = 11
@@ -67,10 +63,6 @@ object frJDConvertDetails: TfrJDConvertDetails
       BevelOuter = bvNone
       Color = 1644825
       TabOrder = 0
-      ExplicitLeft = 9
-      ExplicitTop = 3
-      ExplicitWidth = 1033
-      ExplicitHeight = 345
       DesignSize = (
         936
         310)
@@ -93,7 +85,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         ShowHint = True
         TabOrder = 0
         OnChange = txtChartScaleChange
-        ExplicitLeft = 891
       end
       object chkNegative: TCheckBox
         Left = 666
@@ -114,7 +105,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         TabOrder = 1
         StyleElements = [seClient, seBorder]
         OnClick = chkNegativeClick
-        ExplicitLeft = 763
       end
       object Series1: TLineSeries
         Selected.Hover.Visible = False
@@ -140,8 +130,6 @@ object frJDConvertDetails: TfrJDConvertDetails
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = -97
-    ExplicitWidth = 1055
     object pCategories: TPanel
       Left = 233
       Top = 0
@@ -232,7 +220,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         TabOrder = 0
         ViewStyle = vsReport
         OnSelectItem = lstUOMsSelectItem
-        ExplicitTop = 29
       end
     end
     object pInfo: TPanel
@@ -243,7 +230,6 @@ object frJDConvertDetails: TfrJDConvertDetails
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitWidth = 389
       object pTestVal: TPanel
         Left = 0
         Top = 0
@@ -252,7 +238,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 389
         object lblUnitHeader: TLabel
           AlignWithMargins = True
           Left = 3
@@ -277,7 +262,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         Height = 224
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 383
         DesignSize = (
           286
           224)
@@ -504,7 +488,6 @@ object frJDConvertDetails: TfrJDConvertDetails
         ViewStyle = vsReport
         OnClick = lstSystemsClick
         OnItemChecked = lstSystemsItemChecked
-        ExplicitTop = 29
       end
     end
   end

@@ -93,7 +93,7 @@ type
     lstUserUnits: TCheckListBox;
     chkUserBase: TToggleSwitch;
     lblUserBase: TLabel;
-    ApplicationEvents1: TApplicationEvents;
+    AppEvents: TApplicationEvents;
     Panel4: TPanel;
     Label5: TLabel;
     txtSearch: TSearchBox;
@@ -128,7 +128,7 @@ type
     procedure btnCancelUOMClick(Sender: TObject);
     procedure btnEditUOMClick(Sender: TObject);
     procedure btnSaveUOMClick(Sender: TObject);
-    function ApplicationEvents1Help(Command: Word; Data: NativeInt;
+    function AppEventsHelp(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
     procedure txtSearchInvokeSearch(Sender: TObject);
     procedure btnSettingsClick(Sender: TObject);
@@ -149,6 +149,7 @@ type
     procedure UpdateTitle;
   public
     //Common
+    procedure ProtectSystemUOMs;
     procedure RefreshAll;
 
     //Main Menu Related
@@ -257,7 +258,7 @@ begin
   if HlpWind <> 0 then PostMessage(HlpWind,WM_Close,0,0);
 end;
 
-function TfrmJDConvertMain.ApplicationEvents1Help(Command: Word;
+function TfrmJDConvertMain.AppEventsHelp(Command: Word;
   Data: NativeInt; var CallHelp: Boolean): Boolean;
 begin
   CloseHelpWnd;
@@ -296,6 +297,17 @@ begin
   AButton.DrawStyle:= fdThemed;
   Self.HelpContext:= AHelpContext;
   Self.UpdateTitle;
+end;
+
+procedure TfrmJDConvertMain.ProtectSystemUOMs;
+var
+  X: Integer;
+  U: TUOM;
+begin
+  for X := 0 to TUOMUtils.UOMCount-1 do begin
+    U:= TUOMUtils.GetUOMByIndex(X);
+    U.ProtectedUOM:= True;
+  end;
 end;
 
 procedure TfrmJDConvertMain.btnConvertNormalClick(Sender: TObject);
@@ -337,9 +349,10 @@ end;
 
 procedure TfrmJDConvertMain.RefreshAll;
 begin
+  TUOMUtils.ListCategories(cboConvertCategory.Items);
+
   UOMDetails.RefreshUOMSystemList;
   UOMDetails.RefreshUOMCategoryList;
-  TUOMUtils.ListCategories(cboConvertCategory.Items);
 
   if cboConvertCategory.Items.Count > 0 then
     cboConvertCategory.ItemIndex:= 0;
@@ -360,6 +373,7 @@ begin
         FSystemUOMs.LoadFromFile(Files[X]).RegisterAllUOMs;
       end;
     end;
+    ProtectSystemUOMs;
   except
     on E: Exception do begin
       MessageDlg('Failed to load system UOMs: '+E.Message, mtError, [mbOK], 0);
@@ -868,6 +882,21 @@ begin
     if UnitsChecked = 0 then
       raise Exception.Create('Please choose at least 1 Metric unit.');
   end;
+
+  //Protected UOMs...
+  if TUOMUtils.CategoryProtected(txtUserCategory.Text) = True then begin
+    case T of
+      utMetric: begin
+        if txtUserNamePlural.Text <> '' then
+          raise Exception.Create('Cannot change base of protected category.');
+      end;
+      utSimple, utFormula: begin
+        if chkUserBase.IsOn then
+          raise Exception.Create('Cannot change base of protected category.');
+      end;
+    end;
+  end;
+
 
   if FIsNewUOM then begin
     I:= FUserUOMs.Add;
