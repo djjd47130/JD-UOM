@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "JD Convert"
-#define MyAppVersion "1.4.1"
+#define MyAppVersion "1.5"
 #define MyAppPublisher "JD Software"
 #define MyAppURL "http://jerrydodge.com"
 #define MyAppExeName "JDConvert.exe"

@@ -7,7 +7,8 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, SynEditHighlighter,
   SynEditCodeFolding, SynHighlighterPas, SynEdit, Vcl.ExtCtrls, Vcl.StdCtrls,
   JD.Uom, JD.Common, JD.Ctrls, JD.Ctrls.FontButton, SynCompletionProposal,
-  Vcl.ExtDlgs, System.Actions, Vcl.ActnList, Vcl.ComCtrls;
+  Vcl.ExtDlgs, System.Actions, Vcl.ActnList, Vcl.ComCtrls,
+  System.UITypes;
 
 type
   TfrJDConvertScripting = class(TFrame)

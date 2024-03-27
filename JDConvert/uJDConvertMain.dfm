@@ -411,11 +411,11 @@ object frmJDConvertMain: TfrmJDConvertMain
           end
           item
             Caption = 'Type'
-            Width = 100
+            Width = 80
           end
           item
             Caption = 'Category'
-            Width = 180
+            Width = 160
           end
           item
             Caption = 'Suffix'
@@ -423,7 +423,7 @@ object frmJDConvertMain: TfrmJDConvertMain
           end
           item
             Caption = 'Systems'
-            Width = 400
+            Width = 380
           end>
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
@@ -871,14 +871,13 @@ object frmJDConvertMain: TfrmJDConvertMain
           Width = 1055
           ExplicitWidth = 1055
           inherited btnNew: TJDFontButton
-            Left = 46
             Width = 33
             ExplicitLeft = 89
             ExplicitWidth = 33
           end
           inherited btnOpen: TJDFontButton
-            Left = 3
-            ExplicitLeft = 46
+            Left = 42
+            ExplicitLeft = 59
           end
           inherited btnSave: TJDFontButton
             Left = 85
