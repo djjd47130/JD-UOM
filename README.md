@@ -64,11 +64,13 @@ This application uses the `Raize` controls, specifically `TRzSpinEdit`.
 ### NOTE: 
 This application uses the [`JDLib`](https://github.com/djjd47130/JDLib) controls, specifically [`TJDFontButton`](https://github.com/djjd47130/JDLib/blob/master/Docs/TJDFontButton.md), also written by Jerry Dodge.
 
-![image](https://github.com/djjd47130/JD-UOM/assets/8213266/964dae59-235f-4559-acc4-ba10065dc4af)
+### NOTE:
+This application uses the SynEdit controls for scripting syntax editor and highlighting.
 
-![image](https://github.com/djjd47130/JD-UOM/assets/8213266/cb21182d-1d2c-46a0-b36f-207e5519dfe6)
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/80eaf87c-66f9-4b61-900a-5f94c350d3fb)
 
-![image](https://github.com/djjd47130/JD-UOM/assets/8213266/77591b8c-fc8e-4fe6-bf91-80c1c2e9d234)
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/abba15b2-95bf-4d4c-bbd6-fdd28f1ecb9f)
 
+![image](https://github.com/djjd47130/JD-UOM/assets/8213266/e19de103-87a5-4676-ace0-4120b8d9d804)
 
 
