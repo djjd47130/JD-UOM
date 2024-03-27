@@ -34,7 +34,7 @@ uses
   , SynEditHighlighter, SynEditCodeFolding, SynHighlighterPas,
   SynEdit,
 
-  uJDConvertScripting, uJDConvertDetails;
+  uJDConvertScripting, uJDConvertDetails, System.Actions, Vcl.ActnList;
 
 const
   WIDTH_SMALL = 2;
@@ -107,7 +107,7 @@ type
     JDFontButton1: TJDFontButton;
     btnUOMScript: TJDFontButton;
     tabScripts: TTabSheet;
-    frJDConvertScripting1: TfrJDConvertScripting;
+    Scripting: TfrJDConvertScripting;
     UOMDetails: TfrJDConvertDetails;
     procedure FormCreate(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
@@ -297,6 +297,11 @@ begin
   AButton.DrawStyle:= fdThemed;
   Self.HelpContext:= AHelpContext;
   Self.UpdateTitle;
+  if ATab = Self.tabScripts then begin
+    Scripting.Acts.State:= asNormal;
+  end else begin
+    Scripting.Acts.State:= asSuspended;
+  end;
 end;
 
 procedure TfrmJDConvertMain.ProtectSystemUOMs;

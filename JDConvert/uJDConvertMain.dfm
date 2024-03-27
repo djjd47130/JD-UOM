@@ -22,7 +22,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabBuilder
+    ActivePage = tabScripts
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -326,6 +326,11 @@ object frmJDConvertMain: TfrmJDConvertMain
         inherited pTop: TPanel
           Width = 1055
           ExplicitWidth = 1055
+          inherited pCategories: TPanel
+            inherited Label1: TLabel
+              Width = 210
+            end
+          end
           inherited pUOMs: TPanel
             Width = 240
             ExplicitWidth = 240
@@ -334,19 +339,21 @@ object frmJDConvertMain: TfrmJDConvertMain
             end
             inherited lstUOMs: TListView
               Width = 234
+              ExplicitWidth = 234
             end
           end
           inherited pInfo: TPanel
             Left = 689
             Width = 366
-            ExplicitWidth = 389
+            ExplicitLeft = 689
+            ExplicitWidth = 366
             inherited pTestVal: TPanel
               Width = 366
-              ExplicitWidth = 389
+              ExplicitWidth = 366
             end
             inherited pUnitDetail: TPanel
               Width = 360
-              ExplicitWidth = 383
+              ExplicitWidth = 360
               inherited lblUnitName: TLabel
                 Width = 217
                 ExplicitWidth = 240
@@ -361,9 +368,11 @@ object frmJDConvertMain: TfrmJDConvertMain
               end
               inherited lblUnitBaseFrom: TLabel
                 Width = 217
+                ExplicitWidth = 217
               end
               inherited lblUnitBaseTo: TLabel
                 Width = 217
+                ExplicitWidth = 217
               end
               inherited lblUnitNamePlural: TLabel
                 Width = 217
@@ -371,7 +380,13 @@ object frmJDConvertMain: TfrmJDConvertMain
               end
               inherited lblUnitAliases: TLabel
                 Width = 217
+                ExplicitWidth = 217
               end
+            end
+          end
+          inherited pSystems: TPanel
+            inherited Label12: TLabel
+              Width = 227
             end
           end
         end
@@ -740,7 +755,6 @@ object frmJDConvertMain: TfrmJDConvertMain
             TabOrder = 3
             Text = 'btnConvertNormal'
             OnClick = btnSaveUOMClick
-            ExplicitTop = 94
           end
           object btnCancelUOM: TJDFontButton
             Left = 1
@@ -823,7 +837,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     object tabScripts: TTabSheet
       Caption = '    Scripts    '
       ImageIndex = 4
-      inline frJDConvertScripting1: TfrJDConvertScripting
+      inline Scripting: TfrJDConvertScripting
         Left = 0
         Top = 0
         Width = 1055
@@ -859,21 +873,21 @@ object frmJDConvertMain: TfrmJDConvertMain
         inherited pJDConvertScriptingToolbar: TPanel
           Width = 1055
           ExplicitWidth = 1055
-          inherited JDFontButton1: TJDFontButton
+          inherited btnNew: TJDFontButton
             Left = 89
             Width = 33
             ExplicitLeft = 89
             ExplicitWidth = 33
           end
-          inherited JDFontButton2: TJDFontButton
+          inherited btnOpen: TJDFontButton
             Left = 46
             ExplicitLeft = 46
           end
-          inherited JDFontButton3: TJDFontButton
+          inherited btnSave: TJDFontButton
             Left = 128
             ExplicitLeft = 128
           end
-          inherited JDFontButton4: TJDFontButton
+          inherited btnSaveAs: TJDFontButton
             Left = 171
             ExplicitLeft = 171
           end

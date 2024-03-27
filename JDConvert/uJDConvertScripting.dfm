@@ -24,53 +24,12 @@ object frJDConvertScripting: TfrJDConvertScripting
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    object btnExecScript: TJDFontButton
+    object txtOutput: TSynEdit
       AlignWithMargins = True
       Left = 3
       Top = 3
       Width = 917
-      Height = 30
-      Cursor = crHandPoint
-      Align = alTop
-      DrawStyle = fdTransparent
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      Image.AutoSize = False
-      Image.Text = #61537
-      Image.Font.Charset = DEFAULT_CHARSET
-      Image.Font.Color = clWindowText
-      Image.Font.Height = -21
-      Image.Font.Name = 'FontAwesome'
-      Image.Font.Style = []
-      Image.Font.Quality = fqAntialiased
-      Image.StandardColor = fcGreen
-      Overlay.Text = #57715
-      Overlay.Font.Charset = DEFAULT_CHARSET
-      Overlay.Font.Color = clWindowText
-      Overlay.Font.Height = -7
-      Overlay.Font.Name = 'FontAwesome'
-      Overlay.Font.Style = []
-      Overlay.Font.Quality = fqAntialiased
-      Overlay.Position = foNone
-      Overlay.Margin = 3
-      SubTextFont.Charset = DEFAULT_CHARSET
-      SubTextFont.Color = clGray
-      SubTextFont.Height = -11
-      SubTextFont.Name = 'Tahoma'
-      SubTextFont.Style = []
-      TabOrder = 0
-      Text = 'Execute Script'
-      OnClick = btnExecScriptClick
-    end
-    object txtOutput: TSynEdit
-      AlignWithMargins = True
-      Left = 3
-      Top = 39
-      Width = 917
-      Height = 206
+      Height = 242
       Align = alClient
       DoubleBuffered = True
       Color = 1644825
@@ -82,7 +41,7 @@ object frJDConvertScripting: TfrJDConvertScripting
       Font.Style = []
       Font.Quality = fqClearTypeNatural
       ParentDoubleBuffered = False
-      TabOrder = 1
+      TabOrder = 0
       UseCodeFolding = False
       Gutter.Color = 1644825
       Gutter.BorderColor = clSilver
@@ -118,6 +77,8 @@ object frJDConvertScripting: TfrJDConvertScripting
       ReadOnly = True
       SelectedColor.Alpha = 0.400000005960464500
       WantTabs = True
+      ExplicitTop = 39
+      ExplicitHeight = 206
     end
   end
   object txtExpr: TSynEdit
@@ -125,7 +86,7 @@ object frJDConvertScripting: TfrJDConvertScripting
     Left = 3
     Top = 44
     Width = 917
-    Height = 311
+    Height = 292
     Align = alClient
     DoubleBuffered = True
     Color = 1644825
@@ -138,6 +99,8 @@ object frJDConvertScripting: TfrJDConvertScripting
     Font.Quality = fqClearTypeNatural
     ParentDoubleBuffered = False
     TabOrder = 1
+    OnClick = txtExprClick
+    OnKeyUp = txtExprKeyUp
     UseCodeFolding = False
     Gutter.Color = 1644825
     Gutter.BorderColor = clSilver
@@ -213,6 +176,8 @@ object frJDConvertScripting: TfrJDConvertScripting
     Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
     SelectedColor.Alpha = 0.400000005960464500
     WantTabs = True
+    OnChange = txtExprChange
+    ExplicitHeight = 311
   end
   object pJDConvertScriptingToolbar: TPanel
     Left = 0
@@ -224,15 +189,14 @@ object frJDConvertScripting: TfrJDConvertScripting
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
-    Visible = False
-    object JDFontButton1: TJDFontButton
+    object btnNew: TJDFontButton
       AlignWithMargins = True
-      Left = 46
+      Left = 3
       Top = 3
       Width = 37
       Height = 35
       Cursor = crHandPoint
-      Hint = 'Create New Script'
+      Action = actNew
       Align = alLeft
       DrawStyle = fdTransparent
       Font.Charset = DEFAULT_CHARSET
@@ -265,16 +229,17 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       TabOrder = 0
-      Text = ''
+      Text = 'New Script'
+      ExplicitLeft = 46
     end
-    object JDFontButton2: TJDFontButton
+    object btnOpen: TJDFontButton
       AlignWithMargins = True
-      Left = 89
+      Left = 46
       Top = 3
       Width = 37
       Height = 35
       Cursor = crHandPoint
-      Hint = 'Open Existing Script'
+      Action = actOpen
       Align = alLeft
       DrawStyle = fdTransparent
       Font.Charset = DEFAULT_CHARSET
@@ -307,16 +272,17 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       TabOrder = 1
-      Text = ''
+      Text = 'Open Script...'
+      ExplicitLeft = 89
     end
-    object JDFontButton3: TJDFontButton
+    object btnSave: TJDFontButton
       AlignWithMargins = True
-      Left = 132
+      Left = 89
       Top = 3
       Width = 37
       Height = 35
       Cursor = crHandPoint
-      Hint = 'Save Script'
+      Action = actSave
       Align = alLeft
       DrawStyle = fdTransparent
       Font.Charset = DEFAULT_CHARSET
@@ -349,16 +315,17 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       TabOrder = 2
-      Text = ''
+      Text = 'Save Script'
+      ExplicitLeft = 132
     end
-    object JDFontButton4: TJDFontButton
+    object btnSaveAs: TJDFontButton
       AlignWithMargins = True
-      Left = 175
+      Left = 132
       Top = 3
       Width = 37
       Height = 35
       Cursor = crHandPoint
-      Hint = 'Save Script As...'
+      Action = actSaveAs
       Align = alLeft
       DrawStyle = fdTransparent
       Font.Charset = DEFAULT_CHARSET
@@ -392,16 +359,17 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       TabOrder = 3
-      Text = ''
+      Text = 'Save Script As...'
+      ExplicitLeft = 175
     end
-    object JDFontButton5: TJDFontButton
+    object btnExec: TJDFontButton
       AlignWithMargins = True
-      Left = 3
+      Left = 175
       Top = 3
       Width = 37
       Height = 35
       Cursor = crHandPoint
-      Hint = 'Preset Scripts'
+      Action = actExecute
       Align = alLeft
       DrawStyle = fdTransparent
       Font.Charset = DEFAULT_CHARSET
@@ -410,14 +378,14 @@ object frJDConvertScripting: TfrJDConvertScripting
       Font.Name = 'Tahoma'
       Font.Style = []
       Image.AutoSize = False
-      Image.Text = #61732
+      Image.Text = #61515
       Image.Font.Charset = DEFAULT_CHARSET
       Image.Font.Color = clWindowText
       Image.Font.Height = -21
       Image.Font.Name = 'FontAwesome'
       Image.Font.Style = []
       Image.Font.Quality = fqAntialiased
-      Image.StandardColor = fcBlue
+      Image.StandardColor = fcGreen
       Overlay.Text = #57715
       Overlay.Font.Charset = DEFAULT_CHARSET
       Overlay.Font.Color = clWindowText
@@ -434,8 +402,28 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       TabOrder = 4
-      Text = ''
+      Text = 'Execute Script'
+      ExplicitLeft = 299
     end
+  end
+  object Stat: TStatusBar
+    Left = 0
+    Top = 339
+    Width = 923
+    Height = 19
+    Panels = <
+      item
+        Width = 120
+      end
+      item
+        Width = 120
+      end
+      item
+        Width = 50
+      end>
+    ExplicitLeft = 96
+    ExplicitTop = 240
+    ExplicitWidth = 0
   end
   object SynPasSyn1: TSynPasSyn
     CommentAttri.Foreground = clLime
@@ -443,7 +431,49 @@ object frJDConvertScripting: TfrJDConvertScripting
     KeyAttri.Foreground = 14021631
     NumberAttri.Foreground = clMoneyGreen
     StringAttri.Foreground = clSkyBlue
-    Left = 677
-    Top = 102
+    Left = 733
+    Top = 86
+  end
+  object dlgOpen: TOpenTextFileDialog
+    Left = 184
+    Top = 160
+  end
+  object dlgSave: TSaveTextFileDialog
+    Left = 248
+    Top = 160
+  end
+  object Acts: TActionList
+    Left = 736
+    Top = 144
+    object actNew: TAction
+      Caption = 'New Script'
+      Hint = 'New Script'
+      ShortCut = 16462
+      OnExecute = btnNewClick
+    end
+    object actOpen: TAction
+      Caption = 'Open Script...'
+      Hint = 'Open Script...'
+      ShortCut = 16463
+      OnExecute = btnOpenClick
+    end
+    object actSave: TAction
+      Caption = 'Save Script'
+      Hint = 'Save Script'
+      ShortCut = 16467
+      OnExecute = btnSaveClick
+    end
+    object actSaveAs: TAction
+      Caption = 'Save Script As...'
+      Hint = 'Save Script As...'
+      ShortCut = 24659
+      OnExecute = btnSaveAsClick
+    end
+    object actExecute: TAction
+      Caption = 'Execute Script'
+      Hint = 'Execute Script'
+      ShortCut = 120
+      OnExecute = btnExecScriptClick
+    end
   end
 end

@@ -66,6 +66,7 @@ object dmDWS: TdmDWS
           item
             Name = 'Aliases'
             DataType = 'String'
+            HasDefaultValue = True
           end>
         ResultType = 'TUOM'
         OnEval = JDUOMFunctionsRegisterSimpleUOMEval
@@ -104,6 +105,7 @@ object dmDWS: TdmDWS
           item
             Name = 'Aliases'
             DataType = 'String'
+            HasDefaultValue = True
           end>
         ResultType = 'TUOM'
         OnEval = JDUOMFunctionsRegisterUOMEval

@@ -1057,7 +1057,6 @@ begin
   else
     FBaseUOMs[ACategory]:= AUnit;
   InvalidateUOMs;
-  InvalidateCategories;
 end;
 
 class function TUOMUtils.RegisterSimpleUOM(const ACategory, ANameSingular,
@@ -1069,7 +1068,6 @@ begin
   F:= FormatFloat(NumInternalFormat, ABaseFactor);
   Result:= RegisterUOM(ACategory, ANameSingular, ANamePlural, ASuffix, ASystems,
     'Value / '+F, 'Value * '+F, ABaseFactor, AOwner);
-  //TODO: Change to record factor INSTEAD of formula...
   Result.FUOMType:= TUOMType.uomFactor;
 end;
 

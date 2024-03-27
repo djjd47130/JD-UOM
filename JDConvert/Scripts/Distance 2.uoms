@@ -1,0 +1,53 @@
+
+
+const  FACTOR_MIL =                2.54e-5;
+const  FACTOR_INCH =               0.0254;
+const  FACTOR_FOOT =               0.3048;
+const  FACTOR_YARD =               0.9144;
+const  FACTOR_FATHOM =             1.82879999999;
+const  FACTOR_ROD =                5.0292;
+const  FACTOR_FURLONG =            201.168;
+const  FACTOR_MILE =               1609.344;
+const  FACTOR_NAUTICAL_MILE =      1852;
+const  FACTOR_LIGHT_YEAR =         9460730472580800;
+const  FACTOR_BANANA =             0.254;
+const  FACTOR_IPHONE_14_PRO_MAX =  0.1607;
+
+RegisterSimpleUOM('Distance',
+  'Mil', 'Mil', 'mil', 'Imperial,US Customary', FACTOR_MIL,
+  'thou,Thou,Thousandth,thousandth');
+
+RegisterSimpleUOM('Distance',
+  'Inch', 'Inches', '"', 'Imperial,US Customary', FACTOR_INCH,
+  'in,In,IN');
+
+RegisterSimpleUOM('Distance',
+  'Foot', 'Feet', '''', 'Imperial,US Customary', FACTOR_FOOT,
+  'ft,Ft,FT');
+ 
+RegisterSimpleUOM('Distance',
+  'Yard', 'Yards', 'yd', 'Imperial,US Customary', FACTOR_YARD);
+
+RegisterSimpleUOM('Distance',
+  'Fathom', 'Fathoms', 'fath', 'Imperial', FACTOR_FATHOM);
+
+RegisterSimpleUOM('Distance',
+  'Rod', 'Rods', 'rd', 'Imperial', FACTOR_ROD);
+
+RegisterSimpleUOM('Distance',
+  'Furlong', 'Furlongs', 'fur', 'Imperial,US Customary', FACTOR_FURLONG);
+
+RegisterSimpleUOM('Distance',
+  'Mile', 'Miles', 'mi', 'Imperial,US Customary', FACTOR_MILE,
+  'Mi,MI');
+
+RegisterSimpleUOM('Distance',
+  'Nautical Mile', 'Nautical Miles', 'nmi', 'Imperial,US Customary', FACTOR_NAUTICAL_MILE,
+  'NMI,NMi,Nmi');
+
+RegisterSimpleUOM('Distance',
+  'Light Year', 'Light Years', 'ly', 'Natural', FACTOR_LIGHT_YEAR,
+  'lightyear,Lightyear,LightYear,lightyears,Lightyears,LightYears');
+
+
+
