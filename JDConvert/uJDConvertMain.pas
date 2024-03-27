@@ -134,6 +134,7 @@ type
     procedure btnSettingsClick(Sender: TObject);
     procedure btnUOMScriptClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure btnDeleteUOMClick(Sender: TObject);
   private
     FCurMode: String;
     FSystemUOMs: TUOMFile;
@@ -350,6 +351,23 @@ begin
   pConvertNormal.Visible:= False;
   txtSearch.SetFocus;
   RefreshEquivalents;
+end;
+
+procedure TfrmJDConvertMain.btnDeleteUOMClick(Sender: TObject);
+var
+  I: TUOMFileItem;
+begin
+  if MessageDlg('Are you sure you wish to delete selected UOM?', mtWarning,
+    [mbYes,mbNo], 0) = mrYes then
+  begin
+    I:= TUOMFileItem(lstCustomUOMs.Selected.Data);
+    I.UnregisterUOM;
+    FUserUOMs.DeleteItem(FUserUOMs.IndexOf(I));
+    FUserUOMs.Save;
+    Self.SetUserEditMode(False, False);
+    Self.RefreshAll;
+    Self.RefreshUserUOMList;
+  end;
 end;
 
 procedure TfrmJDConvertMain.btnDetailsClick(Sender: TObject);

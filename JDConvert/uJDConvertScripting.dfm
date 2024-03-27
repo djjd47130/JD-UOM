@@ -277,7 +277,7 @@ object frJDConvertScripting: TfrJDConvertScripting
     end
     object btnSave: TJDFontButton
       AlignWithMargins = True
-      Left = 89
+      Left = 132
       Top = 3
       Width = 37
       Height = 35
@@ -316,11 +316,11 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 2
       Text = 'Save Script'
-      ExplicitLeft = 132
+      ExplicitLeft = 148
     end
     object btnSaveAs: TJDFontButton
       AlignWithMargins = True
-      Left = 132
+      Left = 175
       Top = 3
       Width = 37
       Height = 35
@@ -360,11 +360,11 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 3
       Text = 'Save Script As...'
-      ExplicitLeft = 175
+      ExplicitLeft = 191
     end
     object btnExec: TJDFontButton
       AlignWithMargins = True
-      Left = 175
+      Left = 218
       Top = 3
       Width = 37
       Height = 35
@@ -403,7 +403,95 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 4
       Text = 'Execute Script'
-      ExplicitLeft = 299
+      ExplicitLeft = 250
+    end
+    object btnOpenRecent: TJDFontButton
+      AlignWithMargins = True
+      Left = 89
+      Top = 3
+      Width = 37
+      Height = 35
+      Cursor = crHandPoint
+      Action = actOpenRecent
+      Align = alLeft
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61564
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -21
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcOrange
+      Overlay.Text = #61463
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -13
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.StandardColor = fcBlue
+      Overlay.Position = foBottomRight
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 5
+      Text = 'Open Recent...'
+      ExplicitLeft = 110
+    end
+    object JDFontButton2: TJDFontButton
+      AlignWithMargins = True
+      Left = 261
+      Top = 3
+      Width = 37
+      Height = 35
+      Cursor = crHandPoint
+      Hint = 'Execute Script'
+      Align = alLeft
+      DrawStyle = fdTransparent
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Image.AutoSize = False
+      Image.Text = #61463
+      Image.Font.Charset = DEFAULT_CHARSET
+      Image.Font.Color = clWindowText
+      Image.Font.Height = -21
+      Image.Font.Name = 'FontAwesome'
+      Image.Font.Style = []
+      Image.Font.Quality = fqAntialiased
+      Image.StandardColor = fcGreen
+      Overlay.Text = #57715
+      Overlay.Font.Charset = DEFAULT_CHARSET
+      Overlay.Font.Color = clWindowText
+      Overlay.Font.Height = -7
+      Overlay.Font.Name = 'FontAwesome'
+      Overlay.Font.Style = []
+      Overlay.Font.Quality = fqAntialiased
+      Overlay.Position = foNone
+      Overlay.Margin = 3
+      ImagePosition = fpImgOnly
+      SubTextFont.Charset = DEFAULT_CHARSET
+      SubTextFont.Color = clGray
+      SubTextFont.Height = -11
+      SubTextFont.Name = 'Tahoma'
+      SubTextFont.Style = []
+      TabOrder = 6
+      Text = 'Execute Script'
+      Visible = False
+      ExplicitLeft = 304
     end
   end
   object Stat: TStatusBar
@@ -443,6 +531,7 @@ object frJDConvertScripting: TfrJDConvertScripting
   object dlgSave: TSaveTextFileDialog
     DefaultExt = '.uoms'
     Filter = 'UOM Script Files (*.uoms)|*.uoms|All Files (*.*)|*.*'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 768
     Top = 224
   end
@@ -460,6 +549,12 @@ object frJDConvertScripting: TfrJDConvertScripting
       Hint = 'Open Script...'
       ShortCut = 16463
       OnExecute = btnOpenClick
+    end
+    object actOpenRecent: TAction
+      Caption = 'Open Recent...'
+      Hint = 'Open Recent...'
+      Visible = False
+      OnExecute = actOpenRecentExecute
     end
     object actSave: TAction
       Caption = 'Save Script'
@@ -479,5 +574,9 @@ object frJDConvertScripting: TfrJDConvertScripting
       ShortCut = 120
       OnExecute = btnExecScriptClick
     end
+  end
+  object popRecents: TPopupMenu
+    Left = 144
+    Top = 72
   end
 end

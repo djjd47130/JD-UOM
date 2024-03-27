@@ -8,7 +8,7 @@ uses
   SynEditCodeFolding, SynHighlighterPas, SynEdit, Vcl.ExtCtrls, Vcl.StdCtrls,
   JD.Uom, JD.Common, JD.Ctrls, JD.Ctrls.FontButton, SynCompletionProposal,
   Vcl.ExtDlgs, System.Actions, Vcl.ActnList, Vcl.ComCtrls,
-  System.UITypes;
+  System.UITypes, Vcl.Menus;
 
 type
   TfrJDConvertScripting = class(TFrame)
@@ -32,6 +32,10 @@ type
     actSaveAs: TAction;
     Stat: TStatusBar;
     actExecute: TAction;
+    btnOpenRecent: TJDFontButton;
+    JDFontButton2: TJDFontButton;
+    actOpenRecent: TAction;
+    popRecents: TPopupMenu;
     procedure btnExecScriptClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);
@@ -40,6 +44,7 @@ type
     procedure btnSaveAsClick(Sender: TObject);
     procedure txtExprClick(Sender: TObject);
     procedure txtExprKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure actOpenRecentExecute(Sender: TObject);
   private
     FFilename: String;
     FModified: Boolean;
@@ -59,6 +64,12 @@ implementation
 
 uses
   uJDConvertMain;
+
+procedure TfrJDConvertScripting.actOpenRecentExecute(Sender: TObject);
+begin
+  //TODO: Show popup (popRecent) of recently edited files...
+
+end;
 
 procedure TfrJDConvertScripting.btnExecScriptClick(Sender: TObject);
 begin

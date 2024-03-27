@@ -37,6 +37,8 @@ type
     function LoadFromFile(const AFilename: String): TUOMFile;
     function Count: Integer;
     function Add: TUOMFileItem;
+    procedure DeleteItem(const Index: Integer);
+    function IndexOf(const I: TUOMFileItem): Integer;
     property Items[const Index: Integer]: TUOMFileItem read GetItem; default;
   end;
 
@@ -159,6 +161,11 @@ begin
   FItems:= TObjectList<TUOMFileItem>.Create(True);
 end;
 
+procedure TUOMFile.DeleteItem(const Index: Integer);
+begin
+  FItems.Delete(Index);
+end;
+
 destructor TUOMFile.Destroy;
 begin
   FreeAndNil(FItems);
@@ -179,6 +186,11 @@ end;
 function TUOMFile.GetItem(const Index: Integer): TUOMFileItem;
 begin
   Result:= FItems[Index];
+end;
+
+function TUOMFile.IndexOf(const I: TUOMFileItem): Integer;
+begin
+  Result:= FItems.IndexOf(I);
 end;
 
 procedure TUOMFile.SetFilename(const Value: String);

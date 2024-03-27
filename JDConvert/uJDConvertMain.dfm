@@ -23,7 +23,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabScripts
+    ActivePage = tabBuilder
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -712,6 +712,7 @@ object frmJDConvertMain: TfrmJDConvertMain
             SubTextFont.Style = []
             TabOrder = 2
             Text = 'btnConvertNormal'
+            OnClick = btnDeleteUOMClick
           end
           object btnSaveUOM: TJDFontButton
             Left = 1
@@ -880,15 +881,23 @@ object frmJDConvertMain: TfrmJDConvertMain
             ExplicitLeft = 59
           end
           inherited btnSave: TJDFontButton
-            Left = 85
+            Left = 128
             ExplicitLeft = 128
           end
           inherited btnSaveAs: TJDFontButton
-            Left = 128
+            Left = 171
             ExplicitLeft = 171
           end
           inherited btnExec: TJDFontButton
-            Left = 171
+            Left = 214
+          end
+          inherited btnOpenRecent: TJDFontButton
+            Left = 85
+            ExplicitLeft = 85
+          end
+          inherited JDFontButton2: TJDFontButton
+            Left = 257
+            ExplicitLeft = 257
           end
         end
         inherited Stat: TStatusBar

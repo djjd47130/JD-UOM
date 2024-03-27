@@ -1,27 +1,19 @@
-//Using Distance UOM category...
-const CAT: String = 'Distance';
+const CAT: String = 'Area';
+var B: TUOM = BaseUOM(CAT);
 
-//Register Jerry Distance UOM, if doesn't exist...
-if not UOMExists('Jerry') then
-  RegisterSimpleUOM(CAT, 'Jerry', 'Jerrys', 'Jry', 'Random', 1.7272, '');
+//Randomly convert a "Distance" to "Area" by squaring the resulting value...
+var V: Float = Sqr( (UOM('3ft') / UOM('6.9cm')) + (Cube(46) - UOM('6mi')) );
 
-//Perform random calculation on different UOMs...
-var V: Float = (UOM('3ft') / UOM('6.9cm')) + (Sqr(46) - UOM('6yd'));
- 
-//Central procedure to print out converted version of V (Value)...
-procedure OutputConversion(const UOM: String);
+procedure OutputConversion(const UOM: TUOM);
 begin
-  PrintLn(UOMString(Convert(V, BaseUOM(CAT).NameSingular, UOM), UOM) + ' ('+FindUOM(UOM).Suffix+')');
+  PrintLn(UOMString(Convert(V, B.NameSingular, UOM.NameSingular), UOM.NameSingular) + ' ('+UOM.Suffix+')');
 end;
 
-//Print base value and UOM message...
-PrintLn(UOMString(V, BaseUOM(CAT).NameSingular)+' ('+BaseUOM(CAT).Suffix+') is the same as:');
+PrintLn(UOMString(V, B.NameSingular)+' ('+B.Suffix+') is the same as:');
 
-//Print conversion for each possible UOM in category...
 var U: TUOM;
 for var X:= 0 to UOMCount - 1 do begin
   U:= UOMByIndex(X);
-  //UOM is same category, and not the base...
-  if (U.Category = CAT) and (U.NameSingular <> BaseUOM(CAT).NameSingular) then
-    OutputConversion(U.NameSingular);
+  if (U.Category = CAT) and (U.NameSingular <> B.NameSingular) then
+    OutputConversion(U);
 end;
