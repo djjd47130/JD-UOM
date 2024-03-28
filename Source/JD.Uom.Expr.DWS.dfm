@@ -24,8 +24,135 @@ object dmDWS: TdmDWS
           item
             Name = 'uomCombo'
           end>
+      end
+      item
+        Name = 'TUOMMetricUnit'
+        Elements = <
+          item
+            Name = 'msYocto'
+          end
+          item
+            Name = 'msZepto'
+          end
+          item
+            Name = 'msAtto'
+          end
+          item
+            Name = 'msFemto'
+          end
+          item
+            Name = 'msPico'
+          end
+          item
+            Name = 'msNano'
+          end
+          item
+            Name = 'msMicro'
+          end
+          item
+            Name = 'msMilli'
+          end
+          item
+            Name = 'msCenti'
+          end
+          item
+            Name = 'msDeci'
+          end
+          item
+            Name = 'msBase'
+          end
+          item
+            Name = 'msDeca'
+          end
+          item
+            Name = 'msHecto'
+          end
+          item
+            Name = 'msKilo'
+          end
+          item
+            Name = 'msMega'
+          end
+          item
+            Name = 'msGiga'
+          end
+          item
+            Name = 'msTera'
+          end
+          item
+            Name = 'msPeta'
+          end
+          item
+            Name = 'msExa'
+          end
+          item
+            Name = 'msZeta'
+          end
+          item
+            Name = 'msYotta'
+          end>
+      end>
+    Sets = <
+      item
+        Name = 'TUOMMetricUnits'
+        BaseType = 'TUOMMetricUnit'
       end>
     Functions = <
+      item
+        Name = 'UOMCount'
+        ResultType = 'Integer'
+        OnEval = JDUOMFunctionsUOMCountEval
+      end
+      item
+        Name = 'UOMByIndex'
+        Parameters = <
+          item
+            Name = 'Index'
+            DataType = 'Integer'
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsUOMByIndexEval
+      end
+      item
+        Name = 'UOMExists'
+        Parameters = <
+          item
+            Name = 'Name'
+            DataType = 'String'
+          end>
+        ResultType = 'Boolean'
+        OnEval = JDUOMFunctionsUOMExistsEval
+      end
+      item
+        Name = 'FindUOM'
+        Parameters = <
+          item
+            Name = 'UOMName'
+            DataType = 'String'
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsFindUOMEval
+      end
+      item
+        Name = 'UOMString'
+        Parameters = <
+          item
+            Name = 'Value'
+            DataType = 'Float'
+          end
+          item
+            Name = 'UOM'
+            DataType = 'String'
+          end
+          item
+            Name = 'Shorten'
+            DataType = 'Boolean'
+            HasDefaultValue = True
+            DefaultValue = 'False'
+          end>
+        ResultType = 'String'
+        OnEval = JDUOMFunctionsUOMStringEval
+      end
       item
         Name = 'UOM'
         Parameters = <
@@ -35,6 +162,16 @@ object dmDWS: TdmDWS
           end>
         ResultType = 'Float'
         OnEval = JDUOMFunctionsUOMEval
+      end
+      item
+        Name = 'BaseUOM'
+        Parameters = <
+          item
+            Name = 'Category'
+            DataType = 'String'
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsBaseUOMEval
       end
       item
         Name = 'RegisterSimpleUOM'
@@ -111,6 +248,44 @@ object dmDWS: TdmDWS
         OnEval = JDUOMFunctionsRegisterUOMEval
       end
       item
+        Name = 'RegisterMetricUOM'
+        Parameters = <
+          item
+            Name = 'Category'
+            DataType = 'String'
+          end
+          item
+            Name = 'Name'
+            DataType = 'String'
+          end
+          item
+            Name = 'Suffix'
+            DataType = 'String'
+          end
+          item
+            Name = 'Units'
+            DataType = 'TUOMMetricUnits'
+          end
+          item
+            Name = 'Base'
+            DataType = 'String'
+            HasDefaultValue = True
+          end
+          item
+            Name = 'Systems'
+            DataType = 'String'
+            HasDefaultValue = True
+            DefaultValue = 'Metric'
+          end
+          item
+            Name = 'OffsetBase'
+            DataType = 'String'
+            HasDefaultValue = True
+          end>
+        ResultType = 'TUOM'
+        OnEval = JDUOMFunctionsRegisterMetricUOMEval
+      end
+      item
         Name = 'RegisterBaseUOM'
         Parameters = <
           item
@@ -122,30 +297,6 @@ object dmDWS: TdmDWS
             DataType = 'String'
           end>
         OnEval = JDUOMFunctionsRegisterBaseUOMEval
-      end
-      item
-        Name = 'FindUOM'
-        Parameters = <
-          item
-            Name = 'UOMName'
-            DataType = 'String'
-          end>
-        ResultType = 'TUOM'
-        OnEval = JDUOMFunctionsFindUOMEval
-      end
-      item
-        Name = 'Power'
-        Parameters = <
-          item
-            Name = 'Base'
-            DataType = 'Float'
-          end
-          item
-            Name = 'Exponent'
-            DataType = 'Float'
-          end>
-        ResultType = 'Float'
-        OnEval = JDUOMFunctionsPowerEval
       end
       item
         Name = 'Convert'
@@ -166,24 +317,18 @@ object dmDWS: TdmDWS
         OnEval = JDUOMFunctionsConvertEval
       end
       item
-        Name = 'UOMString'
+        Name = 'Power'
         Parameters = <
           item
-            Name = 'Value'
+            Name = 'Base'
             DataType = 'Float'
           end
           item
-            Name = 'UOM'
-            DataType = 'String'
-          end
-          item
-            Name = 'Shorten'
-            DataType = 'Boolean'
-            HasDefaultValue = True
-            DefaultValue = 'False'
+            Name = 'Exponent'
+            DataType = 'Float'
           end>
-        ResultType = 'String'
-        OnEval = JDUOMFunctionsUOMStringEval
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsPowerEval
       end
       item
         Name = 'Sqr'
@@ -206,39 +351,34 @@ object dmDWS: TdmDWS
         OnEval = JDUOMFunctionsCubeEval
       end
       item
-        Name = 'BaseUOM'
+        Name = 'Sin'
         Parameters = <
           item
-            Name = 'Category'
-            DataType = 'String'
+            Name = 'Value'
+            DataType = 'Float'
           end>
-        ResultType = 'TUOM'
-        OnEval = JDUOMFunctionsBaseUOMEval
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsSinEval
       end
       item
-        Name = 'UOMExists'
+        Name = 'Cos'
         Parameters = <
           item
-            Name = 'Name'
-            DataType = 'String'
+            Name = 'Value'
+            DataType = 'Float'
           end>
-        ResultType = 'Boolean'
-        OnEval = JDUOMFunctionsUOMExistsEval
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsCosEval
       end
       item
-        Name = 'UOMCount'
-        ResultType = 'Integer'
-        OnEval = JDUOMFunctionsUOMCountEval
-      end
-      item
-        Name = 'UOMByIndex'
+        Name = 'Tan'
         Parameters = <
           item
-            Name = 'Index'
-            DataType = 'Integer'
+            Name = 'Value'
+            DataType = 'Float'
           end>
-        ResultType = 'TUOM'
-        OnEval = JDUOMFunctionsUOMByIndexEval
+        ResultType = 'Float'
+        OnEval = JDUOMFunctionsTanEval
       end>
     Records = <
       item

@@ -27,6 +27,10 @@ type
     procedure JDUOMFunctionsUOMExistsEval(info: TProgramInfo);
     procedure JDUOMFunctionsUOMCountEval(info: TProgramInfo);
     procedure JDUOMFunctionsUOMByIndexEval(info: TProgramInfo);
+    procedure JDUOMFunctionsSinEval(info: TProgramInfo);
+    procedure JDUOMFunctionsCosEval(info: TProgramInfo);
+    procedure JDUOMFunctionsTanEval(info: TProgramInfo);
+    procedure JDUOMFunctionsRegisterMetricUOMEval(info: TProgramInfo);
   private
     { Private declarations }
   public
@@ -47,6 +51,7 @@ implementation
 
 uses
   JD.Uom,
+  JD.Uom.Files,
   System.Math;
 
 procedure PopulateUOM(U: TUOM; Info: TProgramInfo);
@@ -144,6 +149,11 @@ begin
     F.NameSingular, T.NameSingular);
 end;
 
+procedure TdmDWS.JDUOMFunctionsCosEval(info: TProgramInfo);
+begin
+  Info.ResultAsFloat:= Cos(Info.ParamAsFloat[0]);
+end;
+
 procedure TdmDWS.JDUOMFunctionsCubeEval(info: TProgramInfo);
 begin
   Info.ResultAsFloat:= Power(Info.ParamAsFloat[0], 3);
@@ -172,6 +182,34 @@ begin
   if U = nil then
     raise Exception.Create('Failed to find UOM "'+info.ParamAsString[1]+'"');
   TUOMUtils.RegisterBaseUOM(info.ParamAsString[0], U);
+end;
+
+procedure TdmDWS.JDUOMFunctionsRegisterMetricUOMEval(info: TProgramInfo);
+var
+  Cat: String;
+  Name: String;
+  Suff: String;
+  //UnitsArr: array of Integer;
+  Units: TUOMMetricUnits;
+  Base: String;
+  Sys: String;
+  Offset: String;
+  U: TUOM;
+begin
+  Cat:= Info.ParamAsString[0];
+  Name:= Info.ParamAsString[1];
+  Suff:= Info.ParamAsString[2];
+  //TODO: Find correct way to read enum set (this doesn't work)...
+  //https://stackoverflow.com/questions/33297194/dwscript-passing-a-set-of-enumerated-type-will-pass-an-array-of-integer
+  //UnitsArr:= Info.ParamAs
+  Units:= StringToMetricUnits(Info.ParamAsString[3]);
+  Base:= Info.ParamAsString[4];
+  Sys:= Info.ParamAsString[5];
+  Offset:= Info.ParamAsString[6];
+
+  TUOMMetricUtils.ProduceUOMs(Cat, Name, Suff, Units, Base, Sys, Offset);
+  U:= TUOMUtils.GetUOMByName(Name);
+  PopulateUOM(U, Info);
 end;
 
 procedure TdmDWS.JDUOMFunctionsRegisterSimpleUOMEval(info: TProgramInfo);
@@ -235,9 +273,19 @@ begin
   PopulateUOM(U, Info);
 end;
 
+procedure TdmDWS.JDUOMFunctionsSinEval(info: TProgramInfo);
+begin
+  Info.ResultAsFloat:= Sin(Info.ParamAsFloat[0]);
+end;
+
 procedure TdmDWS.JDUOMFunctionsSqrEval(info: TProgramInfo);
 begin
   Info.ResultAsFloat:= Power(Info.ParamAsFloat[0], 2);
+end;
+
+procedure TdmDWS.JDUOMFunctionsTanEval(info: TProgramInfo);
+begin
+  Info.ResultAsFloat:= Tan(Info.ParamAsFloat[0]);
 end;
 
 procedure TdmDWS.JDUOMFunctionsUOMByIndexEval(info: TProgramInfo);

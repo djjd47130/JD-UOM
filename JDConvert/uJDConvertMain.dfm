@@ -23,7 +23,7 @@ object frmJDConvertMain: TfrmJDConvertMain
     Top = 0
     Width = 1063
     Height = 642
-    ActivePage = tabBuilder
+    ActivePage = tabDetails
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -327,11 +327,6 @@ object frmJDConvertMain: TfrmJDConvertMain
         inherited pTop: TPanel
           Width = 1055
           ExplicitWidth = 1055
-          inherited pCategories: TPanel
-            inherited Label1: TLabel
-              Width = 210
-            end
-          end
           inherited pUOMs: TPanel
             Width = 240
             ExplicitWidth = 240
@@ -383,11 +378,6 @@ object frmJDConvertMain: TfrmJDConvertMain
                 Width = 217
                 ExplicitWidth = 217
               end
-            end
-          end
-          inherited pSystems: TPanel
-            inherited Label12: TLabel
-              Width = 227
             end
           end
         end

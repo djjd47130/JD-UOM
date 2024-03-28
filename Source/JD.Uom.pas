@@ -1098,8 +1098,7 @@ begin
     raise EUOMDuplicateException.Create('Cannot register duplicate unit suffix '+ASuffix);
   end;
 
-
-
+  //Production of actual UOM object...
   Result:= TUOM.Create(AOwner);
   try
     Result.FUOMType:= TUOMType.uomFormula;

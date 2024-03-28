@@ -45,6 +45,8 @@ type
     procedure txtExprClick(Sender: TObject);
     procedure txtExprKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure actOpenRecentExecute(Sender: TObject);
+    procedure StatDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
   private
     FFilename: String;
     FModified: Boolean;
@@ -186,6 +188,17 @@ begin
   FModified:= False;
   Result:= True;
   UpdateActions;
+end;
+
+procedure TfrJDConvertScripting.StatDrawPanel(StatusBar: TStatusBar;
+  Panel: TStatusPanel; const Rect: TRect);
+begin
+  if Panel.Index = 1 then begin
+    //Modified
+    StatusBar.Canvas.Font.Color:= clRed;
+  end else begin
+    StatusBar.Canvas.Font.Color:= clWhite;
+  end;
 end;
 
 procedure TfrJDConvertScripting.txtExprChange(Sender: TObject);

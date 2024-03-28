@@ -73,7 +73,7 @@ object frJDConvertScripting: TfrJDConvertScripting
           Kind = gbkMargin
           Width = 3
         end>
-      Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
+      Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
       ReadOnly = True
       SelectedColor.Alpha = 0.400000005960464500
       WantTabs = True
@@ -173,7 +173,7 @@ object frJDConvertScripting: TfrJDConvertScripting
         'Singular) then'
       '    OutputConversion(U.NameSingular);'
       'end;')
-    Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoShowLigatures]
+    Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoTrimTrailingSpaces, eoShowLigatures]
     SelectedColor.Alpha = 0.400000005960464500
     WantTabs = True
     OnChange = txtExprChange
@@ -509,6 +509,7 @@ object frJDConvertScripting: TfrJDConvertScripting
       item
         Width = 50
       end>
+    OnDrawPanel = StatDrawPanel
     ExplicitLeft = 96
     ExplicitTop = 240
     ExplicitWidth = 0
