@@ -22,7 +22,6 @@ type
     btnSave: TJDFontButton;
     btnSaveAs: TJDFontButton;
     btnExec: TJDFontButton;
-    txtOutput: TSynEdit;
     dlgOpen: TOpenTextFileDialog;
     dlgSave: TSaveTextFileDialog;
     Acts: TActionList;
@@ -36,6 +35,7 @@ type
     JDFontButton2: TJDFontButton;
     actOpenRecent: TAction;
     popRecents: TPopupMenu;
+    txtOutput: TMemo;
     procedure btnExecScriptClick(Sender: TObject);
     procedure btnNewClick(Sender: TObject);
     procedure btnOpenClick(Sender: TObject);

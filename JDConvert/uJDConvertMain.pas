@@ -109,6 +109,9 @@ type
     tabScripts: TTabSheet;
     Scripting: TfrJDConvertScripting;
     UOMDetails: TfrJDConvertDetails;
+    btnTESTIGNORE: TJDFontButton;
+    Glyphs: TJDFontGlyphs;
+    Img32: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure cboConvertFromUnitClick(Sender: TObject);
     procedure txtConvertFromValueChange(Sender: TObject);
@@ -135,6 +138,7 @@ type
     procedure btnUOMScriptClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure btnDeleteUOMClick(Sender: TObject);
+    procedure UOMDetailstxtChartScaleChange(Sender: TObject);
   private
     FCurMode: String;
     FSystemUOMs: TUOMFile;
@@ -439,6 +443,11 @@ function TfrmJDConvertMain.SystemUOMPath: String;
 begin
   Result:= ExtractFilePath(ParamStr(0));
   Result:= TPath.Combine(Result, 'System');
+end;
+
+procedure TfrmJDConvertMain.UOMDetailstxtChartScaleChange(Sender: TObject);
+begin
+  UOMDetails.RefreshChart;
 end;
 
 procedure TfrmJDConvertMain.UpdateTitle;

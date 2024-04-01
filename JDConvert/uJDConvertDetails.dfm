@@ -79,7 +79,7 @@ object frJDConvertDetails: TfrJDConvertDetails
         AllowKeyEdit = True
         Max = 999999.000000000000000000
         Orientation = orHorizontal
-        Value = 10.000000000000000000
+        Value = 50.000000000000000000
         Anchors = [akTop, akRight]
         ParentShowHint = False
         ShowHint = True
@@ -87,8 +87,8 @@ object frJDConvertDetails: TfrJDConvertDetails
         OnChange = txtChartScaleChange
       end
       object chkNegative: TCheckBox
-        Left = 666
-        Top = 6
+        Left = 538
+        Top = 1
         Width = 97
         Height = 19
         Hint = 'Whether to include negative values in chart'#39's X axis'
@@ -105,6 +105,28 @@ object frJDConvertDetails: TfrJDConvertDetails
         TabOrder = 1
         StyleElements = [seClient, seBorder]
         OnClick = chkNegativeClick
+      end
+      object txtChartFreq: TRzSpinEdit
+        AlignWithMargins = True
+        Left = 656
+        Top = 2
+        Width = 132
+        Height = 21
+        Hint = 'How many base units to show in chart'#39's X axis'
+        BlankValue = 0.100000000000000000
+        AllowKeyEdit = True
+        Decimals = 6
+        Increment = 0.100000000000000000
+        IntegersOnly = False
+        Max = 999999.000000000000000000
+        Min = 0.000001000000000000
+        Orientation = orHorizontal
+        Value = 0.100000000000000000
+        Anchors = [akTop, akRight]
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        OnChange = txtChartScaleChange
       end
       object Series1: TLineSeries
         Selected.Hover.Visible = False

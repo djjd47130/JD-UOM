@@ -24,61 +24,17 @@ object frJDConvertScripting: TfrJDConvertScripting
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    object txtOutput: TSynEdit
-      AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 917
-      Height = 242
+    ExplicitTop = 364
+    object txtOutput: TMemo
+      Left = 0
+      Top = 0
+      Width = 923
+      Height = 248
       Align = alClient
-      DoubleBuffered = True
-      Color = 1644825
-      ActiveLineColor = clBlack
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
-      Font.Height = -16
-      Font.Name = 'Consolas'
-      Font.Style = []
-      Font.Quality = fqClearTypeNatural
-      ParentDoubleBuffered = False
-      TabOrder = 0
-      UseCodeFolding = False
-      Gutter.Color = 1644825
-      Gutter.BorderColor = clSilver
-      Gutter.Font.Charset = DEFAULT_CHARSET
-      Gutter.Font.Color = clWhite
-      Gutter.Font.Height = -16
-      Gutter.Font.Name = 'Consolas'
-      Gutter.Font.Style = []
-      Gutter.Font.Quality = fqClearTypeNatural
-      Gutter.ShowLineNumbers = True
-      Gutter.Gradient = True
-      Gutter.GradientStartColor = clBlack
-      Gutter.GradientEndColor = 1644825
-      Gutter.Bands = <
-        item
-          Kind = gbkMarks
-          Width = 13
-        end
-        item
-          Kind = gbkLineNumbers
-        end
-        item
-          Kind = gbkFold
-        end
-        item
-          Kind = gbkTrackChanges
-        end
-        item
-          Kind = gbkMargin
-          Width = 3
-        end>
-      Options = [eoAutoIndent, eoDisableScrollArrows, eoDragDropEditing, eoDropFiles, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoKeepCaretX, eoSmartTabDelete, eoTabIndent, eoTabsToSpaces, eoShowLigatures]
       ReadOnly = True
-      SelectedColor.Alpha = 0.400000005960464500
-      WantTabs = True
-      ExplicitTop = 39
-      ExplicitHeight = 206
+      ScrollBars = ssBoth
+      TabOrder = 0
+      WordWrap = False
     end
   end
   object txtExpr: TSynEdit
@@ -177,7 +133,6 @@ object frJDConvertScripting: TfrJDConvertScripting
     SelectedColor.Alpha = 0.400000005960464500
     WantTabs = True
     OnChange = txtExprChange
-    ExplicitHeight = 311
   end
   object pJDConvertScriptingToolbar: TPanel
     Left = 0
@@ -230,7 +185,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 0
       Text = 'New Script'
-      ExplicitLeft = 46
     end
     object btnOpen: TJDFontButton
       AlignWithMargins = True
@@ -273,7 +227,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 1
       Text = 'Open Script...'
-      ExplicitLeft = 89
     end
     object btnSave: TJDFontButton
       AlignWithMargins = True
@@ -316,7 +269,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 2
       Text = 'Save Script'
-      ExplicitLeft = 148
     end
     object btnSaveAs: TJDFontButton
       AlignWithMargins = True
@@ -360,7 +312,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 3
       Text = 'Save Script As...'
-      ExplicitLeft = 191
     end
     object btnExec: TJDFontButton
       AlignWithMargins = True
@@ -403,7 +354,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 4
       Text = 'Execute Script'
-      ExplicitLeft = 250
     end
     object btnOpenRecent: TJDFontButton
       AlignWithMargins = True
@@ -447,7 +397,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       SubTextFont.Style = []
       TabOrder = 5
       Text = 'Open Recent...'
-      ExplicitLeft = 110
     end
     object JDFontButton2: TJDFontButton
       AlignWithMargins = True
@@ -491,7 +440,6 @@ object frJDConvertScripting: TfrJDConvertScripting
       TabOrder = 6
       Text = 'Execute Script'
       Visible = False
-      ExplicitLeft = 304
     end
   end
   object Stat: TStatusBar
@@ -510,9 +458,6 @@ object frJDConvertScripting: TfrJDConvertScripting
         Width = 50
       end>
     OnDrawPanel = StatDrawPanel
-    ExplicitLeft = 96
-    ExplicitTop = 240
-    ExplicitWidth = 0
   end
   object SynPasSyn1: TSynPasSyn
     CommentAttri.Foreground = clLime

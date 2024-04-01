@@ -7,7 +7,8 @@ interface
 
 uses
   System.SysUtils, System.Classes,
-  dwsCompiler, dwsExprs, dwsComp, dwsErrors, dwsSymbols;
+  dwsCompiler, dwsExprs, dwsComp, dwsErrors, dwsSymbols,
+  dwsDataContext;
 
 type
   TdmDWS = class(TDataModule)
@@ -184,12 +185,22 @@ begin
   TUOMUtils.RegisterBaseUOM(info.ParamAsString[0], U);
 end;
 
+function DataToUOMMetricUnits(Arr: IScriptDynArray): TUOMMetricUnits;
+var
+  X: Integer;
+begin
+  Result:= [];
+  for X := 0 to Arr.ArrayLength-1 do begin
+    Include(Result, TUOMMetricUnit(Arr.AsInteger[X]));
+  end;
+end;
+
 procedure TdmDWS.JDUOMFunctionsRegisterMetricUOMEval(info: TProgramInfo);
 var
   Cat: String;
   Name: String;
   Suff: String;
-  //UnitsArr: array of Integer;
+  UnitsArr: IScriptDynArray;
   Units: TUOMMetricUnits;
   Base: String;
   Sys: String;
@@ -201,8 +212,8 @@ begin
   Suff:= Info.ParamAsString[2];
   //TODO: Find correct way to read enum set (this doesn't work)...
   //https://stackoverflow.com/questions/33297194/dwscript-passing-a-set-of-enumerated-type-will-pass-an-array-of-integer
-  //UnitsArr:= Info.ParamAs
-  Units:= StringToMetricUnits(Info.ParamAsString[3]);
+  UnitsArr:= Info.Params[3].ScriptDynArray;
+  Units:= DataToUOMMetricUnits(UnitsArr);
   Base:= Info.ParamAsString[4];
   Sys:= Info.ParamAsString[5];
   Offset:= Info.ParamAsString[6];

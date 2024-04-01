@@ -43,14 +43,15 @@ type
     pSystems: TPanel;
     Label12: TLabel;
     lstSystems: TListView;
+    txtChartFreq: TRzSpinEdit;
     procedure lstSystemsClick(Sender: TObject);
     procedure lstSystemsItemChecked(Sender: TObject; Item: TListItem);
     procedure lstUOMsSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
     procedure lstCategoriesSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-    procedure txtChartScaleChange(Sender: TObject);
     procedure chkNegativeClick(Sender: TObject);
+    procedure txtChartScaleChange(Sender: TObject);
   private
     FSelSystems: String;
     FSelCategory: String;
@@ -130,6 +131,7 @@ var
   Y: Integer;
   V: UOMNum;
   Amt: Integer;
+  Freq: UOMNum;
   Start: Integer;
 begin
   Chart.SeriesList.Clear;
@@ -137,9 +139,10 @@ begin
   Screen.Cursor:= crHourglass;
   try
     Application.ProcessMessages;
-
     if lstUOMs.Items.Count <= 0 then Exit;
+
     Amt:= Round(txtChartScale.Value);
+    Freq:= txtChartFreq.Value;
 
     BU:= TUOMUtils.GetBaseUOM(FSelCategory);
     if Assigned(BU) then begin
@@ -162,6 +165,7 @@ begin
             Start:= 0;
           for Y := Start to Amt do begin
             V:= U.ConvertToBase(Y);
+            V:= V * Freq;
             S.Add(V, IntToStr(Y));
           end;
         finally
